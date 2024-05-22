@@ -46,6 +46,15 @@ function update(req:Request, res:Response) {
   return res.status(200).send({message: 'Ingrediente modificado con éxito'})
 }
 
-//Incorporar método "delete"
+function remove (req: Request, res: Response,) {
+  const id = req.params.cod 
+  const TIngrediente = repository.delete({cod})
 
-export { sanitizeTipoIngrediente, findAll, findOne, add, update }
+  if(!TIngrediente){
+    res.status(404).send({ message: 'Tipo de ingrediente no encontrado' })
+  }else{
+  res.status(200).send({message:'Tipo de ingrediente eliminado correctamente'})
+  }
+}
+
+export { sanitizeTipoIngrediente, findAll, findOne, add, update, remove }

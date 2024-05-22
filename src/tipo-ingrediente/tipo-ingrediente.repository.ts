@@ -31,5 +31,13 @@ export class TipoIngredienteRepository implements Repository<TipoIngrediente> {
     return tiposIngrediente[tIngredienteIndex]
   }
 
-  //Incorporar el método "delete"
+  public delete(item: { codigo: string; }): TipoIngrediente | undefined {
+    const tIngredienteIndex = tiposIngrediente.findIndex((tIngrediente) => tIngrediente.codigo === item.codigo)
+
+    if (tIngredienteIndex !== -1) {
+      const deletedTiposIngres = tiposIngrediente[tIngredienteIndex]
+      tiposIngrediente.splice(tIngredienteIndex, 1)
+      return deletedTiposIngres
+    }
+  }
 }
