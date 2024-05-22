@@ -38,6 +38,15 @@ function update(req, res) {
     }
     return res.status(200).send({ message: 'Ingrediente modificado con éxito' });
 }
-//Incorporar método "delete"
-export { sanitizeTipoIngrediente, findAll, findOne, add, update };
+function remove(req, res) {
+    const codigo = req.params.cod;
+    const TIngrediente = repository.delete({ codigo });
+    if (!TIngrediente) {
+        res.status(404).send({ message: 'Tipo de ingrediente no encontrado' });
+    }
+    else {
+        res.status(200).send({ message: 'Tipo de ingrediente eliminado correctamente' });
+    }
+}
+export { sanitizeTipoIngrediente, findAll, findOne, add, update, remove };
 //# sourceMappingURL=tipo-ingrediente.controler.js.map

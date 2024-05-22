@@ -1,4 +1,6 @@
 import express from 'express';
+/*import { TipoIngrediente } from "./tipo-ingrediente/tipo-ingrediente.entity.js"
+import { TipoIngredienteRepository } from './tipo-ingrediente/tipo-ingrediente.repository.js'*/
 import { tipoIngredienteRouter } from './tipo-ingrediente/tipo-ingrediente.routes.js';
 const port = 3000;
 const app = express();
@@ -44,7 +46,7 @@ app.put('/api/tiposIngrediente/:cod', sanitizeTipoIngrediente, (req, res) => {
 //Faltan PATCH y DELETE. Ver los respectivos videos para crear los métodos y luego actualizarlos con los videos de "api - MVC"
 //Hasta el método "PUT" ya está todo actualizado, faltarían estos últimos métodos
 */
-app.use((_, res) => {
+app.use((req, res) => {
     return res.status(404).send({ message: 'Recurso no encontrado' });
 });
 app.listen(port, () => {
