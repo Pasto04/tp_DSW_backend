@@ -47,8 +47,8 @@ function update(req:Request, res:Response) {
 }
 
 function remove (req: Request, res: Response,) {
-  const id = req.params.cod 
-  const TIngrediente = repository.delete({cod})
+  const codigo = req.params.cod 
+  const TIngrediente = repository.delete({codigo})
 
   if(!TIngrediente){
     res.status(404).send({ message: 'Tipo de ingrediente no encontrado' })
