@@ -23,3 +23,6 @@ Content-Type: application/json
 {
   "descripcion": "Pasta"
 }
+
+### Borra un tipo de ingrediente
+DELETE http://localhost:3000/api/tiposIngrediente/b780c4c6-68c2-4177-8371-af0102a99d38
