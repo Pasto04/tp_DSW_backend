@@ -9,12 +9,6 @@ app.use(express.json())
 
 app.use('/api/tiposIngrediente', tipoIngredienteRouter)
 
-//El repositorio "repository" se encuentra en el archivo "tipo-ingrediente.controler.ts"
-
-//El arreglo que antes se encontraba acá ahora está en el archivo "tipo-ingrediente.repository.ts"
-
-//La función sanitizadora se encuentra en el archivo "tipo-ingrediente.controler.ts"
-
 /*
 //getAll => muestra todos los tipos de ingredientes registrados
 app.get('/api/tiposIngrediente', (req, res) => {
@@ -48,9 +42,6 @@ app.put('/api/tiposIngrediente/:cod', sanitizeTipoIngrediente, (req, res) => {
   return res.status(200).send({message: 'Ingrediente modificado con éxito'})
 
 })
-
-//Faltan PATCH y DELETE. Ver los respectivos videos para crear los métodos y luego actualizarlos con los videos de "api - MVC"
-//Hasta el método "PUT" ya está todo actualizado, faltarían estos últimos métodos
 */
 app.use((req, res) => {
   return res.status(404).send({message: 'Recurso no encontrado'})
