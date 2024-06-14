@@ -20,5 +20,13 @@ export class TipoIngredienteRepository {
         }
         return tiposIngrediente[tIngredienteIndex];
     }
+    delete(item) {
+        const tIngredienteIndex = tiposIngrediente.findIndex((tIngrediente) => tIngrediente.codigo === item.codigo);
+        if (tIngredienteIndex !== -1) {
+            const deletedTiposIngres = tiposIngrediente[tIngredienteIndex];
+            tiposIngrediente.splice(tIngredienteIndex, 1);
+            return deletedTiposIngres;
+        }
+    }
 }
 //# sourceMappingURL=tipo-ingrediente.repository.js.map
