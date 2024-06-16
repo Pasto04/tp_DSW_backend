@@ -1,0 +1,39 @@
+# OBTENER TODOS LOS CLIENTES #
+GET http://localhost:3000/api/cliente
+
+# OBTENER UN CLIENTE #
+GET http://localhost:3000/api/cliente/d0c48218-7b5b-4796-8569-a6b24e638e9f
+
+# NUEVO CLIENTE #
+POST http://localhost:3000/api/cliente 
+Content-Type: application/json
+
+{
+  "nombre": "Jose",
+  "apellido": "Kralje",
+  "mail": "jose@gmail.com",
+  "telefono": 3462670754,
+}
+
+# MODIFICAR CLIENTE (PUT) #
+PUT http://localhost:3000/api/cliente/d0c48218-7b5b-4796-8569-a6b24e638e9f 
+Content-Type: application/json
+
+{
+    "nombre": "Alejandro",
+    "apellido":"Pasto",
+    "mail":"alejandropasto@gmail.com",
+    "telefono": 3462767035,
+}
+
+# MODIFICAR CLIENTE (PATCH) #
+PATCH http://localhost:3000/api/cliente/d0c48218-7b5b-4796-8569-a6b24e638e9f 
+Content-Type: application/json
+
+{
+    "mail":"alejandropasto@gmail.com",
+    "telefono": 3462767035,
+}
+
+# BORRAR CLIENTE #
+DELETE http://localhost:3000/api/cliente/d0c48218-7b5b-4796-8569-a6b24e638e9f
