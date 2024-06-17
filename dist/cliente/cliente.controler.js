@@ -20,7 +20,7 @@ function findAll(req, res) {
 }
 function findOne(req, res) {
     const id = req.params.id;
-    const cliente = repository.findOne({ id });
+    const cliente = repository.findOne({ codigo: id });
     if (!cliente) {
         return res.status(404).send({ message: 'Character not found' });
     }
@@ -28,7 +28,7 @@ function findOne(req, res) {
 }
 function add(req, res) {
     const input = req.body.sanitizedInput;
-    const clienteInput = new Cliente(input.nombre, input.apellido, input.mail, input.telefono);
+    const clienteInput = new Cliente(input.nombre, input.apellido, input.mail, input.telefono, input.id);
     const cliente = repository.add(clienteInput);
     return res.status(201).send({ message: 'Cliente creado', data: cliente });
 }
@@ -42,7 +42,7 @@ function update(req, res) {
 }
 function remove(req, res) {
     const id = req.params.id;
-    const cliente = repository.delete({ id });
+    const cliente = repository.delete({ codigo: id });
     if (!cliente) {
         res.status(404).send({ message: 'Cliente no encontrado' });
     }

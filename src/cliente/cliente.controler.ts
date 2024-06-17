@@ -26,7 +26,7 @@ function findAll(req:Request,res:Response) {
 
 function findOne(req:Request,res:Response) {
   const id = req.params.id
-  const cliente = repository.findOne({id}) 
+  const cliente = repository.findOne({codigo: id}) 
   if (!cliente) {
     return res.status(404).send({ message: 'Character not found' })
   }
@@ -40,7 +40,8 @@ function add(req:Request,res:Response) {
     input.nombre,
     input.apellido,
     input.mail,
-    input.telefono
+    input.telefono,
+    input.id
   )
 
   const cliente = repository.add(clienteInput)
@@ -60,7 +61,7 @@ function update (req:Request,res:Response){
 
 function remove (req:Request,res:Response) {
   const id = req.params.id
-  const cliente = repository.delete ({id})
+  const cliente = repository.delete ({codigo: id})
 
   if (!cliente){
     res.status(404).send ({message: 'Cliente no encontrado'})

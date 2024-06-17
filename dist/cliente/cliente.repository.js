@@ -7,7 +7,7 @@ export class ClienteRepository {
         return clientes;
     }
     findOne(item) {
-        return clientes.find((cliente) => cliente.id === item.id);
+        return clientes.find((cliente) => cliente.id === item.codigo);
     }
     add(item) {
         clientes.push(item);
@@ -21,7 +21,7 @@ export class ClienteRepository {
         return clientes[clienteIdx];
     }
     delete(item) {
-        const clienteIdx = clientes.findIndex(cliente => cliente.id === item.id);
+        const clienteIdx = clientes.findIndex(cliente => cliente.id === item.codigo);
         if (clienteIdx !== -1) {
             const clientesborrados = clientes[clienteIdx];
             clientes.splice(clienteIdx, 1);

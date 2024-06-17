@@ -1,4 +1,4 @@
-import { repository } from "../shared/repository.js";
+import { Repository } from "../shared/repository.js";
 import {Cliente} from "./cliente.entity.js"
 
 const clientes = [
@@ -11,13 +11,13 @@ const clientes = [
   )
 ]
 
-export class ClienteRepository implements repository <Cliente>{ 
+export class ClienteRepository implements Repository <Cliente>{ 
   public findAll(): Cliente[] | undefined {
     return clientes 
   }
 
-  public findOne(item: { id: string; }): Cliente | undefined {
-    return clientes.find((cliente) => cliente.id === item.id)
+  public findOne(item: { codigo: string; }): Cliente | undefined {
+    return clientes.find((cliente) => cliente.id === item.codigo)
   }
 
   public add(item: Cliente): Cliente | undefined {
@@ -34,8 +34,8 @@ export class ClienteRepository implements repository <Cliente>{
     return clientes[clienteIdx]
   }
 
-  public delete(item: { id: string; }): Cliente | undefined {
-    const clienteIdx = clientes.findIndex(cliente => cliente.id === item.id)
+  public delete(item: { codigo: string; }): Cliente | undefined {
+    const clienteIdx = clientes.findIndex(cliente => cliente.id === item.codigo)
 
     if (clienteIdx !== -1){
       const clientesborrados = clientes[clienteIdx]

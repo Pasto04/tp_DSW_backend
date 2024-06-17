@@ -1,7 +1,6 @@
 import crypto from 'node:crypto';
 export class Ingrediente {
-    constructor(codIngrediente = crypto.randomUUID(), descIngrediente, stockIngrediente, puntoPedido, tipoIngrediente //¿Es correcto este planteo?
-    ) {
+    constructor(codIngrediente = crypto.randomUUID(), descIngrediente, stockIngrediente, puntoPedido, tipoIngrediente) {
         this.codIngrediente = codIngrediente;
         this.descIngrediente = descIngrediente;
         this.stockIngrediente = stockIngrediente;
