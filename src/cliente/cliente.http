@@ -12,27 +12,27 @@ Content-Type: application/json
   "nombre": "Jose",
   "apellido": "Kralje",
   "mail": "jose@gmail.com",
-  "telefono": 3462670754,
+  "telefono": 3462670754
 }
 
 ### MODIFICAR CLIENTE (PUT) #
-PUT http://localhost:3000/api/cliente/d0c48218-7b5b-4796-8569-a6b24e638e9f 
+PUT http://localhost:3000/api/cliente/d0c48218-7b5b-4796-8569-a6b24e638e9f
 Content-Type: application/json
 
 {
     "nombre": "Alejandro",
     "apellido":"Pasto",
     "mail":"alejandropasto@gmail.com",
-    "telefono": 3462767035,
+    "telefono": 3462767035
 }
 
 ### MODIFICAR CLIENTE (PATCH) #
-PATCH http://localhost:3000/api/cliente/d0c48218-7b5b-4796-8569-a6b24e638e9f 
+PATCH http://localhost:3000/api/cliente/d0c48218-7b5b-4796-8569-a6b24e638e9f
 Content-Type: application/json
 
 {
-    "mail":"alejandropasto@gmail.com",
-    "telefono": 3462767035,
+    "mail": "alejandropastoo@gmail.com",
+    "telefono": 3462767035
 }
 
 ### BORRAR CLIENTE #
