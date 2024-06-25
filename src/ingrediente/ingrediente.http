@@ -16,7 +16,9 @@ Content-Type: application/json
   "descIngrediente": "Papa",
   "stockIngrediente": 125,
   "puntoPedido": 40,
-  "tipoIngrediente": {"b780c4c6-68c2-4177-8371-af0102a99d38", "Verdura"}
+  "tipoIngrediente": {
+    "codigo": "b780c4c6-68c2-4177-8371-af0102a99d38", 
+    "descripcion": "Verdura"}
 }
 
 ###Modifica la descripción de un ingrediente ya ingresado utilizando su código
