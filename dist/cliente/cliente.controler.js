@@ -35,7 +35,7 @@ function add(req, res) {
 function update(req, res) {
     req.body.sanitizedInput.id = req.params.id;
     const cliente = repository.update(req.body.sanitizedInput);
-    if (cliente) {
+    if (!cliente) {
         return res.status(404).send({ message: 'Character not found' });
     }
     return res.status(200).send({ message: 'Cliente actualizado', data: cliente });

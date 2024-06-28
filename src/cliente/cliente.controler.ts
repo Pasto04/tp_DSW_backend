@@ -52,7 +52,7 @@ function update (req:Request,res:Response){
   req.body.sanitizedInput.id = req.params.id
   const cliente = repository.update(req.body.sanitizedInput) 
 
-  if(cliente){
+  if(!cliente){
     return res.status(404).send({message: 'Character not found'})
   }
 
