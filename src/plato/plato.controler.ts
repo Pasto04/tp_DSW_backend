@@ -5,7 +5,7 @@ import { PlatoRepository } from "./plato.repository.js"
 const repository = new PlatoRepository()
 
 function sanitizePlatoInput(req: Request, res: Response, next:NextFunction){
-  req.body.satinizedInput = {
+  req.body.sanitizedInput = {
     nro: req.body.nro,
     platoClass: req.body.platoClass,
     descripcion: req.body.descripcion,
@@ -27,15 +27,15 @@ function findAll(req:Request,res:Response) {
 
 function findOne(req:Request,res:Response) {
   const id= req.params.nro
-  const Plato = repository.findOne({nro: id})
+  const Plato = repository.findOne({codigo: id})
   if(!Plato){
-    res.status(404).send({message:'Plato nor found'})
+    res.status(404).send({message:'Plato not found'})
   }
   res.json({data: Plato})
 }
 
 function add(req:Request,res:Response) {
-  const input = req.body.satinizedInput
+  const input = req.body.sanitizedInput
 
   const platoInput = new Plato (
     input.nro, 
@@ -49,7 +49,7 @@ function add(req:Request,res:Response) {
 }
 
 function update(req:Request,res:Response) {
-  req.body.sanitizedInput = req.params.id
+  req.body.sanitizedInput.nro = req.params.nro
   const plato = repository.update(req.body.sanitizedInput)
   if(!plato){
    return  res.status(404).send({message: 'Plato not found' })
@@ -58,8 +58,8 @@ function update(req:Request,res:Response) {
 }
 
 function remove(req:Request, res:Response) {
-  const id= req.params.id
-  const plato =  repository.delete({id})
+  const id= req.params.nro
+  const plato =  repository.delete({codigo: id})
   if(!plato){
     return res.status(404).send({message: 'Plato not found'})
   } else{

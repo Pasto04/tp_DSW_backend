@@ -14,8 +14,8 @@ export class TipoPlatoRepository implements Repository<TipoPlato>{
   public findAll(): TipoPlato[] | undefined {
     return tipoplatos
   }
-  public findOne(item: { id: string; }): TipoPlato | undefined {
-    return tipoplatos.find((tipoplato) =>tipoplato.id===item.id)
+  public findOne(item: { codigo: string; }): TipoPlato | undefined {
+    return tipoplatos.find((tipoplato) =>tipoplato.id===item.codigo)
   }
   public add(item: TipoPlato): TipoPlato | undefined {
     tipoplatos.push(item)
@@ -30,8 +30,8 @@ export class TipoPlatoRepository implements Repository<TipoPlato>{
      return tipoplatos[tipoplatoIdx]
   }
   
-  public delete(item: { id: string; }): TipoPlato | undefined {
-    const tipoplatoIdx = tipoplatos.findIndex((tipoplato) =>tipoplato.id===item.id)
+  public delete(item: { codigo: string; }): TipoPlato | undefined {
+    const tipoplatoIdx = tipoplatos.findIndex((tipoplato) =>tipoplato.id===item.codigo)
     if(tipoplatoIdx!==-1){
       const deleteTipoPlato = tipoplatos[tipoplatoIdx]
       tipoplatos.splice(tipoplatoIdx,1)

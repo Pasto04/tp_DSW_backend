@@ -5,8 +5,8 @@ import { TipoPlatoRepository } from "./tipoplato.repository.js"
 const repository = new TipoPlatoRepository()
 
 function sanitizeTipoPlatoInput(req: Request, res: Response, next:NextFunction){
-  req.body.satinizedInput = {
-    descricion: req.body.descricion,
+  req.body.sanitizedInput = {
+    descripcion: req.body.descripcion,
     id: req.body.id,
   }
 
@@ -25,7 +25,7 @@ function findAll(req:Request,res:Response) {
 
 function findOne(req:Request,res:Response) {
   const id= req.params.id
-  const TipoPlato = repository.findOne({id})
+  const TipoPlato = repository.findOne({codigo: id})
   if(!TipoPlato){
     res.status(404).send({message:'TipoPlato nor found'})
   }
@@ -33,12 +33,11 @@ function findOne(req:Request,res:Response) {
 }
 
 function add(req:Request,res:Response) {
-  const input = req.body.satinizedInput
+  const input = req.body.sanitizedInput
 
   const tipoplatoInput = new TipoPlato (
-    input.descricion, 
-    input.id, 
-
+    input.descripcion, 
+    input.id
   )
 
   const tipoplatos = repository.add(tipoplatoInput)
@@ -46,7 +45,7 @@ function add(req:Request,res:Response) {
 }
 
 function update(req:Request,res:Response) {
-  req.body.sanitizedInput = req.params.id
+  req.body.sanitizedInput.id = req.params.id
   const tipoplato = repository.update(req.body.sanitizedInput)
   if(!tipoplato){
    return  res.status(404).send({message: 'TipoPlato not found' })
@@ -56,7 +55,7 @@ function update(req:Request,res:Response) {
 
 function remove(req:Request, res:Response) {
   const id= req.params.id
-  const tipoplato =  repository.delete({id})
+  const tipoplato =  repository.delete({codigo: id})
   if(!tipoplato){
     return res.status(404).send({message: 'TipoPlato not found'})
   } else{
