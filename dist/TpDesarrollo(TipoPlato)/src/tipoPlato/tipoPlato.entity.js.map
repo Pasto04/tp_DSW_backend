@@ -1,0 +1,1 @@
+{"version":3,"file":"tipoPlato.entity.js","sourceRoot":"","sources":["../../../../TpDesarrollo(TipoPlato)/src/tipoPlato/tipoPlato.entity.ts"],"names":[],"mappings":"AAAA,OAAO,MAAM,MAAM,aAAa,CAAA;AAGhC,MAAM,OAAO,SAAS;IACpB,YACS,IAAY,EACZ,cAAsB,EACtB,KAAI,MAAM,CAAC,UAAU,EAAE;QAFvB,SAAI,GAAJ,IAAI,CAAQ;QACZ,mBAAc,GAAd,cAAc,CAAQ;QACtB,OAAE,GAAF,EAAE,CAAqB;IAC9B,CAAC;CACJ"}
