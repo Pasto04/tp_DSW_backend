@@ -1,5 +1,5 @@
 import crypto from 'node:crypto'
-import { TipoIngrediente } from '../tipo-ingrediente/tipo-ingrediente.entity.js'
+import { TipoIngrediente } from '../tipoIngrediente/tipoIngrediente.entity.js'
 
 export class Ingrediente {
   constructor(

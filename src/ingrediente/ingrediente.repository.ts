@@ -1,6 +1,6 @@
 import { Repository } from "../shared/repository.js";
 import { Ingrediente } from "./ingrediente.entity.js";
-import { TipoIngrediente } from "../tipo-ingrediente/tipo-ingrediente.entity.js";
+import { TipoIngrediente } from "../tipoIngrediente/tipoIngrediente.entity.js";
 
 const ingredientes = [
   new Ingrediente(
@@ -8,7 +8,7 @@ const ingredientes = [
     'Tomate Europeo',
     50,
     20,
-    new TipoIngrediente('b780c4c6-68c2-4177-8371-af0102a99d38', 'Verdura')
+    new TipoIngrediente('b780c4c6-68c2-4177-8371-af0102a99d38', 'Verdura', 'Gramos')
   )
 ]
 

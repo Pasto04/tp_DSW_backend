@@ -18,7 +18,8 @@ Content-Type: application/json
   "puntoPedido": 40,
   "tipoIngrediente": {
     "codigo": "b780c4c6-68c2-4177-8371-af0102a99d38", 
-    "descripcion": "Verdura"}
+    "descripcion": "Verdura",
+    "medicionCantidad": "Gramos"}
 }
 
 ###Modifica la descripción de un ingrediente ya ingresado utilizando su código
