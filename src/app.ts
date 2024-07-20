@@ -1,23 +1,15 @@
 import express from 'express'
-import { tipoIngredienteRouter } from './tipo-ingrediente/tipo-ingrediente.routes.js'
-import { ingredienteRouter } from './ingrediente/ingrediente.routes.js'
-import { clienteRouter } from './cliente/cliente.routes.js'
+import { pedidoRouter } from './pedido/pedido.routes.js'
 
-const port = 3000
-const app = express()
+const app = express ()
 app.use(express.json())
 
-app.use('/api/tiposIngrediente', tipoIngredienteRouter)
+app.use('/api/pedido',pedidoRouter)
 
-app.use('/api/ingredientes', ingredienteRouter)
-
-app.use('/api/cliente',clienteRouter)
-
-app.use((req, res) => {
-  return res.status(404).send({message: 'Recurso no encontrado'})
+app.use((_,res)=>{
+  return res.status (404).send ({message: 'Resource not found'})
 })
 
-app.listen(port, () => {
-  console.log(`Server running in: http://localhost:${port}/`)
+app.listen(3000, () => {
+  console.log ('Server running on http:// localhost:3000/')
 })
-
