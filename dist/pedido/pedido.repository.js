@@ -1,5 +1,6 @@
 import { Pedido } from "./pedido.entity.js";
 import { Cliente } from "../cliente/cliente.entity.js";
+//repository
 const pedidos = [
     new Pedido('Ocupada', new Date(2023, 6, 20), (() => {
         const hora = new Date();
@@ -12,7 +13,7 @@ export class PedidoRepository {
         return pedidos;
     }
     findOne(item) {
-        return pedidos.find((pedido) => pedido.nroPed === item.nroPed);
+        return pedidos.find((pedido) => pedido.nroPed === item.codigo);
     }
     add(item) {
         pedidos.push(item);
@@ -26,7 +27,7 @@ export class PedidoRepository {
         return pedidos[pedidoIdx];
     }
     delete(item) {
-        const pedidoIdx = pedidos.findIndex(pedido => pedido.nroPed === item.nroPed);
+        const pedidoIdx = pedidos.findIndex(pedido => pedido.nroPed === item.codigo);
         if (pedidoIdx !== -1) {
             const pedidosborrados = pedidos[pedidoIdx];
             pedidos.splice(pedidoIdx, 1);

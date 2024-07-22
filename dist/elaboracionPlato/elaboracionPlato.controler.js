@@ -33,7 +33,7 @@ function add(req, res) {
     res.status(201).send({ message: 'Se ha establecido la cantidad necesaria del ingrediente para el plato seleccionado', data: elabPlato });
 }
 function update(req, res) {
-    //Como ingrediente y plato pueden ser "undefined", en esos casos no se les puede asignar el código enviado como parámetro en la request. Necesito solucionar este problema.
+    //Ver función update en "elaboracionPlato.repository.ts"
     const codIngre = req.params.codIngrediente;
     const nroPlato = req.params.nro;
     const updatedElabPlato = elabPlatoRepository.update(req.body.sanitizedElaboracionPlato, { codIngrediente: codIngre, nro: nroPlato });

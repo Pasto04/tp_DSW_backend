@@ -10,6 +10,7 @@ function sanitizePedidoInput(req:Request, res:Response, next:NextFunction){
       fecha: req.body.fecha,
       hora: req.body.hora,
       nroMesa: req.body.nroMesa,
+      nroPed: req.body.nroPed,
       cliente: req.body.cliente,
   };
 
@@ -27,7 +28,7 @@ function findAll(req:Request,res:Response) {
 
 function findOne(req:Request,res:Response) {
   const nroPed = req.params.nroPed
-  const pedido = repository.findOne({nroPed}) 
+  const pedido = repository.findOne({codigo: nroPed}) 
   if (!pedido) {
     return res.status(404).send({ message: 'Pedido no encontrado' })
   }
@@ -42,6 +43,7 @@ function add(req:Request,res:Response) {
     input.fecha,
     input.hora,
     input.nroMesa,
+    input.nroPed,
     input.cliente,
   )
 
@@ -62,7 +64,7 @@ function update (req:Request,res:Response){
 
 function remove (req:Request,res:Response) {
   const nroPed = req.params.nroPed
-  const pedido = repository.delete ({nroPed})
+  const pedido = repository.delete ({codigo: nroPed})
 
   if (!pedido){
     res.status(404).send ({message: 'Pedido no encontrado'})
@@ -71,4 +73,4 @@ function remove (req:Request,res:Response) {
   }
 }
 
-export {sanitizePedidoInput,findAll,findOne,add,update,remove}
+export { sanitizePedidoInput, findAll, findOne, add, update, remove }

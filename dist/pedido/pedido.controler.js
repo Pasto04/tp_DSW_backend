@@ -7,6 +7,7 @@ function sanitizePedidoInput(req, res, next) {
         fecha: req.body.fecha,
         hora: req.body.hora,
         nroMesa: req.body.nroMesa,
+        nroPed: req.body.nroPed,
         cliente: req.body.cliente,
     };
     Object.keys(req.body.sanitizedInput).forEach(key => {
@@ -21,7 +22,7 @@ function findAll(req, res) {
 }
 function findOne(req, res) {
     const nroPed = req.params.nroPed;
-    const pedido = repository.findOne({ nroPed });
+    const pedido = repository.findOne({ codigo: nroPed });
     if (!pedido) {
         return res.status(404).send({ message: 'Pedido no encontrado' });
     }
@@ -29,7 +30,7 @@ function findOne(req, res) {
 }
 function add(req, res) {
     const input = req.body.sanitizedInput;
-    const pedidoInput = new Pedido(input.estado, input.fecha, input.hora, input.nroMesa, input.cliente);
+    const pedidoInput = new Pedido(input.estado, input.fecha, input.hora, input.nroMesa, input.nroPed, input.cliente);
     const pedido = repository.add(pedidoInput);
     return res.status(201).send({ message: 'Pedido creado', data: pedido });
 }
@@ -43,7 +44,7 @@ function update(req, res) {
 }
 function remove(req, res) {
     const nroPed = req.params.nroPed;
-    const pedido = repository.delete({ nroPed });
+    const pedido = repository.delete({ codigo: nroPed });
     if (!pedido) {
         res.status(404).send({ message: 'Pedido no encontrado' });
     }

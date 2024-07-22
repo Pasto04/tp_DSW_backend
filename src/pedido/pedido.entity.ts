@@ -8,6 +8,6 @@ export class Pedido{
     public hora: Date,
     public nroMesa: number,
     public nroPed = crypto.randomUUID(),
-    public cliente = Cliente,
+    public cliente: Cliente,
   ){}
 }

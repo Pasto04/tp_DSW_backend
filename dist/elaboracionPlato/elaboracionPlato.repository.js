@@ -17,6 +17,7 @@ export class ElaboracionPlatoRepository {
         elaboracionesPlato.push(item);
         return item;
     }
+    //Consultar al profe si enviar estos parámetros es correcto para el funcionamiento de la aplicación...
     update(item, claves) {
         const elabPlatoIdx = elaboracionesPlato.findIndex((elabPlato) => elabPlato.ingrediente.codIngrediente === claves.codIngrediente && elabPlato.plato.nro === claves.nro);
         if (elabPlatoIdx !== -1) {

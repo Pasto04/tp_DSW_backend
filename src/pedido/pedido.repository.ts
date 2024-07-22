@@ -1,7 +1,7 @@
-import { repository } from "../shared/repository.js";
+import { Repository } from "../shared/repository.js";
 import {Pedido} from "./pedido.entity.js"
 import { Cliente } from "../cliente/cliente.entity.js";
-
+//repository
 const pedidos = [
   new Pedido(
     'Ocupada',
@@ -17,13 +17,13 @@ const pedidos = [
   )
 ]
 
-export class PedidoRepository implements repository <Pedido>{ 
+export class PedidoRepository implements Repository <Pedido>{ 
   public findAll(): Pedido[] | undefined {
     return pedidos 
   }
 
-  public findOne(item: { nroPed: string; }): Pedido | undefined {
-    return pedidos.find((pedido) => pedido.nroPed === item.nroPed)
+  public findOne(item: { codigo: string; }): Pedido | undefined {
+    return pedidos.find((pedido) => pedido.nroPed === item.codigo)
   }
 
   public add(item: Pedido): Pedido | undefined {
@@ -40,8 +40,8 @@ export class PedidoRepository implements repository <Pedido>{
     return pedidos[pedidoIdx]
   }
 
-  public delete(item: { nroPed: string; }): Pedido | undefined {
-    const pedidoIdx = pedidos.findIndex(pedido => pedido.nroPed === item.nroPed)
+  public delete(item: { codigo: string; }): Pedido | undefined {
+    const pedidoIdx = pedidos.findIndex(pedido => pedido.nroPed === item.codigo)
 
     if (pedidoIdx !== -1){
       const pedidosborrados = pedidos[pedidoIdx]
