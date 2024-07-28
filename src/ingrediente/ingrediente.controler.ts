@@ -1,8 +1,8 @@
-import { IngredienteRepository } from "./ingrediente.repository.js";
+import { orm } from "../shared/db/orm.js";
 import { Ingrediente } from "./ingrediente.entity.js";
 import { NextFunction, Request, Response } from "express";
 
-const ingreRepository = new IngredienteRepository
+const em = orm.em
 
 function sanitizeIngrediente(req:Request, res:Response, next:NextFunction) {
   req.body.sanitizedIngrediente = {
@@ -20,42 +20,56 @@ function sanitizeIngrediente(req:Request, res:Response, next:NextFunction) {
   next()
 }
 
-function findAll(req: Request, res: Response) {
-  res.json({data: ingreRepository.findAll()})
-}
-
-function findOne(req: Request, res: Response) {
-  const codIngre = req.params.codIngrediente
-  const ingre = ingreRepository.findOne({codigo: codIngre})
-  if (!ingre) {
-    res.status(404).send({message: 'No se ha encontrado el ingrediente ingresado'})
+async function findAll(req: Request, res: Response) {
+  try {
+    const ingre = await em.find(Ingrediente, {}, {populate: ['tipoIngrediente']})
+    res.status(200).json({message: 'Todos los ingredientes fueron encontrados con éxito', data: ingre})
+  } catch(error: any) {
+    res.status(500).json({message: error.message})
   }
-  res.json({data: ingre})
 }
 
-function add(req: Request, res: Response) {
-  const input = req.body.sanitizedIngrediente
-  const ingreInput = new Ingrediente(input.codIngrediente, input.descIngrediente, input.stockIngrediente, input.puntoPedido, input.tipoIngrediente)
-  const ingre = ingreRepository.add(ingreInput)
-  res.status(201).send({message: 'El ingrediente ha sido creado correctamente', data: ingre})
-}
-
-function update(req: Request, res: Response) {
-  req.body.sanitizedIngrediente.codIngrediente = req.params.codIngrediente
-  const updatedIngrediente = ingreRepository.update(req.body.sanitizedIngrediente)
-  if (!updatedIngrediente) {
-    res.status(404).send({message: 'No se ha encontrado el ingrediente ingresado'})
+async function findOne(req: Request, res: Response) {
+  try {
+    const codigo = Number.parseInt(req.params.cod)
+    const ingre = await em.findOneOrFail(Ingrediente, {codigo}, {populate: ['tipoIngrediente']})
+    res.status(200).json({message: 'El ingrediente fue hallado con éxito', data: ingre})
+  } catch(error: any) {
+    res.status(500).json({message: error.message})
   }
-  res.status(200).send({message: 'El ingrediente ha sido modificado con éxito'})
 }
 
-function remove(req: Request, res: Response) {
-  const codIngre = req.params.codIngrediente
-  const deletedIngre = ingreRepository.delete({codigo: codIngre})
-  if (!deletedIngre) {
-    res.status(404).send({message: 'No se ha encontrado el ingrediente ingresado'})
+async function add(req: Request, res: Response) {
+  try {
+    const ingre = em.create(Ingrediente, req.body.sanitizedIngrediente)
+    await em.flush()
+    res.status(201).json({message: 'El ingrediente fue creado con éxito', data: ingre})
+  } catch(error: any) {
+    res.status(500).json({message: error.message})
   }
-  res.status(200).send({message: 'El ingrediente ha sido eliminado con éxito'})
+}
+
+async function update(req: Request, res: Response) {
+    try {
+    const codigo = Number.parseInt(req.params.cod)
+    const ingre = await em.findOneOrFail(Ingrediente, {codigo})
+    em.assign(ingre, req.body.sanitizedIngrediente)
+    em.flush()
+    res.status(200).json({message: 'El ingrediente ha sido actualizado con éxito', data: req.body.sanitizedIngrediente})
+  } catch(error: any) {
+    res.status(500).json({message: error.message})
+  }
+}
+
+async function remove(req: Request, res: Response) {
+    try {
+    const codigo = Number.parseInt(req.params.cod)
+    const ingre = await em.findOneOrFail(Ingrediente, {codigo})
+    em.removeAndFlush(ingre)
+    res.status(200).json({message: 'El ingrediente ha sido eliminado con éxito', data: ingre})
+  } catch(error: any) {
+    res.status(500).json({message: error.message})
+  }
 }
 
 export { sanitizeIngrediente, findAll, findOne, add, update, remove }

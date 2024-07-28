@@ -56,7 +56,7 @@ async function add(req:Request, res:Response) {
 async function update(req:Request, res:Response) {
   try{
     const codigo = Number.parseInt(req.params.cod)
-    const tipoIngre = em.getReference(TipoIngrediente, codigo as never) //CORREGIR EL PROBLEMA DE TIPOS DE "CODIGO"
+    const tipoIngre = em.getReference(TipoIngrediente, codigo as never) //CORREGIR EL PROBLEMA DE TIPOS DE "CODIGO" o usar "findOneOrFail()"
     em.assign(tipoIngre, req.body)
     em.flush()
     res.status(200).json({message: 'El tipo de ingrediente fue actualizado con éxito', data: tipoIngre})
@@ -68,7 +68,7 @@ async function update(req:Request, res:Response) {
 async function remove (req: Request, res: Response,) {
   try {
     const codigo = Number.parseInt(req.params.cod)
-    const deletedTipoIngre = em.getReference(TipoIngrediente, codigo as never) //CORREGIR EL PROBLEMA DE TIPOS DE "CODIGO"
+    const deletedTipoIngre = em.getReference(TipoIngrediente, codigo as never) //CORREGIR EL PROBLEMA DE TIPOS DE "CODIGO" o usar "findOneOrFail()"
     await em.removeAndFlush(deletedTipoIngre)
     res.status(200).json({message: 'El tipo de ingrediente ha sido eliminado con éxito', data: deletedTipoIngre})
   } catch(error: any){
