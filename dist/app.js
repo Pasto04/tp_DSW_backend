@@ -1,3 +1,6 @@
+import 'reflect-metadata';
+import { RequestContext } from '@mikro-orm/core';
+import { orm, syncSchema } from './shared/db/orm.js';
 import express from 'express';
 import { tipoIngredienteRouter } from './tipoIngrediente/tipoIngrediente.routes.js';
 import { ingredienteRouter } from './ingrediente/ingrediente.routes.js';
@@ -9,16 +12,22 @@ import { pedidoRouter } from './pedido/pedido.routes.js';
 const port = 3000;
 const app = express();
 app.use(express.json());
-app.use('/api/tiposIngrediente', tipoIngredienteRouter);
+//
+app.use((req, res, next) => {
+    RequestContext.create(orm.em, next);
+});
+//
+app.use('/api/ingredientes/tipos', tipoIngredienteRouter);
 app.use('/api/ingredientes', ingredienteRouter);
 app.use('/api/cliente', clienteRouter);
-app.use('/api/tipoplato', tipoplatoRouter);
-app.use('/api/plato', platoRouter);
+app.use('/api/platos/tipos', tipoplatoRouter);
+app.use('/api/platos', platoRouter);
 app.use('/api/elaboracionesPlato', elaboracionPlatoRouter);
-app.use('/api/pedido', pedidoRouter);
+app.use('/api/pedidos', pedidoRouter);
 app.use((req, res) => {
     return res.status(404).send({ message: 'Recurso no encontrado' });
 });
+await syncSchema();
 app.listen(port, () => {
     console.log(`Server running in: http://localhost:${port}/`);
 });

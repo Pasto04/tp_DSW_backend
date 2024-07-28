@@ -1,9 +1,16 @@
-import crypto from 'node:crypto'
+import { Entity, Property, OneToMany, Collection, Cascade } from "@mikro-orm/core";
+import { BaseClass } from "../shared/db/baseEntity.entity.js";
+import { Ingrediente } from "../ingrediente/ingrediente.entity.js";
 
-export class TipoIngrediente {
-  constructor(
-    public codigo = crypto.randomUUID(),
-    public descripcion: string,
-    public medicionCantidad: string
-  ) {}
+@Entity()
+export class TipoIngrediente extends BaseClass{
+
+  @Property({nullable: false, unique: true})
+  descripcion!: string
+
+  @Property({nullable: false})
+  unidadMedida!: string
+
+  @OneToMany(() => Ingrediente, (ingrediente) => ingrediente.tipoIngrediente, {cascade: [Cascade.ALL]})
+  ingredientes = new Collection<Ingrediente>(this)
 }

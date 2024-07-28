@@ -1,53 +1,73 @@
-import { TipoIngredienteRepository } from './tipoIngrediente.repository.js';
 import { TipoIngrediente } from './tipoIngrediente.entity.js';
-const repository = new TipoIngredienteRepository;
-function sanitizeTipoIngrediente(req, res, next) {
-    req.body.sanitizedTIngrediente = {
-        codigo: req.body.codigo,
-        descripcion: req.body.descripcion,
-        medicionCantidad: req.body.medicionCantidad
-    };
-    Object.keys(req.body.sanitizedTIngrediente).forEach((keys) => {
-        if (req.body.sanitizedTIngrediente[keys] === undefined) {
-            delete req.body.sanitizedTIngrediente[keys];
-        }
-    });
-    next();
-}
-function findAll(req, res) {
-    res.json({ data: repository.findAll() });
-}
-function findOne(req, res) {
-    const codigo = req.params.cod;
-    const tIngrediente = repository.findOne({ codigo });
-    if (!tIngrediente) {
-        return res.status(404).send({ message: 'Este tipo de ingrediente no se ha encontrado' });
+import { orm } from '../shared/db/orm.js';
+const em = orm.em;
+em.getRepository(TipoIngrediente);
+/*
+function sanitizeTipoIngrediente(req:Request, res:Response, next:NextFunction) {
+  req.body.sanitizedTIngrediente = {
+    codigo: req.body.codigo,
+    descripcion: req.body.descripcion,
+    unidadMedida: req.body.unidadMedida
+  }
+  Object.keys(req.body.sanitizedTIngrediente).forEach((keys) => {
+    if(req.body.sanitizedTIngrediente[keys] === undefined) {
+      delete req.body.sanitizedTIngrediente[keys]
     }
-    res.json({ data: tIngrediente });
+  })
+  next()
 }
-function add(req, res) {
-    const input = req.body.sanitizedTIngrediente;
-    const tIngredienteInput = new TipoIngrediente(input.codigo, input.descripcion, input.medicionCantidad);
-    const tIngrediente = repository.add(tIngredienteInput);
-    return res.status(201).send({ message: 'Nuevo tipo de ingrediente creado con éxito', data: tIngrediente });
-}
-function update(req, res) {
-    req.body.sanitizedTIngrediente.codigo = req.params.cod;
-    const updatedTIngrediente = repository.update(req.body.sanitizedTIngrediente);
-    if (!updatedTIngrediente) {
-        return res.status(404).send({ message: 'El tipo de ingrediente no ha sido encontrado' });
+*/
+async function findAll(req, res) {
+    try {
+        const tiposIngre = await em.find(TipoIngrediente, {});
+        res.status(200).json({ message: 'Todos los tipos de ingrediente fueron encontrados', data: tiposIngre });
     }
-    return res.status(200).send({ message: 'Ingrediente modificado con éxito' });
-}
-function remove(req, res) {
-    const codigo = req.params.cod;
-    const TIngrediente = repository.delete({ codigo });
-    if (!TIngrediente) {
-        res.status(404).send({ message: 'Tipo de ingrediente no encontrado' });
-    }
-    else {
-        res.status(200).send({ message: 'Tipo de ingrediente eliminado correctamente' });
+    catch (error) {
+        res.status(500).json({ message: error.message });
     }
 }
-export { sanitizeTipoIngrediente, findAll, findOne, add, update, remove };
+async function findOne(req, res) {
+    try {
+        const codTipoIngre = Number.parseInt(req.params.cod);
+        const tipoIngre = await em.findOneOrFail(TipoIngrediente, { codigo: codTipoIngre });
+        res.status(200).json({ message: 'El tipo de ingrediente fue encontrado con éxito', data: tipoIngre });
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+async function add(req, res) {
+    try {
+        const tipoIngre = em.create(TipoIngrediente, req.body);
+        await em.flush(),
+            res.status(201).json({ message: 'El tipo de ingrediente fue creado con éxito', data: tipoIngre });
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+async function update(req, res) {
+    try {
+        const codigo = Number.parseInt(req.params.cod);
+        const tipoIngre = em.getReference(TipoIngrediente, codigo); //No entiendo cuál es el problema...
+        em.assign(tipoIngre, req.body);
+        em.flush();
+        res.status(200).json({ message: 'El tipo de ingrediente fue actualizado con éxito', data: tipoIngre });
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+async function remove(req, res) {
+    try {
+        const codigo = Number.parseInt(req.params.cod);
+        const deletedTipoIngre = em.getReference(TipoIngrediente, codigo); //La misma problemática que en "update"...
+        await em.removeAndFlush(deletedTipoIngre);
+        res.status(200).json({ message: 'El tipo de ingrediente ha sido eliminado con éxito', data: deletedTipoIngre });
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+export { /*sanitizeTipoIngrediente,*/ findAll, findOne, add, update, remove };
 //# sourceMappingURL=tipoIngrediente.controler.js.map
