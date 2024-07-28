@@ -1,15 +1,14 @@
 ###  obteber todos los characters
-GET http://localhost:3000/api/tipoplato
-
+GET http://localhost:3000/api/platos/tipos
 
 
 ###  obteber un character
-GET http://localhost:3000/api/tipoplato/b780c4c6-68c2-4177-8371-af0102a66d39
+GET http://localhost:3000/api/platos/tipos/b780c4c6-68c2-4177-8371-af0102a66d39
 
 
 
 ### modificar un character (PUT recurso completo e idempotente)
-PUT http://localhost:3000/api/tipoplato/b780c4c6-68c2-4177-8371-af0102a66d39
+PUT http://localhost:3000/api/platos/tipos/b780c4c6-68c2-4177-8371-af0102a66d39
 Content-Type: application/json
 
 {
@@ -17,7 +16,7 @@ Content-Type: application/json
 }
 
 ### crear un nuevo character
-POST http://localhost:3000/api/tipoplato
+POST http://localhost:3000/api/platos/tipos
 Content-Type: application/json
 
 {
@@ -25,4 +24,4 @@ Content-Type: application/json
 }
 
 ### borrar info
-DELETE http://localhost:3000/api/tipoplato/6777e183-e230-407c-b282-556e9f7f090b
+DELETE http://localhost:3000/api/platos/tipos/6777e183-e230-407c-b282-556e9f7f090b

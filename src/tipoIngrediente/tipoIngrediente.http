@@ -1,14 +1,14 @@
 
 ### Solicita el total de tipos de ingrediente
-GET http://localhost:3000/api/tiposIngrediente
+GET http://localhost:3000/api/ingredientes/tipos
 
 ### Solicita un único tipo de ingrediente según su código
 
-GET http://localhost:3000/api/tiposIngrediente/b780c4c6-68c2-4177-8371-af0102a99d38
+GET http://localhost:3000/api/ingredientes/tipos/b780c4c6-68c2-4177-8371-af0102a99d38
 
 ### Ingresa un nuevo tipo de ingrediente
 
-POST http://localhost:3000/api/tiposIngrediente
+POST http://localhost:3000/api/ingredientes/tipos
 Content-Type: application/json
 
 {
@@ -18,7 +18,7 @@ Content-Type: application/json
 
 ### Modifica los atributos de un tipo de ingrediente
 
-PUT http://localhost:3000/api/tiposIngrediente/b780c4c6-68c2-4177-8371-af0102a99d38
+PUT http://localhost:3000/api/ingredientes/tipos/b780c4c6-68c2-4177-8371-af0102a99d38
 Content-Type: application/json
 
 {
@@ -27,4 +27,4 @@ Content-Type: application/json
 }
 
 ### Borra un tipo de ingrediente
-DELETE http://localhost:3000/api/tiposIngrediente/b780c4c6-68c2-4177-8371-af0102a99d38
+DELETE http://localhost:3000/api/ingredientes/tipos/b780c4c6-68c2-4177-8371-af0102a99d38

@@ -1,13 +1,13 @@
 ###  obteber todos los characters
-GET http://localhost:3000/api/plato
+GET http://localhost:3000/api/platos
 
 ###  obteber un character
-GET http://localhost:3000/api/plato/b780c4c6-68c2-4177-2004-af0102a99d39
+GET http://localhost:3000/api/platos/b780c4c6-68c2-4177-2004-af0102a99d39
 
 
 
 ### modificar un character (PUT recurso completo e idempotente)
-PATCH  http://localhost:3000/api/plato/b780c4c6-68c2-4177-2004-af0102a99d39
+PATCH  http://localhost:3000/api/platos/b780c4c6-68c2-4177-2004-af0102a99d39
 Content-Type: application/json
 
 {
@@ -16,7 +16,7 @@ Content-Type: application/json
 }
 
 ### crear un nuevo character
-POST http://localhost:3000/api/plato
+POST http://localhost:3000/api/platos
 Content-Type: application/json
     
 {
@@ -29,4 +29,4 @@ Content-Type: application/json
 }
 
 ### borrar info
-DELETE http://localhost:3000/api/plato/0ec6ee25-e2dd-481c-8cc8-b4aa5dc83e96
+DELETE http://localhost:3000/api/platos/0ec6ee25-e2dd-481c-8cc8-b4aa5dc83e96

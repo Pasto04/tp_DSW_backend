@@ -1,11 +1,11 @@
 ### OBTENER TODOS LOS CLIENTES #
-GET http://localhost:3000/api/cliente
+GET http://localhost:3000/api/clientes
 
 ### OBTENER UN CLIENTE #
-GET http://localhost:3000/api/cliente/d0c48218-7b5b-4796-8569-a6b24e638e9f
+GET http://localhost:3000/api/clientes/d0c48218-7b5b-4796-8569-a6b24e638e9f
 
 ### NUEVO CLIENTE #
-POST http://localhost:3000/api/cliente 
+POST http://localhost:3000/api/clientes 
 Content-Type: application/json
 
 {
@@ -16,7 +16,7 @@ Content-Type: application/json
 }
 
 ### MODIFICAR CLIENTE (PUT) #
-PUT http://localhost:3000/api/cliente/d0c48218-7b5b-4796-8569-a6b24e638e9f
+PUT http://localhost:3000/api/clientes/d0c48218-7b5b-4796-8569-a6b24e638e9f
 Content-Type: application/json
 
 {
@@ -27,7 +27,7 @@ Content-Type: application/json
 }
 
 ### MODIFICAR CLIENTE (PATCH) #
-PATCH http://localhost:3000/api/cliente/d0c48218-7b5b-4796-8569-a6b24e638e9f
+PATCH http://localhost:3000/api/clientes/d0c48218-7b5b-4796-8569-a6b24e638e9f
 Content-Type: application/json
 
 {
@@ -36,4 +36,4 @@ Content-Type: application/json
 }
 
 ### BORRAR CLIENTE #
-DELETE http://localhost:3000/api/cliente/d0c48218-7b5b-4796-8569-a6b24e638e9f
+DELETE http://localhost:3000/api/clientes/d0c48218-7b5b-4796-8569-a6b24e638e9f

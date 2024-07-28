@@ -1,15 +1,15 @@
 # OBTENER TODOS LOS PEDIDOS #
-GET http://localhost:3000/api/pedido
+GET http://localhost:3000/api/pedidos
 
 ###
 
 # OBTENER UN PEDIDO #
-GET http://localhost:3000/api/pedido/d0c48218-7b5b-4796-8569-a6b24e638e9f
+GET http://localhost:3000/api/pedidos/d0c48218-7b5b-4796-8569-a6b24e638e9f
 
 ###
 
 # NUEVO PEDIDO #
-POST http://localhost:3000/api/pedido 
+POST http://localhost:3000/api/pedidos 
 Content-Type: application/json
 
 {
@@ -28,7 +28,7 @@ Content-Type: application/json
 ###
 
 # MODIFICAR PEDIDO (PUT) #
-PUT http://localhost:3000/api/pedido/d0c48218-7b5b-4796-8569-a6b24e638e9f 
+PUT http://localhost:3000/api/pedidos/d0c48218-7b5b-4796-8569-a6b24e638e9f 
 Content-Type: application/json
 
 {
@@ -41,7 +41,7 @@ Content-Type: application/json
 ###
 
 # MODIFICAR PEDIDO (PATCH) #
-PATCH http://localhost:3000/api/pedido/d0c48218-7b5b-4796-8569-a6b24e638e9f 
+PATCH http://localhost:3000/api/pedidos/d0c48218-7b5b-4796-8569-a6b24e638e9f 
 Content-Type: application/json
 
 {
@@ -52,4 +52,4 @@ Content-Type: application/json
 ###
 
 # BORRAR PEDIDO #
-DELETE http://localhost:3000/api/pedido/d0c48218-7b5b-4796-8569-a6b24e638e9f
+DELETE http://localhost:3000/api/pedidos/d0c48218-7b5b-4796-8569-a6b24e638e9f
