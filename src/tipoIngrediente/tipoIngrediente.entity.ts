@@ -6,7 +6,7 @@ import { Ingrediente } from "../ingrediente/ingrediente.entity.js";
 export class TipoIngrediente extends BaseClass{
 
   @Property({nullable: false, unique: true})
-  descripcion!: string
+  descTIngre!: string
 
   @Property({nullable: false})
   unidadMedida!: string

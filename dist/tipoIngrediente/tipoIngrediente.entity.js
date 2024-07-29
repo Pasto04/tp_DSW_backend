@@ -19,7 +19,7 @@ export let TipoIngrediente = class TipoIngrediente extends BaseClass {
 __decorate([
     Property({ nullable: false, unique: true }),
     __metadata("design:type", String)
-], TipoIngrediente.prototype, "descripcion", void 0);
+], TipoIngrediente.prototype, "descTIngre", void 0);
 __decorate([
     Property({ nullable: false }),
     __metadata("design:type", String)
