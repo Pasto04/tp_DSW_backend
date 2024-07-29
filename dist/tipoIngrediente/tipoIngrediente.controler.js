@@ -49,7 +49,7 @@ async function add(req, res) {
 async function update(req, res) {
     try {
         const codigo = Number.parseInt(req.params.cod);
-        const tipoIngre = em.getReference(TipoIngrediente, codigo); //No entiendo cuál es el problema...
+        const tipoIngre = em.getReference(TipoIngrediente, codigo); //CORREGIR EL PROBLEMA DE TIPOS DE "CODIGO"
         em.assign(tipoIngre, req.body);
         em.flush();
         res.status(200).json({ message: 'El tipo de ingrediente fue actualizado con éxito', data: tipoIngre });
@@ -61,7 +61,7 @@ async function update(req, res) {
 async function remove(req, res) {
     try {
         const codigo = Number.parseInt(req.params.cod);
-        const deletedTipoIngre = em.getReference(TipoIngrediente, codigo); //La misma problemática que en "update"...
+        const deletedTipoIngre = em.getReference(TipoIngrediente, codigo); //CORREGIR EL PROBLEMA DE TIPOS DE "CODIGO"
         await em.removeAndFlush(deletedTipoIngre);
         res.status(200).json({ message: 'El tipo de ingrediente ha sido eliminado con éxito', data: deletedTipoIngre });
     }
