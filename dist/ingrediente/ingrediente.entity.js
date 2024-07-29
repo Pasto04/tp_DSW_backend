@@ -15,11 +15,11 @@ export let Ingrediente = class Ingrediente extends BaseClass {
 __decorate([
     Property(),
     __metadata("design:type", String)
-], Ingrediente.prototype, "descripcion", void 0);
+], Ingrediente.prototype, "descIngre", void 0);
 __decorate([
     Property(),
     __metadata("design:type", Number)
-], Ingrediente.prototype, "stock", void 0);
+], Ingrediente.prototype, "stockIngre", void 0);
 __decorate([
     Property(),
     __metadata("design:type", Number)

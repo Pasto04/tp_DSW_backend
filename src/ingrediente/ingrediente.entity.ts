@@ -6,10 +6,10 @@ import { BaseClass } from '../shared/db/baseEntity.entity.js'
 export class Ingrediente extends BaseClass {
 
   @Property()
-  descripcion!: string
+  descIngre!: string
 
   @Property()
-  stock!: number
+  stockIngre!: number
 
   @Property()
   puntoDePedido!: number

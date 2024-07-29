@@ -3,10 +3,10 @@ import { Ingrediente } from "./ingrediente.entity.js";
 const em = orm.em;
 function sanitizeIngrediente(req, res, next) {
     req.body.sanitizedIngrediente = {
-        codIngrediente: req.body.codIngrediente,
-        descIngrediente: req.body.descIngrediente,
-        stockIngrediente: req.body.stockIngrediente,
-        puntoPedido: req.body.puntoPedido,
+        codigo: req.body.codigo,
+        descIngre: req.body.descIngre,
+        stockIngre: req.body.stockIngre,
+        puntoDePedido: req.body.puntoDePedido,
         tipoIngrediente: req.body.tipoIngrediente
     };
     Object.keys(req.body.sanitizedIngrediente).forEach((keys) => {

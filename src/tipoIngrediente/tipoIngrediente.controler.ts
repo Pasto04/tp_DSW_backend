@@ -10,7 +10,7 @@ em.getRepository(TipoIngrediente)
 function sanitizeTipoIngrediente(req:Request, res:Response, next:NextFunction) {
   req.body.sanitizedTIngrediente = {
     codigo: req.body.codigo,
-    descripcion: req.body.descripcion,
+    descTIngre: req.body.descTIngre,
     unidadMedida: req.body.unidadMedida
   }
   Object.keys(req.body.sanitizedTIngrediente).forEach((keys) => {
@@ -56,7 +56,7 @@ async function add(req:Request, res:Response) {
 async function update(req:Request, res:Response) {
   try{
     const codigo = Number.parseInt(req.params.cod)
-    const tipoIngre = em.getReference(TipoIngrediente, codigo as never) //CORREGIR EL PROBLEMA DE TIPOS DE "CODIGO" o usar "findOneOrFail()"
+    const tipoIngre = await em.findOneOrFail(TipoIngrediente, {codigo}) 
     em.assign(tipoIngre, req.body)
     em.flush()
     res.status(200).json({message: 'El tipo de ingrediente fue actualizado con éxito', data: tipoIngre})
@@ -68,7 +68,7 @@ async function update(req:Request, res:Response) {
 async function remove (req: Request, res: Response,) {
   try {
     const codigo = Number.parseInt(req.params.cod)
-    const deletedTipoIngre = em.getReference(TipoIngrediente, codigo as never) //CORREGIR EL PROBLEMA DE TIPOS DE "CODIGO" o usar "findOneOrFail()"
+    const deletedTipoIngre = await em.findOneOrFail(TipoIngrediente, {codigo}) 
     await em.removeAndFlush(deletedTipoIngre)
     res.status(200).json({message: 'El tipo de ingrediente ha sido eliminado con éxito', data: deletedTipoIngre})
   } catch(error: any){

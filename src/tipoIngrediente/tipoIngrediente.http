@@ -4,7 +4,7 @@ GET http://localhost:3000/api/ingredientes/tipos
 
 ### Solicita un único tipo de ingrediente según su código
 
-GET http://localhost:3000/api/ingredientes/tipos/b780c4c6-68c2-4177-8371-af0102a99d38
+GET http://localhost:3000/api/ingredientes/tipos/1
 
 ### Ingresa un nuevo tipo de ingrediente
 
@@ -12,19 +12,38 @@ POST http://localhost:3000/api/ingredientes/tipos
 Content-Type: application/json
 
 {
-  "descripcion": "Fruta",
-  "medicionCantidad": "Gramos"
+  "descTIngre": "Fruta",
+  "unidadMedida": "Gramos"
+}
+
+###
+
+POST http://localhost:3000/api/ingredientes/tipos
+Content-Type: application/json
+
+{
+  "descTIngre": "Carne",
+  "unidadMedida": "Gramos"
+}
+
+###
+POST http://localhost:3000/api/ingredientes/tipos
+Content-Type: application/json
+
+{
+  "descTIngre": "Verdura",
+  "unidadMedida": "Unidades"
 }
 
 ### Modifica los atributos de un tipo de ingrediente
 
-PUT http://localhost:3000/api/ingredientes/tipos/b780c4c6-68c2-4177-8371-af0102a99d38
+PUT http://localhost:3000/api/ingredientes/tipos/5
 Content-Type: application/json
 
 {
-  "descripcion": "Pasta",
-  "medicionCantidad": "Gramos"
+  "descTIngre": "Pasta",
+  "unidadMedida": "Gramos"
 }
 
 ### Borra un tipo de ingrediente
-DELETE http://localhost:3000/api/ingredientes/tipos/b780c4c6-68c2-4177-8371-af0102a99d38
+DELETE http://localhost:3000/api/ingredientes/tipos/3
