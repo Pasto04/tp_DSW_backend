@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 import { RequestContext } from '@mikro-orm/core'
-import { orm } from './shared/db/orm.js'
+import { orm, syncSchema } from './shared/db/orm.js'
 import express from 'express'
 /*import { tipoIngredienteRouter } from './tipoIngrediente/tipoIngrediente.routes.js'
 import { ingredienteRouter } from './ingrediente/ingrediente.routes.js'
@@ -29,6 +29,8 @@ app.use('/api/ingredientes', ingredienteRouter)
 
 app.use('/api/elaboracionesPlato', elaboracionPlatoRouter)
 
+app.use('/api/elaboracionesPlato', elaboracionPlatoRouter)
+
 app.use('/api/cliente', clienteRouter)
 
 app.use('/api/platos/tipos', tipoplatoRouter)
@@ -41,7 +43,7 @@ app.use((req, res) => {
   return res.status(404).send({message: 'Recurso no encontrado'})
 })
 
-// await syncSchema()
+await syncSchema()
 
 app.listen(port, () => {
   console.log(`Server running in: http://localhost:${port}/`)
