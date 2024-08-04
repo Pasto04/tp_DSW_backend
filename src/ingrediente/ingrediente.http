@@ -33,11 +33,11 @@ Content-Type: application/json
 
 ###Modifica la descripción de un ingrediente ya ingresado utilizando su código
 
-PATCH http://localhost:3000/api/ingredientes/11
+PATCH http://localhost:3000/api/ingredientes/14
 Content-Type: application/json
 
 {
-  "descIngre": "Espagueti"
+  "descIngre": "Vacío"
 }
 
 ###Elimina un ingrediente existente utilizando su código
