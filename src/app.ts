@@ -4,10 +4,11 @@ import { orm, syncSchema } from './shared/db/orm.js'
 import express from 'express'
 import { tipoIngredienteRouter } from './ingrediente/tipoIngrediente.routes.js'
 import { ingredienteRouter } from './ingrediente/ingrediente.routes.js'
-/*import { elaboracionPlatoRouter } from './elaboracionPlato/elaboracionPlato.routes.js'
-import { clienteRouter } from './cliente/cliente.routes.js'
-import { tipoplatoRouter } from './tipoplato/tipoplato.routes.js'
+import { tipoPlatoRouter } from './plato/tipoPlato.routes.js'
 import { platoRouter } from './plato/plato.routes.js'
+import { clienteRouter } from './cliente/cliente.routes.js'
+
+/*import { elaboracionPlatoRouter } from './elaboracionPlato/elaboracionPlato.routes.js'
 import { pedidoRouter } from './pedido/pedido.routes.js'*/
 
 
@@ -27,15 +28,16 @@ app.use('/api/ingredientes/tipos', tipoIngredienteRouter)
 
 app.use('/api/ingredientes', ingredienteRouter)
 
+app.use('/api/platos/tipos', tipoPlatoRouter)
+
+app.use('/api/platos', platoRouter)
+
+app.use('/api/clientes', clienteRouter)
+
 /*app.use('/api/elaboracionesPlato', elaboracionPlatoRouter)
 
 app.use('/api/elaboracionesPlato', elaboracionPlatoRouter)
 
-app.use('/api/cliente', clienteRouter)
-
-app.use('/api/platos/tipos', tipoplatoRouter)
-
-app.use('/api/platos', platoRouter)
 
 app.use('/api/pedidos',pedidoRouter)*/
 

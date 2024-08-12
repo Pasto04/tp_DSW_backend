@@ -14,3 +14,15 @@ export abstract class BaseClass {
   */
 
 }
+
+export abstract class BaseClass1 {
+  
+  @PrimaryKey()
+  numPlato?: number
+}
+
+export abstract class BaseClass2 {
+  
+  @PrimaryKey()
+  id?: number
+}

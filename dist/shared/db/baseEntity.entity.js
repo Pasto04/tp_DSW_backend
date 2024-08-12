@@ -14,4 +14,16 @@ __decorate([
     PrimaryKey(),
     __metadata("design:type", Number)
 ], BaseClass.prototype, "codigo", void 0);
+export class BaseClass1 {
+}
+__decorate([
+    PrimaryKey(),
+    __metadata("design:type", Number)
+], BaseClass1.prototype, "numPlato", void 0);
+export class BaseClass2 {
+}
+__decorate([
+    PrimaryKey(),
+    __metadata("design:type", Number)
+], BaseClass2.prototype, "id", void 0);
 //# sourceMappingURL=baseEntity.entity.js.map
