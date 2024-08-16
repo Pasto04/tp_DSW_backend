@@ -14,11 +14,11 @@ import { Plato } from "../plato/plato.entity.js";
 export let ElaboracionPlato = class ElaboracionPlato extends BaseClass {
 };
 __decorate([
-    ManyToOne(() => Ingrediente, { nullable: false }),
+    ManyToOne(() => Ingrediente),
     __metadata("design:type", Object)
 ], ElaboracionPlato.prototype, "ingrediente", void 0);
 __decorate([
-    ManyToOne(() => Plato, { nullable: false }),
+    ManyToOne(() => Plato),
     __metadata("design:type", Object)
 ], ElaboracionPlato.prototype, "plato", void 0);
 __decorate([

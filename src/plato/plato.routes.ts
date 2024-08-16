@@ -3,6 +3,8 @@ import { sanitizePlatoInput, findAll, findOne, add, update, remove } from "./pla
 
 export const platoRouter = Router()
 
+
+platoRouter.post('/:numPlato/ingredientes')
 platoRouter.get('/', findAll)
 platoRouter.get('/:numPlato', findOne)
 platoRouter.post('/', sanitizePlatoInput, add)

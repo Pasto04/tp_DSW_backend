@@ -8,9 +8,10 @@ import { Ingrediente } from "../ingrediente/ingrediente.entity.js";
 const em = orm.em
 
 function sanitizeElaboracionPlato(req: Request, res:Response, next: NextFunction) {
+  //console.log(`unsanitized: ${JSON.stringify(req.body)}`)
   req.body.sanitizedElaboracionPlato = {
     ingrediente: req.body.ingrediente,
-    plato: req.body.plato,
+    plato: req.params.nro,
     fechaVigencia: req.body.fechaVigencia,
     cantidadNecesaria: req.body.cantidadNecesaria
   }
@@ -25,23 +26,12 @@ function sanitizeElaboracionPlato(req: Request, res:Response, next: NextFunction
 
 //CONSULTAR SI ES CORRECTO EL DESARROLLO DE LOS MÉTODOS DE ESTA MANERA
 
-async function findAllFromPlato(req: Request, res: Response) {
+async function findAll(req: Request, res: Response) {
   try {
     const numPlato = Number.parseInt(req.params.nro)
     const plato = await em.findOneOrFail(Plato, {numPlato}, {populate: ['tipoPlato']})
     const elabPlato = await em.find(ElaboracionPlato, {plato}, {populate: ['ingrediente']})
     res.status(200).json({message: `La cantidades de los ingredientes del plato ${plato.descripcion} fueron encontradas con éxito`, data: elabPlato})
-  } catch(error: any){
-    res.status(500).json({message: error.message})
-  }
-}
-
-async function findAllFromIngrediente(req: Request, res: Response) {
-  try {
-    const codigo = Number.parseInt(req.params.cod)
-    const ingrediente = await em.findOneOrFail(Ingrediente, {codigo}, {populate: ['tipoIngrediente']})
-    const elabPlato = await em.find(ElaboracionPlato, {ingrediente}, {populate: ['plato']})
-    res.status(200).json({message: `La cantidades del ingrediente ${ingrediente.descIngre} para cada plato en el que se utiliza fueron encontradas con éxito`, data: elabPlato})
   } catch(error: any){
     res.status(500).json({message: error.message})
   }
@@ -62,7 +52,9 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req: Request, res: Response) {
   try {
+    //console.log(`${JSON.stringify(req.body.sanitizedElaboracionPlato.ingrediente)}`)
     const elabPlato = em.create(ElaboracionPlato, req.body.sanitizedElaboracionPlato)
+    await em.flush()
     res.status(201).json({data: elabPlato})
   } catch (error: any) {
     res.status(500).json({message: error.message})
@@ -98,4 +90,4 @@ async function remove(req: Request, res: Response) {
   }
 }
 
-export {sanitizeElaboracionPlato, findAllFromPlato, findAllFromIngrediente, findOne, add, update, remove}
+export {sanitizeElaboracionPlato, findAll, findOne, add, update, remove}

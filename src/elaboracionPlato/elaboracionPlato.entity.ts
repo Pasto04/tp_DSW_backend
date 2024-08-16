@@ -6,10 +6,10 @@ import { Plato } from "../plato/plato.entity.js";
 @Entity()
 export class ElaboracionPlato extends BaseClass {
 
-  @ManyToOne(() => Ingrediente, {nullable: false})
+  @ManyToOne(() => Ingrediente)
   ingrediente!: Rel<Ingrediente>
 
-  @ManyToOne(() => Plato, {nullable: false})
+  @ManyToOne(() => Plato)
   plato!: Rel<Plato>
 
   @Property()

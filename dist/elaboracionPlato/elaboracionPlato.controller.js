@@ -4,9 +4,10 @@ import { Plato } from "../plato/plato.entity.js";
 import { Ingrediente } from "../ingrediente/ingrediente.entity.js";
 const em = orm.em;
 function sanitizeElaboracionPlato(req, res, next) {
+    //console.log(`unsanitized: ${JSON.stringify(req.body)}`)
     req.body.sanitizedElaboracionPlato = {
         ingrediente: req.body.ingrediente,
-        plato: req.body.plato,
+        plato: req.params.nro,
         fechaVigencia: req.body.fechaVigencia,
         cantidadNecesaria: req.body.cantidadNecesaria
     };
@@ -18,23 +19,12 @@ function sanitizeElaboracionPlato(req, res, next) {
     next();
 }
 //CONSULTAR SI ES CORRECTO EL DESARROLLO DE LOS MÉTODOS DE ESTA MANERA
-async function findAllFromPlato(req, res) {
+async function findAll(req, res) {
     try {
         const numPlato = Number.parseInt(req.params.nro);
         const plato = await em.findOneOrFail(Plato, { numPlato }, { populate: ['tipoPlato'] });
         const elabPlato = await em.find(ElaboracionPlato, { plato }, { populate: ['ingrediente'] });
         res.status(200).json({ message: `La cantidades de los ingredientes del plato ${plato.descripcion} fueron encontradas con éxito`, data: elabPlato });
-    }
-    catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-}
-async function findAllFromIngrediente(req, res) {
-    try {
-        const codigo = Number.parseInt(req.params.cod);
-        const ingrediente = await em.findOneOrFail(Ingrediente, { codigo }, { populate: ['tipoIngrediente'] });
-        const elabPlato = await em.find(ElaboracionPlato, { ingrediente }, { populate: ['plato'] });
-        res.status(200).json({ message: `La cantidades del ingrediente ${ingrediente.descIngre} para cada plato en el que se utiliza fueron encontradas con éxito`, data: elabPlato });
     }
     catch (error) {
         res.status(500).json({ message: error.message });
@@ -55,7 +45,9 @@ async function findOne(req, res) {
 }
 async function add(req, res) {
     try {
+        //console.log(`${JSON.stringify(req.body.sanitizedElaboracionPlato.ingrediente)}`)
         const elabPlato = em.create(ElaboracionPlato, req.body.sanitizedElaboracionPlato);
+        await em.flush();
         res.status(201).json({ data: elabPlato });
     }
     catch (error) {
@@ -91,5 +83,5 @@ async function remove(req, res) {
         res.status(500).json({ message: error.message });
     }
 }
-export { sanitizeElaboracionPlato, findAllFromPlato, findAllFromIngrediente, findOne, add, update, remove };
+export { sanitizeElaboracionPlato, findAll, findOne, add, update, remove };
 //# sourceMappingURL=elaboracionPlato.controller.js.map
