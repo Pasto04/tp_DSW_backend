@@ -37,7 +37,7 @@ PATCH http://localhost:3000/api/ingredientes/14
 Content-Type: application/json
 
 {
-  "descIngre": "Vacío"
+  "descIngre": "Pechuga de Pollo"
 }
 
 ###Elimina un ingrediente existente utilizando su código

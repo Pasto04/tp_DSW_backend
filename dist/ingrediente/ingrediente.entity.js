@@ -7,10 +7,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Entity, Property, ManyToOne } from '@mikro-orm/core';
+import { Entity, Property, ManyToOne, OneToMany, Cascade, Collection } from '@mikro-orm/core';
 import { TipoIngrediente } from './tipoIngrediente.entity.js';
 import { BaseClass } from '../shared/db/baseEntity.entity.js';
+import { ElaboracionPlato } from '../elaboracionPlato/elaboracionPlato.entity.js';
 export let Ingrediente = class Ingrediente extends BaseClass {
+    constructor() {
+        super(...arguments);
+        this.elaboracionesPlato = new Collection(this);
+    }
 };
 __decorate([
     Property(),
@@ -28,6 +33,10 @@ __decorate([
     ManyToOne(() => TipoIngrediente, { nullable: false }),
     __metadata("design:type", Object)
 ], Ingrediente.prototype, "tipoIngrediente", void 0);
+__decorate([
+    OneToMany(() => ElaboracionPlato, (elaboracionPlato) => elaboracionPlato.ingrediente, { cascade: [Cascade.ALL] }),
+    __metadata("design:type", Object)
+], Ingrediente.prototype, "elaboracionesPlato", void 0);
 Ingrediente = __decorate([
     Entity()
 ], Ingrediente);
