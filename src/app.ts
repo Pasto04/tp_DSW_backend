@@ -8,7 +8,7 @@ import { tipoPlatoRouter } from './plato/tipoPlato.routes.js'
 import { platoRouter } from './plato/plato.routes.js'
 import { clienteRouter } from './cliente/cliente.routes.js'
 import { elabPlatoRouter } from './elaboracionPlato/elaboracionPlato.routes.js'
-import { elabIngreRouter } from './elaboracionPlato/elaboracionPlato.routes.js'
+import { elabIngreRouter } from './elaboracionPlato/elaboracionIngrediente.routes.js'
 /*import { pedidoRouter } from './pedido/pedido.routes.js'*/
 
 
