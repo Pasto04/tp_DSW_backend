@@ -1,6 +1,6 @@
-import { Entity, Property, Collection, Cascade, ManyToOne, Rel } from "@mikro-orm/core";
+import { Entity, Property, Collection, Cascade, ManyToOne, Rel, OneToMany } from "@mikro-orm/core";
 import { BaseClass2 } from '../shared/db/baseEntity.entity.js'
-
+//import { Pedido } from "./pedido.entity.js";
 @Entity()
 export class Cliente extends BaseClass2{
   @Property({nullable : false})
@@ -11,4 +11,6 @@ export class Cliente extends BaseClass2{
   mail!: string
   @Property({nullable : false})
   telefono!: number
+  /*@OneToMany(() => Pedido, pedido => pedido.cliente)
+  pedidos = new Collection<Pedido>(this);*/
 }
