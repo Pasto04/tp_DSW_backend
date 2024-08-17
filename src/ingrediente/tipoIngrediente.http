@@ -12,7 +12,7 @@ POST http://localhost:3000/api/ingredientes/tipos
 Content-Type: application/json
 
 {
-  "descTIngre": "Fruta",
+  "descTIngre": "Queso",
   "unidadMedida": "Gramos"
 }
 
