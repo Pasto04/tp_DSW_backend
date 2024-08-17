@@ -3,7 +3,7 @@ import { ElaboracionPlato } from "./elaboracionPlato.entity.js";
 import { Plato } from "../plato/plato.entity.js";
 import { Ingrediente } from "../ingrediente/ingrediente.entity.js";
 const em = orm.em;
-function sanitizeElaboracionPlato(req, res, next) {
+async function sanitizeElaboracionPlato(req, res, next) {
     //console.log(`unsanitized: ${JSON.stringify(req.body)}`)
     req.body.sanitizedElaboracionPlato = {
         ingrediente: req.body.ingrediente,
@@ -23,7 +23,7 @@ async function findAll(req, res) {
     try {
         const numPlato = Number.parseInt(req.params.nro);
         const plato = await em.findOneOrFail(Plato, { numPlato }, { populate: ['tipoPlato'] });
-        const elabPlato = await em.find(ElaboracionPlato, { plato }, { populate: ['ingrediente'] });
+        const elabPlato = await em.find(ElaboracionPlato, { plato }, { populate: ['ingrediente', 'plato'] });
         res.status(200).json({ message: `La cantidades de los ingredientes del plato ${plato.descripcion} fueron encontradas con éxito`, data: elabPlato });
     }
     catch (error) {
@@ -45,7 +45,7 @@ async function findOne(req, res) {
 }
 async function add(req, res) {
     try {
-        //console.log(`${JSON.stringify(req.body.sanitizedElaboracionPlato.ingrediente)}`)
+        //req.body.sanitizedElaboracionPlato.plato = await em.findOne(Plato, {numPlato: req.body.sanitizedElaboracionPlato.plato})
         const elabPlato = em.create(ElaboracionPlato, req.body.sanitizedElaboracionPlato);
         await em.flush();
         res.status(201).json({ data: elabPlato });

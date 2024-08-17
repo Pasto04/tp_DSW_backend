@@ -27,7 +27,7 @@ async function findAll(req: Request, res: Response) {
   try {
     const codigo = Number.parseInt(req.params.cod)
     const ingrediente = await em.findOneOrFail(Ingrediente, {codigo}, {populate: ['tipoIngrediente']})
-    const elabPlato = await em.find(ElaboracionPlato, {ingrediente}, {populate: ['plato']})
+    const elabPlato = await em.find(ElaboracionPlato, {ingrediente}, {populate: ['plato', 'ingrediente']})
     res.status(200).json({message: `La cantidades del ingrediente ${ingrediente.descIngre} para cada plato en el que se utiliza fueron encontradas con éxito`, data: elabPlato})
   } catch(error: any){
     res.status(500).json({message: error.message})

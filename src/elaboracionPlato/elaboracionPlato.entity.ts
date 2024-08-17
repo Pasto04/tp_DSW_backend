@@ -1,15 +1,15 @@
-import { Cascade, Entity, ManyToOne, Property, Rel } from "@mikro-orm/core";
+import { Cascade, Entity, ManyToOne, PrimaryKeyType, Property, Rel } from "@mikro-orm/core";
 import { BaseClass } from "../shared/db/baseEntity.entity.js";
 import { Ingrediente } from "../ingrediente/ingrediente.entity.js";
 import { Plato } from "../plato/plato.entity.js";
 
 @Entity()
-export class ElaboracionPlato extends BaseClass {
+export class ElaboracionPlato {
 
-  @ManyToOne(() => Ingrediente)
+  @ManyToOne(() => Ingrediente, {primary: true})
   ingrediente!: Rel<Ingrediente>
 
-  @ManyToOne(() => Plato)
+  @ManyToOne(() => Plato, {primary: true})
   plato!: Rel<Plato>
 
   @Property()
@@ -17,4 +17,6 @@ export class ElaboracionPlato extends BaseClass {
 
   @Property()
   cantidadNecesaria!: number
+
+  [PrimaryKeyType]?: [number, number]
 } 

@@ -1,23 +1,15 @@
 ### Obtener todos los ingredientes y sus cantidades de un plato
 
-GET http://localhost:3000/api/platos/3/ingredientes
-
-### Obtener todos los platos asociados a un ingrediente y sus cantidades
-
-GET http://localhost:3000/api/ingredientes/13/platos
+GET http://localhost:3000/api/platos/4/ingredientes
 
 ### Obtener la cantidad para un ingrediente y un plato
 
 GET http://localhost:3000/api/platos/3/ingredientes/13
 
-### IDEM
-
-GET http://localhost:3000/api/ingredientes/13/platos/3
-
 ### Establecer una cantidad para un ingrediente dado un plato
 
 POST http://localhost:3000/api/platos/3/ingredientes
-Content-Type: "application/json"
+Content-Type: application/json
 
 {
   "ingrediente": 13,
@@ -27,20 +19,19 @@ Content-Type: "application/json"
 
 ### IDEM
 
-POST http://localhost:3000/api/ingredientes/13/platos
-Content-Type: "application/json"
+POST http://localhost:3000/api/platos/4/ingredientes
+Content-Type: application/json
 
 {
-  "ingrediente": 13,
-  "plato": 3,
-  "fechaVigencia": "16-08-2024",
+  "ingrediente": 17,
+  "fechaVigencia": "2024-08-16",
   "cantidadNecesaria": 250
 }
 
 ### Modificar la cantidad de un ingrediente dado un plato
 
 PATCH http://localhost:3000/api/platos/3/ingredientes/13
-Content-Type: "application/json"
+Content-Type: application/json
 
 {
   "cantidadNecesaria": 1000
@@ -48,8 +39,8 @@ Content-Type: "application/json"
 
 ### IDEM
 
-PATCH http://localhost:3000/api/ingredientes/13/platos/3
-Content-Type: "application/json"
+PATCH http://localhost:3000/api/platos/4/ingredientes/14
+Content-Type: application/json
 
 {
   "CantidadNecesaria": 750
@@ -61,4 +52,4 @@ DELETE http://localhost:3000/api/platos/3/ingredientes/13
 
 ### IDEM
 
-DELETE http://localhost:3000/api/ingredientes/13/platos/3
+DELETE http://localhost:3000/api/platos/4/ingredientes/17

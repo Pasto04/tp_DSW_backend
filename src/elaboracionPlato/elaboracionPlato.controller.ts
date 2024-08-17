@@ -7,7 +7,7 @@ import { Ingrediente } from "../ingrediente/ingrediente.entity.js";
 
 const em = orm.em
 
-function sanitizeElaboracionPlato(req: Request, res:Response, next: NextFunction) {
+async function sanitizeElaboracionPlato(req: Request, res:Response, next: NextFunction) {
   //console.log(`unsanitized: ${JSON.stringify(req.body)}`)
   req.body.sanitizedElaboracionPlato = {
     ingrediente: req.body.ingrediente,
@@ -30,7 +30,7 @@ async function findAll(req: Request, res: Response) {
   try {
     const numPlato = Number.parseInt(req.params.nro)
     const plato = await em.findOneOrFail(Plato, {numPlato}, {populate: ['tipoPlato']})
-    const elabPlato = await em.find(ElaboracionPlato, {plato}, {populate: ['ingrediente']})
+    const elabPlato = await em.find(ElaboracionPlato, {plato}, {populate: ['ingrediente', 'plato']})
     res.status(200).json({message: `La cantidades de los ingredientes del plato ${plato.descripcion} fueron encontradas con éxito`, data: elabPlato})
   } catch(error: any){
     res.status(500).json({message: error.message})
@@ -52,7 +52,7 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req: Request, res: Response) {
   try {
-    //console.log(`${JSON.stringify(req.body.sanitizedElaboracionPlato.ingrediente)}`)
+    //req.body.sanitizedElaboracionPlato.plato = await em.findOne(Plato, {numPlato: req.body.sanitizedElaboracionPlato.plato})
     const elabPlato = em.create(ElaboracionPlato, req.body.sanitizedElaboracionPlato)
     await em.flush()
     res.status(201).json({data: elabPlato})

@@ -7,18 +7,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Entity, ManyToOne, Property } from "@mikro-orm/core";
-import { BaseClass } from "../shared/db/baseEntity.entity.js";
+import { Entity, ManyToOne, PrimaryKeyType, Property } from "@mikro-orm/core";
 import { Ingrediente } from "../ingrediente/ingrediente.entity.js";
 import { Plato } from "../plato/plato.entity.js";
-export let ElaboracionPlato = class ElaboracionPlato extends BaseClass {
+export let ElaboracionPlato = class ElaboracionPlato {
 };
 __decorate([
-    ManyToOne(() => Ingrediente),
+    ManyToOne(() => Ingrediente, { primary: true }),
     __metadata("design:type", Object)
 ], ElaboracionPlato.prototype, "ingrediente", void 0);
 __decorate([
-    ManyToOne(() => Plato),
+    ManyToOne(() => Plato, { primary: true }),
     __metadata("design:type", Object)
 ], ElaboracionPlato.prototype, "plato", void 0);
 __decorate([
