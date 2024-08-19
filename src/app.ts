@@ -10,6 +10,11 @@ import { clienteRouter } from './cliente/cliente.routes.js'
 import { elabPlatoRouter } from './elaboracionPlato/elaboracionPlato.routes.js'
 import { elabIngreRouter } from './elaboracionPlato/elaboracionIngrediente.routes.js'
 /*import { pedidoRouter } from './pedido/pedido.routes.js'*/
+import { pedidoRouter } from './pedido/pedido.routes.js'
+import { platoPedRouter } from './platoPedido/platoPedido.routes.js'
+import { platoPlatoRouter } from './platoPedido/platoPlato.routes.js'
+/*import { elaboracionPlatoRouter } from './elaboracionPlato/elaboracionPlato.routes.js'
+*/
 
 
 const port = 3000
@@ -40,6 +45,12 @@ app.use('/api/platos', platoRouter)
 
 app.use('/api/clientes', clienteRouter)
 
+app.use('/api/platoPedidos', platoPedRouter)
+
+app.use('/api/platoPlatos', platoPlatoRouter)
+
+app.use('/api/pedidos',pedidoRouter)
+
 /*
 ¿Puedo utilizar dos veces "elabPlatoRouter" con dos rutas distintas? Esto daría la posibilidad de, o acceder a todos los 
 ingredientes de un plato junto con sus cantidades, o ver todos los platos en los que se utiliza un ingrediente junto con la cantidad
@@ -52,6 +63,12 @@ Si no es posible, ¿Tendría que crear dos Router distintos? ¿Cada Router deber
 
 //EL PROFE RECOMIENDA TENER UN ÚNICO ROUTER CON LOS CONTROLLER NECESARIOS.
 //--------------------------------------------------------------------------
+/*app.use('/api/elaboracionesPlato', elaboracionPlatoRouter)
+
+app.use('/api/elaboracionesPlato', elaboracionPlatoRouter)
+
+
+*/
 
 app.use((req, res) => {
   return res.status(404).send({message: 'Recurso no encontrado'})
