@@ -1,10 +1,10 @@
 import { Plato } from "./plato.entity.js";
-import { PlatoRepository } from "./plato.repository.js";
-const repository = new PlatoRepository();
+import { orm } from "../shared/db/orm.js";
+const em = orm.em;
 function sanitizePlatoInput(req, res, next) {
     req.body.sanitizedInput = {
-        nro: req.body.nro,
-        platoClass: req.body.platoClass,
+        numPlato: req.body.numPlato,
+        tipoPlato: req.body.tipoPlato,
         descripcion: req.body.descripcion,
         tiempo: req.body.tiempo,
     };
@@ -15,39 +15,56 @@ function sanitizePlatoInput(req, res, next) {
     });
     next();
 }
-function findAll(req, res) {
-    res.json({ data: repository.findAll() });
-}
-function findOne(req, res) {
-    const id = req.params.nro;
-    const Plato = repository.findOne({ codigo: id });
-    if (!Plato) {
-        res.status(404).send({ message: 'Plato not found' });
+async function findAll(req, res) {
+    try {
+        const platos = await em.find(Plato, {}, { populate: ['tipoPlato'] });
+        res.status(200).json({ message: 'Todos los platos encontrados', data: platos });
     }
-    res.json({ data: Plato });
-}
-function add(req, res) {
-    const input = req.body.sanitizedInput;
-    const platoInput = new Plato(input.nro, input.platoClass, input.descripcion, input.tiempo);
-    const platos = repository.add(platoInput);
-    return res.status(201).send({ message: 'Plato created', data: platos });
-}
-function update(req, res) {
-    req.body.sanitizedInput.nro = req.params.nro;
-    const plato = repository.update(req.body.sanitizedInput);
-    if (!plato) {
-        return res.status(404).send({ message: 'Plato not found' });
+    catch (error) {
+        res.status(500).json({ message: error.message });
     }
-    return res.status(200).send({ message: 'Plato update successfully', data: plato });
 }
-function remove(req, res) {
-    const id = req.params.nro;
-    const plato = repository.delete({ codigo: id });
-    if (!plato) {
-        return res.status(404).send({ message: 'Plato not found' });
+async function findOne(req, res) {
+    try {
+        const numPlato = Number.parseInt(req.params.numPlato);
+        const plato = await em.findOneOrFail(Plato, { numPlato }, { populate: ['tipoPlato'] });
+        res.status(200).json({ message: 'Plato encontrado', data: plato });
     }
-    else {
-        res.status(200).send({ message: 'Plato deleted successfully' });
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+async function add(req, res) {
+    try {
+        const plato = em.create(Plato, req.body.sanitizedInput);
+        await em.flush();
+        res.status(201).json({ message: 'Plato creado', data: plato });
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+async function update(req, res) {
+    try {
+        const numPlato = Number.parseInt(req.params.numPlato);
+        const platoToUpdate = await em.findOneOrFail(Plato, { numPlato });
+        em.assign(platoToUpdate, req.body.sanitizedInput);
+        await em.flush();
+        res.status(200).json({ message: 'Plato borrado', data: platoToUpdate });
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+async function remove(req, res) {
+    try {
+        const numPlato = Number.parseInt(req.params.numPlato);
+        const plato = await em.findOneOrFail(Plato, { numPlato });
+        em.removeAndFlush(plato);
+        res.status(200).json({ message: 'El plato ha sido eliminado con éxito', data: plato });
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message });
     }
 }
 export { sanitizePlatoInput, findAll, findOne, add, update, remove };

@@ -1,55 +1,27 @@
-# OBTENER TODOS LOS PEDIDOS #
-GET http://localhost:3000/api/pedido
+GET http://localhost:3000/api/pedidos
 
-###
-
-# OBTENER UN PEDIDO #
-GET http://localhost:3000/api/pedido/d0c48218-7b5b-4796-8569-a6b24e638e9f
-
-###
-
-# NUEVO PEDIDO #
-POST http://localhost:3000/api/pedido 
+POST http://localhost:3000/api/pedido
 Content-Type: application/json
 
 {
-  "estado": "Libre",
-  "fecha": "2023-07-28",
-  "hora": "14:30",
-  "nroMesa": 4,
-  "cliente": {
-    "nombre": "jose",
-    "apellido": "pasto",
-    "mail": "josepas@gmail.com",
-    "telefono": 36346363,
-    "codigo": "d0c48218-7b5b-4796-8569-a6b24e638e9f"}
+    "estado": "en preparacion",
+    "fecha": {{$localDatetime rfc1123}},
+    "hora": {{$localDatetime rfc1123}},
+    "nroMesa": 6,
+    "nroPed": 12,
+    "cliente": Ramiro Benitez
 }
 
-###
 
-# MODIFICAR PEDIDO (PUT) #
-PUT http://localhost:3000/api/pedido/d0c48218-7b5b-4796-8569-a6b24e638e9f 
+###Modifica la descripción de un ingrediente ya ingresado utilizando su código
+
+PATCH http://localhost:3000/api/pedidos/14
 Content-Type: application/json
 
 {
-  "estado": "Ocupada",
-  "fecha": "2023-07-15",
-  "hora": "16:30",
-  "nroMesa": 3
+  "estado": "Listo"
 }
 
-###
+###Elimina un ingrediente existente utilizando su código
 
-# MODIFICAR PEDIDO (PATCH) #
-PATCH http://localhost:3000/api/pedido/d0c48218-7b5b-4796-8569-a6b24e638e9f 
-Content-Type: application/json
-
-{
-  "hora": "19:30",
-  "nroMesa": 6
-}
-
-###
-
-# BORRAR PEDIDO #
-DELETE http://localhost:3000/api/pedido/d0c48218-7b5b-4796-8569-a6b24e638e9f
+DELETE http://localhost:3000/api/ingredientes/12

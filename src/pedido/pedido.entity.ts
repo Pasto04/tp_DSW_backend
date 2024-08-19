@@ -1,13 +1,23 @@
-import crypto from 'node:crypto'
-import { Cliente } from '../cliente/cliente.entity.js'
+import { Entity, Property, ManyToOne, OneToMany, Cascade, Rel, Collection } from '@mikro-orm/core'
+import { BaseClass3 } from '../shared/db/baseEntity.entity.js'
+//import { Cliente } from '../cliente/cliente.entity.js'
 
-export class Pedido{
-  constructor(
-    public estado: string,
-    public fecha: Date,
-    public hora: Date,
-    public nroMesa: number,
-    public nroPed = crypto.randomUUID(),
-    public cliente: Cliente,
-  ){}
+@Entity()
+export class Pedido extends BaseClass3 {
+  
+  @Property()
+  nroMesa!: number
+
+  @Property()
+  estado!: string 
+
+  @Property()
+  fecha!: Date
+
+  @Property()
+  hora!: Date
+
+ /* @ManyToOne(() => Cliente)
+  cliente!: Cliente;*/
+
 }
