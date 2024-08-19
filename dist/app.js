@@ -7,8 +7,11 @@ import { ingredienteRouter } from './ingrediente/ingrediente.routes.js';
 import { tipoPlatoRouter } from './plato/tipoPlato.routes.js';
 import { platoRouter } from './plato/plato.routes.js';
 import { clienteRouter } from './cliente/cliente.routes.js';
+import { pedidoRouter } from './pedido/pedido.routes.js';
+import { platoPedRouter } from './platoPedido/platoPedido.routes.js';
+import { platoPlatoRouter } from './platoPedido/platoPlato.routes.js';
 /*import { elaboracionPlatoRouter } from './elaboracionPlato/elaboracionPlato.routes.js'
-import { pedidoRouter } from './pedido/pedido.routes.js'*/
+*/
 const port = 3000;
 const app = express();
 app.use(express.json());
@@ -22,12 +25,15 @@ app.use('/api/ingredientes', ingredienteRouter);
 app.use('/api/platos/tipos', tipoPlatoRouter);
 app.use('/api/platos', platoRouter);
 app.use('/api/clientes', clienteRouter);
+app.use('/api/platoPedidos', platoPedRouter);
+app.use('/api/platoPlatos', platoPlatoRouter);
+app.use('/api/pedidos', pedidoRouter);
 /*app.use('/api/elaboracionesPlato', elaboracionPlatoRouter)
 
 app.use('/api/elaboracionesPlato', elaboracionPlatoRouter)
 
 
-app.use('/api/pedidos',pedidoRouter)*/
+*/
 app.use((req, res) => {
     return res.status(404).send({ message: 'Recurso no encontrado' });
 });

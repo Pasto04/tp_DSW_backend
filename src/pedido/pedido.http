@@ -1,0 +1,27 @@
+GET http://localhost:3000/api/pedidos
+
+POST http://localhost:3000/api/pedido
+Content-Type: application/json
+
+{
+    "estado": "en preparacion",
+    "fecha": {{$localDatetime rfc1123}},
+    "hora": {{$localDatetime rfc1123}},
+    "nroMesa": 6,
+    "nroPed": 12,
+    "cliente": Ramiro Benitez
+}
+
+
+###Modifica la descripción de un ingrediente ya ingresado utilizando su código
+
+PATCH http://localhost:3000/api/pedidos/14
+Content-Type: application/json
+
+{
+  "estado": "Listo"
+}
+
+###Elimina un ingrediente existente utilizando su código
+
+DELETE http://localhost:3000/api/ingredientes/12

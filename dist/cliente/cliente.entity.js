@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Entity, Property } from "@mikro-orm/core";
 import { BaseClass2 } from '../shared/db/baseEntity.entity.js';
+//import { Pedido } from "./pedido.entity.js";
 export let Cliente = class Cliente extends BaseClass2 {
 };
 __decorate([

@@ -3,7 +3,8 @@ import { BaseClass3 } from '../shared/db/baseEntity.entity.js'
 //import { Cliente } from '../cliente/cliente.entity.js'
 
 @Entity()
-export class Ingrediente extends BaseClass3 {
+export class Pedido extends BaseClass3 {
+  
   @Property()
   nroMesa!: number
 
@@ -18,4 +19,5 @@ export class Ingrediente extends BaseClass3 {
 
  /* @ManyToOne(() => Cliente)
   cliente!: Cliente;*/
+
 }
