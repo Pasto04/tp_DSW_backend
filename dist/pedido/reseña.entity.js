@@ -7,32 +7,27 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Entity, Property, OneToOne, Collection, Cascade } from "@mikro-orm/core";
-import { BaseClass3 } from '../shared/db/baseEntity.entity.js';
-import {Pedido} from "../pedido/pedido.entity.js";
+import { Entity, Property, OneToOne, Cascade } from "@mikro-orm/core";
+import { Pedido } from "./pedido.entity.js";
 export let Reseña = class Reseña {
 };
 __decorate([
-    Property({ nullable: false}),
+    Property({ nullable: false }),
     __metadata("design:type", Date)
-], Reseña.prototype, "fechaReseña", void 0);
-
+], Reseña.prototype, "fechaRese\u00F1a", void 0);
 __decorate([
-    Property({ nullable: false}),
+    Property({ nullable: false }),
     __metadata("design:type", String)
 ], Reseña.prototype, "cuerpo", void 0);
-
 __decorate([
-    Property({ nullable: false}),
+    Property({ nullable: false }),
     __metadata("design:type", Number)
 ], Reseña.prototype, "puntaje", void 0);
-
 __decorate([
     OneToOne(() => Pedido, (pedido) => pedido.reseña, { cascade: [Cascade.ALL] }),
-    __metadata("design:type", Object)
+    __metadata("design:type", Pedido)
 ], Reseña.prototype, "pedido", void 0);
-
 Reseña = __decorate([
     Entity()
 ], Reseña);
-//# sourceMappingURL=reseña.entity.js.map
+//# sourceMappingURL=rese%C3%B1a.entity.js.map

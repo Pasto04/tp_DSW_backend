@@ -16,17 +16,14 @@ __decorate([
     Property({ nullable: false }),
     __metadata("design:type", String)
 ], Plato.prototype, "descripcion", void 0);
-
 __decorate([
     Property({ nullable: false }),
     __metadata("design:type", Number)
 ], Plato.prototype, "tiempo", void 0);
-
 __decorate([
     ManyToOne(() => TipoPlato, { nullable: false }),
     __metadata("design:type", Object)
 ], Plato.prototype, "tipoPlato", void 0);
-
 Plato = __decorate([
     Entity()
 ], Plato);
