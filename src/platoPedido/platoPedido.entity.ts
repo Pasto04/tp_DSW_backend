@@ -15,5 +15,14 @@ export class PlatoPedido {
   @Property()
   cantidad!: number
 
+  @Property()
+  fechaSolicitud!: Date
+
+  @Property()
+  horaSolicitud!: Date
+
+  @Property()
+  entregado!: boolean
+
   [PrimaryKeyType]?: [number, number]
 } 

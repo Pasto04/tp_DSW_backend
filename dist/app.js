@@ -10,6 +10,7 @@ import { clienteRouter } from './cliente/cliente.routes.js';
 import { pedidoRouter } from './pedido/pedido.routes.js';
 import { platoPedRouter } from './platoPedido/platoPedido.routes.js';
 import { platoPlatoRouter } from './platoPedido/platoPlato.routes.js';
+import { reseñaRouter } from './pedido/reseña.routes.js';
 /*import { elaboracionPlatoRouter } from './elaboracionPlato/elaboracionPlato.routes.js'
 */
 const port = 3000;
@@ -28,6 +29,7 @@ app.use('/api/clientes', clienteRouter);
 app.use('/api/platoPedidos', platoPedRouter);
 app.use('/api/platoPlatos', platoPlatoRouter);
 app.use('/api/pedidos', pedidoRouter);
+app.use('/api/pedidos/reseña', reseñaRouter);
 /*app.use('/api/elaboracionesPlato', elaboracionPlatoRouter)
 
 app.use('/api/elaboracionesPlato', elaboracionPlatoRouter)

@@ -1,0 +1,47 @@
+### Solicita el total reseñas
+GET http://localhost:3000/api/pedidos/reseña
+
+### Solicita una unica reseña según su nro de pedido
+
+GET http://localhost:3000/api/pedidos/reseña/1
+
+### Ingresa una nueva reseña
+
+POST http://localhost:3000/api/pedidos/reseña
+Content-Type: application/json
+
+{
+  "cuerpo": "Muy rico",
+  "puntaje": 8,
+}
+
+###
+
+POST http://localhost:3000/api/pedidos/reseña
+Content-Type: application/json
+
+{
+  "cuerpo": "Horrible",
+  "puntaje": 2,
+}
+
+###
+POST http://localhost:3000/api/pedidos/reseña
+Content-Type: application/json
+
+{
+  "cuerpo": "Aceptable",
+  "puntaje": 6,
+}
+
+### Modifica los atributos de una reseña
+
+PUT http://localhost:3000/api/pedidos/reseña/2
+Content-Type: application/json
+
+{
+  "cuerpo": "Nefasto",
+}
+
+### Borra una reseña
+DELETE http://localhost:3000/api/pedidos/reseña/5
