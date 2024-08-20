@@ -16,14 +16,32 @@ __decorate([
     ManyToOne(() => Pedido, { primary: true }),
     __metadata("design:type", Object)
 ], PlatoPedido.prototype, "pedido", void 0);
+
 __decorate([
     ManyToOne(() => Plato, { primary: true }),
     __metadata("design:type", Object)
 ], PlatoPedido.prototype, "plato", void 0);
+
 __decorate([
     Property(),
-    __metadata("design:type", Number)
+    __metadata("design:type", number)
 ], PlatoPedido.prototype, "cantidad", void 0);
+
+__decorate([
+    Property(),
+    __metadata("design:type", Date)
+], PlatoPedido.prototype, "fechaSolicitud", void 0);
+
+__decorate([
+    Property(),
+    __metadata("design:type", Date)
+], PlatoPedido.prototype, "horaSolicitud", void 0);
+
+__decorate([
+    Property(),
+    __metadata("design:type", boolean)
+], PlatoPedido.prototype, "entregado", void 0);
+
 PlatoPedido = __decorate([
     Entity()
 ], PlatoPedido);

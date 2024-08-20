@@ -42,7 +42,7 @@ async function update(req:Request, res:Response) {
     const numPlato = Number.parseInt(req.params.numPlato)
     const tipoPlato = await em.findOneOrFail(TipoPlato, {numPlato}) 
     em.assign(tipoPlato, req.body)
-    em.flush()
+    await em.flush()
     res.status(200).json({message: 'El tipo de plato fue actualizado con éxito', data: tipoPlato})
   } catch(error: any){
     res.status(500).json({message: error.message})
