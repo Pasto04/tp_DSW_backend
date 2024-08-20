@@ -34,7 +34,7 @@ PATCH http://localhost:3000/api/platos/3/ingredientes/13
 Content-Type: application/json
 
 {
-  "cantidadNecesaria": 1000
+  "cantidadNecesaria": 1050
 }
 
 ### IDEM
