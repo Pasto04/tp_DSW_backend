@@ -13,6 +13,7 @@ import { elabIngreRouter } from './elaboracionPlato/elaboracionIngrediente.route
 import { pedidoRouter } from './pedido/pedido.routes.js'
 import { platoPedRouter } from './platoPedido/platoPedido.routes.js'
 import { platoPlatoRouter } from './platoPedido/platoPlato.routes.js'
+import { reseñaRouter } from './pedido/reseña.routes.js'
 /*import { elaboracionPlatoRouter } from './elaboracionPlato/elaboracionPlato.routes.js'
 */
 
@@ -50,6 +51,10 @@ app.use('/api/platoPedidos', platoPedRouter)
 app.use('/api/platoPlatos', platoPlatoRouter)
 
 app.use('/api/pedidos',pedidoRouter)
+
+app.use('/api/pedidos/reseña', reseñaRouter)
+
+app.use('/api/pedidos/reseña', reseñaRouter)
 
 /*
 ¿Puedo utilizar dos veces "elabPlatoRouter" con dos rutas distintas? Esto daría la posibilidad de, o acceder a todos los 
