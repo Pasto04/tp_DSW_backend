@@ -10,7 +10,7 @@ import { clienteRouter } from './cliente/cliente.routes.js'
 import { pedidoRouter } from './pedido/pedido.routes.js'
 import { platoPedRouter } from './platoPedido/platoPedido.routes.js'
 import { platoPlatoRouter } from './platoPedido/platoPlato.routes.js'
-import { pedidoReseñaRouter, reseñaRouter } from './pedido/reseña.routes.js'
+import { pedidoResenaRouter, resenaRouter } from './pedido/reseña.routes.js'
 import { elabIngreRouter } from './elaboracionPlato/elaboracionIngrediente.routes.js'
 import { elabPlatoRouter } from './elaboracionPlato/elaboracionPlato.routes.js'
 import { pedidoClienteRouter } from './pedido/pedidoCliente.routes.js'
@@ -47,11 +47,11 @@ app.use('/api/platoPedidos', platoPedRouter)
 
 app.use('/api/platoPlatos', platoPlatoRouter)
 
-app.use('/api/pedidos', pedidoReseñaRouter)
+app.use('/api/pedidos', pedidoResenaRouter)
 
 app.use('/api/pedidos', pedidoRouter)
 
-app.use('/api/reseñas', reseñaRouter)
+app.use('/api/resenas', resenaRouter)
 
 /*app.use('/api/elaboracionesPlato', elaboracionPlatoRouter)
 

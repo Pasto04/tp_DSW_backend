@@ -9,25 +9,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Entity, Property, OneToOne, PrimaryKeyType } from "@mikro-orm/core";
 import { Pedido } from "./pedido.entity.js";
-export let Reseña = class Reseña {
+export let Resena = class Resena {
 };
 __decorate([
     OneToOne(() => Pedido, { primary: true }),
     __metadata("design:type", Object)
-], Reseña.prototype, "pedido", void 0);
+], Resena.prototype, "pedido", void 0);
 __decorate([
     Property({ primary: true }),
     __metadata("design:type", Date)
-], Reseña.prototype, "fechaRese\u00F1a", void 0);
+], Resena.prototype, "fechaResena", void 0);
 __decorate([
     Property({ nullable: false }),
     __metadata("design:type", String)
-], Reseña.prototype, "cuerpo", void 0);
+], Resena.prototype, "cuerpo", void 0);
 __decorate([
     Property({ nullable: false }),
     __metadata("design:type", Number)
-], Reseña.prototype, "puntaje", void 0);
-Reseña = __decorate([
+], Resena.prototype, "puntaje", void 0);
+Resena = __decorate([
     Entity()
-], Reseña);
+], Resena);
 //# sourceMappingURL=rese%C3%B1a.entity.js.map

@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Entity, Property, ManyToOne, OneToOne } from '@mikro-orm/core';
 import { BaseClass3 } from '../shared/db/baseEntity.entity.js';
-import { Reseña } from './reseña.entity.js';
+import { Resena } from './reseña.entity.js';
 import { Cliente } from '../cliente/cliente.entity.js';
 //import { Cliente } from '../cliente/cliente.entity.js'
 export let Pedido = class Pedido extends BaseClass3 {
@@ -35,9 +35,9 @@ __decorate([
     __metadata("design:type", Date)
 ], Pedido.prototype, "horaCancelacion", void 0);
 __decorate([
-    OneToOne(() => Reseña, (reseña) => reseña.pedido, { nullable: true, owner: true }),
+    OneToOne(() => Resena, (resena) => resena.pedido, { nullable: true, owner: true }),
     __metadata("design:type", Object)
-], Pedido.prototype, "rese\u00F1a", void 0);
+], Pedido.prototype, "resena", void 0);
 __decorate([
     ManyToOne(() => Cliente, { nullable: false }),
     __metadata("design:type", Object)
