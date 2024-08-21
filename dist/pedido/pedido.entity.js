@@ -64,7 +64,7 @@ __decorate(
     OneToOne(
       () => Reseña,
       (reseña) => reseña.pedido,
-      { nullable: true }
+      { nullable: true, owner: true }
     ),
     __metadata('design:type', Object),
   ],

@@ -22,16 +22,13 @@ export class Pedido extends BaseClass3 {
   @Property({nullable:true})
   horaCancelacion?: Date
 
-  @OneToOne(()=> Reseña, {nullable:true})
+  @OneToOne(()=> Reseña, (reseña) => reseña.pedido, {nullable: true, owner: true})
   reseña?: Rel<Reseña>
 
   @ManyToOne(() => Cliente, {nullable: false})
-  cliente?: Rel<Cliente>
+  cliente!: Rel<Cliente>
 
   /*@ManyToOne(() => Mesa, {nullable: false})
-  mesa?: Rel<Mesa>*/
-
- /* @ManyToOne(() => Cliente)
-  cliente!: Cliente;*/
+  mesa!: Rel<Mesa>*/
 
 }

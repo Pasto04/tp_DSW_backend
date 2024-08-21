@@ -36,10 +36,10 @@ POST http://localhost:3000/api/clientes
 Content-Type: application/json
 
 {
-  "nombre": "Gon",
-  "apellido": "Freecss",
-  "mail": "gonfreecss@gmail.com",
-  "telefono": "8109291827361"
+  "nombre": "Tsuna",
+  "apellido": "Sawada",
+  "mail": "tsawada@gmail.com",
+  "telefono": "810356281736"
 }
 
 ###Modifica el mail de un cliente ya ingresado utilizando su código
