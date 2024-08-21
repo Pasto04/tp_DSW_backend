@@ -1,21 +1,21 @@
 import { Request, Response, NextFunction } from 'express'
-import { Reseña } from './reseña.entity.js'
+import { Resena } from './reseña.entity.js'
 import { Pedido } from './pedido.entity.js'
 import { orm } from '../shared/db/orm.js'
 
 const em = orm.em
 
-function sanitizeReseña(req: Request, res: Response, next: NextFunction) {
-  req.body.sanitizedReseña = {
+function sanitizeResena(req: Request, res: Response, next: NextFunction) {
+  req.body.sanitizedResena = {
     pedido: req.params.nroPed,
-    fechaReseña: req.body.fechaReseña,
+    fechaResena: req.body.fechaResena,
     cuerpo: req.body.cuerpo,
     puntaje: req.body.puntaje
   }
 
-  Object.keys(req.body.sanitizedReseña).forEach((keys) => {
-    if (req.body.sanitizedReseña[keys] === undefined) {
-      delete req.body.sanitizedReseña[keys]
+  Object.keys(req.body.sanitizedResena).forEach((keys) => {
+    if (req.body.sanitizedResena[keys] === undefined) {
+      delete req.body.sanitizedResena[keys]
     }
   })
   next()
@@ -23,8 +23,8 @@ function sanitizeReseña(req: Request, res: Response, next: NextFunction) {
 
 async function findAll(req:Request, res:Response) {
   try{
-    const reseñas = await em.find(Reseña, {}, {populate: ['pedido']})
-    res.status(200).json({message: `Todas las reseñas fueron encontradas`, data: reseñas})
+    const resenas = await em.find(Resena, {}, {populate: ['pedido']})
+    res.status(200).json({message: `Todas las reseñas fueron encontradas`, data: resenas})
   } catch(error: any) {
     res.status(500).json({message: error.message})
   }
@@ -35,8 +35,8 @@ async function findOne(req:Request, res:Response) {
   try{
     const nroPed = Number.parseInt(req.params.nroPed)
     const pedido = await em.findOneOrFail(Pedido, { nroPed: nroPed }, {populate: ['cliente']});
-    const reseña = await em.findOneOrFail(Reseña, { pedido: pedido }, {populate: ['pedido']});
-    res.status(200).json({message: `La reseña del pedido ${nroPed} fue encontrado con éxito`, data: reseña})
+    const resena = await em.findOneOrFail(Resena, { pedido: pedido }, {populate: ['pedido']});
+    res.status(200).json({message: `La reseña del pedido ${nroPed} fue encontrado con éxito`, data: resena})
   } catch(error: any) {
     res.status(500).json({message: error.message})
   }
@@ -45,9 +45,9 @@ async function findOne(req:Request, res:Response) {
 
 async function add(req:Request, res:Response) {
   try{
-    const reseña = em.create(Reseña, req.body.sanitizedReseña)
+    const resena = em.create(Resena, req.body.sanitizedResena)
     await em.flush(),
-    res.status(201).json({data: reseña})
+    res.status(201).json({data: resena})
   } catch(error: any){
     res.status(500).json({message: error.message})
   }
@@ -57,10 +57,10 @@ async function update(req:Request, res:Response) {
   try{
     const nroPed = Number.parseInt(req.params.nroPed)
     const pedido = await em.findOneOrFail(Pedido, { nroPed: nroPed });
-    const reseña = await em.findOneOrFail(Reseña, { pedido: pedido });
-    em.assign(reseña, req.body.sanitizedReseña)
+    const resena = await em.findOneOrFail(Resena, { pedido: pedido });
+    em.assign(resena, req.body.sanitizedResena)
     await em.flush()
-    res.status(200).json({message: `La reseña del pedido ${nroPed} fue actualizada con éxito`, data: reseña})
+    res.status(200).json({message: `La reseña del pedido ${nroPed} fue actualizada con éxito`, data: resena})
   } catch(error: any){
     res.status(500).json({message: error.message})
   }
@@ -70,12 +70,12 @@ async function remove (req: Request, res: Response,) {
   try {
     const nroPed = Number.parseInt(req.params.nroPed)
     const pedido = await em.findOneOrFail(Pedido, { nroPed: nroPed });
-    const deletedReseña = await em.findOneOrFail(Reseña, { pedido: pedido }) 
-    await em.removeAndFlush(deletedReseña)
-    res.status(200).json({message: `La reseña del pedido ${nroPed} ha sido eliminada con éxito`, data: deletedReseña})
+    const deletedResena = await em.findOneOrFail(Resena, { pedido: pedido }) 
+    await em.removeAndFlush(deletedResena)
+    res.status(200).json({message: `La reseña del pedido ${nroPed} ha sido eliminada con éxito`, data: deletedResena})
   } catch(error: any){
     res.status(500).json({message: error.message})
   }
 }
 
-export {findAll, findOne, add, update, remove }
+export {sanitizeResena, findAll, findOne, add, update, remove }

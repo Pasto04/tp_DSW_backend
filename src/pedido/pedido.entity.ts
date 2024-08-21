@@ -1,6 +1,6 @@
 import { Entity, Property, ManyToOne, OneToMany, Cascade, Rel, Collection, OneToOne } from '@mikro-orm/core'
 import { BaseClass3 } from '../shared/db/baseEntity.entity.js'
-import { Reseña } from './reseña.entity.js'
+import { Resena } from './reseña.entity.js'
 import { Cliente } from '../cliente/cliente.entity.js'
 //import { Cliente } from '../cliente/cliente.entity.js'
 
@@ -22,8 +22,8 @@ export class Pedido extends BaseClass3 {
   @Property({nullable:true})
   horaCancelacion?: Date
 
-  @OneToOne(()=> Reseña, (reseña) => reseña.pedido, {nullable: true, owner: true})
-  reseña?: Rel<Reseña>
+  @OneToOne(()=> Resena, (resena) => resena.pedido, {nullable: true, owner: true})
+  resena?: Rel<Resena>
 
   @ManyToOne(() => Cliente, {nullable: false})
   cliente!: Rel<Cliente>

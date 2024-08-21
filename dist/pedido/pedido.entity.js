@@ -25,9 +25,10 @@ var __metadata =
   };
 import { Entity, Property, ManyToOne, OneToOne } from '@mikro-orm/core';
 import { BaseClass3 } from '../shared/db/baseEntity.entity.js';
-import { Reseña } from './reseña.entity.js';
+import { Resena } from './reseña.entity.js';
 import { Cliente } from '../cliente/cliente.entity.js';
 //import { Cliente } from '../cliente/cliente.entity.js'
+<<<<<<< HEAD
 export let Pedido = class Pedido extends BaseClass3 {};
 __decorate(
   [Property(), __metadata('design:type', String)],
@@ -74,6 +75,35 @@ __decorate(
 );
 __decorate(
   [
+=======
+export let Pedido = class Pedido extends BaseClass3 {
+};
+__decorate([
+    Property(),
+    __metadata("design:type", String)
+], Pedido.prototype, "estado", void 0);
+__decorate([
+    Property(),
+    __metadata("design:type", Date)
+], Pedido.prototype, "fecha", void 0);
+__decorate([
+    Property(),
+    __metadata("design:type", Date)
+], Pedido.prototype, "hora", void 0);
+__decorate([
+    Property({ nullable: true }),
+    __metadata("design:type", Date)
+], Pedido.prototype, "fechaCancelacion", void 0);
+__decorate([
+    Property({ nullable: true }),
+    __metadata("design:type", Date)
+], Pedido.prototype, "horaCancelacion", void 0);
+__decorate([
+    OneToOne(() => Resena, (resena) => resena.pedido, { nullable: true, owner: true }),
+    __metadata("design:type", Object)
+], Pedido.prototype, "resena", void 0);
+__decorate([
+>>>>>>> eb81097 (Cambio "reseña" por "resena". CRUD Reseña FUNCIONA)
     ManyToOne(() => Cliente, { nullable: false }),
     __metadata('design:type', Object),
   ],
