@@ -47,15 +47,19 @@ __decorate(
   void 0
 );
 __decorate(
-  [
-    Property(),
-    __metadata(
-      'design:type',
-      Date
-      /* @ManyToOne(() => Cliente)
-     cliente!: Cliente;*/
-    ),
-  ],
+  [Property(), __metadata('design:type', String)],
+  Pedido.prototype,
+  'estado',
+  void 0
+);
+__decorate(
+  [Property(), __metadata('design:type', Date)],
+  Pedido.prototype,
+  'fecha',
+  void 0
+);
+__decorate(
+  [Property(), __metadata('design:type', Date)],
   Pedido.prototype,
   'hora',
   void 0
@@ -74,7 +78,11 @@ __decorate(
 );
 __decorate(
   [
-    OneToOne(() => Reseña, { nullable: true }),
+    OneToOne(
+      () => Reseña,
+      (reseña) => reseña.pedido,
+      { nullable: true }
+    ),
     __metadata('design:type', Object),
   ],
   Pedido.prototype,
