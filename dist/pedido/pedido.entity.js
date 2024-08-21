@@ -23,29 +23,12 @@ var __metadata =
     if (typeof Reflect === 'object' && typeof Reflect.metadata === 'function')
       return Reflect.metadata(k, v);
   };
-import { Entity, Property, OneToOne } from '@mikro-orm/core';
+import { Entity, Property, ManyToOne, OneToOne } from '@mikro-orm/core';
 import { BaseClass3 } from '../shared/db/baseEntity.entity.js';
 import { Reseña } from './reseña.entity.js';
+import { Cliente } from '../cliente/cliente.entity.js';
 //import { Cliente } from '../cliente/cliente.entity.js'
 export let Pedido = class Pedido extends BaseClass3 {};
-__decorate(
-  [Property(), __metadata('design:type', Number)],
-  Pedido.prototype,
-  'nroMesa',
-  void 0
-);
-__decorate(
-  [Property(), __metadata('design:type', String)],
-  Pedido.prototype,
-  'estado',
-  void 0
-);
-__decorate(
-  [Property(), __metadata('design:type', Date)],
-  Pedido.prototype,
-  'fecha',
-  void 0
-);
 __decorate(
   [Property(), __metadata('design:type', String)],
   Pedido.prototype,
@@ -87,6 +70,15 @@ __decorate(
   ],
   Pedido.prototype,
   'rese\u00F1a',
+  void 0
+);
+__decorate(
+  [
+    ManyToOne(() => Cliente, { nullable: false }),
+    __metadata('design:type', Object),
+  ],
+  Pedido.prototype,
+  'cliente',
   void 0
 );
 Pedido = __decorate([Entity()], Pedido);

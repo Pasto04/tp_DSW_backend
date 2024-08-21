@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { findAll, sanitizePlatoPedido, add, findOne, remove, update } from "./platoPedido.controler.js"
+import { findAll, sanitizePlatoPedido, add, findOne, remove, update } from "./platoPedido.controller.js"
 
 export const platoPlatoRouter = Router()
 
