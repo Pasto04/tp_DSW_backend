@@ -24,8 +24,6 @@ async function sanitizeElaboracionPlato(req: Request, res:Response, next: NextFu
   next()
 }
 
-//CONSULTAR SI ES CORRECTO EL DESARROLLO DE LOS MÉTODOS DE ESTA MANERA
-
 async function findAll(req: Request, res: Response) {
   try {
     const numPlato = Number.parseInt(req.params.nro)

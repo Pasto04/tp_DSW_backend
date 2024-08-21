@@ -10,7 +10,11 @@ async function sanitizePedidoInput(req:Request, res:Response, next:NextFunction)
     estado: req.body.estado,
     hora: req.body.hora,
     fecha: req.body.fecha,
-    nroMesa: req.body.nroMesa,
+    fechaCancelacion: req.body.fechaCancelacion,
+    horaCancelacion: req.body.horaCancelacion,
+    reseña: req.body.reseña,
+    cliente: req.body.cliente,
+    nroMesa: req.body.nroMesa
   }
 
   Object.keys(req.body.sanitizedInput).forEach(key => {
@@ -23,8 +27,8 @@ async function sanitizePedidoInput(req:Request, res:Response, next:NextFunction)
 
 async function findAll(req:Request,res:Response) {
   try{
-    const pedidos = await em.find(Pedido, {},)
-    res.status (200).json({message: 'Todos los pedido encontrados', data: pedidos})
+    const pedidos = await em.find(Pedido, {}, {populate: ['cliente']})
+    res.status (200).json({message: 'Todos los pedidos encontrados', data: pedidos})
   } catch (error:any){
     res.status(500).json({message:error.message})
   }
@@ -44,7 +48,7 @@ async function add(req:Request,res:Response) {
   try{
     const pedido = em.create(Pedido, req.body.sanitizedInput)
     await em.flush()
-    res.status(201).json({message: 'Cliente creado', data:pedido})
+    res.status(201).json({message: 'Pedido creado', data:pedido})
   } catch (error:any){
     res.status(500).json({message:error.message})
   }

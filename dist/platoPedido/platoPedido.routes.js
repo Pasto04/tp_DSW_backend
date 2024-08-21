@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { sanitizePlatoPedido, findAll, remove, update, add } from './platoPedido.controler.js';
-import { findOne } from './platoPedido.controler.js';
+import { sanitizePlatoPedido, findAll, remove, update, add } from './platoPedido.controller.js';
+import { findOne } from './platoPedido.controller.js';
 export const platoPlatoRouter = Router();
 export const platoPedRouter = Router();
 //Trabajo asumiendo que puedo utilizar el mismo router en app.ts con 2 URLs distintnas

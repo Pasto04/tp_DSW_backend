@@ -18,7 +18,6 @@ async function sanitizeElaboracionPlato(req, res, next) {
     });
     next();
 }
-//CONSULTAR SI ES CORRECTO EL DESARROLLO DE LOS MÉTODOS DE ESTA MANERA
 async function findAll(req, res) {
     try {
         const numPlato = Number.parseInt(req.params.nro);

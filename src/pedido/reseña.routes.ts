@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { findAll,findOne,add,update,remove } from './reseña.controler.js'
+import { findAll,findOne,add,update,remove } from './reseña.controller.js'
 
 export const reseñaRouter = Router()
 
