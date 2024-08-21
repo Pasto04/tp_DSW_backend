@@ -15,7 +15,7 @@ Content-Type: application/json
   "nombre": "Jorge",
   "apellido": "Kralje",
   "mail": "Jorege@gmail.com",
-  "telefono": 132154154,
+  "telefono": "132154154"
 }
 
 ###
@@ -27,7 +27,19 @@ Content-Type: application/json
   "nombre": "Levi",
   "apellido": "Ackerman",
   "mail": "Levi@gmail.com",
-  "telefono": 132154154,
+  "telefono": "132154154"
+}
+
+###
+
+POST http://localhost:3000/api/clientes
+Content-Type: application/json
+
+{
+  "nombre": "Tsuna",
+  "apellido": "Sawada",
+  "mail": "tsawada@gmail.com",
+  "telefono": "810356281736"
 }
 
 ###Modifica el mail de un cliente ya ingresado utilizando su código

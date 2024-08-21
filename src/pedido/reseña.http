@@ -1,0 +1,50 @@
+### Solicita el total reseñas
+GET http://localhost:3000/api/resenas
+
+### Solicita una unica reseña según su nro de pedido
+
+GET http://localhost:3000/api/pedidos/3/resena
+
+### Ingresa una nueva reseña para un pedido
+
+POST http://localhost:3000/api/pedidos/3/resena
+Content-Type: application/json
+
+{
+  "fechaResena": "{{$localDatetime rfc1123}}",
+  "cuerpo": "Muy rico",
+  "puntaje": 8
+}
+
+###
+
+POST http://localhost:3000/api/pedidos/1/resena
+Content-Type: application/json
+
+{
+  "fechaResena": "{{$localDatetime rfc1123}}",
+  "cuerpo": "Horrible",
+  "puntaje": 2
+}
+
+###
+POST http://localhost:3000/api/pedidos/2/resena
+Content-Type: application/json
+
+{
+  "fechaResena": "{{$localDatetime rfc1123}}",
+  "cuerpo": "Aceptable",
+  "puntaje": 6
+}
+
+### Modifica los atributos de una reseña
+
+PATCH http://localhost:3000/api/pedidos/1/resena
+Content-Type: application/json
+
+{
+  "cuerpo": "Nefasto"
+}
+
+### Borra una reseña
+DELETE http://localhost:3000/api/pedidos/1/resena

@@ -1,0 +1,53 @@
+### Obtener todos los platos asociados a un ingrediente y sus cantidades
+
+GET http://localhost:3000/api/pedidos/17/platos
+
+### Obtener la cantidad para un ingrediente y un plato
+
+GET http://localhost:3000/api/pedidos/17/platos/3
+
+### Establecer una cantidad para un ingrediente dado un plato
+
+POST http://localhost:3000/api/pedidos/11/platos
+Content-Type: application/json
+
+{
+  "plato": 4,
+  "cantidad": 250
+}
+
+### IDEM
+
+POST http://localhost:3000/api/pedidos/17/platos
+Content-Type: application/json
+
+{
+  "plato": 3,
+  "cantidad": 100
+}
+
+### Modificar la cantidad de un ingrediente dado un plato
+
+PATCH http://localhost:3000/api/pedidos/14/platos/4
+Content-Type: application/json
+
+{
+  "cantidad": 13
+}
+
+### IDEM
+
+PATCH http://localhost:3000/api/pedidos/17/platos/3
+Content-Type: application/json
+
+{
+  "cantidad": 54
+}
+
+### Eliminar la cantidad asociada a un ingrediente y un plato
+
+DELETE http://localhost:3000/api/pedidos/14/platos/4
+
+### IDEM
+
+DELETE http://localhost:3000/api/pedidos/17/platos/3
