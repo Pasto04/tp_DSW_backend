@@ -35,7 +35,7 @@ __decorate([
     __metadata("design:type", Date)
 ], Pedido.prototype, "horaCancelacion", void 0);
 __decorate([
-    OneToOne(() => Reseña, (reseña) => reseña.pedido, { nullable: true }),
+    OneToOne(() => Reseña, (reseña) => reseña.pedido, { nullable: true, owner: true }),
     __metadata("design:type", Object)
 ], Pedido.prototype, "rese\u00F1a", void 0);
 __decorate([

@@ -11,7 +11,7 @@ POST http://localhost:3000/api/platos/tipos
 Content-Type: application/json
 
 {
-  "descTPlato": "Pasta",
+  "descTPlato": "Entrada"
 }
 
 ###
@@ -20,7 +20,7 @@ POST http://localhost:3000/api/platos/tipos
 Content-Type: application/json
 
 {
-  "descTPlato": "Carne",
+  "descTPlato": "Plato Principal"
 }
 
 ###
@@ -28,16 +28,16 @@ POST http://localhost:3000/api/platos/tipos
 Content-Type: application/json
 
 {
-  "descTPlato": "Carne roja",
+  "descTPlato": "Postre"
 }
 
 ### Modifica los atributos de un tipo de plato
 
-PUT http://localhost:3000/api/platos/tipos/5
+PUT http://localhost:3000/api/platos/tipos/8
 Content-Type: application/json
 
 {
-  "descTPlato": "Carne Blanca",
+  "descTPlato": "Bebida"
 }
 
 ### Borra un tipo de plato

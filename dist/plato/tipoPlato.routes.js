@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { findAll, findOne, add, update, remove } from './tipoPlato.controler.js';
+import { findAll, findOne, add, update, remove } from './tipoPlato.controller.js';
 export const tipoPlatoRouter = Router();
 tipoPlatoRouter.get('/', findAll);
 tipoPlatoRouter.get('/:numPlato', findOne);
