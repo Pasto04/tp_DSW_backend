@@ -1,5 +1,4 @@
 import { Entity, Property, ManyToOne, OneToMany, Cascade, Rel, Collection } from '@mikro-orm/core'
-import { TipoIngrediente } from './tipoIngrediente.entity.js'
 import { BaseClass } from '../shared/db/baseEntity.entity.js'
 import { ElaboracionPlato } from '../elaboracionPlato/elaboracionPlato.entity.js'
 
@@ -10,14 +9,28 @@ export class Ingrediente extends BaseClass {
   descIngre!: string
 
   @Property()
-  stockIngre!: number
-
-  @Property()
   puntoDePedido!: number
 
-  @ManyToOne(() => TipoIngrediente, {nullable: false})
-  tipoIngrediente!: Rel<TipoIngrediente>
+  @Property()
+  unidadMedida!: string
+
+  @Property()
+  fechaVencimiento!: Date
+
+  @Property()
+  aptoCeliacos!: boolean
+
+  @Property()
+  aptoVegetarianos!: boolean
+
+  @Property()
+  aptoVeganos!: boolean
 
   @OneToMany(() => ElaboracionPlato, (elaboracionPlato) => elaboracionPlato.ingrediente, {cascade: [Cascade.ALL]})
   elaboracionesPlato = new Collection<ElaboracionPlato>(this)
+
+  /*
+  @OneToMany(() => IngredienteDeProveedor, (ingredienteDeProveedor) => ingredienteDeProveedor.ingrediente)
+  ingredienteDeProveedor = new Collection<IngredienteDeProveedor>(this)
+  */
 }

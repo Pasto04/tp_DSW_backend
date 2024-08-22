@@ -14,6 +14,10 @@ Content-Type: application/json
 {
   "descripcion": "Ñoquis con salsa bolognesa",
   "tiempo": 30,
+  "precio": 3500,
+  "aptoCeliacos": false,
+  "aptoVegetarianos": false,
+  "aptoVeganos": false,
   "tipoPlato": 4
 }
 
@@ -25,6 +29,10 @@ Content-Type: application/json
 {
   "descripcion": "Milanesa napolitana con papas fritas",
   "tiempo": 45,
+  "precio": 5000,
+  "aptoCeliacos": false,
+  "aptoVegetarianos": false,
+  "aptoVeganos": false,
   "tipoPlato": 4
 }
 
@@ -36,7 +44,26 @@ Content-Type: application/json
 {
   "descripcion": "Tiramisú",
   "tiempo": 5,
+  "precio": 2500,
+  "aptoCeliacos": true,
+  "aptoVegetarianos": true,
+  "aptoVeganos": false,
   "tipoPlato": 5
+}
+
+###
+
+POST http://localhost:3000/api/platos
+Content-Type: application/json
+
+{
+  "descripcion": "Arroz Primavera",
+  "tiempo": 18,
+  "precio": 2000,
+  "aptoCeliacos": true,
+  "aptoVegetarianos": true,
+  "aptoVeganos": true,
+  "tipoPlato": 4
 }
 
 ###Modifica la descripción de un plato ya ingresado utilizando su código
@@ -45,7 +72,10 @@ PATCH http://localhost:3000/api/platos/3
 Content-Type: application/json
 
 {
-  "descripcion": "Chocotorta"
+  "precio": 2800,
+  "aptoCeliacos": false,
+  "aptoVegetarianos": false,
+  "aptoVeganos": false
 }
 
 ###Elimina un plato existente utilizando su código
