@@ -11,7 +11,10 @@ function sanitizePlatoPedido(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedPlatoPedido = {
     pedido: req.params.nroPed,
     plato: req.body.plato,
-    cantidad: req.body.cantidad
+    cantidad: req.body.cantidad,
+    fechaSolicitud: req.body.fechaSolicitud,
+    horaSolicitud: req.body.horaSolicitud,
+    entregado: req.body.entregado
   }
 
   Object.keys(req.body.sanitizedPlatoPedido).forEach((keys) => {
@@ -25,7 +28,7 @@ function sanitizePlatoPedido(req: Request, res: Response, next: NextFunction) {
 async function findAll(req: Request, res: Response) {
   try {
     const nroPed = Number.parseInt(req.params.nroPed)
-    const pedido = await em.findOneOrFail(Pedido, {nroPed})
+    const pedido = await em.findOneOrFail(Pedido, {nroPed}, {populate: ['cliente']})
     const platoPed = await em.find(PlatoPedido, {pedido}, {populate: ['plato', 'pedido']})
     res.status(200).json({message: 'Pedidos encontrados', data: platoPed})
   } catch(error: any){

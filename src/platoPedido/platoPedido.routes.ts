@@ -5,13 +5,12 @@ export const platoPlatoRouter = Router()
 
 export const platoPedRouter = Router()
 
-//Trabajo asumiendo que puedo utilizar el mismo router en app.ts con 2 URLs distintnas
-platoPedRouter.get('/:nro/pedidos', findAll)
+platoPedRouter.get('/:nroPed/platos', findAll)
 
-platoPedRouter.get('/:nro/pedidos/:nroPed', findOne)
+platoPedRouter.get('/:nroPed/platos/:nro', findOne)
 
-platoPedRouter.post('/:nro/pedidos', /*(req, res)=> {console.log(JSON.stringify(req))},*/sanitizePlatoPedido, add)
+platoPedRouter.post('/:nroPed/platos', /*(req, res)=> {console.log(JSON.stringify(req))},*/sanitizePlatoPedido, add)
 
-platoPedRouter.patch('/:nro/pedidos/:nroPed', sanitizePlatoPedido, update)
+platoPedRouter.patch('/:nroPed/platos/:nro', sanitizePlatoPedido, update)
 
-platoPedRouter.delete('/:nro/pedidos/:nroPed', remove)
+platoPedRouter.delete('/:nroPed/platos/:nro', remove)

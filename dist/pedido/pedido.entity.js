@@ -16,6 +16,7 @@ var __decorate =
         if ((d = decorators[i]))
           r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
+<<<<<<< HEAD
   };
 var __metadata =
   (this && this.__metadata) ||
@@ -76,7 +77,24 @@ __decorate(
 __decorate(
   [
 =======
+=======
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+import { Entity, Property, ManyToOne, OneToMany, Collection, OneToOne } from '@mikro-orm/core';
+import { BaseClass3 } from '../shared/db/baseEntity.entity.js';
+import { Resena } from './reseña.entity.js';
+import { Cliente } from '../cliente/cliente.entity.js';
+import { PlatoPedido } from '../platoPedido/platoPedido.entity.js';
+>>>>>>> dcfe69c (Entidades Plato y Pedido corregidas (faltaba la referencia a la entidad PlatoPedido). Falta controlar los controladores y que funcionen las consultas http)
 export let Pedido = class Pedido extends BaseClass3 {
+    constructor() {
+        super(...arguments);
+        this.platoPedidos = new Collection(this);
+        /*@ManyToOne(() => Mesa, {nullable: false})
+        mesa!: Rel<Mesa>*/
+    }
 };
 __decorate([
     Property(),
@@ -98,6 +116,10 @@ __decorate([
     Property({ nullable: true }),
     __metadata("design:type", Date)
 ], Pedido.prototype, "horaCancelacion", void 0);
+__decorate([
+    OneToMany(() => PlatoPedido, (platoPedido) => platoPedido.pedido),
+    __metadata("design:type", Object)
+], Pedido.prototype, "platoPedidos", void 0);
 __decorate([
     OneToOne(() => Resena, (resena) => resena.pedido, { nullable: true, owner: true }),
     __metadata("design:type", Object)

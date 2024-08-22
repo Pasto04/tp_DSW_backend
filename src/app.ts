@@ -52,9 +52,9 @@ app.use('/api/clientes', pedidoClienteRouter)
 
 app.use('/api/clientes', clienteRouter)
 
-app.use('/api/platoPedidos', platoPedRouter)
+app.use('/api/pedidos', platoPedRouter)
 
-app.use('/api/platoPlatos', platoPlatoRouter)
+app.use('/api/platos', platoPlatoRouter)
 
 app.use('/api/pedidos', pedidoResenaRouter)
 
