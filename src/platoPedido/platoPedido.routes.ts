@@ -3,14 +3,14 @@ import { sanitizePlatoPedido, findAll, remove, update, add } from './platoPedido
 import { findOne } from './platoPedido.controller.js'
 export const platoPlatoRouter = Router()
 
-export const platoPedRouter = Router()
+export const platoPedidoRouter = Router()
 
-platoPedRouter.get('/:nroPed/platos', findAll)
+platoPedidoRouter.get('/:nroPed/platos', findAll)
 
-platoPedRouter.get('/:nroPed/platos/:nro', findOne)
+platoPedidoRouter.get('/:nroPed/platos/:nro', findOne)
 
-platoPedRouter.post('/:nroPed/platos', /*(req, res)=> {console.log(JSON.stringify(req))},*/sanitizePlatoPedido, add)
+platoPedidoRouter.post('/:nroPed/platos', /*(req, res)=> {console.log(JSON.stringify(req))},*/sanitizePlatoPedido, add)
 
-platoPedRouter.patch('/:nroPed/platos/:nro', sanitizePlatoPedido, update)
+platoPedidoRouter.patch('/:nroPed/platos/:nro', sanitizePlatoPedido, update)
 
-platoPedRouter.delete('/:nroPed/platos/:nro', remove)
+platoPedidoRouter.delete('/:nroPed/platos/:nro', remove)

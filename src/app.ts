@@ -2,7 +2,6 @@ import 'reflect-metadata'
 import { RequestContext } from '@mikro-orm/core'
 import { orm, syncSchema } from './shared/db/orm.js'
 import express from 'express'
-import { tipoIngredienteRouter } from './ingrediente/tipoIngrediente.routes.js'
 import { ingredienteRouter } from './ingrediente/ingrediente.routes.js'
 import { tipoPlatoRouter } from './plato/tipoPlato.routes.js'
 import { platoRouter } from './plato/plato.routes.js'
@@ -11,12 +10,14 @@ import { elabPlatoRouter } from './elaboracionPlato/elaboracionPlato.routes.js'
 import { elabIngreRouter } from './elaboracionPlato/elaboracionIngrediente.routes.js'
 /*import { pedidoRouter } from './pedido/pedido.routes.js'*/
 import { pedidoRouter } from './pedido/pedido.routes.js'
-import { platoPedRouter } from './platoPedido/platoPedido.routes.js'
+import { platoPedidoRouter } from './platoPedido/platoPedido.routes.js'
 import { platoPlatoRouter } from './platoPedido/platoPlato.routes.js'
 import { pedidoResenaRouter, resenaRouter } from './pedido/reseña.routes.js'
-import { elabIngreRouter } from './elaboracionPlato/elaboracionIngrediente.routes.js'
+import { elabIngredienteRouter } from './elaboracionPlato/elaboracionIngrediente.routes.js'
 import { elabPlatoRouter } from './elaboracionPlato/elaboracionPlato.routes.js'
 import { pedidoClienteRouter } from './pedido/pedidoCliente.routes.js'
+import { proveedorRouter } from './proveedor/proveedor.routes.js'
+import { ingredienteDeProveedorRouter, proveedorDeIngredienteRouter } from './ingredienteDeProveedor/ingredienteDeProveedor.routes.js'
 
 const port = 3000
 const app = express()
@@ -29,18 +30,11 @@ app.use((req, res, next) => {
 })
 
 //
-app.use('/api/platos', elabPlatoRouter)
+app.use('/api/ingredientes', ingredienteDeProveedorRouter)
 
-// CREAR UN NUEVO CONTROLLER CON UN SANITIZED DISTINTO (POR LO TANTO, OPERACIONES CRUD LIGERAMENTE DISTINTAS)
-//INCORPORARLOS AL ROUTES Y PROBAR SI FUNCIONA.
-
-app.use('/api/ingredientes', elabIngreRouter)
-
-app.use('/api/ingredientes', elabIngreRouter)
+app.use('/api/ingredientes', elabIngredienteRouter)
 
 app.use('/api/platos', elabPlatoRouter)
-
-app.use('/api/ingredientes/tipos', tipoIngredienteRouter)
 
 app.use('/api/ingredientes', ingredienteRouter)
 
@@ -52,7 +46,7 @@ app.use('/api/clientes', pedidoClienteRouter)
 
 app.use('/api/clientes', clienteRouter)
 
-app.use('/api/pedidos', platoPedRouter)
+app.use('/api/pedidos', platoPedidoRouter)
 
 app.use('/api/platos', platoPlatoRouter)
 
@@ -62,26 +56,10 @@ app.use('/api/pedidos', pedidoRouter)
 
 app.use('/api/resenas', resenaRouter)
 
-app.use('/api/pedidos/reseña', reseñaRouter)
+app.use('/api/proveedores', proveedorDeIngredienteRouter)
 
-/*
-¿Puedo utilizar dos veces "elabPlatoRouter" con dos rutas distintas? Esto daría la posibilidad de, o acceder a todos los 
-ingredientes de un plato junto con sus cantidades, o ver todos los platos en los que se utiliza un ingrediente junto con la cantidad
-correspondiente. Si bien la funcionalidad más útil va a ser la primera, la segunda puede llegar a ser interesante para la 
-elaboración de informes a futuro (por ejemplo, ver el ingrediente más utilizado para darle prioridad a la hora de reponer stock o 
-incrementar su punto de pedido) 
+app.use('/api/proveedores', proveedorRouter)
 
-Si no es posible, ¿Tendría que crear dos Router distintos? ¿Cada Router debería tener un controlador diferente asociado?
-*/
-
-//EL PROFE RECOMIENDA TENER UN ÚNICO ROUTER CON LOS CONTROLLER NECESARIOS.
-//--------------------------------------------------------------------------
-/*app.use('/api/elaboracionesPlato', elaboracionPlatoRouter)
-
-app.use('/api/elaboracionesPlato', elaboracionPlatoRouter)
-
-
-*/
 
 app.use((req, res) => {
   return res.status(404).send({message: 'Recurso no encontrado'})

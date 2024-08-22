@@ -40,7 +40,7 @@ async function findOne(req: Request, res: Response) {
     const numPlato = Number.parseInt(req.params.nro)
     const codigo = Number.parseInt(req.params.cod)
     const plato = await em.findOneOrFail(Plato, {numPlato}, {populate: ['tipoPlato']})
-    const ingrediente = await em.findOneOrFail(Ingrediente, {codigo}, {populate: ['tipoIngrediente']})
+    const ingrediente = await em.findOneOrFail(Ingrediente, {codigo})
     const elabPlato = await em.findOneOrFail(ElaboracionPlato, {plato, ingrediente}, {populate: ['plato', 'ingrediente']})
     res.status(200).json({message: `La cantidad del ingrediente ${ingrediente.descIngre} para el plato ${plato.descripcion} ha sido encontrada con éxito`, data: elabPlato})
   } catch(error:any){

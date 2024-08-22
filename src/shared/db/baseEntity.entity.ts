@@ -26,6 +26,7 @@ export abstract class BaseClass2 {
   @PrimaryKey()
   id?: number
 }
+
 export abstract class BaseClass3{
   @PrimaryKey()
   nroPed?: number 

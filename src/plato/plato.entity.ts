@@ -14,6 +14,18 @@ export class Plato extends BaseClass1 {
   @Property({nullable:false})
   tiempo!: number
 
+  @Property()
+  precio!: number
+
+  @Property()
+  aptoCeliacos!: boolean
+
+  @Property()
+  aptoVegetarianos!: boolean
+
+  @Property()
+  aptoVeganos!: boolean
+
   @ManyToOne(() => TipoPlato, {nullable: false})
   tipoPlato!: Rel<TipoPlato>
 

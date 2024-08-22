@@ -10,6 +10,10 @@ function sanitizePlatoInput(req: Request, res: Response, next:NextFunction){
     tipoPlato: req.body.tipoPlato,
     descripcion: req.body.descripcion,
     tiempo: req.body.tiempo,
+    precio: req.body.precio,
+    aptoCeliacos: req.body.aptoCeliacos,
+    aptoVegetarianos: req.body.aptoVegetarianos,
+    aptoVeganos: req.body.aptoVeganos
   }
 
   Object.keys(req.body.sanitizedInput).forEach((key)=>{
@@ -72,7 +76,5 @@ async function remove(req:Request, res:Response) {
     res.status(500).json({message: error.message})
   }
 }
-
-
 
 export{sanitizePlatoInput, findAll, findOne, add, update, remove}
