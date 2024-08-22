@@ -7,12 +7,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Entity, Property, ManyToOne, OneToOne } from '@mikro-orm/core';
+import { Entity, Property, ManyToOne, OneToMany, Collection, OneToOne } from '@mikro-orm/core';
 import { BaseClass3 } from '../shared/db/baseEntity.entity.js';
 import { Resena } from './reseña.entity.js';
 import { Cliente } from '../cliente/cliente.entity.js';
-//import { Cliente } from '../cliente/cliente.entity.js'
+import { PlatoPedido } from '../platoPedido/platoPedido.entity.js';
 export let Pedido = class Pedido extends BaseClass3 {
+    constructor() {
+        super(...arguments);
+        this.platoPedidos = new Collection(this);
+        /*@ManyToOne(() => Mesa, {nullable: false})
+        mesa!: Rel<Mesa>*/
+    }
 };
 __decorate([
     Property(),
@@ -34,6 +40,10 @@ __decorate([
     Property({ nullable: true }),
     __metadata("design:type", Date)
 ], Pedido.prototype, "horaCancelacion", void 0);
+__decorate([
+    OneToMany(() => PlatoPedido, (platoPedido) => platoPedido.pedido),
+    __metadata("design:type", Object)
+], Pedido.prototype, "platoPedidos", void 0);
 __decorate([
     OneToOne(() => Resena, (resena) => resena.pedido, { nullable: true, owner: true }),
     __metadata("design:type", Object)

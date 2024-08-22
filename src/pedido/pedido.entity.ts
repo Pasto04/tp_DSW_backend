@@ -2,7 +2,7 @@ import { Entity, Property, ManyToOne, OneToMany, Cascade, Rel, Collection, OneTo
 import { BaseClass3 } from '../shared/db/baseEntity.entity.js'
 import { Resena } from './reseña.entity.js'
 import { Cliente } from '../cliente/cliente.entity.js'
-//import { Cliente } from '../cliente/cliente.entity.js'
+import { PlatoPedido } from '../platoPedido/platoPedido.entity.js'
 
 @Entity()
 export class Pedido extends BaseClass3 {
@@ -21,6 +21,9 @@ export class Pedido extends BaseClass3 {
 
   @Property({nullable:true})
   horaCancelacion?: Date
+
+  @OneToMany(() => PlatoPedido, (platoPedido) => platoPedido.pedido)
+  platoPedidos = new Collection<PlatoPedido>(this)
 
   @OneToOne(()=> Resena, (resena) => resena.pedido, {nullable: true, owner: true})
   resena?: Rel<Resena>
