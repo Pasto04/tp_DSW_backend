@@ -1,0 +1,62 @@
+### FindAll IngreProv
+
+GET http://localhost:3000/api/ingredientes/1/proveedores
+
+### FindAll ProvIngre
+
+GET http://localhost:3000/api/proveedores/20452157382/ingredientes
+
+### GetOne IngrePro
+
+GET http://localhost:3000/api/ingredientes/1/proveedores/20452157382
+
+### GetOne ProvIngre
+
+GET http://localhost:3000/api/proveedores/20452157382/ingredientes/1
+
+### Post IngrePro
+
+POST http://localhost:3000/api/ingredientes/1/proveedores
+Content-Type: application/json
+
+{
+  "proveedor": "20452157382",
+  "stock": 25000
+}
+
+### Post ProvIngre
+
+POST http://localhost:3000/api/proveedores/71452157228/ingredientes
+Content-Type: application/json
+
+{
+  "ingrediente": 1,
+  "stock": 12500
+}
+
+### Patch IngrePro
+
+PATCH http://localhost:3000/api/ingredientes/1/proveedores/20452157382
+Content-Type: application/json
+
+{
+  "stock": 17500
+}
+
+### Patch ProvIngre
+
+PATCH http://localhost:3000/api/proveedores/71452157228/ingredientes/1
+Content-Type: application/json
+
+{
+  "stock": 22500
+}
+
+### Delete IngrePro
+
+DELETE http://localhost:3000/api/ingredientes/1/proveedores/20452157382
+
+### Delete ProvIngre
+
+DELETE http://localhost:3000/api/proveedores/20452157382/ingredientes/1
+

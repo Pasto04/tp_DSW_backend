@@ -14,6 +14,7 @@ import { elabIngredienteRouter } from './elaboracionPlato/elaboracionIngrediente
 import { elabPlatoRouter } from './elaboracionPlato/elaboracionPlato.routes.js';
 import { pedidoClienteRouter } from './pedido/pedidoCliente.routes.js';
 import { proveedorRouter } from './proveedor/proveedor.routes.js';
+import { ingredienteDeProveedorRouter, proveedorDeIngredienteRouter } from './ingredienteDeProveedor/ingredienteDeProveedor.routes.js';
 const port = 3000;
 const app = express();
 app.use(express.json());
@@ -22,6 +23,7 @@ app.use((req, res, next) => {
     RequestContext.create(orm.em, next);
 });
 //
+app.use('/api/ingredientes', ingredienteDeProveedorRouter);
 app.use('/api/ingredientes', elabIngredienteRouter);
 app.use('/api/platos', elabPlatoRouter);
 app.use('/api/ingredientes', ingredienteRouter);
@@ -34,6 +36,7 @@ app.use('/api/platos', platoPlatoRouter);
 app.use('/api/pedidos', pedidoResenaRouter);
 app.use('/api/pedidos', pedidoRouter);
 app.use('/api/resenas', resenaRouter);
+app.use('/api/proveedores', proveedorDeIngredienteRouter);
 app.use('/api/proveedores', proveedorRouter);
 app.use((req, res) => {
     return res.status(404).send({ message: 'Recurso no encontrado' });
