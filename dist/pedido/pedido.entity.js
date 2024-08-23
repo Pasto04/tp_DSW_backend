@@ -18,6 +18,10 @@ export let Pedido = class Pedido extends BaseClass3 {
         this.platoPedidos = new Collection(this);
         /*@ManyToOne(() => Mesa, {nullable: false})
         mesa!: Rel<Mesa>*/
+        /*
+        @Unique()
+        
+        */
     }
 };
 __decorate([

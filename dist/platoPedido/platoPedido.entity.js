@@ -13,11 +13,11 @@ import { Plato } from "../plato/plato.entity.js";
 export let PlatoPedido = class PlatoPedido {
 };
 __decorate([
-    ManyToOne(() => Pedido, { primary: true }),
+    ManyToOne(() => Pedido, { primary: true, nullable: false }),
     __metadata("design:type", Object)
 ], PlatoPedido.prototype, "pedido", void 0);
 __decorate([
-    ManyToOne(() => Plato, { primary: true }),
+    ManyToOne(() => Plato, { primary: true, nullable: false }),
     __metadata("design:type", Object)
 ], PlatoPedido.prototype, "plato", void 0);
 __decorate([

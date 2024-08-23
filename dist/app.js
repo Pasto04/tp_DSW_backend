@@ -10,7 +10,6 @@ import { pedidoRouter } from './pedido/pedido.routes.js';
 import { platoPedidoRouter } from './platoPedido/platoPedido.routes.js';
 import { platoPlatoRouter } from './platoPedido/platoPlato.routes.js';
 import { pedidoResenaRouter, resenaRouter } from './pedido/reseña.routes.js';
-import { elabIngredienteRouter } from './elaboracionPlato/elaboracionIngrediente.routes.js';
 import { elabPlatoRouter } from './elaboracionPlato/elaboracionPlato.routes.js';
 import { pedidoClienteRouter } from './pedido/pedidoCliente.routes.js';
 import { proveedorRouter } from './proveedor/proveedor.routes.js';
@@ -24,7 +23,6 @@ app.use((req, res, next) => {
 });
 //
 app.use('/api/ingredientes', ingredienteDeProveedorRouter);
-app.use('/api/ingredientes', elabIngredienteRouter);
 app.use('/api/platos', elabPlatoRouter);
 app.use('/api/ingredientes', ingredienteRouter);
 app.use('/api/platos/tipos', tipoPlatoRouter);

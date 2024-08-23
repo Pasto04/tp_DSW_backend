@@ -8,14 +8,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Entity, ManyToOne, PrimaryKeyType, Property } from "@mikro-orm/core";
-import { Ingrediente } from "../ingrediente/ingrediente.entity.js";
 import { Plato } from "../plato/plato.entity.js";
+import { IngredienteDeProveedor } from "../ingredienteDeProveedor/ingredienteDeProveedor.entity.js";
 export let ElaboracionPlato = class ElaboracionPlato {
 };
 __decorate([
-    ManyToOne(() => Ingrediente, { primary: true }),
+    ManyToOne(() => IngredienteDeProveedor, { primary: true }),
     __metadata("design:type", Object)
-], ElaboracionPlato.prototype, "ingrediente", void 0);
+], ElaboracionPlato.prototype, "ingredienteDeProveedor", void 0);
 __decorate([
     ManyToOne(() => Plato, { primary: true }),
     __metadata("design:type", Object)

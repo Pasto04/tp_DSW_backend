@@ -6,7 +6,10 @@ const em = orm.em;
 async function sanitizeElaboracionPlato(req, res, next) {
     //console.log(`unsanitized: ${JSON.stringify(req.body)}`)
     req.body.sanitizedElaboracionPlato = {
-        ingrediente: req.body.ingrediente,
+        ingredienteDeProveedor: {
+            ingrediente: req.params.cod,
+            proveedor: req.params.id
+        },
         plato: req.params.nro,
         fechaVigencia: req.body.fechaVigencia,
         cantidadNecesaria: req.body.cantidadNecesaria

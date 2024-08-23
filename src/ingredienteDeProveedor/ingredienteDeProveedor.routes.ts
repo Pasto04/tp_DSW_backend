@@ -6,15 +6,15 @@ import { addProvDeIngre, findAllProvDeIngre, sanitizeProveedorDeIngrediente, upd
 export const ingredienteDeProveedorRouter = Router()
 
 ingredienteDeProveedorRouter.get('/:cod/proveedores', findAll)
-ingredienteDeProveedorRouter.get('/:cod/proveedores/:cuit', findOne)
+ingredienteDeProveedorRouter.get('/:cod/proveedores/:id', findOne)
 ingredienteDeProveedorRouter.post('/:cod/proveedores', sanitizeIngredienteDeProveedor, add)
-ingredienteDeProveedorRouter.patch('/:cod/proveedores/:cuit', sanitizeIngredienteDeProveedor, update)
-ingredienteDeProveedorRouter.delete('/:cod/proveedores/:cuit', remove)
+ingredienteDeProveedorRouter.patch('/:cod/proveedores/:id', sanitizeIngredienteDeProveedor, update)
+ingredienteDeProveedorRouter.delete('/:cod/proveedores/:id', remove)
 
 export const proveedorDeIngredienteRouter = Router()
 
-proveedorDeIngredienteRouter.get('/:cuit/ingredientes', findAllProvDeIngre)
-proveedorDeIngredienteRouter.get('/:cuit/ingredientes/:cod', findOne)
-proveedorDeIngredienteRouter.post('/:cuit/ingredientes', sanitizeProveedorDeIngrediente, addProvDeIngre)
-proveedorDeIngredienteRouter.patch('/:cuit/ingredientes/:cod', sanitizeProveedorDeIngrediente, updateProvDeIngre)
-proveedorDeIngredienteRouter.delete('/:cuit/ingredientes/:cod', remove)
+proveedorDeIngredienteRouter.get('/:id/ingredientes', findAllProvDeIngre)
+proveedorDeIngredienteRouter.get('/:id/ingredientes/:cod', findOne)
+proveedorDeIngredienteRouter.post('/:id/ingredientes', sanitizeProveedorDeIngrediente, addProvDeIngre)
+proveedorDeIngredienteRouter.patch('/:id/ingredientes/:cod', sanitizeProveedorDeIngrediente, updateProvDeIngre)
+proveedorDeIngredienteRouter.delete('/:id/ingredientes/:cod', remove)

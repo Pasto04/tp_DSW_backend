@@ -1,10 +1,11 @@
 import { Router } from "express"
-import { findAll, sanitizePlatoPedido, add, findOne, remove, update } from "./platoPedido.controller.js"
+import { findAll, sanitizePlatoPlato, add, remove, update } from "./platoPlato.controller.js"
+import { findOne } from './platoPedido.controller.js'
 
 export const platoPlatoRouter = Router()
 
-platoPlatoRouter.get('/:cod/platos', findAll)
-platoPlatoRouter.get('/:cod/platos/:nro', findOne)
-platoPlatoRouter.post('/:cod/platos', sanitizePlatoPedido, add)
-platoPlatoRouter.patch('/:cod/platos/:nro', sanitizePlatoPedido, update)
-platoPlatoRouter.delete('/:cod/platos/:nro', remove)
+platoPlatoRouter.get('/:nro/pedidos', findAll)
+platoPlatoRouter.get('/:nro/pedidos/:nroPed', findOne)
+platoPlatoRouter.post('/:nro/pedidos', sanitizePlatoPlato, add)
+platoPlatoRouter.patch('/:nro/pedidos/:nroPed', sanitizePlatoPlato, update)
+platoPlatoRouter.delete('/:nro/pedidos/:nroPed', remove)
