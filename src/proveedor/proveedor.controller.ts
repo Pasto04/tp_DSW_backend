@@ -17,8 +17,8 @@ async function findAll(req: Request, res: Response) {
 
 async function findOne(req: Request, res: Response) {
   try {
-    const cuit = req.params.cuit
-    const proveedor = await em.findOneOrFail(Proveedor, {cuit})
+    const id = Number.parseInt(req.params.id)
+    const proveedor = await em.findOneOrFail(Proveedor, {id})
     res.status(200).json({message: `El proveedor ${proveedor.razonSocial} ha sido encontrado con éxito`, data: proveedor})
   } catch(error: any) {
     res.status(500).json({message: error.message})
@@ -37,8 +37,8 @@ async function add(req: Request, res: Response) {
 
 async function update(req: Request, res: Response) {
   try {
-    const cuit = req.params.cuit
-    const proveedor = await em.findOneOrFail(Proveedor, {cuit})
+    const id = Number.parseInt(req.params.id)
+    const proveedor = await em.findOneOrFail(Proveedor, {id})
     em.assign(proveedor, req.body)
     await em.flush()
     res.status(200).json({message: `El proveedor ${proveedor.razonSocial} ha sido actualizado con éxito`, data: proveedor})
@@ -49,8 +49,8 @@ async function update(req: Request, res: Response) {
 
 async function remove(req: Request, res: Response) {
   try {
-    const cuit = req.params.cuit
-    const proveedor = await em.findOneOrFail(Proveedor, {cuit})
+    const id = Number.parseInt(req.params.id)
+    const proveedor = await em.findOneOrFail(Proveedor, {id})
     await em.removeAndFlush(proveedor)
     res.status(200).json({message: `El proveedor ${proveedor.razonSocial} ha sido eliminado con éxito`, data: proveedor})
   } catch(error: any) {

@@ -6,10 +6,10 @@ import { Plato } from "../plato/plato.entity.js";
 @Entity()
 export class PlatoPedido {
 
-  @ManyToOne(() => Pedido, {primary: true})
+  @ManyToOne(() => Pedido, {primary: true, nullable: false})
   pedido!: Rel<Pedido>
 
-  @ManyToOne(() => Plato, {primary: true})
+  @ManyToOne(() => Plato, {primary: true, nullable: false})
   plato!: Rel<Plato>
 
   @Property()

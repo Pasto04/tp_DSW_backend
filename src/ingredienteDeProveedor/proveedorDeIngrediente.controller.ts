@@ -10,7 +10,7 @@ const em = orm.em
 function sanitizeProveedorDeIngrediente(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedProveedorDeIngrediente = {
     ingrediente: req.body.ingrediente,
-    proveedor: req.params.cuit,
+    proveedor: req.params.id,
     stock: req.body.stock
   }
 
@@ -24,8 +24,8 @@ function sanitizeProveedorDeIngrediente(req: Request, res: Response, next: NextF
 
 async function findAllProvDeIngre(req: Request, res: Response) {
   try {
-    const cuit = req.params.cuit
-    const proveedor = await em.findOneOrFail(Proveedor, {cuit})
+    const id = Number.parseInt(req.params.id)
+    const proveedor = await em.findOneOrFail(Proveedor, {id})
     const provDeIngre = await em.find(IngredienteDeProveedor, {proveedor}, {populate: ['ingrediente', 'proveedor']})
     res.status(200).json({message: `El stock de los ingredientes del proveedor ${proveedor.razonSocial} han sido encontrados con éxito`, data: provDeIngre})
   } catch (error: any) {
@@ -46,9 +46,9 @@ async function addProvDeIngre(req: Request, res: Response) {
 async function updateProvDeIngre(req: Request, res: Response) {
   try {
     const codigo = Number.parseInt(req.params.cod)
-    const cuit = req.params.cuit
+    const id = Number.parseInt(req.params.id)
     const ingrediente = await em.findOneOrFail(Ingrediente, {codigo})
-    const proveedor = await em.findOneOrFail(Proveedor, {cuit})
+    const proveedor = await em.findOneOrFail(Proveedor, {id})
     const provDeIngre = await em.findOneOrFail(IngredienteDeProveedor, {ingrediente, proveedor})
     em.assign(provDeIngre, req.body.sanitizedProveedorDeIngrediente)
     await em.flush()

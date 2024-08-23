@@ -6,7 +6,7 @@ import { PlatoPedido } from '../platoPedido/platoPedido.entity.js'
 
 @Entity()
 export class Pedido extends BaseClass3 {
-  
+
   @Property()
   estado!: string 
 
@@ -33,5 +33,10 @@ export class Pedido extends BaseClass3 {
 
   /*@ManyToOne(() => Mesa, {nullable: false})
   mesa!: Rel<Mesa>*/
+
+  /*
+  @Unique()
+  
+  */
 
 }
