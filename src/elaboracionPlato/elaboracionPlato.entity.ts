@@ -1,12 +1,14 @@
-import { Entity, ManyToOne, PrimaryKeyType, Property, Rel } from "@mikro-orm/core";
+import { Entity, Index, ManyToOne, PrimaryKeyType, Property, Rel, Unique } from "@mikro-orm/core";
 import { Plato } from "../plato/plato.entity.js";
-import { IngredienteDeProveedor } from "../ingredienteDeProveedor/ingredienteDeProveedor.entity.js";
+import { Ingrediente } from "../ingrediente/ingrediente.entity.js";
 
 @Entity()
+@Index({properties: ['ingrediente', 'plato']})
+@Unique({properties: ['ingrediente', 'plato']})
 export class ElaboracionPlato {
 
-  @ManyToOne(() => IngredienteDeProveedor, {primary: true})
-  ingredienteDeProveedor!: Rel<IngredienteDeProveedor>
+  @ManyToOne(() => Ingrediente, {primary: true})
+  ingrediente!: Rel<Ingrediente>
 
   @ManyToOne(() => Plato, {primary: true})
   plato!: Rel<Plato>

@@ -7,15 +7,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Entity, ManyToOne, PrimaryKeyType, Property } from "@mikro-orm/core";
+import { Entity, Index, ManyToOne, PrimaryKeyType, Property, Unique } from "@mikro-orm/core";
 import { Plato } from "../plato/plato.entity.js";
-import { IngredienteDeProveedor } from "../ingredienteDeProveedor/ingredienteDeProveedor.entity.js";
+import { Ingrediente } from "../ingrediente/ingrediente.entity.js";
 export let ElaboracionPlato = class ElaboracionPlato {
 };
 __decorate([
-    ManyToOne(() => IngredienteDeProveedor, { primary: true }),
+    ManyToOne(() => Ingrediente, { primary: true }),
     __metadata("design:type", Object)
-], ElaboracionPlato.prototype, "ingredienteDeProveedor", void 0);
+], ElaboracionPlato.prototype, "ingrediente", void 0);
 __decorate([
     ManyToOne(() => Plato, { primary: true }),
     __metadata("design:type", Object)
@@ -29,6 +29,8 @@ __decorate([
     __metadata("design:type", Number)
 ], ElaboracionPlato.prototype, "cantidadNecesaria", void 0);
 ElaboracionPlato = __decorate([
-    Entity()
+    Entity(),
+    Index({ properties: ['ingrediente', 'plato'] }),
+    Unique({ properties: ['ingrediente', 'plato'] })
 ], ElaboracionPlato);
 //# sourceMappingURL=elaboracionPlato.entity.js.map

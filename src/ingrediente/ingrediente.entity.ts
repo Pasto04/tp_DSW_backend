@@ -27,6 +27,9 @@ export class Ingrediente extends BaseClass {
   @Property()
   aptoVeganos!: boolean
 
+  @OneToMany(() => ElaboracionPlato, (elaboracionPlato) => elaboracionPlato.ingrediente, {cascade: [Cascade.ALL]})
+  elaboracionesPlato = new Collection<ElaboracionPlato>(this)
+
   @OneToMany(() => IngredienteDeProveedor, (ingredienteDeProveedor) => ingredienteDeProveedor.ingrediente)
   ingredienteDeProveedor = new Collection<IngredienteDeProveedor>(this)
   

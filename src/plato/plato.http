@@ -18,7 +18,7 @@ Content-Type: application/json
   "aptoCeliacos": false,
   "aptoVegetarianos": false,
   "aptoVeganos": false,
-  "tipoPlato": 4
+  "tipoPlato": 2
 }
 
 ###
@@ -33,7 +33,7 @@ Content-Type: application/json
   "aptoCeliacos": false,
   "aptoVegetarianos": false,
   "aptoVeganos": false,
-  "tipoPlato": 4
+  "tipoPlato": 2
 }
 
 ###
@@ -48,7 +48,7 @@ Content-Type: application/json
   "aptoCeliacos": true,
   "aptoVegetarianos": true,
   "aptoVeganos": false,
-  "tipoPlato": 5
+  "tipoPlato": 4
 }
 
 ###
@@ -63,7 +63,7 @@ Content-Type: application/json
   "aptoCeliacos": true,
   "aptoVegetarianos": true,
   "aptoVeganos": true,
-  "tipoPlato": 4
+  "tipoPlato": 2
 }
 
 ###Modifica la descripción de un plato ya ingresado utilizando su código
