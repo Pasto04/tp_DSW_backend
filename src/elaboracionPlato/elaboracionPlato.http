@@ -1,36 +1,66 @@
 ### Obtener todos los ingredientes y sus cantidades de un plato
 
-GET http://localhost:3000/api/platos/4/ingredientes
+GET http://localhost:3000/api/platos/2/ingredientes
+
+###
+
+GET http://localhost:3000/api/ingredientes/1/platos
 
 ### Obtener la cantidad para un ingrediente y un plato
 
-GET http://localhost:3000/api/platos/3/ingredientes/13
+GET http://localhost:3000/api/platos/2/ingredientes/2
+
+###
+
+GET http://localhost:3000/api/ingredientes/1/platos/3
 
 ### Establecer una cantidad para un ingrediente dado un plato
 
-POST http://localhost:3000/api/platos/3/ingredientes
+POST http://localhost:3000/api/platos/1/ingredientes
 Content-Type: application/json
 
 {
-  "ingrediente": 13,
+  "ingrediente": 3,
   "fechaVigencia": "16-08-2024",
-  "cantidadNecesaria": 250
+  "cantidadNecesaria": 750
 }
 
 ### IDEM
 
-POST http://localhost:3000/api/platos/4/ingredientes
+POST http://localhost:3000/api/platos/2/ingredientes
 Content-Type: application/json
 
 {
-  "ingrediente": 17,
+  "ingrediente": 2,
   "fechaVigencia": "2024-08-16",
-  "cantidadNecesaria": 250
+  "cantidadNecesaria": 1250
+}
+
+###
+
+POST http://localhost:3000/api/ingredientes/1/platos
+Content-Type: application/json
+
+{
+  "plato": 3,
+  "fechaVigencia": "16-08-2024",
+  "cantidadNecesaria": 500
+}
+
+###
+
+POST http://localhost:3000/api/ingredientes/2/platos
+Content-Type: application/json
+
+{
+  "plato": 2,
+  "fechaVigencia": "2024-08-16",
+  "cantidadNecesaria": 1500
 }
 
 ### Modificar la cantidad de un ingrediente dado un plato
 
-PATCH http://localhost:3000/api/platos/3/ingredientes/13
+PATCH http://localhost:3000/api/platos/1/ingredientes/3
 Content-Type: application/json
 
 {
@@ -39,17 +69,17 @@ Content-Type: application/json
 
 ### IDEM
 
-PATCH http://localhost:3000/api/platos/4/ingredientes/14
+PATCH http://localhost:3000/api/ingredientes/2/platos/2
 Content-Type: application/json
 
 {
-  "CantidadNecesaria": 750
+  "CantidadNecesaria": 1100
 }
 
 ### Eliminar la cantidad asociada a un ingrediente y un plato
 
-DELETE http://localhost:3000/api/platos/3/ingredientes/13
+DELETE http://localhost:3000/api/platos/1/ingredientes/3
 
 ### IDEM
 
-DELETE http://localhost:3000/api/platos/4/ingredientes/17
+DELETE http://localhost:3000/api/ingredientes/2/platos/2

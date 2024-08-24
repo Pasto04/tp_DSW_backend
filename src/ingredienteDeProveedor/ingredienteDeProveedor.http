@@ -4,15 +4,15 @@ GET http://localhost:3000/api/ingredientes/1/proveedores
 
 ### FindAll ProvIngre
 
-GET http://localhost:3000/api/proveedores/20452157382/ingredientes
+GET http://localhost:3000/api/proveedores/2/ingredientes
 
 ### GetOne IngrePro
 
-GET http://localhost:3000/api/ingredientes/1/proveedores/20452157382
+GET http://localhost:3000/api/ingredientes/1/proveedores/1
 
 ### GetOne ProvIngre
 
-GET http://localhost:3000/api/proveedores/20452157382/ingredientes/1
+GET http://localhost:3000/api/proveedores/1/ingredientes/1
 
 ### Post IngrePro
 
@@ -20,13 +20,13 @@ POST http://localhost:3000/api/ingredientes/1/proveedores
 Content-Type: application/json
 
 {
-  "proveedor": "20452157382",
+  "proveedor": 1,
   "stock": 25000
 }
 
 ### Post ProvIngre
 
-POST http://localhost:3000/api/proveedores/71452157228/ingredientes
+POST http://localhost:3000/api/proveedores/2/ingredientes
 Content-Type: application/json
 
 {
@@ -36,7 +36,7 @@ Content-Type: application/json
 
 ### Patch IngrePro
 
-PATCH http://localhost:3000/api/ingredientes/1/proveedores/20452157382
+PATCH http://localhost:3000/api/ingredientes/1/proveedores/1
 Content-Type: application/json
 
 {
@@ -45,7 +45,7 @@ Content-Type: application/json
 
 ### Patch ProvIngre
 
-PATCH http://localhost:3000/api/proveedores/71452157228/ingredientes/1
+PATCH http://localhost:3000/api/proveedores/2/ingredientes/1
 Content-Type: application/json
 
 {
@@ -54,9 +54,9 @@ Content-Type: application/json
 
 ### Delete IngrePro
 
-DELETE http://localhost:3000/api/ingredientes/1/proveedores/20452157382
+DELETE http://localhost:3000/api/ingredientes/1/proveedores/1
 
 ### Delete ProvIngre
 
-DELETE http://localhost:3000/api/proveedores/20452157382/ingredientes/1
+DELETE http://localhost:3000/api/proveedores/1/ingredientes/1
 

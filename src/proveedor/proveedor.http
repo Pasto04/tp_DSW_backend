@@ -4,7 +4,7 @@ GET http://localhost:3000/api/proveedores
 
 ### Obtener un único proveedor
 
-GET http://localhost:3000/api/proveedores/20452157382
+GET http://localhost:3000/api/proveedores/1
 
 ### Crear un nuevo proveedor
 
@@ -12,7 +12,7 @@ POST http://localhost:3000/api/proveedores
 Content-Type: application/json
 
 {
-  "cuit": "1",
+  "cuit": "20452157382",
   "razonSocial": "HunKel S.A.",
   "direccion": "Dorrego 1265",
   "ciudad": "Venado Tuerto",

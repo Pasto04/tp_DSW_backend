@@ -33,7 +33,7 @@ Content-Type: application/json
 
 ### Modifica los atributos de un tipo de plato
 
-PUT http://localhost:3000/api/platos/tipos/8
+PUT http://localhost:3000/api/platos/tipos/3
 Content-Type: application/json
 
 {
