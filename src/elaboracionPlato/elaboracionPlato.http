@@ -21,8 +21,8 @@ Content-Type: application/json
 
 {
   "ingrediente": 3,
-  "fechaVigencia": "16-08-2024",
-  "cantidadNecesaria": 750
+  "fechaVigencia": "2024-08-26",
+  "cantidadNecesaria": 50
 }
 
 ### IDEM
@@ -32,8 +32,19 @@ Content-Type: application/json
 
 {
   "ingrediente": 2,
-  "fechaVigencia": "2024-08-16",
-  "cantidadNecesaria": 1250
+  "fechaVigencia": "2024-08-26",
+  "cantidadNecesaria": 675
+}
+
+### IDEM
+
+POST http://localhost:3000/api/platos/2/ingredientes
+Content-Type: application/json
+
+{
+  "ingrediente": 1,
+  "fechaVigencia": "2024-08-26",
+  "cantidadNecesaria": 450
 }
 
 ###

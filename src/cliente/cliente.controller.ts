@@ -10,6 +10,7 @@ async function sanitizeClienteInput(req:Request, res:Response, next:NextFunction
     nombre: req.body.nombre,
     apellido: req.body.apellido,
     mail: req.body.mail,
+    contrasenia: req.body.contrasenia,
     telefono: req.body.telefono,
   }
 

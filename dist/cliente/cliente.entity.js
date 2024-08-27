@@ -32,6 +32,10 @@ __decorate([
 __decorate([
     Property({ nullable: false }),
     __metadata("design:type", String)
+], Cliente.prototype, "contrasenia", void 0);
+__decorate([
+    Property({ nullable: false }),
+    __metadata("design:type", String)
 ], Cliente.prototype, "telefono", void 0);
 __decorate([
     OneToMany(() => Pedido, (pedido) => pedido.cliente),

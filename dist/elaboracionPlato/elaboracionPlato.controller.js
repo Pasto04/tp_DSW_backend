@@ -8,7 +8,6 @@ async function sanitizeElaboracionPlato(req, res, next) {
     req.body.sanitizedElaboracionPlato = {
         ingrediente: req.body.ingrediente,
         plato: req.params.nro,
-        fechaVigencia: req.body.fechaVigencia,
         cantidadNecesaria: req.body.cantidadNecesaria
     };
     Object.keys(req.body.sanitizedElaboracionPlato).forEach((keys) => {

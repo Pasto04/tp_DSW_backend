@@ -10,8 +10,7 @@ const em = orm.em
 function sanitizeProveedorDeIngrediente(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedProveedorDeIngrediente = {
     ingrediente: req.body.ingrediente,
-    proveedor: req.params.id,
-    stock: req.body.stock
+    proveedor: req.params.id
   }
 
   Object.keys(req.body.sanitizedProveedorDeIngrediente).forEach((keys) => {

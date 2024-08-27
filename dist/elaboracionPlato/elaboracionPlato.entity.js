@@ -22,10 +22,6 @@ __decorate([
 ], ElaboracionPlato.prototype, "plato", void 0);
 __decorate([
     Property(),
-    __metadata("design:type", String)
-], ElaboracionPlato.prototype, "fechaVigencia", void 0);
-__decorate([
-    Property(),
     __metadata("design:type", Number)
 ], ElaboracionPlato.prototype, "cantidadNecesaria", void 0);
 ElaboracionPlato = __decorate([

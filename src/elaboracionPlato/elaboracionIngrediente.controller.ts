@@ -11,7 +11,6 @@ function sanitizeElabIngre(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedElabIngre = {
     ingrediente: req.params.cod,
     plato: req.body.plato,
-    fechaVigencia: req.body.fechaVigencia,
     cantidadNecesaria: req.body.cantidadNecesaria
   }
 

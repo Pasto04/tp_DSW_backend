@@ -6,25 +6,25 @@ import { IngredienteDeProveedor } from '../ingredienteDeProveedor/ingredienteDeP
 @Entity()
 export class Ingrediente extends BaseClass {
 
-  @Property()
+  @Property({nullable: false})
   descIngre!: string
 
-  @Property()
+  @Property({nullable: false})
   puntoDePedido!: number
 
-  @Property()
+  @Property({nullable: false})
+  stock!: string
+
+  @Property({nullable: false})
   unidadMedida!: string
 
-  @Property()
-  fechaVencimiento!: Date
-
-  @Property()
+  @Property({nullable: false})
   aptoCeliacos!: boolean
 
-  @Property()
+  @Property({nullable: false})
   aptoVegetarianos!: boolean
 
-  @Property()
+  @Property({nullable: false})
   aptoVeganos!: boolean
 
   @OneToMany(() => ElaboracionPlato, (elaboracionPlato) => elaboracionPlato.ingrediente, {cascade: [Cascade.ALL]})

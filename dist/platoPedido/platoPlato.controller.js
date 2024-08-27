@@ -8,7 +8,10 @@ async function sanitizePlatoPlato(req, res, next) {
     req.body.sanitizePlatoPlato = {
         pedido: req.body.pedido,
         plato: req.params.nro,
-        cantidad: req.body.cantidad
+        cantidad: req.body.cantidad,
+        fechaSolicitud: req.body.fechaSolicitud,
+        horaSolicitud: req.body.horaSolicitud,
+        entregado: req.body.entregado
     };
     Object.keys(req.body.sanitizePlatoPlato).forEach((keys) => {
         if (req.body.sanitizePlatoPlato[keys] === undefined) {

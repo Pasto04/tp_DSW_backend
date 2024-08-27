@@ -14,9 +14,6 @@ export class ElaboracionPlato {
   plato!: Rel<Plato>
 
   @Property()
-  fechaVigencia!: string
-
-  @Property()
   cantidadNecesaria!: number
 
   [PrimaryKeyType]?: [number, number]

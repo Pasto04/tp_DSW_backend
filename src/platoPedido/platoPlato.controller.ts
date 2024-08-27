@@ -11,7 +11,10 @@ async function sanitizePlatoPlato(req: Request, res:Response, next: NextFunction
   req.body.sanitizePlatoPlato = {
     pedido: req.body.pedido,
     plato: req.params.nro,
-    cantidad: req.body.cantidad
+    cantidad: req.body.cantidad,
+    fechaSolicitud: req.body.fechaSolicitud,
+    horaSolicitud: req.body.horaSolicitud,
+    entregado: req.body.entregado
   }
 
   Object.keys(req.body.sanitizePlatoPlato).forEach((keys) => {

@@ -16,7 +16,6 @@ Content-Type: application/json
   "descIngre": "Queso Cremoso",
   "puntoDePedido": 7500,
   "unidadMedida": "gramos",
-  "fechaVencimiento": "2024-08-22T10:30:00Z",
   "aptoCeliacos": true,
   "aptoVegetarianos": true,
   "aptoVeganos": false
@@ -31,7 +30,6 @@ Content-Type: application/json
   "descIngre": "Pechuga de Pollo",
   "puntoDePedido": 2000,
   "unidadMedida": "gramos",
-  "fechaVencimiento": "2024-08-22T17:40:00-03:00",
   "aptoCeliacos": true,
   "aptoVegetarianos": false,
   "aptoVeganos": false
@@ -46,7 +44,6 @@ Content-Type: application/json
   "descIngre": "Sal Fina",
   "puntoDePedido": 2000,
   "unidadMedida": "gramos",
-  "fechaVencimiento": "2024-08-22T17:40:00-03:00",
   "aptoCeliacos": true,
   "aptoVegetarianos": false,
   "aptoVeganos": false
@@ -59,6 +56,15 @@ Content-Type: application/json
 
 {
   "descIngre": "Papas Fritas"
+}
+
+###Modifica la descripción de un ingrediente ya ingresado utilizando su código
+
+PATCH http://localhost:3000/api/ingredientes/4
+Content-Type: application/json
+
+{
+  "puntoDePedido": 10000
 }
 
 ###Elimina un ingrediente existente utilizando su código
