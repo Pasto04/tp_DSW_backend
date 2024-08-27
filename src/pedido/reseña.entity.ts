@@ -1,4 +1,4 @@
-import { Entity, Property, OneToOne, Collection, Cascade } from "@mikro-orm/core";
+import { Entity, Property, OneToOne, Collection, Cascade, Rel, PrimaryKeyType } from "@mikro-orm/core";
 import { Pedido } from "./pedido.entity.js";
 
 @Entity()

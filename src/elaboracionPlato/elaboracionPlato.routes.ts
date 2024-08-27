@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import {sanitizeElaboracionPlato, findAll, findOne, add, update, remove} from './elaboracionPlato.controller.js'
+import { sanitizeElaboracionPlato, findAll, findOne, add, update, remove } from './elaboracionPlato.controller.js'
 import { addElabIngre, findAllElabIngre, sanitizeElabIngre, updateElabIngre } from './elaboracionIngrediente.controller.js'
 
 export const elabPlatoRouter = Router()
