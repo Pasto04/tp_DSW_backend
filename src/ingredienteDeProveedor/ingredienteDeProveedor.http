@@ -20,8 +20,7 @@ POST http://localhost:3000/api/ingredientes/1/proveedores
 Content-Type: application/json
 
 {
-  "proveedor": 1,
-  "stock": 25000
+  "proveedor": 1
 }
 
 ### Post ProvIngre
@@ -30,11 +29,10 @@ POST http://localhost:3000/api/proveedores/2/ingredientes
 Content-Type: application/json
 
 {
-  "ingrediente": 1,
-  "stock": 12500
+  "ingrediente": 1
 }
 
-### Patch IngrePro
+### Patch IngrePro (CONSULTAR CON EL EQUIPO SI PERMANECE ESTA FUNCIONALIDAD)
 
 PATCH http://localhost:3000/api/ingredientes/1/proveedores/1
 Content-Type: application/json
@@ -43,7 +41,7 @@ Content-Type: application/json
   "stock": 17500
 }
 
-### Patch ProvIngre
+### Patch ProvIngre (CONSULTAR CON EL EQUIPO SI PERMANECE ESTA FUNCIONALIDAD)
 
 PATCH http://localhost:3000/api/proveedores/2/ingredientes/1
 Content-Type: application/json

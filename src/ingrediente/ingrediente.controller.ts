@@ -8,9 +8,9 @@ function sanitizeIngrediente(req:Request, res:Response, next:NextFunction) {
   req.body.sanitizedIngrediente = {
     codigo: req.body.codigo,
     descIngre: req.body.descIngre,
+    stock: req.body.stock,
     puntoDePedido: req.body.puntoDePedido,
     unidadMedida: req.body.unidadMedida,
-    fechaVencimiento: req.body.fechaVencimiento,
     aptoCeliacos: req.body.aptoCeliacos,
     aptoVegetarianos: req.body.aptoVegetarianos,
     aptoVeganos: req.body.aptoVeganos

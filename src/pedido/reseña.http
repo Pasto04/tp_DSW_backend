@@ -13,7 +13,7 @@ Content-Type: application/json
 {
   "fechaResena": "{{$localDatetime rfc1123}}",
   "cuerpo": "Muy rico",
-  "puntaje": 8
+  "puntaje": 5
 }
 
 ###

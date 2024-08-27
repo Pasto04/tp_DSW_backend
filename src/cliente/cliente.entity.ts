@@ -14,6 +14,9 @@ export class Cliente extends BaseClass2{
   @Property({nullable : false})
   mail!: string
 
+  @Property({nullable: false})
+  contrasenia!: string
+
   @Property({nullable : false})
   telefono!: string
 

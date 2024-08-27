@@ -1,4 +1,4 @@
-import { Entity, Index, ManyToOne, Property, Rel, Unique } from "@mikro-orm/core";
+import { Entity, Index, ManyToOne, PrimaryKeyType, Property, Rel, Unique } from "@mikro-orm/core";
 import { Ingrediente } from "../ingrediente/ingrediente.entity.js";
 import { Proveedor } from "../proveedor/proveedor.entity.js";
 
@@ -13,8 +13,6 @@ export class IngredienteDeProveedor {
 
   @ManyToOne(() => Proveedor, {nullable: false, primary: true})
   proveedor!: Rel<Proveedor>
-
-  @Property()
-  stock!: number
   
+  [PrimaryKeyType]?: [number, number] 
 }

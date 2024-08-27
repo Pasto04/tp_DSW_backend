@@ -12,7 +12,6 @@ async function sanitizeElaboracionPlato(req: Request, res:Response, next: NextFu
   req.body.sanitizedElaboracionPlato = {
     ingrediente: req.body.ingrediente,
     plato: req.params.nro,
-    fechaVigencia: req.body.fechaVigencia,
     cantidadNecesaria: req.body.cantidadNecesaria
   }
 
