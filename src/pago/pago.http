@@ -1,0 +1,38 @@
+### Solicita TODOS los mesas
+
+GET http://localhost:3000/api/pagos
+
+### Solicita un ÚNICO mesa
+
+GET http://localhost:3000/api/pagos/1
+
+### Crea un nuevo pedido V1
+
+POST http://localhost:3000/api/pagos
+Content-Type: application/json
+
+{
+    "importe":"12000",
+}
+
+### Crea un nuevo pedido V2
+
+POST http://localhost:3000/api/pagos
+Content-Type: application/json
+
+{
+    "importe":"12600",
+}
+
+###Modifica la descripción de un ingrediente ya ingresado utilizando su código
+
+PATCH http://localhost:3000/api/pagos/1
+Content-Type: application/json
+
+{
+  "importe":"11000",
+}
+
+###Elimina un ingrediente existente utilizando su código
+
+DELETE http://localhost:3000/api/pagos/2

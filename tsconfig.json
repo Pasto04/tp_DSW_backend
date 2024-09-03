@@ -14,6 +14,6 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
-  "include": ["src/**/*", "**/*.ts"],
+  "include": ["src/**/*", "**/*.ts", "dist/tarjetaCliente/tarjeta.controller.js"],
   "exclude": ["node_modules"]
 }
