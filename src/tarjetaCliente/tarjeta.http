@@ -1,0 +1,38 @@
+GET http://localhost:3000/api/tarjetas
+
+GET http://localhost:3000/api/tarjetas/1
+
+
+POST http://localhost:3000/api/tarjetas
+Content-Type: application/json
+
+{
+  "codTarjeta": "1234567890123456",
+  "descripcion": "Visa Gold"
+}
+
+POST http://localhost:3000/api/tarjetas
+Content-Type: application/json
+
+{
+  "codTarjeta": "9876543210987654",
+  "descripcion": "MasterCard Platinum"
+}
+
+POST http://localhost:3000/api/tarjetas
+Content-Type: application/json
+
+{
+  "codTarjeta": "5555444433332222",
+  "descripcion": "Amex Black"
+}
+
+PUT http://localhost:3000/api/tarjetas/5555444433332222
+Content-Type: application/json
+
+{
+  "descripcion": "American Express Black"
+}
+
+DELETE http://localhost:3000/api/tarjetas/5555444433332222
+

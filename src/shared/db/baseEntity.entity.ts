@@ -31,3 +31,19 @@ export abstract class BaseClass3{
   @PrimaryKey()
   nroPed?: number 
 }
+
+export abstract class BaseClass4{
+  @PrimaryKey()
+  nroMesa?: number
+}
+
+export abstract class BaseClass5{
+  @PrimaryKey()
+  idPago?: number
+}
+
+export abstract class BaseClass6{
+  @PrimaryKey()
+  nroTarjeta?: number
+}
+
