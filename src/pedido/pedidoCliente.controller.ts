@@ -15,7 +15,7 @@ async function sanitizePedidoClienteInput(req:Request, res:Response, next:NextFu
     horaCancelacion: req.body.horaCancelacion,
     reseña: req.body.reseña,
     cliente: req.params.id,
-    nroMesa: req.body.nroMesa
+    mesa: req.body.mesa
   }
 
   Object.keys(req.body.sanitizedPedCliInput).forEach(key => {

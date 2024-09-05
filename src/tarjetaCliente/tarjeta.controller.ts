@@ -4,6 +4,8 @@ import { orm } from '../shared/db/orm.js';
 
 const em = orm.em;
 
+em.getRepository(Tarjeta)
+
 // Obtener todas las tarjetas
 async function findAll(req: Request, res: Response) {
   try {
@@ -17,8 +19,8 @@ async function findAll(req: Request, res: Response) {
 // Obtener una tarjeta por su ID
 async function findOne(req: Request, res: Response) {
   try {
-    const nroTarjeta = Number.parseInt(req.params.nroTarjeta)
-    const tarjeta = await em.findOneOrFail(Tarjeta, { nroTarjeta });
+    const idTarjeta = Number.parseInt(req.params.idTarjeta)
+    const tarjeta = await em.findOneOrFail(Tarjeta, { idTarjeta });
     res.status(200).json({ message: 'La tarjeta fue encontrada con éxito', data: tarjeta });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
@@ -39,8 +41,8 @@ async function add(req: Request, res: Response) {
 // Actualizar una tarjeta existente
 async function update(req: Request, res: Response) {
   try {
-    const nroTarjeta = Number.parseInt(req.params.nroTarjeta)
-    const tarjeta = await em.findOneOrFail(Tarjeta, { nroTarjeta });
+    const idTarjeta = Number.parseInt(req.params.idTarjeta)
+    const tarjeta = await em.findOneOrFail(Tarjeta, { idTarjeta });
     em.assign(tarjeta, req.body);
     await em.flush();
     res.status(200).json({ message: 'La tarjeta fue actualizada con éxito', data: tarjeta });
@@ -52,8 +54,8 @@ async function update(req: Request, res: Response) {
 // Eliminar una tarjeta
 async function remove(req: Request, res: Response) {
   try {
-    const nroTarjeta = Number.parseInt(req.params.nroTarjeta)
-    const tarjeta = await em.findOneOrFail(Tarjeta, { nroTarjeta });
+    const idTarjeta = Number.parseInt(req.params.idTarjeta)
+    const tarjeta = await em.findOneOrFail(Tarjeta, { idTarjeta });
     await em.removeAndFlush(tarjeta);
     res.status(200).json({ message: 'La tarjeta ha sido eliminada con éxito', data: tarjeta });
   } catch (error: any) {

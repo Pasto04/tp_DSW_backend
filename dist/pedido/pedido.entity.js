@@ -12,50 +12,60 @@ import { BaseClass3 } from '../shared/db/baseEntity.entity.js';
 import { Resena } from './reseña.entity.js';
 import { Cliente } from '../cliente/cliente.entity.js';
 import { PlatoPedido } from '../platoPedido/platoPedido.entity.js';
+import { Mesa } from '../mesa/mesa.entity.js';
+import { Pago } from '../pago/pago.entity.js';
+import { BebidaPedido } from '../bebida/bebidaPedido.entity.js';
 export let Pedido = class Pedido extends BaseClass3 {
     constructor() {
         super(...arguments);
         this.platoPedidos = new Collection(this);
-        /*@ManyToOne(() => Mesa, {nullable: false})
-        mesa!: Rel<Mesa>*/
-        /*
-        @Unique()
-        
-        */
+        this.bebidaPedidos = new Collection(this);
     }
 };
 __decorate([
-    Property(),
+    Property({ nullable: false }),
     __metadata("design:type", String)
 ], Pedido.prototype, "estado", void 0);
 __decorate([
-    Property(),
-    __metadata("design:type", Date)
+    Property({ nullable: false }),
+    __metadata("design:type", String)
 ], Pedido.prototype, "fecha", void 0);
 __decorate([
-    Property(),
-    __metadata("design:type", Date)
+    Property({ nullable: false, type: 'time' }),
+    __metadata("design:type", String)
 ], Pedido.prototype, "hora", void 0);
 __decorate([
     Property({ nullable: true }),
-    __metadata("design:type", Date)
+    __metadata("design:type", String)
 ], Pedido.prototype, "fechaCancelacion", void 0);
 __decorate([
-    Property({ nullable: true }),
-    __metadata("design:type", Date)
+    Property({ nullable: true, type: 'time' }),
+    __metadata("design:type", String)
 ], Pedido.prototype, "horaCancelacion", void 0);
+__decorate([
+    ManyToOne(() => Cliente, { nullable: false }),
+    __metadata("design:type", Object)
+], Pedido.prototype, "cliente", void 0);
+__decorate([
+    ManyToOne(() => Mesa, { nullable: false }),
+    __metadata("design:type", Object)
+], Pedido.prototype, "mesa", void 0);
 __decorate([
     OneToMany(() => PlatoPedido, (platoPedido) => platoPedido.pedido),
     __metadata("design:type", Object)
 ], Pedido.prototype, "platoPedidos", void 0);
 __decorate([
-    OneToOne(() => Resena, (resena) => resena.pedido, { nullable: true, owner: true }),
+    OneToMany(() => BebidaPedido, (bebidaPedido) => bebidaPedido.pedido),
+    __metadata("design:type", Object)
+], Pedido.prototype, "bebidaPedidos", void 0);
+__decorate([
+    OneToOne(() => Pago, (pago) => pago.pedido, { nullable: true }),
+    __metadata("design:type", Object)
+], Pedido.prototype, "pago", void 0);
+__decorate([
+    OneToOne(() => Resena, (resena) => resena.pedido, { nullable: true }),
     __metadata("design:type", Object)
 ], Pedido.prototype, "resena", void 0);
-__decorate([
-    ManyToOne(() => Cliente, { nullable: false }),
-    __metadata("design:type", Object)
-], Pedido.prototype, "cliente", void 0);
 Pedido = __decorate([
     Entity()
 ], Pedido);

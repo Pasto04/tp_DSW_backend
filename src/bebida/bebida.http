@@ -1,0 +1,51 @@
+###
+GET http://localhost:3000/api/bebidas
+
+###
+GET http://localhost:3000/api/bebidas
+
+###
+POST http://localhost:3000/api/bebidas
+Content-Type: application/json
+
+{
+  "descripcion": "Pepsi",
+  "unidadMedida": "cm^3",
+  "contenido": "500"
+}
+###
+POST http://localhost:3000/api/bebidas
+Content-Type: application/json
+
+{
+  "descripcion": "Pepsi",
+  "unidadMedida": "L",
+  "contenido": "1.5"
+}
+###
+POST http://localhost:3000/api/bebidas
+Content-Type: application/json
+
+{
+  "descripcion": "Agua Mineral Bonaqua",
+  "unidadMedida": "L",
+  "contenido": "2.25"
+}
+###
+PUT http://localhost:3000/api/bebidas/1
+Content-Type: application/json
+
+{
+  "descripcion": "Coca-Cola",
+  "unidadMedida": "cm^3",
+  "contenido": "750"
+}
+###
+PATCH http://localhost:3000/api/bebidas/3
+Content-Type: application/json
+
+{
+  "contenido": "1.25"
+}
+###
+DELETE http://localhost:3000/api/bebidas/2

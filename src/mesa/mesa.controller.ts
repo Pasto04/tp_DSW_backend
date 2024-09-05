@@ -22,7 +22,7 @@ async function sanitizeMesaInput(req:Request, res:Response, next:NextFunction){
 async function findAll(req:Request,res:Response) {
   try{
     const mesas = await em.find(Mesa, {})
-    res.status (200).json({message: 'Todos los mesas encontrados', data: mesas})
+    res.status (200).json({message: 'Todas las mesas encontradas', data: mesas})
   } catch (error:any){
     res.status(500).json({message:error.message})
   }
@@ -31,8 +31,8 @@ async function findAll(req:Request,res:Response) {
 async function findOne(req:Request,res:Response) {
   try{
     const nroMesa = Number.parseInt(req.params.nroMesa)
-    const mesa = await em.findOneOrFail(Mesa, {nroMesa},)
-    res.status(200).json({message: 'Mesa encontrado', data: mesa})
+    const mesa = await em.findOneOrFail(Mesa, {nroMesa})
+    res.status(200).json({message: 'Mesa encontrado exitosamente', data: mesa})
   } catch (error:any){
     res.status(500).json({message:error.message})
   }
@@ -42,7 +42,7 @@ async function add(req:Request,res:Response) {
   try{
     const mesa = em.create(Mesa, req.body.sanitizedInput)
     await em.flush()
-    res.status(201).json({message: 'Mesa creado', data:mesa})
+    res.status(201).json({message: 'Mesa creada con éxito', data:mesa})
   } catch (error:any){
     res.status(500).json({message:error.message})
   }
@@ -54,7 +54,7 @@ async function update (req:Request,res:Response){
     const mesaToUpdate = await em.findOneOrFail(Mesa, {nroMesa})
     em.assign(mesaToUpdate, req.body.sanitizedInput)
     await em.flush()
-    res.status(200).json({message: 'Mesa actualizado', data: mesaToUpdate})
+    res.status(200).json({message: 'Mesa actualizada con éxito', data: mesaToUpdate})
   } catch (error:any){
     res.status(500).json({message:error.message})
   }
@@ -65,7 +65,7 @@ async function remove (req:Request,res:Response) {
     const nroMesa = Number.parseInt(req.params.nroMesa)
     const mesa = await em.findOneOrFail(Mesa, {nroMesa})
     em.removeAndFlush(mesa)
-    res.status(200).json({message: 'El mesa ha sido eliminado con éxito', data: mesa})
+    res.status(200).json({message: 'La mesa ha sido eliminada con éxito', data: mesa})
   } catch(error: any) {
     res.status(500).json({message: error.message})
   }

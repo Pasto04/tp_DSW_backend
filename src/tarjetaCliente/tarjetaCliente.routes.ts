@@ -3,9 +3,9 @@ import { sanitizeTarjetaClienteInput, findAll, findOne, add, update, remove } fr
 
 export const tarjetaClienteRouter = Router()
 
-tarjetaClienteRouter.get('/',findAll)
-tarjetaClienteRouter.get('/:nroTarjeta',findOne) 
-tarjetaClienteRouter.post('/',sanitizeTarjetaClienteInput,add)
-tarjetaClienteRouter.put('/:nroTarjeta',sanitizeTarjetaClienteInput,update) 
-tarjetaClienteRouter.patch('/:nroTarjeta',sanitizeTarjetaClienteInput,update) 
-tarjetaClienteRouter.delete('/:nroTarjeta',sanitizeTarjetaClienteInput,remove) 
+tarjetaClienteRouter.get('/:id/tarjetas',findAll)
+tarjetaClienteRouter.get('/:id/tarjetas/:idTarjeta',findOne) 
+tarjetaClienteRouter.post('/:id/tarjetas',sanitizeTarjetaClienteInput,add)
+tarjetaClienteRouter.put('/:id/tarjetas/:idTarjeta',sanitizeTarjetaClienteInput,update) 
+tarjetaClienteRouter.patch('/:id/tarjetas/:idTarjeta',sanitizeTarjetaClienteInput,update) 
+tarjetaClienteRouter.delete('/:id/tarjetas/:idTarjeta',sanitizeTarjetaClienteInput,remove) 

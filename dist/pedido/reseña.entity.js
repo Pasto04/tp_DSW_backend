@@ -12,7 +12,7 @@ import { Pedido } from "./pedido.entity.js";
 export let Resena = class Resena {
 };
 __decorate([
-    OneToOne(() => Pedido, { primary: true }),
+    OneToOne(() => Pedido, { primary: true, owner: true }),
     __metadata("design:type", Object)
 ], Resena.prototype, "pedido", void 0);
 __decorate([

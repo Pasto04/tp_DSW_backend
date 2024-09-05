@@ -1,0 +1,70 @@
+###
+GET http://localhost:3000/api/clientes/1/tarjetas
+
+###
+GET http://localhost:3000/api/clientes/1/tarjetas/2
+
+###
+POST http://localhost:3000/api/clientes/1/tarjetas
+Content-Type: application/json
+
+{
+  "nroTarjeta": "1746-2918-2736-4512",
+  "tipoTarjeta": "Débito",
+  "bancoTarjeta": "Santander",
+  "titular": "Mauro F. Giraudo",
+  "vencimiento": {
+    "month": 7,
+    "year": 2028
+  },
+  "codSeguridad": "182",
+  "tarjeta": 1,
+  "cliente": 1
+}
+
+###
+POST http://localhost:3000/api/clientes/1/tarjetas
+Content-Type: application/json
+
+{
+  "nroTarjeta": "5185-4819-4712-5743",
+  "tipoTarjeta": "Crédito",
+  "bancoTarjeta": "Santander",
+  "titular": "Mauro F. Giraudo",
+  "vencimiento": {
+    "month": 8,
+    "year": 2029
+  },
+  "codSeguridad": "281",
+  "tarjeta": 1,
+  "cliente": 1
+}
+
+###
+POST http://localhost:3000/api/clientes/2/tarjetas
+Content-Type: application/json
+
+{
+  "nroTarjeta": "4926-1827-5561-8298",
+  "tipoTarjeta": "Débito",
+  "bancoTarjeta": "Macro",
+  "titular": "Tobías López",
+  "vencimiento": {
+    "month": 11,
+    "year": 2028
+  },
+  "codSeguridad": "551",
+  "tarjeta": 1,
+  "cliente": 2
+}
+
+###
+PATCH http://localhost:3000/api/clientes/1/tarjetas/2
+Content-Type: application/json
+
+{
+  "titular": "Tsunayoshi Sawada"
+}
+
+###
+DELETE http://localhost:3000/api/clientes/1/tarjetas/3

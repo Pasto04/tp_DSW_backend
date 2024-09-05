@@ -1,4 +1,4 @@
-import { Entity, PrimaryKey, DateTimeType } from "@mikro-orm/core";
+import { PrimaryKey, DateTimeType } from "@mikro-orm/core";
 
 export abstract class BaseClass {
   
@@ -37,13 +37,13 @@ export abstract class BaseClass4{
   nroMesa?: number
 }
 
-export abstract class BaseClass5{
-  @PrimaryKey()
-  idPago?: number
-}
-
 export abstract class BaseClass6{
   @PrimaryKey()
-  nroTarjeta?: number
+  idTarjeta?: number
+}
+
+export abstract class BaseClass7 {
+  @PrimaryKey()
+  codBebida?: number
 }
 

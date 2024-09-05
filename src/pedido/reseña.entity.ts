@@ -4,7 +4,7 @@ import { Pedido } from "./pedido.entity.js";
 @Entity()
 export class Resena {
 
-  @OneToOne(() => Pedido, {primary: true})
+  @OneToOne(() => Pedido, {primary: true, owner: true})
   pedido!: Rel<Pedido>
 
   @Property({primary: true})

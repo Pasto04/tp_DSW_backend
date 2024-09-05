@@ -12,8 +12,8 @@ POST http://localhost:3000/api/mesas
 Content-Type: application/json
 
 {
-    "estado": "Ocupada",
-    "cantPersonasMaxima": 6,
+    "estado": "Disponible",
+    "cantPersonasMax": 6
 }
 
 ### Crea un nuevo pedido V2
@@ -22,8 +22,8 @@ POST http://localhost:3000/api/mesas
 Content-Type: application/json
 
 {
-    "estado": "Libre",
-    "cantPersonasMaxima": 2,
+    "estado": "Disponible",
+    "cantPersonasMax": 2
 }
 
 ###Modifica la descripción de un ingrediente ya ingresado utilizando su código
@@ -32,7 +32,16 @@ PATCH http://localhost:3000/api/mesas/1
 Content-Type: application/json
 
 {
-  "estado": "Finalizado"
+  "estado": "Ocupada"
+}
+
+###Modifica la descripción de un ingrediente ya ingresado utilizando su código
+
+PATCH http://localhost:3000/api/mesas/1
+Content-Type: application/json
+
+{
+  "estado": "Disponible"
 }
 
 ###Elimina un ingrediente existente utilizando su código
