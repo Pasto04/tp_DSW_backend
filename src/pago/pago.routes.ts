@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { sanitizePagoInput, findAll, findOne, add, update, remove } from "./pago.controller.js";
+import { sanitizePagoInput, findOne, add, update, remove } from "./pago.controller.js";
 
 export const clientePedidoPagoRouter = Router()
 
@@ -8,7 +8,3 @@ clientePedidoPagoRouter.post('/:id/pedidos/:nroPed/pagos', sanitizePagoInput, ad
 clientePedidoPagoRouter.put('/:id/pedidos/:nroPed/pagos', sanitizePagoInput, update) 
 clientePedidoPagoRouter.patch('/:id/pedidos/:nroPed/pagos', sanitizePagoInput, update) 
 clientePedidoPagoRouter.delete('/:id/pedidos/:nroPed/pagos', remove) 
-
-export const clientePagoRouter = Router()
-
-clientePagoRouter.get('/:id/pagos', findAll)

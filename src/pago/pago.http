@@ -1,7 +1,3 @@
-### Solicita TODOS los mesas
-
-GET http://localhost:3000/api/clientes/1/pagos
-
 ### Solicita un ÚNICO mesa
 
 GET http://localhost:3000/api/clientes/1/pedidos/2/pagos

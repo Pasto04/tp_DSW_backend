@@ -19,7 +19,7 @@ import { tarjetaClienteRouter } from './tarjetaCliente/tarjetaCliente.routes.js'
 import { mesaRouter } from './mesa/mesa.routes.js'
 import { bebidaRouter } from './bebida/bebida.routes.js'
 import { bebidaPedidoRouter } from './bebida/bebidaPedido.routes.js'
-import { clientePagoRouter, clientePedidoPagoRouter } from './pago/pago.routes.js'
+import { clientePedidoPagoRouter } from './pago/pago.routes.js'
 
 const port = 3000
 const app = express()
@@ -43,8 +43,6 @@ app.use('/api/platos/tipos', tipoPlatoRouter)
 app.use('/api/platos', elabPlatoRouter)
 
 app.use('/api/platos', platoRouter)
-
-app.use('/api/clientes', clientePagoRouter)
 
 app.use('/api/clientes', clientePedidoPagoRouter)
 

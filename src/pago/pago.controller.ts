@@ -26,28 +26,6 @@ async function sanitizePagoInput(req:Request, res:Response, next:NextFunction){
   next()
 }
 
-async function findAll(req:Request,res:Response) {
-  try{
-    const id = Number.parseInt(req.params.id)
-    const cliente = await em.findOneOrFail(Cliente, {id})
-    const pedidos = await em.find(Pedido, {cliente}, {populate: ['cliente', 'mesa']})
-    const pagos: Loaded<Pago, never>[] = []
-    pedidos.forEach(async (pedido) => {
-      const pago = await em.findOne(Pago, {pedido})
-      if(pago !== null) {
-        console.log(pagos)
-        pagos.push(pago)
-        console.log(pagos)
-      }
-    })
-    console.log(pagos)
-    console.log(pagos)
-    res.status (200).json({message: `Todos los pagos del cliente ${cliente.nombre} ${cliente.apellido} encontrados`, data: pagos})
-  } catch (error:any){
-    res.status(500).json({message:error.message})
-  }
-}
-
 async function findOne(req:Request,res:Response) {
   try{
     const id = Number.parseInt(req.params.id)
@@ -100,4 +78,4 @@ async function remove (req:Request,res:Response) {
   }
 }
 
-export { sanitizePagoInput, findAll, findOne, add, update, remove }
+export { sanitizePagoInput, findOne, add, update, remove }
