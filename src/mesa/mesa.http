@@ -1,0 +1,49 @@
+### Solicita TODOS los mesas
+
+GET http://localhost:3000/api/mesas
+
+### Solicita un ÚNICO mesa
+
+GET http://localhost:3000/api/mesas/1
+
+### Crea un nuevo pedido V1
+
+POST http://localhost:3000/api/mesas
+Content-Type: application/json
+
+{
+    "estado": "Disponible",
+    "cantPersonasMax": 6
+}
+
+### Crea un nuevo pedido V2
+
+POST http://localhost:3000/api/mesas
+Content-Type: application/json
+
+{
+    "estado": "Disponible",
+    "cantPersonasMax": 2
+}
+
+###Modifica la descripción de un ingrediente ya ingresado utilizando su código
+
+PATCH http://localhost:3000/api/mesas/1
+Content-Type: application/json
+
+{
+  "estado": "Ocupada"
+}
+
+###Modifica la descripción de un ingrediente ya ingresado utilizando su código
+
+PATCH http://localhost:3000/api/mesas/1
+Content-Type: application/json
+
+{
+  "estado": "Disponible"
+}
+
+###Elimina un ingrediente existente utilizando su código
+
+DELETE http://localhost:3000/api/mesas/2

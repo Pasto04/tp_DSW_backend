@@ -12,8 +12,17 @@ export class PlatoPedido {
   @ManyToOne(() => Plato, {primary: true, nullable: false})
   plato!: Rel<Plato>
 
-  @Property()
+  @Property({ nullable: false })
   cantidad!: number
+
+  @Property({ nullable: false })
+  fechaSolicitud!: string
+
+  @Property({ nullable: false, type: 'time' })
+  horaSolicitud!: string
+
+  @Property({ nullable: false })
+  entregado!: boolean
 
   [PrimaryKeyType]?: [number, number]
 } 

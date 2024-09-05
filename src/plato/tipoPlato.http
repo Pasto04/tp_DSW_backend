@@ -37,7 +37,7 @@ PUT http://localhost:3000/api/platos/tipos/3
 Content-Type: application/json
 
 {
-  "descTPlato": "Bebida"
+  
 }
 
 ### Borra un tipo de plato

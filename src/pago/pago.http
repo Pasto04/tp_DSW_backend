@@ -1,0 +1,42 @@
+### Solicita un ÚNICO mesa
+
+GET http://localhost:3000/api/clientes/1/pedidos/2/pagos
+
+### Crea un nuevo pedido V1
+
+POST http://localhost:3000/api/clientes/1/pedidos/2/pagos
+Content-Type: application/json
+
+{
+    "idPago": "12378946",
+    "fechaPago": "2024-09-05",
+    "horaPago": "02:39",
+    "importe": 12000,
+    "tarjetaCliente": 3
+}
+
+### Crea un nuevo pedido V2
+
+POST http://localhost:3000/api/clientes/1/pedidos/4/pagos
+Content-Type: application/json
+
+{
+    "idPago": "73819264",
+    "fechaPago": "2024-09-05",
+    "horaPago": "03:31",
+    "importe": 18000,
+    "tarjetaCliente": 2
+}
+
+###Modifica la descripción de un ingrediente ya ingresado utilizando su código
+
+PATCH http://localhost:3000/api/clientes/1/pedidos/1/pagos
+Content-Type: application/json
+
+{
+  "importe":"11000",
+}
+
+###Elimina un ingrediente existente utilizando su código
+
+DELETE http://localhost:3000/api/clientes/1/pedidos/2/pagos

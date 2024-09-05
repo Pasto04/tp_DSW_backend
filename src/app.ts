@@ -14,6 +14,12 @@ import { elabIngredienteRouter, elabPlatoRouter } from './elaboracionPlato/elabo
 import { pedidoClienteRouter } from './pedido/pedidoCliente.routes.js'
 import { proveedorRouter } from './proveedor/proveedor.routes.js'
 import { ingredienteDeProveedorRouter, proveedorDeIngredienteRouter } from './ingredienteDeProveedor/ingredienteDeProveedor.routes.js'
+import { tarjetaRouter } from './tarjetaCliente/tarjeta.routes.js'
+import { tarjetaClienteRouter } from './tarjetaCliente/tarjetaCliente.routes.js'
+import { mesaRouter } from './mesa/mesa.routes.js'
+import { bebidaRouter } from './bebida/bebida.routes.js'
+import { bebidaPedidoRouter } from './bebida/bebidaPedido.routes.js'
+import { clientePedidoPagoRouter } from './pago/pago.routes.js'
 
 const port = 3000
 const app = express()
@@ -38,6 +44,10 @@ app.use('/api/platos', elabPlatoRouter)
 
 app.use('/api/platos', platoRouter)
 
+app.use('/api/clientes', clientePedidoPagoRouter)
+
+app.use('/api/clientes', tarjetaClienteRouter)
+
 app.use('/api/clientes', pedidoClienteRouter)
 
 app.use('/api/clientes', clienteRouter)
@@ -45,6 +55,8 @@ app.use('/api/clientes', clienteRouter)
 app.use('/api/pedidos', platoPedidoRouter)
 
 app.use('/api/platos', platoPlatoRouter)
+
+app.use('/api/pedidos', bebidaPedidoRouter)
 
 app.use('/api/pedidos', pedidoResenaRouter)
 
@@ -55,6 +67,12 @@ app.use('/api/resenas', resenaRouter)
 app.use('/api/proveedores', proveedorDeIngredienteRouter)
 
 app.use('/api/proveedores', proveedorRouter)
+
+app.use('/api/tarjetas', tarjetaRouter)
+
+app.use('/api/mesas', mesaRouter)
+
+app.use('/api/bebidas', bebidaRouter)
 
 
 app.use((req, res) => {
