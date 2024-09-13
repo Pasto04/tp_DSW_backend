@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { orm } from "../shared/db/orm.js";
 import { Bebida } from "./bebida.entity.js";
 import { NotFoundError } from "@mikro-orm/core";
+import { Proveedor } from "../proveedor/proveedor.entity.js";
 
 
 const em = orm.em
@@ -68,12 +69,17 @@ async function findOne(req: Request, res: Response) {
   }
 }
 
+// Quiero validar que, antes de crear una nueva bebida, ya haya al menos un proveedor registrado
 async function add(req: Request, res: Response) {
   try{
-    validarRequest(req.body)
-    const bebida = em.create(Bebida, req.body)
-    await em.flush()
-    res.status(201).json({data: bebida})
+    if ((await em.find(Proveedor, {})).length !== 0) {
+      validarRequest(req.body)
+      const bebida = em.create(Bebida, req.body)
+      await em.flush()
+      res.status(201).json({data: bebida})
+    } else {
+      res.status(409).json({message: `No se pueden agregar bebidas si no hay proveedores registrados`})
+    }
   } catch(error: any) {
     handleErrors(error, res)
   }
