@@ -21,7 +21,7 @@ import { bebidaRouter } from './bebida/bebida.routes.js'
 import { bebidaPedidoRouter } from './bebida/bebidaPedido.routes.js'
 import { clientePedidoPagoRouter } from './pago/pago.routes.js'
 
-const port = 3000
+const port = process.env.PORT ?? 3000
 const app = express()
 app.use(express.json())
 

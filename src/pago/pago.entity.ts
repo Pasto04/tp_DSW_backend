@@ -18,7 +18,7 @@ export class Pago {
   @Property({ nullable: false })
   importe!: number
 
-  @OneToOne(() => Pedido, { primary: true, owner: true })
+  @OneToOne(() => Pedido, { primary: true })
   pedido!: Rel<Pedido>;
 
   @ManyToOne(() => TarjetaCliente, { nullable: false })
