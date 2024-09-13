@@ -36,7 +36,7 @@ async function findOne(req: Request, res: Response) {
   try {
     const codigo = Number.parseInt(req.params.cod)
     const ingre = await em.findOneOrFail(Ingrediente, {codigo})
-    res.status(200).json({message: 'El ingrediente fue hallado con éxito', data: ingre})
+    res.status(200).json({message: `El ingrediente ${ingre.descIngre} fue hallado con éxito`, data: ingre})
   } catch(error: any) {
     res.status(500).json({message: error.message})
   }
@@ -46,7 +46,7 @@ async function add(req: Request, res: Response) {
   try {
     const ingre = em.create(Ingrediente, req.body.sanitizedIngrediente)
     await em.flush()
-    res.status(201).json({message: 'El ingrediente fue creado con éxito', data: ingre})
+    res.status(201).json({message: `El ingrediente ${ingre.descIngre} fue creado con éxito`, data: ingre})
   } catch(error: any) {
     res.status(500).json({message: error.message})
   }
@@ -58,7 +58,7 @@ async function update(req: Request, res: Response) {
     const ingre = await em.findOneOrFail(Ingrediente, {codigo})
     em.assign(ingre, req.body.sanitizedIngrediente)
     await em.flush()
-    res.status(200).json({message: 'El ingrediente ha sido actualizado con éxito', data: req.body.sanitizedIngrediente})
+    res.status(200).json({message: `El ingrediente ${ingre.descIngre} ha sido actualizado con éxito`, data: req.body.sanitizedIngrediente})
   } catch(error: any) {
     res.status(500).json({message: error.message})
   }
@@ -69,7 +69,7 @@ async function remove(req: Request, res: Response) {
     const codigo = Number.parseInt(req.params.cod)
     const ingre = await em.findOneOrFail(Ingrediente, {codigo})
     await em.removeAndFlush(ingre)
-    res.status(200).json({message: 'El ingrediente ha sido eliminado con éxito', data: ingre})
+    res.status(200).json({message: `El ingrediente ${ingre.descIngre} ha sido eliminado con éxito`, data: ingre})
   } catch(error: any) {
     res.status(500).json({message: error.message})
   }

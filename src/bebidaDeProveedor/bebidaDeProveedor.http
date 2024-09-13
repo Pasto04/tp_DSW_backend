@@ -1,0 +1,17 @@
+### Obtener todas las bebidas de proveedor
+
+GET http://localhost:3000/api/bebidas/1/proveedores
+
+### Obtener una única bebida de proveedor
+
+GET http://localhost:3000/api/bebidas/1/proveedores/1
+
+### Crear una nueva bebida de proveedor
+
+POST http://localhost:3000/api/bebidas/1/proveedores
+Content-Type: application/json
+
+{
+  "proveedor": 1
+}
+

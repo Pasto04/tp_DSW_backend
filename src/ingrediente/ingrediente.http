@@ -15,6 +15,7 @@ Content-Type: application/json
 {
   "descIngre": "Queso Cremoso",
   "puntoDePedido": 7500,
+  "stock": 10000,
   "unidadMedida": "gramos",
   "aptoCeliacos": true,
   "aptoVegetarianos": true,
@@ -29,6 +30,7 @@ Content-Type: application/json
 {
   "descIngre": "Pechuga de Pollo",
   "puntoDePedido": 2000,
+  "stock": 10000,
   "unidadMedida": "gramos",
   "aptoCeliacos": true,
   "aptoVegetarianos": false,
@@ -43,6 +45,7 @@ Content-Type: application/json
 {
   "descIngre": "Sal Fina",
   "puntoDePedido": 2000,
+  "stock": 10000,
   "unidadMedida": "gramos",
   "aptoCeliacos": true,
   "aptoVegetarianos": false,
@@ -56,6 +59,15 @@ Content-Type: application/json
 
 {
   "descIngre": "Papas Fritas"
+}
+
+###Modifica la descripción de un ingrediente ya ingresado utilizando su código
+
+PATCH http://localhost:3000/api/ingredientes/1
+Content-Type: application/json
+
+{
+  "puntoDePedido": 3000
 }
 
 ###Modifica la descripción de un ingrediente ya ingresado utilizando su código

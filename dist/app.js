@@ -20,6 +20,7 @@ import { mesaRouter } from './mesa/mesa.routes.js';
 import { bebidaRouter } from './bebida/bebida.routes.js';
 import { bebidaPedidoRouter } from './bebida/bebidaPedido.routes.js';
 import { clientePedidoPagoRouter } from './pago/pago.routes.js';
+import { bebidaDeProveedorRouter } from './bebidaDeProveedor/bebidaDeProveedor.routes.js';
 const port = process.env.PORT ?? 3000;
 const app = express();
 app.use(express.json());
@@ -48,6 +49,7 @@ app.use('/api/proveedores', proveedorDeIngredienteRouter);
 app.use('/api/proveedores', proveedorRouter);
 app.use('/api/tarjetas', tarjetaRouter);
 app.use('/api/mesas', mesaRouter);
+app.use('/api/bebidas', bebidaDeProveedorRouter);
 app.use('/api/bebidas', bebidaRouter);
 app.use((req, res) => {
     return res.status(404).send({ message: 'Recurso no encontrado' });

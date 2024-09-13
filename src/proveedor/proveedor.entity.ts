@@ -1,6 +1,7 @@
 import { Entity, Property, Collection, OneToMany } from "@mikro-orm/core";
 import { BaseClass2 } from "../shared/db/baseEntity.entity.js";
 import { IngredienteDeProveedor } from "../ingredienteDeProveedor/ingredienteDeProveedor.entity.js";
+import { BebidaDeProveedor } from "../bebidaDeProveedor/bebidaDeProveedor.entity.js";
 
 
 @Entity()
@@ -32,5 +33,8 @@ export class Proveedor extends BaseClass2 {
 
   @OneToMany(() => IngredienteDeProveedor, (ingredienteDeProveedor) => ingredienteDeProveedor.proveedor) 
   ingredienteDeProveedor = new Collection<IngredienteDeProveedor>(this)
+
+  @OneToMany(() => BebidaDeProveedor, (bebidaDeProveedor) => bebidaDeProveedor.proveedor)
+  bebidasDeProveedor = new Collection<BebidaDeProveedor>(this)
   
 }
