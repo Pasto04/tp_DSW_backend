@@ -1,3 +1,4 @@
+import { Proveedor } from "../proveedor/proveedor.entity.js";
 import { orm } from "../shared/db/orm.js";
 import { Ingrediente } from "./ingrediente.entity.js";
 import { NextFunction, Request, Response } from "express";
@@ -44,10 +45,14 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req: Request, res: Response) {
   try {
-    const ingre = em.create(Ingrediente, req.body.sanitizedIngrediente)
-    await em.flush()
-    res.status(201).json({message: `El ingrediente ${ingre.descIngre} fue creado con éxito`, data: ingre})
-  } catch(error: any) {
+    if ((await em.find(Proveedor, {})).length === 0) {
+      res.status(409).json({message: `No se pueden agregar ingredientes si no hay proveedores registrados`}) 
+    } else {
+      const ingre = em.create(Ingrediente, req.body.sanitizedIngrediente)
+      await em.flush()
+      res.status(201).json({message: `El ingrediente ${ingre.descIngre} fue creado con éxito`, data: ingre})
+    }
+    } catch(error: any) {
     res.status(500).json({message: error.message})
   }
 }

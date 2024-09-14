@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from "express"
 import { Plato } from "./plato.entity.js"
 import { orm } from "../shared/db/orm.js"
+import { TipoPlato } from "./tipoPlato.entity.js"
+import { Ingrediente } from "../ingrediente/ingrediente.entity.js"
 
 const em = orm.em
 
@@ -46,10 +48,16 @@ async function findOne(req:Request,res:Response) {
 
 async function add(req:Request,res:Response) {
   try{
-    const plato = em.create(Plato, req.body.sanitizedInput)
-    await em.flush()
-    res.status(201).json({message: 'Plato creado', data:plato})
-  } catch (error:any){
+    if((await em.find(TipoPlato, {})).length === 0) {
+      res.status(409).json({message: `No es posible cargar un plato sin un tipo de plato registrado`})
+    } else if ((await em.find(Ingrediente, {})).length === 0) {
+      res.status(409).json({message: `No es posible cargar un plato sin un ingrediente registrado`})
+    } else {
+      const plato = em.create(Plato, req.body.sanitizedInput)
+      await em.flush()
+      res.status(201).json({message: 'Plato creado', data:plato})
+    }
+    } catch (error:any){
     res.status(500).json({message:error.message})
   }
 }

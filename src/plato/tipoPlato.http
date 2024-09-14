@@ -41,4 +41,4 @@ Content-Type: application/json
 }
 
 ### Borra un tipo de plato
-DELETE http://localhost:3000/api/platos/tipos/3
+DELETE http://localhost:3000/api/platos/tipos/2
