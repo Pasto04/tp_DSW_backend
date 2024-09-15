@@ -5,7 +5,7 @@ import express from 'express';
 import { ingredienteRouter } from './ingrediente/ingrediente.routes.js';
 import { tipoPlatoRouter } from './plato/tipoPlato.routes.js';
 import { platoRouter } from './plato/plato.routes.js';
-import { clienteRouter } from './cliente/cliente.routes.js';
+import { clienteRouter } from './usuario/usuario.routes.js';
 import { pedidoRouter } from './pedido/pedido.routes.js';
 import { platoPedidoRouter } from './platoPedido/platoPedido.routes.js';
 import { platoPlatoRouter } from './platoPedido/platoPlato.routes.js';

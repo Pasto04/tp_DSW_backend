@@ -27,7 +27,7 @@ async function sanitizePedidoInput(req:Request, res:Response, next:NextFunction)
 
 async function findAll(req:Request,res:Response) {
   try{
-    const pedidos = await em.find(Pedido, {}, {populate: ['cliente']})
+    const pedidos = await em.find(Pedido, {}, {populate: ['cliente', 'mesa']})
     res.status (200).json({message: 'Todos los pedidos encontrados', data: pedidos})
   } catch (error:any){
     res.status(500).json({message:error.message})
@@ -37,7 +37,7 @@ async function findAll(req:Request,res:Response) {
 async function findOne(req:Request,res:Response) {
   try{
     const nroPed = Number.parseInt(req.params.nroPed)
-    const pedido = await em.findOneOrFail(Pedido, {nroPed},)
+    const pedido = await em.findOneOrFail(Pedido, {nroPed}, {populate: ['cliente', 'mesa']})
     res.status(200).json({message: 'Pedido encontrado', data: pedido})
   } catch (error:any){
     res.status(500).json({message:error.message})

@@ -1,10 +1,10 @@
 import { Request,Response,NextFunction } from "express"
-import { Cliente } from "./cliente.entity.js"
+import { Usuario } from "./usuario.entity.js"
 import { orm } from "../shared/db/orm.js"
 
 const em = orm.em
 
-async function sanitizeClienteInput(req:Request, res:Response, next:NextFunction){
+async function sanitizeUsuarioInput(req:Request, res:Response, next:NextFunction){
   req.body.sanitizedInput = {
     id: req.body.id,
     nombre: req.body.nombre,
@@ -24,7 +24,7 @@ async function sanitizeClienteInput(req:Request, res:Response, next:NextFunction
 
 async function findAll(req:Request,res:Response) {
   try{
-    const clientes = await em.find(Cliente, {},)
+    const clientes = await em.find(Usuario, {},)
     res.status (200).json({message: 'Todos los clientes encontrados', data: clientes})
   } catch (error:any){
     res.status(500).json({message:error.message})
@@ -34,8 +34,8 @@ async function findAll(req:Request,res:Response) {
 async function findOne(req:Request,res:Response) {
   try{
     const id = Number.parseInt(req.params.id)
-    const cliente = await em.findOneOrFail(Cliente, {id},)
-    res.status(200).json({message: 'Cliente encontrado', data: cliente})
+    const cliente = await em.findOneOrFail(Usuario, {id},)
+    res.status(200).json({message: 'Usuario encontrado', data: cliente})
   } catch (error:any){
     res.status(500).json({message:error.message})
   }
@@ -43,9 +43,9 @@ async function findOne(req:Request,res:Response) {
 
 async function add(req:Request,res:Response) {
   try{
-    const cliente = em.create(Cliente, req.body.sanitizedInput)
+    const cliente = em.create(Usuario, req.body.sanitizedInput)
     await em.flush()
-    res.status(201).json({message: 'Cliente creado', data:cliente})
+    res.status(201).json({message: 'Usuario creado', data:cliente})
   } catch (error:any){
     res.status(500).json({message:error.message})
   }
@@ -54,10 +54,10 @@ async function add(req:Request,res:Response) {
 async function update (req:Request,res:Response){
   try{
     const id = Number.parseInt(req.params.id)
-    const clienteToUpdate = await em.findOneOrFail(Cliente, {id})
+    const clienteToUpdate = await em.findOneOrFail(Usuario, {id})
     em.assign(clienteToUpdate, req.body.sanitizedInput)
     await em.flush()
-    res.status(200).json({message: 'Cliente actualizado', data: clienteToUpdate})
+    res.status(200).json({message: 'Usuario actualizado', data: clienteToUpdate})
   } catch (error:any){
     res.status(500).json({message:error.message})
   }
@@ -66,7 +66,7 @@ async function update (req:Request,res:Response){
 async function remove (req:Request,res:Response) {
     try {
     const id = Number.parseInt(req.params.id)
-    const cliente = await em.findOneOrFail(Cliente, {id})
+    const cliente = await em.findOneOrFail(Usuario, {id})
     em.removeAndFlush(cliente)
     res.status(200).json({message: 'El cliente ha sido eliminado con éxito', data: cliente})
   } catch(error: any) {
@@ -74,4 +74,4 @@ async function remove (req:Request,res:Response) {
   }
 }
 
-export {sanitizeClienteInput,findAll,findOne,add,update,remove}
+export {sanitizeUsuarioInput,findAll,findOne,add,update,remove}

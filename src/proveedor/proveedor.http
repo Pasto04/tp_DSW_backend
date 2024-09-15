@@ -34,7 +34,7 @@ Content-Type: application/json
   "ciudad": "Venado Tuerto",
   "provincia": "Santa Fe",
   "pais": "Argentina",
-  "telefono": "+54 9 3462 847219",
+  "telefono": "+54 9 3462 522974",
   "email": "contactTheitus@gmail.com"
 }
 
@@ -45,7 +45,7 @@ Content-Type: application/json
 
 {
   "cuit": "71452157982",
-  "razonSocial": 66,
+  "razonSocial": "Termos San Telmo",
   "direccion": "Italia 738",
   "ciudad": "Venado Tuerto",
   "provincia": "Santa Fe",
@@ -90,4 +90,4 @@ Content-Type: application/json
 
 ### Elimina un proveedor
 
-DELETE http://localhost:3000/api/proveedores/5
+DELETE http://localhost:3000/api/proveedores/3

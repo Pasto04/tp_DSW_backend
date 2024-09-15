@@ -1,7 +1,7 @@
 import { Entity, Property, ManyToOne, OneToMany, Cascade, Rel, Collection, OneToOne, ManyToMany } from '@mikro-orm/core'
 import { BaseClass3 } from '../shared/db/baseEntity.entity.js'
 import { Resena } from './reseña.entity.js'
-import { Cliente } from '../cliente/cliente.entity.js'
+import { Usuario } from '../usuario/usuario.entity.js'
 import { PlatoPedido } from '../platoPedido/platoPedido.entity.js'
 import { Mesa } from '../mesa/mesa.entity.js'
 import { Pago } from '../pago/pago.entity.js'
@@ -25,8 +25,8 @@ export class Pedido extends BaseClass3 {
   @Property({ nullable: true, type: 'time' })
   horaCancelacion?: string
 
-  @ManyToOne(() => Cliente, {nullable: false})
-  cliente!: Rel<Cliente>
+  @ManyToOne(() => Usuario, {nullable: false})
+  cliente!: Rel<Usuario>
 
   @ManyToOne(() => Mesa, { nullable: false })
   mesa!: Rel<Mesa>
@@ -40,7 +40,7 @@ export class Pedido extends BaseClass3 {
   @OneToOne(() => Pago, (pago) => pago.pedido, { nullable: true })
   pago?: Rel<Pago>
 
-  @OneToOne(()=> Resena, (resena) => resena.pedido, {nullable: true})
+  @OneToOne(()=> Resena, {inversedBy: (resena) => resena.pedido,  nullable: true })
   resena?: Rel<Resena>
 
 

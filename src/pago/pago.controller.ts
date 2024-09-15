@@ -1,7 +1,7 @@
 import { Request,Response,NextFunction } from "express"
 import { Pago } from "./pago.entity.js"
 import { orm } from "../shared/db/orm.js"
-import { Cliente } from "../cliente/cliente.entity.js"
+import { Usuario } from "../usuario/usuario.entity.js"
 import { Pedido } from "../pedido/pedido.entity.js"
 import { Loaded } from "@mikro-orm/core"
 import { format } from "date-fns/format"
@@ -15,7 +15,7 @@ async function sanitizePagoInput(req:Request, res:Response, next:NextFunction){
     horaPago: req.body.horaPago,
     importe: req.body.importe,
     pedido: req.params.nroPed,
-    tarjetaCliente: req.body.tarjetaCliente
+    tarjetaUsuario: req.body.tarjetaUsuario
   }
 
   Object.keys(req.body.sanitizedInput).forEach(key => {
@@ -29,7 +29,7 @@ async function sanitizePagoInput(req:Request, res:Response, next:NextFunction){
 async function findOne(req:Request,res:Response) {
   try{
     const id = Number.parseInt(req.params.id)
-    const cliente = await em.findOneOrFail(Cliente, {id})
+    const cliente = await em.findOneOrFail(Usuario, {id})
     const nroPed = Number.parseInt(req.params.nroPed)
     const pedido = await em.findOneOrFail(Pedido, {nroPed, cliente}, {populate: ['cliente', 'mesa']})
     const pago = await em.findOneOrFail(Pago, {pedido}, {populate: ['tarjetaCliente', 'pedido']})
@@ -52,7 +52,7 @@ async function add(req:Request,res:Response) {
 async function update (req:Request,res:Response){
   try{
     const id = Number.parseInt(req.params.id)
-    const cliente = await em.findOneOrFail(Cliente, {id})
+    const cliente = await em.findOneOrFail(Usuario, {id})
     const nroPed = Number.parseInt(req.params.nroPed)
     const pedido = await em.findOneOrFail(Pedido, {nroPed, cliente})
     const pago = await em.findOneOrFail(Pago, {pedido})
@@ -67,7 +67,7 @@ async function update (req:Request,res:Response){
 async function remove (req:Request,res:Response) {
     try {
     const id = Number.parseInt(req.params.id)
-    const cliente = await em.findOneOrFail(Cliente, {id})
+    const cliente = await em.findOneOrFail(Usuario, {id})
     const nroPed = Number.parseInt(req.params.nroPed)
     const pedido = await em.findOneOrFail(Pedido, {nroPed, cliente})
     const pago = await em.findOneOrFail(Pago, {pedido})

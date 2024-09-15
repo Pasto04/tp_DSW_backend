@@ -2,7 +2,7 @@ import { Entity, ManyToOne, Property, Cascade, OneToMany, Collection, Unique, Re
 import { Tarjeta } from './tarjeta.entity.js';
 import { BaseClass6 } from '../shared/db/baseEntity.entity.js';
 import { Pago } from '../pago/pago.entity.js';
-import { Cliente } from '../cliente/cliente.entity.js';
+import { Usuario } from '../usuario/usuario.entity.js';
 import { vencimiento } from '../shared/db/vencimiento.type.js';
 
 @Entity()
@@ -32,6 +32,6 @@ export class TarjetaCliente extends BaseClass6 {
   @OneToMany(() => Pago, (pago) => pago.tarjetaCliente)
   pagos = new Collection<Pago>(this)
 
-  @ManyToOne(() => Cliente, { nullable: false })
-  cliente?: Rel<Cliente>
+  @ManyToOne(() => Usuario, { nullable: false })
+  cliente?: Rel<Usuario>
 }

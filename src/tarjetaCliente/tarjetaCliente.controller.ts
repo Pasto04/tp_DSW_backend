@@ -1,11 +1,8 @@
 
 import { Request, Response, NextFunction } from "express"
-import { BaseClass6 } from "../shared/db/baseEntity.entity.js"
-import { TarjetaCliente } from "./tarjetaCliente.entity.js"
 import { orm } from "../shared/db/orm.js"
-import { Tarjeta } from "./tarjeta.entity.js"
-import { ClientRequest } from "http"
-import { Cliente } from "../cliente/cliente.entity.js"
+import { Usuario } from "../usuario/usuario.entity.js"
+import { TarjetaCliente } from "./tarjetaCliente.entity.js"
 
 const em = orm.em
 
@@ -33,9 +30,9 @@ function sanitizeTarjetaClienteInput(req: Request, res: Response, next:NextFunct
 async function findAll(req:Request,res:Response) {
   try{
     const id = Number.parseInt(req.params.id)
-    const cliente = await em.findOneOrFail(Cliente, {id})
-    const tarjetasCliente = await em.find(TarjetaCliente, {cliente}, {populate: ['tarjeta', 'cliente']})
-    res.status (200).json({message: 'Todos las tarjetas encontradas', data: tarjetasCliente})
+    const cliente = await em.findOneOrFail(Usuario, {id})
+    const tarjetasUsuario = await em.find(TarjetaCliente, {cliente}, {populate: ['tarjeta', 'cliente']})
+    res.status (200).json({message: 'Todos las tarjetas encontradas', data: tarjetasUsuario})
   } catch (error:any){
     res.status(500).json({message:error.message})
   }
@@ -45,7 +42,7 @@ async function findOne(req:Request,res:Response) {
   try{
     const idTarjeta = Number.parseInt(req.params.idTarjeta)
     const id = Number.parseInt(req.params.id)
-    const cliente = await em.findOneOrFail(Cliente, {id})
+    const cliente = await em.findOneOrFail(Usuario, {id})
     const tarjetaClientes = await em.findOneOrFail(TarjetaCliente, {idTarjeta, cliente}, {populate: ['tarjeta', 'cliente']})
     res.status(200).json({message: 'Tarjeta encontrada', data: tarjetaClientes})
   } catch (error:any){
@@ -67,7 +64,7 @@ async function update(req:Request,res:Response) {
   try{
     const idTarjeta = Number.parseInt(req.params.idTarjeta)
     const id = Number.parseInt(req.params.id)
-    const cliente = await em.findOneOrFail(Cliente, {id})
+    const cliente = await em.findOneOrFail(Usuario, {id})
     const tarjetaCliente = await em.findOneOrFail(TarjetaCliente, {idTarjeta, cliente})
     em.assign(tarjetaCliente, req.body.sanitizedInput)
     await em.flush()
@@ -81,7 +78,7 @@ async function remove(req:Request, res:Response) {
     try {
     const idTarjeta = Number.parseInt(req.params.idTarjeta)
     const id = Number.parseInt(req.params.id)
-    const cliente = await em.findOneOrFail(Cliente, {id})
+    const cliente = await em.findOneOrFail(Usuario, {id})
     const tarjetaCliente = await em.findOneOrFail(TarjetaCliente, {idTarjeta, cliente})
     em.removeAndFlush(tarjetaCliente)
     res.status(200).json({message: 'El plato ha sido eliminado con éxito', data: tarjetaCliente})

@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Entity, Property, ManyToOne, OneToMany, Collection, OneToOne } from '@mikro-orm/core';
 import { BaseClass3 } from '../shared/db/baseEntity.entity.js';
 import { Resena } from './reseña.entity.js';
-import { Cliente } from '../cliente/cliente.entity.js';
+import { Usuario } from '../usuario/usuario.entity.js';
 import { PlatoPedido } from '../platoPedido/platoPedido.entity.js';
 import { Mesa } from '../mesa/mesa.entity.js';
 import { Pago } from '../pago/pago.entity.js';
@@ -43,7 +43,7 @@ __decorate([
     __metadata("design:type", String)
 ], Pedido.prototype, "horaCancelacion", void 0);
 __decorate([
-    ManyToOne(() => Cliente, { nullable: false }),
+    ManyToOne(() => Usuario, { nullable: false }),
     __metadata("design:type", Object)
 ], Pedido.prototype, "cliente", void 0);
 __decorate([
@@ -63,7 +63,7 @@ __decorate([
     __metadata("design:type", Object)
 ], Pedido.prototype, "pago", void 0);
 __decorate([
-    OneToOne(() => Resena, (resena) => resena.pedido, { nullable: true }),
+    OneToOne(() => Resena, { inversedBy: (resena) => resena.pedido, nullable: true }),
     __metadata("design:type", Object)
 ], Pedido.prototype, "resena", void 0);
 Pedido = __decorate([

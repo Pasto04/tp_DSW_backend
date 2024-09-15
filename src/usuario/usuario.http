@@ -16,7 +16,8 @@ Content-Type: application/json
   "apellido": "Kralje",
   "mail": "Jorege@gmail.com",
   "contrasenia": "1234",
-  "telefono": "132154154"
+  "telefono": "132154154",
+  "tipoUsuario": "cliente"
 }
 
 ###
@@ -29,7 +30,8 @@ Content-Type: application/json
   "apellido": "Ackerman",
   "mail": "Levi@gmail.com",
   "contrasenia": "jaja123",
-  "telefono": "132154154"
+  "telefono": "132154154",
+  "tipoUsuario": "cliente"
 }
 
 ###
@@ -42,7 +44,8 @@ Content-Type: application/json
   "apellido": "Sawada",
   "mail": "tsawada@gmail.com",
   "contrasenia": "kyoko10",
-  "telefono": "810356281736"
+  "telefono": "810356281736",
+  "tipoUsuario": "cliente"
 }
 
 ###Modifica el mail de un cliente ya ingresado utilizando su código
