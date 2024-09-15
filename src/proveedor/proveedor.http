@@ -4,7 +4,7 @@ GET http://localhost:3000/api/proveedores
 
 ### Obtener un único proveedor
 
-GET http://localhost:3000/api/proveedores/10
+GET http://localhost:3000/api/proveedores/2
 
 ### Crear un nuevo proveedor
 
@@ -56,7 +56,7 @@ Content-Type: application/json
 
 ###Modifica un proveedor 
 
-PUT http://localhost:3000/api/proveedores/1
+PUT http://localhost:3000/api/proveedores/2
 Content-Type: application/json
 
 {
@@ -72,20 +72,21 @@ Content-Type: application/json
 
 ###Modifica un proveedor 
 
-PATCH http://localhost:3000/api/proveedores/1
+PATCH http://localhost:3000/api/proveedores/2
 Content-Type: application/json
 
 {
-  "cuit": "20452159982"
+  "cuit": "20452157382"
 }
 
 ###Modifica un proveedor (CON ERROR)
 
-PATCH http://localhost:3000/api/proveedores/1
+PATCH http://localhost:3000/api/proveedores/2
 Content-Type: application/json
 
 {
-  "cuit": "20452159982"
+  "cuit": true,
+  "razonSocial": 123
 }
 
 ### Elimina un proveedor

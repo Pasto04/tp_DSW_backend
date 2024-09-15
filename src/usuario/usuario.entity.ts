@@ -11,14 +11,14 @@ export class Usuario extends BaseClass2{
   @Property({nullable : false})
   apellido!: string
 
-  @Property({nullable : false})
+  @Property({nullable : false, unique: true})
   mail!: string
 
   @Property({nullable: false})
   contrasenia!: string
 
-  @Property({nullable : false})
-  telefono!: string
+  @Property({nullable : true})
+  telefono?: string
 
   @Property({nullable: false})
   tipoUsuario!: string

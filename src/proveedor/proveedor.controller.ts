@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import { orm } from '../shared/db/orm.js'
 import { Proveedor } from './proveedor.entity.js'
 import { NotFoundError } from '@mikro-orm/core'
-import { validarProveedor } from './proveedor.schema.js'
+import { validarProveedor, validarProveedorPatch } from './proveedor.schema.js'
 import { z } from 'zod'
 
 const em = orm.em
@@ -17,12 +17,12 @@ function handleErrors(error: any, res: Response) {
   } else if (error.name === 'UniqueConstraintViolationException') {
     res.status(400).json({message: error.sqlMessage})
   } else {
-    console.log(error.name)
     res.status(500).json({message: error.message})
   }
 }
 
-function validarRequest(req: {id?: number, razonSocial?: string, cuit?: string, direccion?: string, telefono?: string, email?: string}) {
+// Como uso Zod, no requiero esta función, pero la conservo para tenerla en cuenta en el futuro 
+/*function validarRequest(req: {id?: number, razonSocial?: string, cuit?: string, direccion?: string, telefono?: string, email?: string}) {
   if (req.id !== undefined && typeof req.id !== 'number') {
     const newError = new Error('id debe ser number')
     throw newError
@@ -44,7 +44,7 @@ function validarRequest(req: {id?: number, razonSocial?: string, cuit?: string, 
     throw newError
   }
   return 
-}
+}*/
 
 async function findAll(req: Request, res: Response) {
   try {
@@ -78,10 +78,15 @@ async function add(req: Request, res: Response) {
 
 async function update(req: Request, res: Response) {
   try {
-    const result = validarProveedor(req.body)
     const id = Number.parseInt(req.params.id)
     const proveedor = await em.findOneOrFail(Proveedor, {id})
-    em.assign(proveedor, result)
+    let proveedorUpdated
+    if (req.method === 'PATCH') {
+      proveedorUpdated = validarProveedorPatch(req.body)
+    } else {
+      proveedorUpdated = validarProveedor(req.body)
+    }
+    em.assign(proveedor, proveedorUpdated)
     await em.flush()
     res.status(200).json({message: `El proveedor ${proveedor.razonSocial} ha sido actualizado con éxito`, data: proveedor})
   } catch(error: any) {
