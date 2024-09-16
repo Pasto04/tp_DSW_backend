@@ -1,20 +1,20 @@
-### FindAll IngreProv
+### FindAll Proveedores de un ingrediente
 
 GET http://localhost:3000/api/ingredientes/1/proveedores
 
-### FindAll ProvIngre
+### FindAll Ingredientes de un proveedor (ELIMINAR)
 
 GET http://localhost:3000/api/proveedores/2/ingredientes
 
-### GetOne IngrePro
+### GetOne Proveedor de un ingrediente
 
 GET http://localhost:3000/api/ingredientes/1/proveedores/1
 
-### GetOne ProvIngre
+### GetOne Ingrediente de un proveedor (ELIMINAR)
 
 GET http://localhost:3000/api/proveedores/1/ingredientes/1
 
-### Post IngrePro
+### Post Nuevo proveedor de un ingrediente
 
 POST http://localhost:3000/api/ingredientes/1/proveedores
 Content-Type: application/json
@@ -23,7 +23,7 @@ Content-Type: application/json
   "proveedor": 1
 }
 
-### Post ProvIngre
+### Post Nuevo ingrediente de un proveedor (ELIMINAR)
 
 POST http://localhost:3000/api/proveedores/2/ingredientes
 Content-Type: application/json
@@ -32,29 +32,11 @@ Content-Type: application/json
   "ingrediente": 1
 }
 
-### Patch IngrePro (CONSULTAR CON EL EQUIPO SI PERMANECE ESTA FUNCIONALIDAD)
-
-PATCH http://localhost:3000/api/ingredientes/1/proveedores/1
-Content-Type: application/json
-
-{
-  "stock": 17500
-}
-
-### Patch ProvIngre (CONSULTAR CON EL EQUIPO SI PERMANECE ESTA FUNCIONALIDAD)
-
-PATCH http://localhost:3000/api/proveedores/2/ingredientes/1
-Content-Type: application/json
-
-{
-  "stock": 22500
-}
-
-### Delete IngrePro
+### Delete Proveedor de ingrediente
 
 DELETE http://localhost:3000/api/ingredientes/1/proveedores/1
 
-### Delete ProvIngre
+### Delete Ingrediente de proveedor (ELIMINAR)
 
 DELETE http://localhost:3000/api/proveedores/1/ingredientes/1
 

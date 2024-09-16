@@ -18,7 +18,6 @@ import { BebidaDeProveedor } from "../bebidaDeProveedor/bebidaDeProveedor.entity
 });
 
  const proveedorToPatchSchema = z.object({
-  id: z.number().int().positive().optional(),
   cuit: z.string({invalid_type_error: 'El cuit debe ser un string'}).optional(),
   razonSocial: z.string({invalid_type_error: 'La razón social debe ser un string'}).optional(),
   direccion: z.string({invalid_type_error: 'La dirección debe ser un string'}).optional(),

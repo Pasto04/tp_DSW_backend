@@ -5,12 +5,12 @@ import express from 'express'
 import { ingredienteRouter } from './ingrediente/ingrediente.routes.js'
 import { tipoPlatoRouter } from './plato/tipoPlato.routes.js'
 import { platoRouter } from './plato/plato.routes.js'
-import { clienteRouter, empleadoRouter } from './usuario/usuario.routes.js'
+import { usuarioRouter } from './usuario/usuario.routes.js'
 import { pedidoRouter } from './pedido/pedido.routes.js'
 import { platoPedidoRouter } from './platoPedido/platoPedido.routes.js'
 import { platoPlatoRouter } from './platoPedido/platoPlato.routes.js'
 import { pedidoResenaRouter, resenaRouter } from './pedido/reseña.routes.js'
-import { elabIngredienteRouter, elabPlatoRouter } from './elaboracionPlato/elaboracionPlato.routes.js'
+import { elabPlatoRouter } from './elaboracionPlato/elaboracionPlato.routes.js'
 import { pedidoClienteRouter } from './pedido/pedidoCliente.routes.js'
 import { proveedorRouter } from './proveedor/proveedor.routes.js'
 import { ingredienteDeProveedorRouter, proveedorDeIngredienteRouter } from './ingredienteDeProveedor/ingredienteDeProveedor.routes.js'
@@ -33,7 +33,7 @@ app.use((req, res, next) => {
 })
 
 //
-app.use('/api/ingredientes', elabIngredienteRouter)
+app.use('/api/usuarios', usuarioRouter)
 
 app.use('/api/ingredientes', ingredienteDeProveedorRouter)
 
@@ -50,10 +50,6 @@ app.use('/api/clientes', clientePedidoPagoRouter)
 app.use('/api/clientes', tarjetaClienteRouter)
 
 app.use('/api/clientes', pedidoClienteRouter)
-
-app.use('/api/clientes', clienteRouter)
-
-app.use('/api/empleados', empleadoRouter)
 
 app.use('/api/pedidos', platoPedidoRouter)
 

@@ -21,17 +21,17 @@ __decorate([
     __metadata("design:type", Object)
 ], PlatoPedido.prototype, "plato", void 0);
 __decorate([
-    Property({ nullable: false }),
-    __metadata("design:type", Number)
-], PlatoPedido.prototype, "cantidad", void 0);
-__decorate([
-    Property({ nullable: false }),
+    Property({ nullable: false, primary: true }),
     __metadata("design:type", String)
 ], PlatoPedido.prototype, "fechaSolicitud", void 0);
 __decorate([
-    Property({ nullable: false, type: 'time' }),
+    Property({ nullable: false, primary: true, type: 'time' }),
     __metadata("design:type", String)
 ], PlatoPedido.prototype, "horaSolicitud", void 0);
+__decorate([
+    Property({ nullable: false }),
+    __metadata("design:type", Number)
+], PlatoPedido.prototype, "cantidad", void 0);
 __decorate([
     Property({ nullable: false }),
     __metadata("design:type", Boolean)

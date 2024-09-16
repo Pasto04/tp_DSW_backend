@@ -1,4 +1,88 @@
 ###Solicita todos los clientes
+GET http://localhost:3000/api/usuarios
+
+###Solicita todos los empleados
+GET http://localhost:3000/api/usuarios?tipoUsuario=empleado
+
+###Solicita un usuario en particular por su ID
+GET http://localhost:3000/api/usuarios/3
+
+###Solicita un usuario en particular por su mail y contraseña (TODAVÍA NO IMPLEMENTADO, VA A DAR ERROR)
+POST http://localhost:3000/api/usuarios
+Content-Type: application/json
+
+{
+  "mail": "rtohsaka@gmail.com",
+  "contrasenia": ""
+}
+
+###Ingresa un nuevo cliente
+POST http://localhost:3000/api/usuarios
+Content-Type: application/json
+
+{
+  "nombre": "Levi",
+  "apellido": "Ackerman",
+  "mail": "Levi@gmail.com",
+  "contrasenia": "jaja123",
+  "telefono": "+81 3 13215415",
+  "tipoUsuario": "cliente"
+}
+
+###Ingresa un nuevo empleado
+POST http://localhost:3000/api/usuarios
+Content-Type: application/json
+
+{
+  "nombre": "Rin",
+  "apellido": "Tohsaka",
+  "mail": "rtohsaka@gmail.com",
+  "contrasenia": "1234",
+  "telefono": "+81 92 62819372",
+  "tipoUsuario": "empleado"
+}
+
+###Ingresa un nuevo usuario (CON ERROR)
+POST http://localhost:3000/api/usuarios
+Content-Type: application/json
+
+{
+  "nombre": "Tsuna",
+  "apellido": "Sawada",
+  "mail": "tsawada@gmail.com",
+  "contrasenia": "kyoko10",
+  "telefono": "+81 3 56281736",
+  "tipoUsuario": "jefe"
+}
+
+###Modifica un usuario ya ingresado (PUT)
+
+PUT http://localhost:3000/api/usuarios/3
+Content-Type: application/json
+
+{
+  "nombre": "Rin",
+  "apellido": "Tohsaka",
+  "mail": "rtohsaka@gmail.com",
+  "contrasenia": "1234",
+  "telefono": "+81 92 62819372",
+  "tipoUsuario": "empleado"
+}
+
+###Modifica un usuario ya ingresado (PATCH)
+PATCH http://localhost:3000/api/usuarios/3
+Content-Type: application/json
+
+{
+  "contrasenia": "emiya999"
+}
+
+###Elimina un usuario existente
+DELETE http://localhost:3000/api/usuarios/3
+
+###-----------------------------------------------------------------------
+
+###Solicita todos los clientes
 
 GET http://localhost:3000/api/clientes
 

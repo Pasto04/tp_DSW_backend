@@ -6,17 +6,17 @@ import { IngredienteDeProveedor } from '../ingredienteDeProveedor/ingredienteDeP
 @Entity()
 export class Ingrediente extends BaseClass {
 
-  @Property({nullable: false})
+  @Property({nullable: false, unique: true})
   descIngre!: string
 
   @Property({nullable: false})
   puntoDePedido!: number
 
   @Property({nullable: false})
-  stock!: string
+  stock!: number
 
   @Property({nullable: false})
-  unidadMedida!: string
+  unidadMedida!: string[]
 
   @Property({nullable: false})
   aptoCeliacos!: boolean

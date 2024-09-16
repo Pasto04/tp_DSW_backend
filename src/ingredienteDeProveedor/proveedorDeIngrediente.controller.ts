@@ -42,6 +42,7 @@ async function addProvDeIngre(req: Request, res: Response) {
   }
 }
 
+/* NO TIENE SENTIDO DEFINIR UN UPDATE PARA ESTA ENTIDAD. SÓLO SERÁ CREADA Y ELIMINADA
 async function updateProvDeIngre(req: Request, res: Response) {
   try {
     const codigo = Number.parseInt(req.params.cod)
@@ -55,6 +56,6 @@ async function updateProvDeIngre(req: Request, res: Response) {
   } catch (error: any) {
     res.status(500).json({message: error.message})
   }
-}
+}*/
 
-export { sanitizeProveedorDeIngrediente, findAllProvDeIngre, addProvDeIngre, updateProvDeIngre }
+export { sanitizeProveedorDeIngrediente, findAllProvDeIngre, addProvDeIngre, /*updateProvDeIngre*/ }

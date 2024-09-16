@@ -1,9 +1,8 @@
 import { Request,Response,NextFunction } from "express"
 import { Usuario } from "./usuario.entity.js"
 import { orm } from "../shared/db/orm.js"
-import { validarCliente, validarClientePatch, validarEmpleado, validarEmpleadoPatch } from "./usuarios.schema.js"
+import { validarUsuario, validarUsuarioLogIn, validarUsuarioLogInSafe, validarUsuarioPatch, validarUsuarioSafe } from "./usuarios.schema.js"
 import z from 'zod'
-import { NotFoundError } from "@mikro-orm/core"
 
 const em = orm.em
 
@@ -21,106 +20,80 @@ function handleErrors(error: any, res: Response) {
   }
 }
 
-async function findAllClientes(req:Request, res:Response) {
+
+async function findAllByTipoUsuario(req:Request, res:Response) {
   try{
-    const usuarios = await em.find(Usuario, {tipoUsuario: 'cliente'},)
-    if(usuarios.length === 0) {
-      throw new Error('No hay usuarios registrados')
-    }
-    res.status (200).json({message: `Todos los ${usuarios[0].tipoUsuario}s encontrados`, data: usuarios})
+    const { tipoUsuario } = req.query
+    if(tipoUsuario){
+      const tipoUsuario = (req.query.tipoUsuario as string).toLowerCase()
+      const usuarios = await em.find(Usuario, {tipoUsuario})
+      if(usuarios.length === 0) {
+        throw new Error(`No hay ${tipoUsuario}s registrados`)
+      }
+      res.status(200).json({message: `Todos los ${tipoUsuario}s encontrados`, data: usuarios})
+    } 
   } catch (error:any){
     handleErrors(error, res)
   }
 }
 
-async function findAllEmpleados(req:Request, res:Response) {
-  try{
-    const usuarios = await em.find(Usuario, {tipoUsuario: 'empleado'},)
-    if(usuarios.length === 0) {
-      throw new Error('No hay usuarios registrados')
-    }
-    res.status (200).json({message: `Todos los ${usuarios[0].tipoUsuario}s encontrados`, data: usuarios})
-  } catch (error:any){
-    handleErrors(error, res)
-  }
-}
-
-//Tiene sentido definir un "getOne" por ID para un usuario o un empleado?
+//Tiene sentido definir un "getOne" por ID para un usuario?
 // No sería mejor definir uno por email y contraseña?
 
-async function findOneCliente(req:Request,res:Response) {
+async function findOne(req:Request,res:Response) {
   try{
     const id = Number.parseInt(req.params.id)
-    const usuario = await em.findOneOrFail(Usuario, {id, tipoUsuario: 'cliente'},)
-    res.status(200).json({message: 'Cliente encontrado', data: usuario})
+    const usuario = await em.findOneOrFail(Usuario, {id},)
+    res.status(200).json({message: 'Usuario encontrado', data: usuario})
   } catch (error:any){
     handleErrors(error, res)
   }
 }
-
-async function findOneEmpleado(req:Request,res:Response) {
+/* VER VIDEO SOBRE LOG IN PARA VER SI ESTOY ENCAMINADO
+async function addUsuarioOrGetByMailYContraseña(req:Request,res:Response) {
   try{
-    const id = Number.parseInt(req.params.id)
-    const usuario = await em.findOneOrFail(Usuario, {id, tipoUsuario: 'empleado'},)
-    res.status(200).json({message: 'Empleado encontrado', data: usuario})
-  } catch (error:any){
-    handleErrors(error, res)
-  }
-}
-
-async function addCliente(req:Request,res:Response) {
-  try{
-    const clienteValido = validarCliente(req.body)
-    const cliente = em.create(Usuario, clienteValido)
-    await em.flush()
-    res.status(201).json({message: 'Cliente creado con éxito', data: cliente})
-  } catch (error:any){
-    handleErrors(error, res)
-  }
-}
-
-async function addEmpleado(req:Request,res:Response) {
-  try{
-    const empleadoValido = validarEmpleado(req.body)
-    const empleado = em.create(Usuario, empleadoValido)
-    await em.flush()
-    res.status(201).json({message: 'Empleado creado con éxito', data: empleado})
-  } catch (error:any){
-    handleErrors(error, res)
-  }
-}
-
-async function updateCliente (req:Request,res:Response){
-  try{
-    const id = Number.parseInt(req.params.id)
-    const clienteToUpdate = await em.findOneOrFail(Usuario, {id})
-    let clienteUpdated
-    if(req.method === 'PATCH'){
-      clienteUpdated = validarClientePatch(req.body)
-    } else {
-      clienteUpdated = validarCliente(req.body)
+    const validoUsuario = validarUsuarioSafe(req.body)
+    const validoLogIn = validarUsuarioLogInSafe(req.body)
+    if(validoLogIn.success){
+      const logIn = validarUsuarioLogIn(req.body)
+      const usuario = await em.findOneOrFail(Usuario, {mail: logIn.mail, contrasenia: logIn.contrasenia})
+      res.status(200).json({message: 'Usuario encontrado con éxito', data: usuario})
+    } else if (validoUsuario.success){
+      const usuarioValido = validarUsuario(req.body)
+      const usuario = em.create(Usuario, usuarioValido)
+      await em.flush()
+      res.status(201).json({message: 'Usuario creado con éxito', data: usuario})
     }
-    em.assign(clienteToUpdate, clienteUpdated)
-    await em.flush()
-    res.status(200).json({message: 'Usuario actualizado', data: clienteToUpdate})
   } catch (error:any){
     handleErrors(error, res)
   }
 }
+*/
 
-async function updateEmpleado (req:Request,res:Response){
+async function addUsuario(req: Request, res: Response){
+  try {
+    const usuarioValido = validarUsuario(req.body)
+    const usuario = em.create(Usuario, usuarioValido)
+    await em.flush()
+    res.status(201).json({message: 'Usuario creado con éxito', data: usuario})
+  } catch (error: any){
+    handleErrors(error, res)
+  }
+}
+
+async function updateUsuario (req:Request,res:Response){
   try{
     const id = Number.parseInt(req.params.id)
-    const empleadoToUpdate = await em.findOneOrFail(Usuario, {id})
-    let empleadoUpdated
+    const usuarioToUpdate = await em.findOneOrFail(Usuario, {id})
+    let usuarioUpdated
     if(req.method === 'PATCH'){
-      empleadoUpdated = validarEmpleadoPatch(req.body)
+      usuarioUpdated = validarUsuarioPatch(req.body)
     } else {
-      empleadoUpdated = validarEmpleado(req.body)
+      usuarioUpdated = validarUsuario(req.body)
     }
-    em.assign(empleadoToUpdate, empleadoUpdated)
+    em.assign(usuarioToUpdate, usuarioUpdated)
     await em.flush()
-    res.status(200).json({message: 'Usuario actualizado', data: empleadoToUpdate})
+    res.status(200).json({message: 'Usuario actualizado', data: usuarioToUpdate})
   } catch (error:any){
     handleErrors(error, res)
   }
@@ -137,4 +110,4 @@ async function remove (req:Request,res:Response) {
   }
 }
 
-export {findAllClientes, findAllEmpleados, findOneCliente, findOneEmpleado, addCliente, addEmpleado, updateCliente, updateEmpleado, remove}
+export {findAllByTipoUsuario, findOne, addUsuario, updateUsuario, remove}

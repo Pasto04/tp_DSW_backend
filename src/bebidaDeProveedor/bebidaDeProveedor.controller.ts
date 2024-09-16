@@ -3,21 +3,19 @@ import { orm } from "../shared/db/orm.js";
 import { Bebida } from "../bebida/bebida.entity.js";
 import { BebidaDeProveedor } from "./bebidaDeProveedor.entity.js";
 import { Proveedor } from "../proveedor/proveedor.entity.js";
+import z from 'zod'
+import { validarBebidaDeProveedor } from "./bebidaDeProveedor.schema.js";
 
 const em = orm.em
 
-function sanitizeBebidaDeProveedor(req: Request, res: Response, next: NextFunction) {
-  req.body.sanitizedBebidaDeProveedor = {
-    bebida: req.params.codBebida,
-    proveedor: req.body.proveedor
+function handleErrors(error: any, res: Response) {
+  if(error instanceof z.ZodError) {
+    res.status(400).json({message: JSON.parse(error.message)[0].message})
+  } else if (error.name === 'NotFoundError') {
+    res.status(404).json({message: 'El proveedor de la bebida no ha sido encontrado'})
+  } else {
+    res.status(500).json({message: error.message})
   }
-
-  Object.keys(req.body.sanitizedBebidaDeProveedor).forEach((keys) => {
-    if (req.body.sanitizedBebidaDeProveedor[keys] === undefined) {
-      delete req.body.sanitizedBebidaDeProveedor[keys]
-    }
-  })
-  next()
 }
 
 async function findAll(req: Request, res: Response) {
@@ -46,7 +44,8 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req: Request, res: Response) {
   try {
-    const bebidaDeProv = em.create(BebidaDeProveedor, req.body.sanitizedBebidaDeProveedor)
+    const bebidaDeProvValida = validarBebidaDeProveedor(req.body)
+    const bebidaDeProv = em.create(BebidaDeProveedor, bebidaDeProvValida)
     await em.flush()
     res.status(201).json({data: bebidaDeProv})
   } catch (error: any) {
@@ -54,6 +53,7 @@ async function add(req: Request, res: Response) {
   }
 }
 
+/* NO TIENE SENTIDO DEFINIR UN UPDATE PARA ESTA ENTIDAD. SÓLO SERÁ CREADA Y ELIMINADA
 async function update(req: Request, res: Response) {
   try {
     const codBebida = Number.parseInt(req.params.cod)
@@ -67,7 +67,7 @@ async function update(req: Request, res: Response) {
   } catch (error: any) {
     res.status(500).json({message: error.message})
   }
-}
+}*/
 
 async function remove(req: Request, res: Response) {
   try {
@@ -83,4 +83,4 @@ async function remove(req: Request, res: Response) {
   }
 }
 
-export { sanitizeBebidaDeProveedor, findAll, findOne, add, update, remove }
+export { findAll, findOne, add, /*update,*/ remove }

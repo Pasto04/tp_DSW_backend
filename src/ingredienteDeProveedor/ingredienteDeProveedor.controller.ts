@@ -3,21 +3,21 @@ import { orm } from "../shared/db/orm.js";
 import { Ingrediente } from "../ingrediente/ingrediente.entity.js";
 import { IngredienteDeProveedor } from "./ingredienteDeProveedor.entity.js";
 import { Proveedor } from "../proveedor/proveedor.entity.js";
+import { z } from "zod";
+import { validarIngredienteDeProveedor } from "./ingredienteDeProveedor.schema.js";
 
 const em = orm.em
 
-function sanitizeIngredienteDeProveedor(req: Request, res: Response, next: NextFunction) {
-  req.body.sanitizedIngredienteDeProveedor = {
-    ingrediente: req.params.cod,
-    proveedor: req.body.proveedor
+function handleErrors(error: any, res: Response) {
+  if(error instanceof z.ZodError) {
+    res.status(400).json({message: JSON.parse(error.message)[0].message})
+  } else if (error.name === 'NotFoundError') {
+    res.status(404).json({message: 'El proveedor del ingrediente no ha sido encontrado'})
+  } else if (error.name === 'UniqueConstraintViolationException') {
+    res.status(400).json({message: error.sqlMessage})
+  } else {
+    res.status(500).json({message: error.message})
   }
-
-  Object.keys(req.body.sanitizedIngredienteDeProveedor).forEach((keys) => {
-    if (req.body.sanitizedIngredienteDeProveedor[keys] === undefined) {
-      delete req.body.sanitizedIngredienteDeProveedor[keys]
-    }
-  })
-  next()
 }
 
 async function findAll(req: Request, res: Response) {
@@ -27,7 +27,7 @@ async function findAll(req: Request, res: Response) {
     const ingresDeProv = await em.find(IngredienteDeProveedor, {ingrediente}, {populate: ['ingrediente', 'proveedor']})
     res.status(200).json({message: `Los proveedores del ingrediente "${ingrediente.descIngre}" han sido encontrados con éxito`, data: ingresDeProv})
   } catch (error: any) {
-    res.status(500).json({message: error.message})
+    handleErrors(error, res)
   }
 }
 
@@ -40,20 +40,22 @@ async function findOne(req: Request, res: Response) {
     const ingreDeProv = await em.findOneOrFail(IngredienteDeProveedor, {ingrediente, proveedor}, {populate: ['ingrediente', 'proveedor']})
     res.status(200).json({message: `El proveedor de cuit "${proveedor.cuit}" del ingrediente "${ingrediente.descIngre}" ha sido encontrado con éxito`, data: ingreDeProv})
   } catch (error: any) {
-    res.status(500).json({message: error.message})
+    handleErrors(error, res)
   }
 }
 
 async function add(req: Request, res: Response) {
   try {
-    const ingreDeProv = em.create(IngredienteDeProveedor, req.body.sanitizedIngredienteDeProveedor)
+    const ingreDeProvValido = validarIngredienteDeProveedor(req.body)
+    const ingreDeProv = em.create(IngredienteDeProveedor, ingreDeProvValido)
     await em.flush()
     res.status(201).json({data: ingreDeProv})
   } catch (error: any) {
-    res.status(500).json({message: error.message})
+    handleErrors(error, res)
   }
 }
 
+/* NO TIENE SENTIDO DEFINIR UN UPDATE PARA ESTA ENTIDAD. SÓLO SERÁ CREADA Y ELIMINADA
 async function update(req: Request, res: Response) {
   try {
     const codigo = Number.parseInt(req.params.cod)
@@ -67,7 +69,7 @@ async function update(req: Request, res: Response) {
   } catch (error: any) {
     res.status(500).json({message: error.message})
   }
-}
+}*/
 
 async function remove(req: Request, res: Response) {
   try {
@@ -79,8 +81,8 @@ async function remove(req: Request, res: Response) {
     await em.removeAndFlush(ingreDeProv)
     res.status(200).json({message: `El proveedor de cuit "${proveedor.cuit}" del ingrediente "${ingrediente.descIngre}" ha sido eliminado con éxito`, data: ingreDeProv})
   } catch (error: any) {
-    res.status(500).json({message: error.message})
+    handleErrors(error, res)
   }
 }
 
-export { sanitizeIngredienteDeProveedor, findAll, findOne, add, update, remove }
+export { findAll, findOne, add, /*update,*/ remove }
