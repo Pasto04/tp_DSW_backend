@@ -34,7 +34,7 @@ Content-Type: application/json
   "ciudad": "Venado Tuerto",
   "provincia": "Santa Fe",
   "pais": "Argentina",
-  "telefono": "+54 9 3462 522974",
+  "telefono": "+54 9 3462 526674",
   "email": "contactTheitus@gmail.com"
 }
 
@@ -51,12 +51,12 @@ Content-Type: application/json
   "provincia": "Santa Fe",
   "pais": "Argentina",
   "telefono": "+54 9 3462 847212",
-  "email": "contactTheitis@gmail.com"
+  "email": "contactTheitus@gmail.com"
 }
 
 ###Modifica un proveedor 
 
-PUT http://localhost:3000/api/proveedores/2
+PUT http://localhost:3000/api/proveedores/1
 Content-Type: application/json
 
 {
@@ -72,7 +72,7 @@ Content-Type: application/json
 
 ###Modifica un proveedor 
 
-PATCH http://localhost:3000/api/proveedores/2
+PATCH http://localhost:3000/api/proveedores/1
 Content-Type: application/json
 
 {
@@ -81,14 +81,14 @@ Content-Type: application/json
 
 ###Modifica un proveedor (CON ERROR)
 
-PATCH http://localhost:3000/api/proveedores/2
+PATCH http://localhost:3000/api/proveedores/7
 Content-Type: application/json
 
 {
-  "cuit": true,
+  "cuit": "true",
   "razonSocial": 123
 }
 
 ### Elimina un proveedor
 
-DELETE http://localhost:3000/api/proveedores/3
+DELETE http://localhost:3000/api/proveedores/8

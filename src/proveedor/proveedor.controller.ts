@@ -12,7 +12,7 @@ em.getRepository(Proveedor)
 function handleErrors(error: any, res: Response) {
   if (error instanceof z.ZodError) {
     res.status(400).json({message: JSON.parse(error.message)[0].message})
-  } else if (error === NotFoundError){
+  } else if (error.name === 'NotFoundError'){
     res.status(404).json({message: `El proveedor no ha sido encontrado`})
   } else if (error.name === 'UniqueConstraintViolationException') {
     res.status(400).json({message: error.sqlMessage})

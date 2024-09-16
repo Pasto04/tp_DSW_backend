@@ -5,7 +5,7 @@ import express from 'express'
 import { ingredienteRouter } from './ingrediente/ingrediente.routes.js'
 import { tipoPlatoRouter } from './plato/tipoPlato.routes.js'
 import { platoRouter } from './plato/plato.routes.js'
-import { usuarioRouter } from './usuario/usuario.routes.js'
+import { clienteRouter, empleadoRouter } from './usuario/usuario.routes.js'
 import { pedidoRouter } from './pedido/pedido.routes.js'
 import { platoPedidoRouter } from './platoPedido/platoPedido.routes.js'
 import { platoPlatoRouter } from './platoPedido/platoPlato.routes.js'
@@ -51,7 +51,9 @@ app.use('/api/clientes', tarjetaClienteRouter)
 
 app.use('/api/clientes', pedidoClienteRouter)
 
-app.use('/api/clientes', usuarioRouter)
+app.use('/api/clientes', clienteRouter)
+
+app.use('/api/empleados', empleadoRouter)
 
 app.use('/api/pedidos', platoPedidoRouter)
 

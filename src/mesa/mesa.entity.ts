@@ -4,11 +4,14 @@ import { Pedido } from '../pedido/pedido.entity.js'
 
 @Entity()
 export class Mesa extends BaseClass4 {
-  @Property()
+  @Property({nullable: false})
   cantPersonasMax!: number 
 
-  @Property()
+  @Property({nullable: false})
   estado!: string
+
+  @Property()
+  codigo?: string
 
   @OneToMany(() => Pedido, pedido => pedido.mesa)
   pedidos = new Collection<Pedido>(this);

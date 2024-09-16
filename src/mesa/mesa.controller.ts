@@ -2,40 +2,31 @@ import { Request,Response,NextFunction } from "express"
 import { Mesa } from "./mesa.entity.js"
 import { orm } from "../shared/db/orm.js"
 import { z } from "zod"
-import { NotFoundError } from "@mikro-orm/core"
 import { validarMesa, validarMesaToPatch } from "./mesa.schema.js"
+import crypto from 'node:crypto'
 
 const em = orm.em
 
 function handleErrors(error: any, res: Response) {
   if (error instanceof z.ZodError) {
     res.status(400).json({message: JSON.parse(error.message)[0].message})
-  } else if (error === NotFoundError) {
+  } else if (error.name === 'NotFoundError') {
     res.status(404).json({message: 'La mesa no ha sido encontrada'})
   } else {
     res.status(500).json({message: error.message})
   }
 }
 
-async function sanitizeMesaInput(req:Request, res:Response, next:NextFunction){
-  req.body.sanitizedInput = {
-    nroMesa: req.body.nroMesa,
-    cantPersonasMax: req.body.cantPersonasMax,
-    estado: req.body.estado
-  }
-
-  Object.keys(req.body.sanitizedInput).forEach(key => {
-    if(req.body.sanitizedInput [key] === undefined){
-      delete req.body.sanitizedInput [key]
-    }
-  })
-  next()
-}
-
 async function findAll(req:Request,res:Response) {
   try{
-    const mesas = await em.find(Mesa, {})
-    res.status (200).json({message: 'Todas las mesas encontradas', data: mesas})
+    if (req.query.estado){
+      const estado = req.query.estado as string
+      const mesas = await em.find(Mesa, {estado})
+      res.status(200).json({message: `Todas las mesas con estado ${estado} encontradas`, data: mesas})
+    } else {
+      const mesas = await em.find(Mesa, {})
+      res.status (200).json({message: 'Todas las mesas encontradas', data: mesas})
+    }
   } catch (error:any){
     handleErrors(error, res)
   }
@@ -45,7 +36,10 @@ async function findOne(req:Request,res:Response) {
   try{
     const nroMesa = Number.parseInt(req.params.nroMesa)
     const mesa = await em.findOneOrFail(Mesa, {nroMesa})
-    res.status(200).json({message: 'Mesa encontrado exitosamente', data: mesa})
+    const newCodigo = { codigo: crypto.randomUUID() }
+    em.assign(mesa, newCodigo)
+    await em.flush()
+    res.status(200).json({message: 'Mesa encontrada exitosamente', data: mesa})
   } catch (error:any){
     handleErrors(error, res)
   }
@@ -62,7 +56,7 @@ async function add(req:Request,res:Response) {
   }
 }
 
-async function update (req:Request,res:Response){
+async function update(req:Request,res:Response){
   try{
     const nroMesa = Number.parseInt(req.params.nroMesa)
     const mesaToUpdate = await em.findOneOrFail(Mesa, {nroMesa})
@@ -80,7 +74,7 @@ async function update (req:Request,res:Response){
   }
 }
 
-async function remove (req:Request,res:Response) {
+async function remove(req:Request,res:Response) {
     try {
     const nroMesa = Number.parseInt(req.params.nroMesa)
     const mesa = await em.findOneOrFail(Mesa, {nroMesa})
@@ -91,4 +85,4 @@ async function remove (req:Request,res:Response) {
   }
 }
 
-export {sanitizeMesaInput,findAll,findOne,add,update,remove}
+export {findAll,findOne,add,update,remove}
