@@ -3,7 +3,7 @@ GET http://localhost:3000/api/platos/tipos
 
 ### Solicita un único tipo de plato según su código
 
-GET http://localhost:3000/api/platos/tipos/1
+GET http://localhost:3000/api/platos/tipos/4
 
 ### Ingresa un nuevo tipo de plato
 
@@ -37,7 +37,7 @@ PUT http://localhost:3000/api/platos/tipos/3
 Content-Type: application/json
 
 {
-  
+  "descTPlato": "Entrada"
 }
 
 ### Borra un tipo de plato

@@ -8,8 +8,8 @@ import { vencimiento } from '../shared/db/vencimiento.type.js';
 @Entity()
 export class TarjetaCliente extends BaseClass6 {
 
-  @Property({ nullable: false })
-  nroTarjeta!: string;
+  @Property({ nullable: false, unique: true })
+  nroTarjeta!: number;
 
   @Property({ nullable: false })
   tipoTarjeta!: string;
@@ -24,7 +24,7 @@ export class TarjetaCliente extends BaseClass6 {
   vencimiento!: vencimiento;
 
   @Property({ nullable: false })
-  codSeguridad!: string;
+  codSeguridad!: number;
 
   @ManyToOne(() => Tarjeta, { cascade: [Cascade.PERSIST, Cascade.MERGE] })
   tarjeta!: Rel<Tarjeta>;
@@ -33,5 +33,5 @@ export class TarjetaCliente extends BaseClass6 {
   pagos = new Collection<Pago>(this)
 
   @ManyToOne(() => Usuario, { nullable: false })
-  cliente?: Rel<Usuario>
+  cliente!: Rel<Usuario>
 }

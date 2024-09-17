@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { orm } from "../shared/db/orm.js";
+import { orm } from "../../shared/db/orm.js";
 import { PlatoPedido } from "./platoPedido.entity.js";
-import { Plato } from "../plato/plato.entity.js";
-import { Pedido } from "../pedido/pedido.entity.js";
+import { Plato } from "../plato.entity.js";
+import { Pedido } from "../../pedido/pedido.entity.js";
 
 const em = orm.em
 

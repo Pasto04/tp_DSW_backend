@@ -6,7 +6,7 @@ import { Plato } from "../plato/plato.entity.js";
 export class TipoPlato extends BaseClass1{
 
   @Property({nullable: false, unique: true})
-  descTPlato!: string[]
+  descTPlato!: string
 
   @OneToMany(() => Plato, (plato) => plato.tipoPlato, {cascade: [Cascade.ALL]})
   platos = new Collection<Plato>(this)

@@ -1,7 +1,6 @@
 import { Cascade, Entity, ManyToOne, PrimaryKeyType, Property, Rel } from "@mikro-orm/core";
-import { BaseClass3 } from "../shared/db/baseEntity.entity.js";
-import { Pedido } from "../pedido/pedido.entity.js";
-import { Plato } from "../plato/plato.entity.js";
+import { Pedido } from "../../pedido/pedido.entity.js";
+import { Plato } from "../plato.entity.js";
 
 @Entity()
 export class PlatoPedido {

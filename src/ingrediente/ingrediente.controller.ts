@@ -14,6 +14,8 @@ function handleErrors(error: any, res: Response) {
     res.status(404).json({message: 'El ingrediente no ha sido encontrado'})
   } else if (error.name === 'UniqueConstraintViolationException'){
     res.status(400).json({message: 'El ingrediente ya existe'})
+  } else if (error.name === 'TypeError') {
+    res.status(400).json({message: error.message})
   } else {
     res.status(500).json({message: error.message})
   }

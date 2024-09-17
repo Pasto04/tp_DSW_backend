@@ -16,7 +16,7 @@ Content-Type: application/json
   "descIngre": "Queso Cremoso",
   "puntoDePedido": 7500,
   "stock": 10000,
-  "unidadMedida": ["gramos"],
+  "unidadMedida": "gramos",
   "aptoCeliacos": true,
   "aptoVegetarianos": true,
   "aptoVeganos": false
@@ -81,4 +81,4 @@ Content-Type: application/json
 
 ###Elimina un ingrediente existente utilizando su código
 
-DELETE http://localhost:3000/api/ingredientes/15
+DELETE http://localhost:3000/api/ingredientes/1

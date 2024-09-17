@@ -2,6 +2,14 @@ import z from 'zod'
 import { ElaboracionPlato } from '../plato/elaboracionPlato/elaboracionPlato.entity.js'
 import { IngredienteDeProveedor } from './ingredienteDeProveedor/ingredienteDeProveedor.entity.js'
 
+const unidadesMedida = ['kilogramos', 'gramos', 'litros', 'mililitros', 'unidades']
+
+const isIn = z.function().args(z.string(), z.array(z.string())).implement((a, b) => {
+  if(b.find((e) => e === a)){
+    return true
+  }
+})
+
 const ingredienteSchema = z.object({
   codigo: z.number().int().positive().optional(),
   descIngre: z.string({
@@ -16,9 +24,7 @@ const ingredienteSchema = z.object({
                   .positive({message: 'El punto de pedido debe ser un número entero positivo'}),
   stock: z.number({required_error: 'El stock es requerido', invalid_type_error: 'El stock debe ser un número'})
          .int({message: 'El stock debe ser un número entero'}).positive({message: 'El stock debe ser un número entero positivo'}),
-  unidadMedida: z.array(z.enum(['kg', 'g', 'l', 'ml', 'unidades']), {required_error: 'La unidad de medida es requerida', 
-                invalid_type_error: 'La unidad de medida debe ser un enum de Unidades de medida'})
-                .nonempty({message: 'El ingrediente debe tener al menos una unidad de medida'}),
+  unidadMedida: z.string({required_error: 'La unidad de medida es requerida', invalid_type_error: 'La unidad de medida debe ser un string'}),
   aptoCeliacos: z.boolean({message: 'Es necesario informar si el ingrediente es apto para celíacos'}),
   aptoVegetarianos: z.boolean({message: 'Es necesario informar si el ingrediente es apto para vegetarianos'}),
   aptoVeganos: z.boolean({message: 'Es necesario informar si el ingrediente es apto para veganos'}),
@@ -41,9 +47,7 @@ const ingredienteToPatchSchema = z.object({
   stock: z.number({required_error: 'El stock es requerido', invalid_type_error: 'El stock debe ser un número'})
          .int({message: 'El stock debe ser un número entero'}).positive({message: 'El stock debe ser un número entero positivo'})
          .optional(),
-  unidadMedida: z.array(z.enum(['kg', 'g', 'l', 'ml', 'unidades']), {required_error: 'La unidad de medida es requerida', 
-                invalid_type_error: 'La unidad de medida debe ser un enum de Unidades de medida'})
-                .nonempty({message: 'El ingrediente debe tener al menos una unidad de medida'}).optional(),
+  unidadMedida: z.string({required_error: 'La unidad de medida es requerida', invalid_type_error: 'La unidad de medida debe ser un string'}).optional(),
   aptoCeliacos: z.boolean({message: 'Es necesario informar si el ingrediente es apto para celíacos'}).optional(),
   aptoVegetarianos: z.boolean({message: 'Es necesario informar si el ingrediente es apto para vegetarianos'}).optional(),
   aptoVeganos: z.boolean({message: 'Es necesario informar si el ingrediente es apto para veganos'}).optional(),
@@ -53,7 +57,12 @@ const ingredienteToPatchSchema = z.object({
 
 function validarIngrediente(object: any) {
   try {
-    return ingredienteSchema.parse(object)
+    const result = isIn(object.unidadMedida, unidadesMedida)
+    if (result) {
+      return ingredienteSchema.parse(object)
+    } else {
+      throw new TypeError('La unidad de medida puede ser -kg-, -g-, -l-, -ml- o -unidades-')
+    }
   } catch (error: any) {
     throw error
   }
@@ -61,7 +70,16 @@ function validarIngrediente(object: any) {
 
 function validarIngredientePatch(object: any) {
   try{
-    return ingredienteToPatchSchema.parse(object)
+    if(object.unidadMedida){
+      const result = isIn(object.unidadMedida, unidadesMedida)
+      if(result){
+        return ingredienteToPatchSchema.parse(object)
+      } else {
+        throw new Error('La unidad de medida puede ser -kg-, -g-, -l-, -ml- o -unidades-')
+      }
+    } else {
+      return ingredienteToPatchSchema.parse(object)
+    }
   } catch (error: any) {
     throw error
   }

@@ -16,7 +16,7 @@ export class Ingrediente extends BaseClass {
   stock!: number
 
   @Property({nullable: false})
-  unidadMedida!: string[]
+  unidadMedida!: string
 
   @Property({nullable: false})
   aptoCeliacos!: boolean

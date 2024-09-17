@@ -11,10 +11,10 @@ import { Entity, Property, ManyToOne, OneToMany, Collection, OneToOne } from '@m
 import { BaseClass3 } from '../shared/db/baseEntity.entity.js';
 import { Resena } from './reseña.entity.js';
 import { Usuario } from '../usuario/usuario.entity.js';
-import { PlatoPedido } from '../platoPedido/platoPedido.entity.js';
+import { PlatoPedido } from '../plato/platoPedido/platoPedido.entity.js';
 import { Mesa } from '../mesa/mesa.entity.js';
-import { Pago } from '../pago/pago.entity.js';
-import { BebidaPedido } from '../bebida/bebidaPedido.entity.js';
+import { Pago } from './pago/pago.entity.js';
+import { BebidaPedido } from '../bebida/bebidaPedido/bebidaPedido.entity.js';
 export let Pedido = class Pedido extends BaseClass3 {
     constructor() {
         super(...arguments);
