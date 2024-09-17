@@ -19,7 +19,7 @@ import { tarjetaClienteRouter } from './tarjetaCliente/tarjetaCliente.routes.js'
 import { mesaRouter } from './mesa/mesa.routes.js'
 import { bebidaRouter } from './bebida/bebida.routes.js'
 import { bebidaPedidoRouter } from './bebida/bebidaPedido/bebidaPedido.routes.js'
-import { clientePedidoPagoRouter } from './pago/pago.routes.js'
+import { clientePedidoPagoRouter } from './pedido/pago/pago.routes.js'
 import { bebidaDeProveedorRouter } from './bebida/bebidaDeProveedor/bebidaDeProveedor.routes.js'
 
 const port = process.env.PORT ?? 3000
