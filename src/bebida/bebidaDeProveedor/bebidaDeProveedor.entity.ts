@@ -1,6 +1,6 @@
 import { Entity, Index, ManyToOne, PrimaryKeyType, Rel, Unique } from "@mikro-orm/core";
-import { Bebida } from "../bebida/bebida.entity.js";
-import { Proveedor } from "../proveedor/proveedor.entity.js";
+import { Bebida } from "../bebida.entity.js";
+import { Proveedor } from "../../proveedor/proveedor.entity.js";
 
 
 @Entity()

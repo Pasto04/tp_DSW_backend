@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-import { orm } from "../shared/db/orm.js";
-import { Ingrediente } from "../ingrediente/ingrediente.entity.js";
+import { orm } from "../../shared/db/orm.js";
+import { Ingrediente } from "../ingrediente.entity.js";
 import { IngredienteDeProveedor } from "./ingredienteDeProveedor.entity.js";
-import { Proveedor } from "../proveedor/proveedor.entity.js";
+import { Proveedor } from "../../proveedor/proveedor.entity.js";
 import { z } from "zod";
 import { validarIngredienteDeProveedor } from "./ingredienteDeProveedor.schema.js";
 

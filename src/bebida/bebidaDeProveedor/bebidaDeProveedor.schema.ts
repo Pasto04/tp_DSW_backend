@@ -1,6 +1,6 @@
 import z from 'zod'
-import { Bebida } from '../bebida/bebida.entity.js'
-import { Proveedor } from '../proveedor/proveedor.entity.js'
+import { Bebida } from '../bebida.entity.js'
+import { Proveedor } from '../../proveedor/proveedor.entity.js'
 
 const bebidaDeProveedorSchema = z.object({
   bebida: z.instanceof(Bebida),

@@ -2,7 +2,7 @@ import { z } from "zod";
 import { Proveedor } from "../proveedor/proveedor.entity.js";
 import { orm } from "../shared/db/orm.js";
 import { Ingrediente } from "./ingrediente.entity.js";
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { validarIngrediente, validarIngredientePatch } from "./ingrediente.schema.js";
 
 const em = orm.em

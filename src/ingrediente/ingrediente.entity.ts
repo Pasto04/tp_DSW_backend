@@ -1,7 +1,7 @@
 import { Entity, Property, ManyToOne, OneToMany, Cascade, Rel, Collection } from '@mikro-orm/core'
 import { BaseClass } from '../shared/db/baseEntity.entity.js'
-import { ElaboracionPlato } from '../elaboracionPlato/elaboracionPlato.entity.js'
-import { IngredienteDeProveedor } from '../ingredienteDeProveedor/ingredienteDeProveedor.entity.js'
+import { ElaboracionPlato } from '../plato/elaboracionPlato/elaboracionPlato.entity.js'
+import { IngredienteDeProveedor } from './ingredienteDeProveedor/ingredienteDeProveedor.entity.js'
 
 @Entity()
 export class Ingrediente extends BaseClass {

@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { orm } from "../shared/db/orm.js";
-import { Pedido } from "../pedido/pedido.entity.js";
+import { orm } from "../../shared/db/orm.js";
+import { Pedido } from "../../pedido/pedido.entity.js";
 import { BebidaPedido } from "./bebidaPedido.entity.js";
-import { Bebida } from "./bebida.entity.js";
+import { Bebida } from '../bebida.entity.js';
 
 
 const em = orm.em

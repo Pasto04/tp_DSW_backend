@@ -1,6 +1,6 @@
 import { Entity, Property, Rel, ManyToOne, OneToOne, Index, PrimaryKeyType, Unique } from '@mikro-orm/core'
-import { Pedido } from '../pedido/pedido.entity.js'
-import { TarjetaCliente } from '../tarjetaCliente/tarjetaCliente.entity.js'
+import { Pedido } from '../pedido.entity.js'
+import { TarjetaCliente } from '../../tarjetaCliente/tarjetaCliente.entity.js'
 
 @Index({properties: ['pedido', 'fechaPago', 'horaPago']})
 @Entity()

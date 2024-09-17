@@ -1,6 +1,6 @@
 import z from 'zod'
-import { Ingrediente } from '../ingrediente/ingrediente.entity.js'
-import { Plato } from '../plato/plato.entity.js'
+import { Ingrediente } from '../../ingrediente/ingrediente.entity.js'
+import { Plato } from '../plato.entity.js'
 
 const elaboracionPlatoSchema = z.object({
   ingrediente: z.instanceof(Ingrediente),

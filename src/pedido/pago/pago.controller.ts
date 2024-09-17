@@ -1,10 +1,8 @@
 import { Request,Response,NextFunction } from "express"
 import { Pago } from "./pago.entity.js"
-import { orm } from "../shared/db/orm.js"
-import { Usuario } from "../usuario/usuario.entity.js"
-import { Pedido } from "../pedido/pedido.entity.js"
-import { Loaded } from "@mikro-orm/core"
-import { format } from "date-fns/format"
+import { orm } from "../../shared/db/orm.js"
+import { Usuario } from "../../usuario/usuario.entity.js"
+import { Pedido } from "../pedido.entity.js"
 
 const em = orm.em
 

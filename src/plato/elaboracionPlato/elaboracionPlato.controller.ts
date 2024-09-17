@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { orm } from "../shared/db/orm.js";
+import { orm } from "../../shared/db/orm.js";
 import { ElaboracionPlato } from "./elaboracionPlato.entity.js";
-import { Plato } from "../plato/plato.entity.js";
-import { Ingrediente } from "../ingrediente/ingrediente.entity.js";
+import { Plato } from "../plato.entity.js";
+import { Ingrediente } from "../../ingrediente/ingrediente.entity.js";
 import { z } from "zod";
 import { validarElaboracionPlato, validarElaboracionPlatoPatch } from "./elaboracionPlato.schema.js";
 

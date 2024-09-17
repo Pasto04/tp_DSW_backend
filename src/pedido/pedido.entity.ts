@@ -1,11 +1,11 @@
-import { Entity, Property, ManyToOne, OneToMany, Cascade, Rel, Collection, OneToOne, ManyToMany } from '@mikro-orm/core'
+import { Entity, Property, ManyToOne, OneToMany, Rel, Collection, OneToOne } from '@mikro-orm/core'
 import { BaseClass3 } from '../shared/db/baseEntity.entity.js'
 import { Resena } from './reseña.entity.js'
 import { Usuario } from '../usuario/usuario.entity.js'
-import { PlatoPedido } from '../platoPedido/platoPedido.entity.js'
+import { PlatoPedido } from '../plato/platoPedido/platoPedido.entity.js'
 import { Mesa } from '../mesa/mesa.entity.js'
-import { Pago } from '../pago/pago.entity.js'
-import { BebidaPedido } from '../bebida/bebidaPedido.entity.js'
+import { Pago } from './pago/pago.entity.js'
+import { BebidaPedido } from '../bebida/bebidaPedido/bebidaPedido.entity.js'
 
 @Entity()
 export class Pedido extends BaseClass3 {

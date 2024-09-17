@@ -1,7 +1,7 @@
-import { Entity, ManyToOne, Property, Cascade, OneToMany, Collection, Unique, Rel } from '@mikro-orm/core';
+import { Entity, ManyToOne, Property, Cascade, OneToMany, Collection, Rel } from '@mikro-orm/core';
 import { Tarjeta } from './tarjeta.entity.js';
 import { BaseClass6 } from '../shared/db/baseEntity.entity.js';
-import { Pago } from '../pago/pago.entity.js';
+import { Pago } from '../pedido/pago/pago.entity.js';
 import { Usuario } from '../usuario/usuario.entity.js';
 import { vencimiento } from '../shared/db/vencimiento.type.js';
 

@@ -1,7 +1,7 @@
 import { Collection, Entity, OneToMany, Property } from "@mikro-orm/core";
 import { BaseClass7 } from '../shared/db/baseEntity.entity.js'
-import { BebidaPedido } from "./bebidaPedido.entity.js";
-import { BebidaDeProveedor } from "../bebidaDeProveedor/bebidaDeProveedor.entity.js";
+import { BebidaPedido } from "./bebidaPedido/bebidaPedido.entity.js";
+import { BebidaDeProveedor } from "./bebidaDeProveedor/bebidaDeProveedor.entity.js";
 
 
 @Entity()

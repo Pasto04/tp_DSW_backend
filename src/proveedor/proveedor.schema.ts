@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { IngredienteDeProveedor } from "../ingredienteDeProveedor/ingredienteDeProveedor.entity.js";
-import { BebidaDeProveedor } from "../bebidaDeProveedor/bebidaDeProveedor.entity.js";
+import { IngredienteDeProveedor } from "../ingrediente/ingredienteDeProveedor/ingredienteDeProveedor.entity.js";
+import { BebidaDeProveedor } from "../bebida/bebidaDeProveedor/bebidaDeProveedor.entity.js";
 
  const proveedorSchema = z.object({
   id: z.number().int().positive().optional(),

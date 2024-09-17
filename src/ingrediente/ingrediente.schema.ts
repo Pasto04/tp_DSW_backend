@@ -1,7 +1,6 @@
-import { application } from 'express'
 import z from 'zod'
-import { ElaboracionPlato } from '../elaboracionPlato/elaboracionPlato.entity.js'
-import { IngredienteDeProveedor } from '../ingredienteDeProveedor/ingredienteDeProveedor.entity.js'
+import { ElaboracionPlato } from '../plato/elaboracionPlato/elaboracionPlato.entity.js'
+import { IngredienteDeProveedor } from './ingredienteDeProveedor/ingredienteDeProveedor.entity.js'
 
 const ingredienteSchema = z.object({
   codigo: z.number().int().positive().optional(),

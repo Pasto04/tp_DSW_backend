@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { orm } from '../shared/db/orm.js'
 import { Proveedor } from './proveedor.entity.js'
-import { NotFoundError } from '@mikro-orm/core'
 import { validarProveedor, validarProveedorPatch } from './proveedor.schema.js'
 import { z } from 'zod'
 
