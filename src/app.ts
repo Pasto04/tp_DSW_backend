@@ -8,7 +8,7 @@ import { platoRouter } from './plato/plato.routes.js'
 import { usuarioRouter } from './usuario/usuario.routes.js'
 import { pedidoRouter } from './pedido/pedido.routes.js'
 import { platoPedidoRouter } from './plato/platoPedido/platoPedido.routes.js'
-import { platoPlatoRouter } from './plato/platoPedido/platoPlato.routes.js'
+import { platoPlatoRouter } from './plato/platoPedido/platoPlato(PENSAR EN ELIMINAR).routes.js'
 import { pedidoResenaRouter, resenaRouter } from './pedido/reseña.routes.js'
 import { elabPlatoRouter } from './plato/elaboracionPlato/elaboracionPlato.routes.js'
 import { pedidoClienteRouter } from './pedido/pedidoCliente.routes.js'
@@ -19,7 +19,7 @@ import { tarjetaClienteRouter } from './tarjetaCliente/tarjetaCliente.routes.js'
 import { mesaRouter } from './mesa/mesa.routes.js'
 import { bebidaRouter } from './bebida/bebida.routes.js'
 import { bebidaPedidoRouter } from './bebida/bebidaPedido/bebidaPedido.routes.js'
-import { clientePedidoPagoRouter } from './pedido/pago/pago.routes.js'
+import { PedidoPagoRouter } from './pedido/pago/pago.routes.js'
 import { bebidaDeProveedorRouter } from './bebida/bebidaDeProveedor/bebidaDeProveedor.routes.js'
 
 const port = process.env.PORT ?? 3000
@@ -45,11 +45,11 @@ app.use('/api/platos', elabPlatoRouter)
 
 app.use('/api/platos', platoRouter)
 
-app.use('/api/clientes', clientePedidoPagoRouter)
-
 app.use('/api/clientes', tarjetaClienteRouter)
 
 app.use('/api/clientes', pedidoClienteRouter)
+
+app.use('/api/pedidos', PedidoPagoRouter)
 
 app.use('/api/pedidos', platoPedidoRouter)
 
@@ -85,4 +85,3 @@ await syncSchema()
 app.listen(port, () => {
   console.log(`Server running in: http://localhost:${port}/`)
 })
-

@@ -32,10 +32,10 @@ export class Pedido extends BaseClass3 {
   mesa!: Rel<Mesa>
 
   @OneToMany(() => PlatoPedido, (platoPedido) => platoPedido.pedido)
-  platoPedidos = new Collection<PlatoPedido>(this)
+  platosPedido = new Collection<PlatoPedido>(this)
 
   @OneToMany(() => BebidaPedido, (bebidaPedido) => bebidaPedido.pedido)
-  bebidaPedidos = new Collection<BebidaPedido>(this)
+  bebidasPedido = new Collection<BebidaPedido>(this)
 
   @OneToOne(() => Pago, (pago) => pago.pedido, { nullable: true })
   pago?: Rel<Pago>

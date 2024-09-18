@@ -2,23 +2,12 @@ import { Request, Response, NextFunction } from 'express'
 import { orm } from '../shared/db/orm.js'
 import { Proveedor } from './proveedor.entity.js'
 import { validarProveedor, validarProveedorPatch } from './proveedor.schema.js'
-import { z } from 'zod'
+import { handleErrors } from '../shared/errors/errorHandler.js'
+import { ProveedorNotFoundError } from '../shared/errors/entityErrors/proveedor.errors.js'
 
 const em = orm.em
 
 em.getRepository(Proveedor)
-
-function handleErrors(error: any, res: Response) {
-  if (error instanceof z.ZodError) {
-    res.status(400).json({message: JSON.parse(error.message)[0].message})
-  } else if (error.name === 'NotFoundError'){
-    res.status(404).json({message: `El proveedor no ha sido encontrado`})
-  } else if (error.name === 'UniqueConstraintViolationException') {
-    res.status(400).json({message: error.sqlMessage})
-  } else {
-    res.status(500).json({message: error.message})
-  }
-}
 
 // Como uso Zod, no requiero esta función, pero la conservo para tenerla en cuenta en el futuro 
 /*function validarRequest(req: {id?: number, razonSocial?: string, cuit?: string, direccion?: string, telefono?: string, email?: string}) {
@@ -57,7 +46,7 @@ async function findAll(req: Request, res: Response) {
 async function findOne(req: Request, res: Response) {
   try {
     const id = Number.parseInt(req.params.id)
-    const proveedor = await em.findOneOrFail(Proveedor, {id})
+    const proveedor = await em.findOneOrFail(Proveedor, {id}, {failHandler: () => {throw new ProveedorNotFoundError}})
     res.status(200).json({message: `El proveedor ${proveedor.razonSocial} ha sido encontrado con éxito`, data: proveedor})
   } catch(error: any) {
     handleErrors(error, res)
@@ -78,7 +67,7 @@ async function add(req: Request, res: Response) {
 async function update(req: Request, res: Response) {
   try {
     const id = Number.parseInt(req.params.id)
-    const proveedor = await em.findOneOrFail(Proveedor, {id})
+    const proveedor = await em.findOneOrFail(Proveedor, {id}, {failHandler: () => {throw new ProveedorNotFoundError}})
     let proveedorUpdated
     if (req.method === 'PATCH') {
       proveedorUpdated = validarProveedorPatch(req.body)
@@ -96,7 +85,7 @@ async function update(req: Request, res: Response) {
 async function remove(req: Request, res: Response) {
   try {
     const id = Number.parseInt(req.params.id)
-    const proveedor = await em.findOneOrFail(Proveedor, {id})
+    const proveedor = await em.findOneOrFail(Proveedor, {id}, {failHandler: () => {throw new ProveedorNotFoundError}})
     await em.removeAndFlush(proveedor)
     res.status(200).json({message: `El proveedor ${proveedor.razonSocial} ha sido eliminado con éxito`, data: proveedor})
   } catch(error: any) {

@@ -4,7 +4,7 @@ GET http://localhost:3000/api/pedidos/3/platos
 
 ### Obtener la cantidad para un ingrediente y un plato
 
-GET http://localhost:3000/api/pedidos/3/platos/2
+GET http://localhost:3000/api/pedidos/3/platos/2?fechaSolicitud=2024-09-17&horaSolicitud=19:42
 
 ### Establecer una cantidad para un ingrediente dado un plato
 

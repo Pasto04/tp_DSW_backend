@@ -1,11 +1,15 @@
 import z from 'zod'
 import { ElaboracionPlato } from '../plato/elaboracionPlato/elaboracionPlato.entity.js'
 import { IngredienteDeProveedor } from './ingredienteDeProveedor/ingredienteDeProveedor.entity.js'
+import { IngredienteUnidadMedidaTypeError } from '../shared/errors/entityErrors/ingrediente.errors.js'
+
+//Se puede resolver con z.string(z.enum(['kilogramos', 'gramos', 'litros', 'mililitros', 'unidades'])), 
+//pero se optó por hacerlo de esta manera para mostrar el uso de z.function()
 
 const unidadesMedida = ['kilogramos', 'gramos', 'litros', 'mililitros', 'unidades']
 
 const isIn = z.function().args(z.string(), z.array(z.string())).implement((a, b) => {
-  if(b.find((e) => e === a)){
+  if(b.find((e) => e.toLowerCase() === a.toLowerCase())){
     return true
   }
 })
@@ -61,7 +65,7 @@ function validarIngrediente(object: any) {
     if (result) {
       return ingredienteSchema.parse(object)
     } else {
-      throw new TypeError('La unidad de medida puede ser -kg-, -g-, -l-, -ml- o -unidades-')
+      throw new IngredienteUnidadMedidaTypeError
     }
   } catch (error: any) {
     throw error
@@ -75,7 +79,7 @@ function validarIngredientePatch(object: any) {
       if(result){
         return ingredienteToPatchSchema.parse(object)
       } else {
-        throw new Error('La unidad de medida puede ser -kg-, -g-, -l-, -ml- o -unidades-')
+        throw new IngredienteUnidadMedidaTypeError
       }
     } else {
       return ingredienteToPatchSchema.parse(object)

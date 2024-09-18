@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { add, findAll, findOne, remove, /*update*/ } from "./ingredienteDeProveedor.controller.js";
+import { add, findAll, findOne, remove, sanitizeIngredienteDeProveedor, /*update*/ } from "./ingredienteDeProveedor.controller.js";
 import { addProvDeIngre, findAllProvDeIngre, /*updateProvDeIngre*/ } from "./proveedorDeIngrediente.controller.js";
 
 
@@ -7,7 +7,7 @@ export const ingredienteDeProveedorRouter = Router()
 
 ingredienteDeProveedorRouter.get('/:cod/proveedores', findAll)
 ingredienteDeProveedorRouter.get('/:cod/proveedores/:id', findOne)
-ingredienteDeProveedorRouter.post('/:cod/proveedores', add)
+ingredienteDeProveedorRouter.post('/:cod/proveedores', sanitizeIngredienteDeProveedor, add)
 ingredienteDeProveedorRouter.delete('/:cod/proveedores/:id', remove)
 
 

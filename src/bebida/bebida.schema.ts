@@ -26,7 +26,12 @@ const bebidaSchema = z.object({
                invalid_type_error: 'El contenido de la bebida debe ser un número'
              })
              .int({message: 'El contenido de la bebida debe ser un número entero'})
-             .positive({message: 'El contenido de la bebida debe ser un número entero positivo'})
+             .positive({message: 'El contenido de la bebida debe ser un número entero positivo'}),
+  precio: z.number({
+            required_error: 'El precio de la bebida es requerido', 
+            invalid_type_error: 'El precio de la bebida debe ser un número'
+          })
+          .positive({message: 'El precio de la bebida debe ser un número positivo'})
 })
 
 const bebidaToPatchSchema = z.object({

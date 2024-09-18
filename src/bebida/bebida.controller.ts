@@ -1,11 +1,10 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { orm } from "../shared/db/orm.js";
 import { Bebida } from "./bebida.entity.js";
-import { NotFoundError } from "@mikro-orm/core";
 import { Proveedor } from "../proveedor/proveedor.entity.js";
-import { z } from "zod";
 import { validarBebida, validarBebidaPatch } from "./bebida.schema.js";
-
+import { BebidaPreconditionFailed } from "../shared/errors/entityErrors/bebida.errors.js";
+import { handleErrors } from "../shared/errors/errorHandler.js";
 
 const em = orm.em
 
@@ -24,16 +23,6 @@ const em = orm.em
   })
   next()
 }*/
-
-function handleErrors(error: any, res: Response) {
-  if (error instanceof z.ZodError) {
-    res.status(400).json({message: JSON.parse(error.message)[0].message})
-  } else if (error.name = 'NotFoundError'){
-    res.status(404).json({message: `La bebida no ha sido encontrada`})
-  } else {
-    res.status(500).json({message: error.message})
-  }
-}
 
 async function findAll(req: Request, res: Response) {
   try{
@@ -54,12 +43,12 @@ async function findOne(req: Request, res: Response) {
   }
 }
 
-// Quiero validar que, antes de crear una nueva bebida, ya haya al menos un proveedor registrado
-// Falta sincronizar con la creación de un "BebidaDeProveedor".
+// Validamos que, si no hay proveedores registrados, no se puedan agregar bebidas
+// Todavía debemos sincronizar la creación de bebidas con la creación de "BebidaDeProveedor".
 async function add(req: Request, res: Response) {
   try{
     if ((await em.find(Proveedor, {})).length === 0) {
-      res.status(409).json({message: `No se pueden agregar bebidas si no hay proveedores registrados`})
+      throw new BebidaPreconditionFailed
     } else {
       const bebidaValida = validarBebida(req.body)
       const bebida = em.create(Bebida, bebidaValida)

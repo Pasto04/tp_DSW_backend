@@ -14,7 +14,7 @@ export class Plato extends BaseClass1 {
   @Property({nullable:false})
   tiempo!: number
 
-  @Property()
+  @Property({nullable:false})
   precio!: number
 
   @Property()

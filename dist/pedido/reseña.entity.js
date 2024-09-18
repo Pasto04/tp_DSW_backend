@@ -16,7 +16,7 @@ __decorate([
     __metadata("design:type", Object)
 ], Resena.prototype, "pedido", void 0);
 __decorate([
-    Property({ primary: true }),
+    Property({ nullable: false }),
     __metadata("design:type", Date)
 ], Resena.prototype, "fechaResena", void 0);
 __decorate([

@@ -1,10 +1,8 @@
 import { Router } from "express";
-import { sanitizePagoInput, findOne, add, update, remove } from "./pago.controller.js";
+import { sanitizePagoInput, findOne, add, remove } from "./pago.controller.js";
 
-export const clientePedidoPagoRouter = Router()
+export const PedidoPagoRouter = Router()
 
-clientePedidoPagoRouter.get('/:id/pedidos/:nroPed/pagos', findOne) 
-clientePedidoPagoRouter.post('/:id/pedidos/:nroPed/pagos', sanitizePagoInput, add)
-clientePedidoPagoRouter.put('/:id/pedidos/:nroPed/pagos', sanitizePagoInput, update) 
-clientePedidoPagoRouter.patch('/:id/pedidos/:nroPed/pagos', sanitizePagoInput, update) 
-clientePedidoPagoRouter.delete('/:id/pedidos/:nroPed/pagos', remove) 
+PedidoPagoRouter.get('/:nroPed/pagos', findOne) 
+PedidoPagoRouter.post('/:nroPed/pagos', sanitizePagoInput, add)
+PedidoPagoRouter.delete('/:nroPed/pagos', remove) 

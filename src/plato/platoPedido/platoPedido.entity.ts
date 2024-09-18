@@ -1,9 +1,12 @@
-import { Cascade, Entity, ManyToOne, PrimaryKeyType, Property, Rel } from "@mikro-orm/core";
+import { Cascade, Entity, Index, ManyToOne, PrimaryKeyType, Property, Rel } from "@mikro-orm/core";
 import { Pedido } from "../../pedido/pedido.entity.js";
 import { Plato } from "../plato.entity.js";
 
+@Index({properties: ['pedido', 'plato', 'fechaSolicitud', 'horaSolicitud']})
 @Entity()
 export class PlatoPedido {
+
+  [PrimaryKeyType]?: [number, number]
 
   @ManyToOne(() => Pedido, {primary: true, nullable: false})
   pedido!: Rel<Pedido>
@@ -12,7 +15,7 @@ export class PlatoPedido {
   plato!: Rel<Plato>
 
   @Property({ nullable: false, primary: true })
-  fechaSolicitud!: string
+  fechaSolicitud!: Date
 
   @Property({ nullable: false, primary: true, type: 'time' })
   horaSolicitud!: string
@@ -20,8 +23,6 @@ export class PlatoPedido {
   @Property({ nullable: false })
   cantidad!: number
 
-  @Property({ nullable: false })
-  entregado!: boolean
-
-  [PrimaryKeyType]?: [number, number]
+  @Property()
+  entregado?: boolean = false
 } 

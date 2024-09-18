@@ -16,6 +16,9 @@ export class Bebida extends BaseClass7 {
   @Property({ nullable: false })
   contenido!: number
 
+  @Property({ nullable: false })
+  precio!: number
+
   @OneToMany(() => BebidaPedido, (bebidaPedido) => bebidaPedido.bebida)
   bebidasPedido = new Collection<BebidaPedido>(this)
 

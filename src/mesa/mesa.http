@@ -4,11 +4,11 @@ GET http://localhost:3000/api/mesas
 
 ### Solicita TODAS las mesas DISPONIBLES
 
-GET http://localhost:3000/api/mesas?estado=Disponible
+GET http://localhost:3000/api/mesas?estado=Disponibol
 
 ### Solicita un ÚNICO mesa
 
-GET http://localhost:3000/api/mesas/1
+GET http://localhost:3000/api/mesas/2
 
 ### Crea un nuevo pedido V1
 
@@ -26,7 +26,7 @@ POST http://localhost:3000/api/mesas
 Content-Type: application/json
 
 {
-    "estado": "Disponible",
+    "estado": "Ocupada",
     "cantPersonasMax": 2
 }
 

@@ -20,10 +20,8 @@ const mesaToPatchSchema = z.object({
                   .positive({message: 'La cantidad de personas máxima debe ser un número entero positivo'})
                   .min(2, {message: 'La cantidad de personas máxima debe ser de, al menos, 2 personas'})
                   .optional(),
-  estado: z.string()
-          .includes('Disponible' || 'Ocupada', {message: 'El estado de la mesa puede ser Disponible u Ocupada'})
-          .or(z.string().includes('Ocupada', {message: 'El estado de la mesa puede ser Disponible u Ocupada'}))
-          .optional()
+  estado: z.string(z.enum(['Disponible', 'Ocupada'], {message: 'El estado de la mesa puede ser Disponible u Ocupada'})).optional(),
+          
 })
 
 function validarMesa(object: any) {
@@ -43,3 +41,7 @@ function validarMesaToPatch(object: any) {
 }
 
 export { validarMesa, validarMesaToPatch }
+
+/* .includes('Disponible' | 'Ocupada', {message: 'El estado de la mesa puede ser Disponible u Ocupada'})
+          .or(z.string().includes('Ocupada', {message: 'El estado de la mesa puede ser Disponible u Ocupada'}))
+          .optional() */

@@ -1,11 +1,12 @@
-import { Entity, Index, ManyToOne, PrimaryKeyType, Property, Rel, TimeType, Unique } from "@mikro-orm/core";
+import { DateType, Entity, Index, ManyToOne, PrimaryKeyType, Property, Rel } from "@mikro-orm/core";
 import { Bebida } from "../bebida.entity.js";
 import { Pedido } from "../../pedido/pedido.entity.js";
 
-@Index({properties: ['bebida', 'pedido']})
-@Unique({properties: ['bebida', 'pedido']})
+@Index({properties: ['bebida', 'pedido', 'fechaSolicitud', 'horaSolicitud']})
 @Entity()
 export class BebidaPedido {
+
+  [PrimaryKeyType]?: [number, number]
 
   @ManyToOne(() => Bebida, { nullable: false, primary: true })
   bebida!: Rel<Bebida>
@@ -13,17 +14,15 @@ export class BebidaPedido {
   @ManyToOne(() => Pedido, { nullable: false, primary: true })
   pedido!: Rel<Pedido>
 
-  @Property({ nullable: false })
+  @Property({ nullable: false, primary: true })
   fechaSolicitud!: Date
 
-  @Property({ nullable: false, type: 'time' })
+  @Property({ nullable: false, primary: true })
   horaSolicitud!: string
 
   @Property({ nullable: false })
   cantidad!: number
 
-  @Property({ nullable: false })
-  entregado!: boolean
-
-  [PrimaryKeyType]?: [number, number]
+  @Property()
+  entregado?: boolean = false
 }

@@ -3,14 +3,16 @@ import { Usuario } from "./usuario.entity.js"
 import { orm } from "../shared/db/orm.js"
 import { validarUsuario, validarUsuarioLogIn, validarUsuarioLogInSafe, validarUsuarioPatch, validarUsuarioSafe } from "./usuarios.schema.js"
 import z from 'zod'
+import { validarFindAll } from "../shared/validarFindAll.js"
+import { UsuarioNotFoundError } from "../shared/errors/entityErrors/usuario.errors.js"
 
 const em = orm.em
 
 function handleErrors(error: any, res: Response) {
   if (error instanceof z.ZodError){
     res.status(400).json({message: JSON.parse(error.message)[0].message})
-  } else if (error.name === 'NotFoundError') {
-    res.status(404).json({message: 'El usuario no ha sido encontrado'})
+  } else if (error.name.includes('NotFoundError')) {
+    res.status(404).json({message: `NotFoundError: ${error.message}`})
   } else if (error.name === 'UniqueConstraintViolationException') {
     res.status(400).json({message: error.sqlMessage})
   } else if(error.message === 'No hay usuarios registrados') {
@@ -26,10 +28,7 @@ async function findAllByTipoUsuario(req:Request, res:Response) {
     const { tipoUsuario } = req.query
     if(tipoUsuario){
       const tipoUsuario = (req.query.tipoUsuario as string).toLowerCase()
-      const usuarios = await em.find(Usuario, {tipoUsuario})
-      if(usuarios.length === 0) {
-        throw new Error(`No hay ${tipoUsuario}s registrados`)
-      }
+      const usuarios = validarFindAll(await em.find(Usuario, {tipoUsuario}), UsuarioNotFoundError)
       res.status(200).json({message: `Todos los ${tipoUsuario}s encontrados`, data: usuarios})
     } 
   } catch (error:any){

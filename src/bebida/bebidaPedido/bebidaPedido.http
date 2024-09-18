@@ -2,7 +2,7 @@
 GET http://localhost:3000/api/pedidos/4/bebidas
 
 ###
-GET http://localhost:3000/api/pedidos/4/bebidas/1
+GET http://localhost:3000/api/pedidos/4/bebidas/1?fechaSolicitud=2024-09-05&horaSolicitud=00:51
 
 ###
 POST http://localhost:3000/api/pedidos/4/bebidas

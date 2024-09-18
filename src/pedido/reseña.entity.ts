@@ -1,4 +1,4 @@
-import { Entity, Property, OneToOne, Rel, PrimaryKeyType } from "@mikro-orm/core";
+import { Entity, Property, OneToOne, Rel, PrimaryKeyType, DateTimeType } from "@mikro-orm/core";
 import { Pedido } from "./pedido.entity.js";
 
 @Entity()
@@ -7,8 +7,11 @@ export class Resena {
   @OneToOne(() => Pedido, {primary: true})
   pedido!: Rel<Pedido>
 
-  @Property({primary: true})
-  fechaResena!: Date
+  @Property({nullable: false, type: DateTimeType})
+  fechaHoraResena!: Date
+
+  @Property({type: DateTimeType, onUpdate: () => new Date()})
+  fechaHoraModificacion?: Date
 
   @Property({nullable: false})
   cuerpo!: string

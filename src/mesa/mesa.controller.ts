@@ -1,27 +1,19 @@
-import { Request,Response,NextFunction } from "express"
+import { Request,Response } from "express"
 import { Mesa } from "./mesa.entity.js"
 import { orm } from "../shared/db/orm.js"
-import { z } from "zod"
 import { validarMesa, validarMesaToPatch } from "./mesa.schema.js"
 import crypto from 'node:crypto'
+import { handleErrors } from "../shared/errors/errorHandler.js"
+import { MesaNotFoundError } from "../shared/errors/entityErrors/mesa.errors.js"
+import { validarFindAll } from "../shared/validarFindAll.js"
 
 const em = orm.em
-
-function handleErrors(error: any, res: Response) {
-  if (error instanceof z.ZodError) {
-    res.status(400).json({message: JSON.parse(error.message)[0].message})
-  } else if (error.name === 'NotFoundError') {
-    res.status(404).json({message: 'La mesa no ha sido encontrada'})
-  } else {
-    res.status(500).json({message: error.message})
-  }
-}
 
 async function findAll(req:Request,res:Response) {
   try{
     if (req.query.estado){
       const estado = req.query.estado as string
-      const mesas = await em.find(Mesa, {estado})
+      const mesas = validarFindAll(await em.find(Mesa, {estado}), MesaNotFoundError)
       res.status(200).json({message: `Todas las mesas con estado ${estado} encontradas`, data: mesas})
     } else {
       const mesas = await em.find(Mesa, {})
@@ -35,7 +27,7 @@ async function findAll(req:Request,res:Response) {
 async function findOne(req:Request,res:Response) {
   try{
     const nroMesa = Number.parseInt(req.params.nroMesa)
-    const mesa = await em.findOneOrFail(Mesa, {nroMesa})
+    const mesa = await em.findOneOrFail(Mesa, {nroMesa}, {failHandler: () => {throw new MesaNotFoundError}})
     const newCodigo = { codigo: crypto.randomUUID() }
     em.assign(mesa, newCodigo)
     await em.flush()
@@ -59,7 +51,7 @@ async function add(req:Request,res:Response) {
 async function update(req:Request,res:Response){
   try{
     const nroMesa = Number.parseInt(req.params.nroMesa)
-    const mesaToUpdate = await em.findOneOrFail(Mesa, {nroMesa})
+    const mesaToUpdate = await em.findOneOrFail(Mesa, {nroMesa}, {failHandler: () => {throw new MesaNotFoundError}})
     let mesaUpdated
     if(req.method === 'PATCH'){
       mesaUpdated = validarMesaToPatch(req.body)
@@ -77,8 +69,8 @@ async function update(req:Request,res:Response){
 async function remove(req:Request,res:Response) {
     try {
     const nroMesa = Number.parseInt(req.params.nroMesa)
-    const mesa = await em.findOneOrFail(Mesa, {nroMesa})
-    em.removeAndFlush(mesa)
+    const mesa = await em.findOneOrFail(Mesa, {nroMesa}, {failHandler: () => {throw new MesaNotFoundError}})
+    await em.removeAndFlush(mesa)
     res.status(200).json({message: 'La mesa ha sido eliminada con éxito', data: mesa})
   } catch(error: any) {
     handleErrors(error, res)
