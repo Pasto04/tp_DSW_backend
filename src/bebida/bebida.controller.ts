@@ -25,6 +25,7 @@ function sanitizeBebida(req: Request, res: Response, next: NextFunction) {
 async function findAll(req: Request, res: Response) {
   try{
     const { descripcionParcial } = req.query
+    console.log(descripcionParcial)
     let bebidas
     if(descripcionParcial){
       bebidas = validarFindAll(await em.find(Bebida, {descripcion: {$like: `%${descripcionParcial}%`}}), BebidaNotFoundError)

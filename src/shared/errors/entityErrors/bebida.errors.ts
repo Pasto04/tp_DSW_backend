@@ -1,7 +1,14 @@
 import { NotFoundError } from "@mikro-orm/core";
 
 export class BebidaNotFoundError extends NotFoundError {
-  constructor(message: string = 'La bebida ingresada no existe') {
+  constructor(message?: string) 
+  constructor(params: string | undefined | any) {
+    let message
+    if (params === undefined || typeof params === 'string') {
+      message = 'La bebida ingresada no existe'
+    } else {
+      message = 'No se ha encontrado ninguna bebida'
+    }
     super(message);
     this.name = 'BebidaNotFoundError'
   }

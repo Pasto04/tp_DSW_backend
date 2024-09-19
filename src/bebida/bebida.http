@@ -2,7 +2,8 @@
 GET http://localhost:3000/api/bebidas
 
 ### Solicita todas las bebidas con un filtro por queryString (descripción parcial)
-GET http://localhost:3000/api/bebidas?desc=gaseosa
+// el nombre del parámetro de la queryString debe coincidir con el utilizado en el método del controlador.
+GET http://localhost:3000/api/bebidas?descripcionParcial=pedro
 
 ###
 GET http://localhost:3000/api/bebidas
