@@ -2,26 +2,11 @@ import { Request,Response,NextFunction } from "express"
 import { Usuario } from "./usuario.entity.js"
 import { orm } from "../shared/db/orm.js"
 import { validarUsuario, validarUsuarioLogIn, validarUsuarioLogInSafe, validarUsuarioPatch, validarUsuarioSafe } from "./usuarios.schema.js"
-import z from 'zod'
 import { validarFindAll } from "../shared/validarFindAll.js"
 import { UsuarioNotFoundError } from "../shared/errors/entityErrors/usuario.errors.js"
+import { handleErrors } from "../shared/errors/errorHandler.js"
 
 const em = orm.em
-
-function handleErrors(error: any, res: Response) {
-  if (error instanceof z.ZodError){
-    res.status(400).json({message: JSON.parse(error.message)[0].message})
-  } else if (error.name.includes('NotFoundError')) {
-    res.status(404).json({message: `NotFoundError: ${error.message}`})
-  } else if (error.name === 'UniqueConstraintViolationException') {
-    res.status(400).json({message: error.sqlMessage})
-  } else if(error.message === 'No hay usuarios registrados') {
-    res.status(404).json({message: error.message})
-  } else {
-    res.status(500).json({message: error.message})
-  }
-}
-
 
 async function findAllByTipoUsuario(req:Request, res:Response) {
   try{

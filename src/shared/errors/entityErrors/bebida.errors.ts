@@ -20,3 +20,10 @@ export class BebidaUniqueConstraintViolation extends Error {
     this.name = 'BebidaUniqueConstraintViolation'
   }
 }
+
+export class BebidaBadRequest extends Error {
+  constructor(message: string = 'No se puede crear una bebida sin proveedor') {
+    super(message);
+    this.name = 'BebidaBadRequest'
+  }
+}

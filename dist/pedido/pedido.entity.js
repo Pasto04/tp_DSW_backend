@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Entity, Property, ManyToOne, OneToMany, Collection, OneToOne } from '@mikro-orm/core';
+import { Entity, Property, ManyToOne, OneToMany, Collection, OneToOne, BeforeCreate } from '@mikro-orm/core';
 import { BaseClass3 } from '../shared/db/baseEntity.entity.js';
 import { Resena } from './reseña.entity.js';
 import { Usuario } from '../usuario/usuario.entity.js';
@@ -18,8 +18,12 @@ import { BebidaPedido } from '../bebida/bebidaPedido/bebidaPedido.entity.js';
 export let Pedido = class Pedido extends BaseClass3 {
     constructor() {
         super(...arguments);
-        this.platoPedidos = new Collection(this);
-        this.bebidaPedidos = new Collection(this);
+        this.platosPedido = new Collection(this);
+        this.bebidasPedido = new Collection(this);
+    }
+    establecerFechaYHora() {
+        this.fecha = new Date();
+        this.hora = (new Date()).toTimeString().split(' ')[0];
     }
 };
 __decorate([
@@ -28,18 +32,18 @@ __decorate([
 ], Pedido.prototype, "estado", void 0);
 __decorate([
     Property({ nullable: false }),
-    __metadata("design:type", String)
+    __metadata("design:type", Date)
 ], Pedido.prototype, "fecha", void 0);
 __decorate([
-    Property({ nullable: false, type: 'time' }),
+    Property({ nullable: false }),
     __metadata("design:type", String)
 ], Pedido.prototype, "hora", void 0);
 __decorate([
     Property({ nullable: true }),
-    __metadata("design:type", String)
+    __metadata("design:type", Date)
 ], Pedido.prototype, "fechaCancelacion", void 0);
 __decorate([
-    Property({ nullable: true, type: 'time' }),
+    Property({ nullable: true }),
     __metadata("design:type", String)
 ], Pedido.prototype, "horaCancelacion", void 0);
 __decorate([
@@ -53,11 +57,11 @@ __decorate([
 __decorate([
     OneToMany(() => PlatoPedido, (platoPedido) => platoPedido.pedido),
     __metadata("design:type", Object)
-], Pedido.prototype, "platoPedidos", void 0);
+], Pedido.prototype, "platosPedido", void 0);
 __decorate([
     OneToMany(() => BebidaPedido, (bebidaPedido) => bebidaPedido.pedido),
     __metadata("design:type", Object)
-], Pedido.prototype, "bebidaPedidos", void 0);
+], Pedido.prototype, "bebidasPedido", void 0);
 __decorate([
     OneToOne(() => Pago, (pago) => pago.pedido, { nullable: true }),
     __metadata("design:type", Object)
@@ -66,6 +70,12 @@ __decorate([
     OneToOne(() => Resena, { inversedBy: (resena) => resena.pedido, nullable: true }),
     __metadata("design:type", Object)
 ], Pedido.prototype, "resena", void 0);
+__decorate([
+    BeforeCreate(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], Pedido.prototype, "establecerFechaYHora", null);
 Pedido = __decorate([
     Entity()
 ], Pedido);

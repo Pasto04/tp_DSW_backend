@@ -1,4 +1,4 @@
-import { Entity, Property, ManyToOne, OneToMany, Rel, Collection, OneToOne } from '@mikro-orm/core'
+import { Entity, Property, ManyToOne, OneToMany, Rel, Collection, OneToOne, BeforeCreate } from '@mikro-orm/core'
 import { BaseClass3 } from '../shared/db/baseEntity.entity.js'
 import { Resena } from './reseña.entity.js'
 import { Usuario } from '../usuario/usuario.entity.js'
@@ -14,15 +14,15 @@ export class Pedido extends BaseClass3 {
   estado!: string 
 
   @Property({ nullable: false })
-  fecha!: string
+  fecha?: Date
 
-  @Property({ nullable: false, type: 'time' })
-  hora!: string
+  @Property({ nullable: false })
+  hora?: string
 
   @Property({ nullable: true })
-  fechaCancelacion?: string
+  fechaCancelacion?: Date
 
-  @Property({ nullable: true, type: 'time' })
+  @Property({ nullable: true })
   horaCancelacion?: string
 
   @ManyToOne(() => Usuario, {nullable: false})
@@ -43,6 +43,10 @@ export class Pedido extends BaseClass3 {
   @OneToOne(()=> Resena, {inversedBy: (resena) => resena.pedido,  nullable: true })
   resena?: Rel<Resena>
 
-
+  @BeforeCreate()
+  establecerFechaYHora() {
+    this.fecha = new Date()
+    this.hora = (new Date()).toTimeString().split(' ')[0]
+  }
 
 }

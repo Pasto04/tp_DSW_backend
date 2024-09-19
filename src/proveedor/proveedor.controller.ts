@@ -4,6 +4,7 @@ import { Proveedor } from './proveedor.entity.js'
 import { validarProveedor, validarProveedorPatch } from './proveedor.schema.js'
 import { handleErrors } from '../shared/errors/errorHandler.js'
 import { ProveedorNotFoundError } from '../shared/errors/entityErrors/proveedor.errors.js'
+import { validarFindAll } from '../shared/validarFindAll.js'
 
 const em = orm.em
 
@@ -36,7 +37,7 @@ em.getRepository(Proveedor)
 
 async function findAll(req: Request, res: Response) {
   try {
-    const proveedores = await em.find(Proveedor, {})
+    const proveedores = validarFindAll(await em.find(Proveedor, {}), ProveedorNotFoundError)
     res.status(200).json({message: `Los proveedores han sido encontrados con éxito`, data: proveedores})
   } catch(error: any) {
     handleErrors(error, res)

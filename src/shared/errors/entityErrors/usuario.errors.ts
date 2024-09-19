@@ -13,3 +13,10 @@ export class UsuarioNotFoundError extends NotFoundError {
     this.name = 'UsuarioNotFoundError'
   }
 }
+
+export class UsuarioUniqueConstraintViolation extends Error {
+  constructor(message: string = 'Ya existe un usuario con ese email'){
+    super(message)
+    this.name = 'UsuarioUniqueConstraintViolation'
+  }
+}

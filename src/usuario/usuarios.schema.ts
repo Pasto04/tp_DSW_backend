@@ -10,16 +10,7 @@ const usuarioSchema = z.object({
   nombre: z.string({required_error: 'El nombre es requerido', invalid_type_error: 'El nombre debe ser un string'}),
   apellido: z.string({required_error: 'El apellido es requerido', invalid_type_error: 'El apellido debe ser un string'}),
   telefono: z.string({invalid_type_error: 'El telefono debe ser un string'}).optional(),
-  tipoUsuario: z.string({
-                 required_error: 'El tipo de usuario es requerido', 
-                 invalid_type_error: 'El tipo de usuario debe ser un string'
-               })
-               .includes('cliente', {message: 'El usuario debe ser un cliente o un empleado'})
-               .or(z.string({
-                     required_error: 'El tipo de usuario es requerido', 
-                     invalid_type_error: 'El tipo de usuario debe ser un string'
-                   })
-                   .includes('empleado', {message: 'El usuario debe ser un cliente o un empleado'})),
+  tipoUsuario: z.string(z.enum(['cliente', 'empleado'], {message: 'El tipo de usuario debe ser "cliente" o "empleado"'})),
   pedidos: z.array(z.instanceof(Pedido)).optional(),
   tarjetasCliente: z.array(z.instanceof(TarjetaCliente)).optional()
 })
@@ -32,10 +23,7 @@ const usuarioToPatchSchema = z.object({
   nombre: z.string({invalid_type_error: 'El nombre debe ser un string'}).optional(),
   apellido: z.string({invalid_type_error: 'El apellido debe ser un string'}).optional(),
   telefono: z.string({invalid_type_error: 'El telefono debe ser un string'}).optional(),
-  tipoUsuario: z.string({invalid_type_error: 'El tipo de usuario debe ser un string'})
-               .includes('cliente', {message: 'El usuario debe ser un cliente o un empleado'}).optional()
-               .or(z.string({invalid_type_error: 'El tipo de usuario debe ser un string'})
-                   .includes('empleado', {message: 'El usuario debe ser un cliente o un empleado'})).optional(),
+  tipoUsuario: z.string(z.enum(['cliente', 'empleado'], {message: 'El tipo de usuario debe ser "cliente" o "empleado"'})).optional(),
   pedidos: z.array(z.instanceof(Pedido)).optional(),
   tarjetasCliente: z.array(z.instanceof(TarjetaCliente)).optional()
 })

@@ -2,6 +2,10 @@
 
 GET http://localhost:3000/api/platos
 
+###Solicita todos los platos filtrados por queryString (CAMBIAR Y PROBAR)
+
+GET http://localhost:3000/api/platos?aptoCeliacos=true&aptoVegetarianos=true&aptoVeganos=true
+
 ###Solicita todos los platos aptos para vegetarianos
 
 GET http://localhost:3000/api/platos?aptoVegetarianos=true

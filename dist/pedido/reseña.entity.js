@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Entity, Property, OneToOne, PrimaryKeyType } from "@mikro-orm/core";
+import { Entity, Property, OneToOne, PrimaryKeyType, DateTimeType } from "@mikro-orm/core";
 import { Pedido } from "./pedido.entity.js";
 export let Resena = class Resena {
 };
@@ -16,9 +16,13 @@ __decorate([
     __metadata("design:type", Object)
 ], Resena.prototype, "pedido", void 0);
 __decorate([
-    Property({ nullable: false }),
+    Property({ nullable: false, type: DateTimeType }),
     __metadata("design:type", Date)
-], Resena.prototype, "fechaResena", void 0);
+], Resena.prototype, "fechaHoraResena", void 0);
+__decorate([
+    Property({ type: DateTimeType, onUpdate: () => new Date() }),
+    __metadata("design:type", Date)
+], Resena.prototype, "fechaHoraModificacion", void 0);
 __decorate([
     Property({ nullable: false }),
     __metadata("design:type", String)

@@ -4,40 +4,34 @@ import { orm } from "../shared/db/orm.js"
 import { Usuario } from "../usuario/usuario.entity.js"
 import { TarjetaCliente } from "./tarjetaCliente.entity.js"
 import { validarTarjetaCliente } from "./tarjetaCliente.schema.js"
-import { z } from "zod"
+import { handleErrors } from "../shared/errors/errorHandler.js"
+import { validarFindAll } from "../shared/validarFindAll.js"
+import { TarjetaClienteNotFoundError, TarjetaClientePreconditionFailed } from "../shared/errors/entityErrors/tarjetaCliente.errors.js"
+import { UsuarioNotFoundError } from "../shared/errors/entityErrors/usuario.errors.js"
+import { Tarjeta } from "./tarjeta.entity.js"
 
 const em = orm.em
 
-function handleErrors(error: any, res: Response) {
-  if(error instanceof z.ZodError) {
-    res.status(400).json({message: JSON.parse(error.message)[0].message})
-  } else if (error.name === 'NotFoundError') {
-    res.status(404).json({message: 'No se encontró la tarjeta del cliente'})
-  } else if (error.name === 'UniqueConstraintViolationException') {
-    res.status(400).json({message: 'La tarjeta ya existe'})
-  } else {
-    res.status(500).json({message: error.message})
-  }
-}
-
+//Sería interesante manejar queryString para consultas como "findAll tarjetas de crédito/débito"
 async function findAll(req:Request,res:Response) {
   try{
     const id = Number.parseInt(req.params.id)
     const cliente = await em.findOneOrFail(Usuario, {id})
-    const tarjetasUsuario = await em.find(TarjetaCliente, {cliente}, {populate: ['tarjeta', 'cliente']})
-    res.status (200).json({message: 'Todos las tarjetas encontradas', data: tarjetasUsuario})
+    const tarjetasCliente = validarFindAll(await em.find(TarjetaCliente, {cliente}, {populate: ['tarjeta', 'cliente']}), TarjetaClienteNotFoundError)
+    res.status (200).json({message: 'Todos las tarjetas encontradas', data: tarjetasCliente})
   } catch (error:any){
     handleErrors(error, res)
   }
 }
 
+//Sería bueno manejar queryString por si se quiere buscar por número de tarjeta, por ejemplo.
 async function findOne(req:Request,res:Response) {
   try{
     const idTarjeta = Number.parseInt(req.params.idTarjeta)
     const id = Number.parseInt(req.params.id)
-    const cliente = await em.findOneOrFail(Usuario, {id})
-    const tarjetaClientes = await em.findOneOrFail(TarjetaCliente, {idTarjeta, cliente}, {populate: ['tarjeta', 'cliente']})
-    res.status(200).json({message: 'Tarjeta encontrada', data: tarjetaClientes})
+    const cliente = await em.findOneOrFail(Usuario, {id}, {failHandler: () => {throw new UsuarioNotFoundError}})
+    const tarjetaCliente = await em.findOneOrFail(TarjetaCliente, {idTarjeta, cliente}, {populate: ['tarjeta', 'cliente'], failHandler: () => {throw new TarjetaClienteNotFoundError}})
+    res.status(200).json({message: 'Tarjeta encontrada', data: tarjetaCliente})
   } catch (error:any){
     handleErrors(error, res)
   }
@@ -45,6 +39,10 @@ async function findOne(req:Request,res:Response) {
 
 async function add(req:Request,res:Response) {
   try{
+    if((await em.find(Tarjeta, {})).length === 0 || (await em.find(Usuario, {tipoUsuario: 'cliente'})).length === 0) throw new TarjetaClientePreconditionFailed
+    const id = Number.parseInt(req.params.id)
+    const cliente = await em.findOneOrFail(Usuario, {id}, {failHandler: () => {throw new UsuarioNotFoundError}})
+    req.body.cliente = cliente
     const tarjetaClienteValida = validarTarjetaCliente(req.body)
     const tarjetaCliente = em.create(TarjetaCliente, tarjetaClienteValida)
     await em.flush()
@@ -73,9 +71,9 @@ async function remove(req:Request, res:Response) {
     try {
     const idTarjeta = Number.parseInt(req.params.idTarjeta)
     const id = Number.parseInt(req.params.id)
-    const cliente = await em.findOneOrFail(Usuario, {id})
-    const tarjetaCliente = await em.findOneOrFail(TarjetaCliente, {idTarjeta, cliente})
-    em.removeAndFlush(tarjetaCliente)
+    const cliente = await em.findOneOrFail(Usuario, {id}, {failHandler: () => {throw new UsuarioNotFoundError}})
+    const tarjetaCliente = await em.findOneOrFail(TarjetaCliente, {idTarjeta, cliente}, {failHandler: () => {throw new TarjetaClienteNotFoundError}})
+    await em.removeAndFlush(tarjetaCliente)
     res.status(200).json({message: 'El plato ha sido eliminado con éxito', data: tarjetaCliente})
   } catch(error: any) {
     handleErrors(error, res)
@@ -83,3 +81,5 @@ async function remove(req:Request, res:Response) {
 }
 
 export{ findAll, findOne, add, /*update,*/ remove }
+
+

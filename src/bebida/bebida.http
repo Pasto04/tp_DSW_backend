@@ -1,6 +1,9 @@
 ###
 GET http://localhost:3000/api/bebidas
 
+### Solicita todas las bebidas con un filtro por queryString (descripción parcial)
+GET http://localhost:3000/api/bebidas?desc=gaseosa
+
 ###
 GET http://localhost:3000/api/bebidas
 
@@ -9,36 +12,43 @@ POST http://localhost:3000/api/bebidas
 Content-Type: application/json
 
 {
-  "descripcion": "Pepsi",
-  "unidadMedida": "cm^3",
-  "contenido": 500
+  "descripcion": "Gaseosa Pepsi Cola",
+  "unidadMedida": "ml",
+  "contenido": 500,
+  "precio": 2000,
+  "proveedor": 1
 }
 ###
 POST http://localhost:3000/api/bebidas
 Content-Type: application/json
 
 {
-  "descripcion": "Pepsi",
+  "descripcion": "Gaseosa Pepsi Cola",
   "unidadMedida": "L",
-  "contenido": 1.5
+  "contenido": 1.5,
+  "precio": 2000,
+  "proveedor": 1
 }
 ###
 POST http://localhost:3000/api/bebidas
 Content-Type: application/json
 
 {
-  "descripcion": "Monster Naranja",
-  "unidadMedida": "cm^3",
-  "contenido": 500
+  "descripcion": "Bebida Energética Monster Naranja",
+  "unidadMedida": "ml",
+  "contenido": 500,
+  "precio": 2300,
+  "proveedor": 1
 }
 ###
 PUT http://localhost:3000/api/bebidas/1
 Content-Type: application/json
 
 {
-  "descripcion": "Coca-Cola",
+  "descripcion": "Gaseosa Coca-Cola",
   "unidadMedida": "cm^3",
-  "contenido": 750
+  "contenido": 750,
+  "precio": 2000
 }
 ###
 PATCH http://localhost:3000/api/bebidas/3
@@ -48,4 +58,4 @@ Content-Type: application/json
   "contenido": 1.25
 }
 ###
-DELETE http://localhost:3000/api/bebidas/5
+DELETE http://localhost:3000/api/bebidas/1

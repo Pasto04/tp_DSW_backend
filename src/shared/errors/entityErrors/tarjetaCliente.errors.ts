@@ -1,7 +1,14 @@
 import { NotFoundError } from "@mikro-orm/core";
 
 export class TarjetaClienteNotFoundError extends NotFoundError {
-  constructor(message: string = 'La tarjeta del cliente ingresado no existe') {
+  constructor(message?: string)
+  constructor(params: string | any | undefined) {
+    let message
+    if(params === undefined || typeof params === 'string') {
+      message = 'La tarjeta del cliente ingresado no se encuentra registrada'
+    } else {
+      message = `No hay tarjetas del cliente registradas`
+    }
     super(message)
     this.name = 'TarjetaClienteNotFoundError'
   }
@@ -13,3 +20,10 @@ export class TarjetaClientePreconditionFailed extends Error {
     this.name = 'TarjetaClientePreconditionFailed'
   }
 }
+
+export class TarjetaClienteUniqueConstraintViolation extends Error {
+  constructor(message: string = 'Ya existe una tarjeta con ese número') {
+    super(message);
+    this.name = 'TarjetaClienteUniqueConstraintViolation'
+  }
+} 

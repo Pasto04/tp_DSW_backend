@@ -3,7 +3,8 @@ import { Response } from 'express'
 
 function handleErrors(error: any, res: Response) {
   if(error instanceof z.ZodError) {
-    res.status(400).json({message: JSON.parse(error.message)[0].message})
+    console.log(error)
+    res.status(400).json({message: `ValidationError: ${JSON.parse(error.message)[0].message}`})
 
   } else if (error.name.includes('NotFoundError')) {
     res.status(404).json({message: `NotFoundError: ${error.message}`})
@@ -19,6 +20,10 @@ function handleErrors(error: any, res: Response) {
 
   } else if (error.name.includes('TypeError')) {
     res.status(400).json({message: `TypeError: ${error.message}`})
+    
+  } else if(error.name.includes('BadRequest')) {
+    res.status(400).json({message: `BadRequest: ${error.message}`})
+
   }
     else {
     res.status(500).json({message: error.message})

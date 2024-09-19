@@ -8,7 +8,6 @@ import { platoRouter } from './plato/plato.routes.js'
 import { usuarioRouter } from './usuario/usuario.routes.js'
 import { pedidoRouter } from './pedido/pedido.routes.js'
 import { platoPedidoRouter } from './plato/platoPedido/platoPedido.routes.js'
-import { platoPlatoRouter } from './plato/platoPedido/platoPlato(PENSAR EN ELIMINAR).routes.js'
 import { pedidoResenaRouter, resenaRouter } from './pedido/reseña.routes.js'
 import { elabPlatoRouter } from './plato/elaboracionPlato/elaboracionPlato.routes.js'
 import { pedidoClienteRouter } from './pedido/pedidoCliente.routes.js'
@@ -52,8 +51,6 @@ app.use('/api/clientes', pedidoClienteRouter)
 app.use('/api/pedidos', PedidoPagoRouter)
 
 app.use('/api/pedidos', platoPedidoRouter)
-
-app.use('/api/platos', platoPlatoRouter)
 
 app.use('/api/pedidos', bebidaPedidoRouter)
 
