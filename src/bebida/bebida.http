@@ -3,22 +3,24 @@ GET http://localhost:3000/api/bebidas
 
 ### Solicita todas las bebidas con un filtro por queryString (descripción parcial)
 // el nombre del parámetro de la queryString debe coincidir con el utilizado en el método del controlador.
-GET http://localhost:3000/api/bebidas?descripcionParcial=pedro
+GET http://localhost:3000/api/bebidas?descripcionParcial=gaseosa
 
 ###
-GET http://localhost:3000/api/bebidas
+GET http://localhost:3000/api/bebidas/2
 
 ###
 POST http://localhost:3000/api/bebidas
 Content-Type: application/json
 
 {
-  "descripcion": "Gaseosa Pepsi Cola",
-  "unidadMedida": "ml",
-  "contenido": 500,
-  "precio": 2000,
-  "proveedor": 1
+  "descripcion": "Taconni Serrano",
+  "unidadMedida": "l",
+  "contenido": 1.5,
+  "precio": 900,
+  "proveedor": 1,
+  "papas": "si"
 }
+//Como la función sanitizadora se encuentra presenta, ignoramos todos los campos que no correspondan al modelo (papas, en este caso).
 ###
 POST http://localhost:3000/api/bebidas
 Content-Type: application/json

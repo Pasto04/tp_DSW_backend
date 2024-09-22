@@ -19,6 +19,7 @@ function sanitizeIngredienteDeProveedor(req: Request, res: Response, next: NextF
   next()
 }
 
+//Esta funcionalidad creo que no tiene sentido para nuestro sistema.
 async function findAll(req: Request, res: Response) {
   try {
     const codigo = Number.parseInt(req.params.cod)
@@ -43,6 +44,7 @@ async function findOne(req: Request, res: Response) {
   }
 }
 
+//Se utilizaría para agregar un nuevo proveedor a un ingrediente ya existente.
 async function add(req: Request, res: Response) {
   try {
     const codigo = Number.parseInt(req.params.cod)

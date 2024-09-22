@@ -3,6 +3,10 @@
 
 GET http://localhost:3000/api/ingredientes
 
+###Solicita todos los ingredientes
+
+GET http://localhost:3000/api/ingredientes?aptoVeganos=false
+
 ###Solicita un ingrediente en particular utilizando su código
 
 GET http://localhost:3000/api/ingredientes/13
@@ -19,7 +23,8 @@ Content-Type: application/json
   "unidadMedida": "gramos",
   "aptoCeliacos": true,
   "aptoVegetarianos": true,
-  "aptoVeganos": false
+  "aptoVeganos": false,
+  "proveedor": 1
 }
 
 ###
@@ -34,7 +39,8 @@ Content-Type: application/json
   "unidadMedida": "gramos",
   "aptoCeliacos": true,
   "aptoVegetarianos": false,
-  "aptoVeganos": false
+  "aptoVeganos": false,
+  "proveedor": 1
 }
 
 ###
@@ -48,8 +54,9 @@ Content-Type: application/json
   "stock": 10000,
   "unidadMedida": "gramos",
   "aptoCeliacos": true,
-  "aptoVegetarianos": false,
-  "aptoVeganos": false
+  "aptoVegetarianos": true,
+  "aptoVeganos": true,
+  "proveedor": 1
 }
 
 ###Modifica la descripción de un ingrediente ya ingresado utilizando su código

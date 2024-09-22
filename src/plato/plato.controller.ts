@@ -9,6 +9,19 @@ import { PlatoNotFoundError, PlatoPreconditionFailed } from "../shared/errors/en
 
 const em = orm.em
 
+function sanitizePlato(req: Request, res: Response, next: NextFunction) {
+  req.body.sanitizeInput = {
+    numPlato: req.body.numPlato,
+    descripcion: req.body.descripcion,
+    tiempo: req.body.tiempo,
+    precio: req.body.precio,
+    aptoCeliacos: req.body.aptoCeliacos,
+    aptoVegetarianos: req.body.aptoVegetarianos,
+    aptoVeganos: req.body.aptoVeganos,
+    tipoPlato: req.body.tipoPlato
+  }
+}
+
 async function findAll(req:Request,res:Response) {
   try{
     const platos = await em.find(Plato, {}, {populate:['tipoPlato']})
@@ -29,12 +42,13 @@ async function findOne(req:Request,res:Response) {
   }
 }
 
+//Me interesa obtener si el plato es apto para celíacos, veganos y vegetarianos a partir de sus ingredientes.
 async function add(req:Request,res:Response) {
   try{
     if((await em.find(TipoPlato, {})).length === 0 || (await em.find(Ingrediente, {})).length === 0) {
       throw new PlatoPreconditionFailed
     } else {
-      const platoValido = validarPlato(req.body)
+      const platoValido = validarPlato(req.body.sanitizedInput)
       const plato = em.create(Plato, platoValido)
       await em.flush()
       res.status(201).json({message: 'Plato creado', data:plato})

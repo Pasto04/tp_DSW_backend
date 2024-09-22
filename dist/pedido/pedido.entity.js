@@ -18,6 +18,7 @@ import { BebidaPedido } from '../bebida/bebidaPedido/bebidaPedido.entity.js';
 export let Pedido = class Pedido extends BaseClass3 {
     constructor() {
         super(...arguments);
+        this.estado = 'En Curso';
         this.platosPedido = new Collection(this);
         this.bebidasPedido = new Collection(this);
     }

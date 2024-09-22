@@ -25,7 +25,6 @@ function sanitizeBebida(req: Request, res: Response, next: NextFunction) {
 async function findAll(req: Request, res: Response) {
   try{
     const { descripcionParcial } = req.query
-    console.log(descripcionParcial)
     let bebidas
     if(descripcionParcial){
       bebidas = validarFindAll(await em.find(Bebida, {descripcion: {$like: `%${descripcionParcial}%`}}), BebidaNotFoundError)
@@ -41,7 +40,7 @@ async function findAll(req: Request, res: Response) {
 async function findOne(req: Request, res: Response) {
   try{
     const codBebida = Number.parseInt(req.params.codBebida)
-    const bebida = await em.findOneOrFail(Bebida, {codBebida}, {failHandler: () => {throw new BebidaNotFoundError}})
+    const bebida = await em.findOneOrFail(Bebida, {codBebida}, {populate: ['bebidasDeProveedor'], failHandler: () => {throw new BebidaNotFoundError}})
     res.status(200).json({message: `La bebida ${bebida.descripcion} ha sido encontrada con éxito`, data: bebida})
   } catch(error: any) {
     handleErrors(error, res)
@@ -59,15 +58,12 @@ async function add(req: Request, res: Response) {
       else {
       const bebidaValida = validarBebida(req.body.sanitizedInput)
       const bebida = em.create(Bebida, bebidaValida)
+      // creación de la relación entre bebida y proveedor
       const id = Number.parseInt(req.body.proveedor)
       const proveedor = await em.findOneOrFail(Proveedor, {id}, {failHandler: () => {throw new ProveedorNotFoundError}})
       const bebidaDeProveedor = em.create(BebidaDeProveedor, {bebida, proveedor})
-      //Copilot me recomendó realizar una operación await em.transactional(), la investigaré para ver si corresponde o no su uso.
-      await em.transactional(async () => {
-        await em.persistAndFlush(bebida)
-        await em.persistAndFlush(bebidaDeProveedor)
-      })
-      //await em.flush()  | Operación realizada previamente. Evaluar el funcionamiento de la función superior y tomar una decisión.
+      // creación de la relación entre bebida y proveedor
+      await em.flush()
       res.status(201).json({data: {codBebida: bebida.codBebida, descripcion: bebida.descripcion, unidadMedida: bebida.unidadMedida, contenido: bebida.contenido, precio: bebida.precio}})
     }
   } catch(error: any) {

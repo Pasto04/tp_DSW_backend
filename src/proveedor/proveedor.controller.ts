@@ -11,6 +11,7 @@ const em = orm.em
 em.getRepository(Proveedor)
 
 // Como uso Zod, no requiero esta función, pero la conservo para tenerla en cuenta en el futuro 
+// Tener en cuenta que acá no se están utilizando los errores personalizados creados.
 /*function validarRequest(req: {id?: number, razonSocial?: string, cuit?: string, direccion?: string, telefono?: string, email?: string}) {
   if (req.id !== undefined && typeof req.id !== 'number') {
     const newError = new Error('id debe ser number')

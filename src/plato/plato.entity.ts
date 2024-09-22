@@ -18,13 +18,13 @@ export class Plato extends BaseClass1 {
   precio!: number
 
   @Property()
-  aptoCeliacos?: boolean = false
+  aptoCeliacos?: boolean = true
 
   @Property()
-  aptoVegetarianos?: boolean = false
+  aptoVegetarianos?: boolean = true
 
   @Property()
-  aptoVeganos?: boolean = false
+  aptoVeganos?: boolean = true
 
   @ManyToOne(() => TipoPlato, {nullable: false})
   tipoPlato!: Rel<TipoPlato>

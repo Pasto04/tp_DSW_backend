@@ -15,10 +15,10 @@ export class BebidaPedido {
   pedido!: Rel<Pedido>
 
   @Property({ nullable: false, primary: true })
-  fechaSolicitud!: Date
+  fechaSolicitud?: Date
 
   @Property({ nullable: false, primary: true })
-  horaSolicitud!: string
+  horaSolicitud?: string
 
   @Property({ nullable: false })
   cantidad!: number

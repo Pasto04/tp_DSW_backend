@@ -16,7 +16,7 @@ const bebidaSchema = z.object({
                required_error: 'El contenido de la bebida es requerido',
                invalid_type_error: 'El contenido de la bebida debe ser un número'
              })
-             .positive({message: 'El contenido de la bebida debe ser un número entero positivo'}),
+             .positive({message: 'El contenido de la bebida debe ser un número positivo'}),
   precio: z.number({
             required_error: 'El precio de la bebida es requerido', 
             invalid_type_error: 'El precio de la bebida debe ser un número'
@@ -44,7 +44,12 @@ const bebidaToPatchSchema = z.object({
                required_error: 'El contenido de la bebida es requerido',
                invalid_type_error: 'El contenido de la bebida debe ser un número'
              })
-             .positive({message: 'El contenido de la bebida debe ser un número entero positivo'}).optional()
+             .positive({message: 'El contenido de la bebida debe ser un número entero positivo'}).optional(),
+  precio: z.number({
+            required_error: 'El precio de la bebida es requerido', 
+            invalid_type_error: 'El precio de la bebida debe ser un número'
+          })
+          .positive({message: 'El precio de la bebida debe ser un número positivo'}).optional()
 })
 
 function validarBebida(object: any) {

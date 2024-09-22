@@ -15,10 +15,10 @@ export class PlatoPedido {
   plato!: Rel<Plato>
 
   @Property({ nullable: false, primary: true })
-  fechaSolicitud!: Date
+  fechaSolicitud?: Date
 
   @Property({ nullable: false, primary: true, type: 'time' })
-  horaSolicitud!: string
+  horaSolicitud?: string
 
   @Property({ nullable: false })
   cantidad!: number

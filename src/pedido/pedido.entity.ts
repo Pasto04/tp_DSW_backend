@@ -11,7 +11,7 @@ import { BebidaPedido } from '../bebida/bebidaPedido/bebidaPedido.entity.js'
 export class Pedido extends BaseClass3 {
   
   @Property({ nullable: false })
-  estado!: string 
+  estado: string = 'En Curso'
 
   @Property({ nullable: false })
   fecha?: Date
