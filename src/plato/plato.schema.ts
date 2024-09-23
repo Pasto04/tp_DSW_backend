@@ -19,11 +19,11 @@ const platoSchema = z.object({
   precio: z.number({required_error: 'El precio (en pesos) es requerido', invalid_type_error: 'El precio debe ser un número'})
           .positive({message: 'El precio debe ser un número positivo'}),
 
-  aptoCeliacos: z.boolean({message: 'Se debe indicar si el plato es apto para celíacos o no'}).optional(),
+  aptoCeliacos: z.boolean({message: 'Se debe indicar si el plato es apto para celíacos o no'}),
 
-  aptoVegetarianos: z.boolean({message: 'Se debe indicar si el plato es apto para vegetarianos o no'}).optional(),
+  aptoVegetarianos: z.boolean({message: 'Se debe indicar si el plato es apto para vegetarianos o no'}),
 
-  aptoVeganos: z.boolean({message: 'Se debe indicar si el plato es apto para veganos o no'}).optional(),
+  aptoVeganos: z.boolean({message: 'Se debe indicar si el plato es apto para veganos o no'}),
 
   tipoPlato: z.instanceof(TipoPlato, {message: 'El tipo de plato debe ser del tipo "TipoPlato"'}),
 

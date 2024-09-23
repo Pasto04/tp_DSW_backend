@@ -31,7 +31,7 @@ function sanitizePlato(req: Request, res: Response, next: NextFunction) {
 function sanitizeQuery(req: Request) {
   const queryResult: any = {
     descripcion: req.query.descripcionParcial,
-    tipoPlato: req.query.tipoPlato,
+    tipoPlato: req.query.tipoPlato, //Asumo que me ingresan el id del tipo de plato.
     aptoCeliacos: req.query.aptoCeliacos,
     aptoVegetarianos: req.query.aptoVegetarianos,
     aptoVeganos: req.query.aptoVeganos
@@ -45,6 +45,7 @@ function sanitizeQuery(req: Request) {
 
     } else if(keys === 'tipoPlato') {
       queryResult[keys] = await em.findOneOrFail(TipoPlato, {numPlato: Number.parseInt(req.query.tipoPlato as string)}, {failHandler: () => {throw new TipoPlatoNotFoundError}})
+      //console.log(queryResult[keys])
 
     } else if(queryResult[keys] === 'true') {
       queryResult[keys] = !!queryResult[keys]
@@ -53,6 +54,7 @@ function sanitizeQuery(req: Request) {
       queryResult[keys] = !!!queryResult[keys]
     }
   })
+  console.log(queryResult)
   return queryResult
 }
 
@@ -77,7 +79,53 @@ async function findOne(req:Request,res:Response) {
   }
 }
 
-//Me interesa obtener si el plato es apto para celíacos, veganos y vegetarianos a partir de sus ingredientes.
+
+// Validamos si el plato es apto para celíacos basado en los ingredientes que lo componen
+function isAptoCeliacos(ingredientes: {ingrediente: Ingrediente, cantidadNecesaria: number}[]): boolean {
+  let result: boolean | undefined
+  for(let i = 0; i < ingredientes.length; i++) {
+    if(!ingredientes[i].ingrediente.aptoCeliacos) {
+      result = false
+      i = ingredientes.length
+    } 
+  }
+  if(result === undefined) {
+    result = true
+  }
+  return result 
+}
+
+// Validamos si el plato es apto para vegetarianos basado en los ingredientes que lo componen
+function isAptoVegetarianos(ingredientes: {ingrediente: Ingrediente, cantidadNecesaria: number}[]): boolean {
+  let result: boolean | undefined
+  for(let i = 0; i < ingredientes.length; i++) {
+    if(!ingredientes[i].ingrediente.aptoVegetarianos) {
+      result = false
+      i = ingredientes.length
+    } 
+  }
+  if(result === undefined) {
+    result = true
+  }
+  return result 
+}
+
+// Validamos si el plato es apto para veganos basado en los ingredientes que lo componen
+function isAptoVeganos(ingredientes: {ingrediente: Ingrediente, cantidadNecesaria: number}[]): boolean {
+  let result: boolean | undefined
+  for(let i = 0; i < ingredientes.length; i++) {
+    if(!ingredientes[i].ingrediente.aptoVeganos) {
+      result = false
+      i = ingredientes.length
+    } 
+  }
+  if(result === undefined) {
+    result = true
+  }
+  return result 
+}
+
+
 async function add(req:Request,res:Response) {
   try{
     if((await em.find(TipoPlato, {})).length === 0 || (await em.find(Ingrediente, {})).length === 0) {
@@ -85,21 +133,28 @@ async function add(req:Request,res:Response) {
     } else if(req.body.ingredientes === undefined || req.body.ingredientes.length === 0) {
       throw new PlatoBadRequest
     } else {
-      req.body.sanitizedInput.tipoPlato = (await em.findOneOrFail(TipoPlato, {numPlato: req.body.sanitizedInput.tipoPlato}, {failHandler: () => {throw new TipoPlatoNotFoundError}})) as TipoPlato
-      const platoValido = validarPlato(req.body.sanitizedInput)
+
+      // Validamos que los ingredientes ingresados y sus cantidades sean correctos
       let ingredientes: {ingrediente: Ingrediente, cantidadNecesaria: number}[] = []
       await Promise.all(req.body.ingredientes.map(async (ingreCant: {ingrediente: number, cantidadNecesaria: number}) => {
         const ingre = await em.findOneOrFail(Ingrediente, {codigo: ingreCant.ingrediente}, {failHandler: () => {throw new IngredienteNotFoundError}})
         ingredientes.push({ingrediente: ingre, cantidadNecesaria: ingreCant.cantidadNecesaria})
       }))
-      console.log(ingredientes)
       const ingredientesValidos = validarIngredientesOfPlato(ingredientes)
-      console.log(ingredientesValidos)
-      console.log(ingredientes)
+      // Validamos que los ingredientes ingresados y sus cantidades sean correctos
+
+      //Asignamos aptitud para celíacos, veganos y vegetarianos según los ingredientes ingresados
+      req.body.sanitizedInput.aptoCeliacos = isAptoCeliacos(ingredientesValidos)
+      req.body.sanitizedInput.aptoVegetarianos = isAptoVegetarianos(ingredientesValidos)
+      req.body.sanitizedInput.aptoVeganos = isAptoVeganos(ingredientesValidos)
+      //Asignamos aptitud para celíacos, veganos y vegetarianos según los ingredientes ingresados
+
+      // Validamos el plato y lo creamos junto con las elaboracionesPlato necesarias
+      req.body.sanitizedInput.tipoPlato = (await em.findOneOrFail(TipoPlato, {numPlato: req.body.sanitizedInput.tipoPlato}, {failHandler: () => {throw new TipoPlatoNotFoundError}})) as TipoPlato
+      const platoValido = validarPlato(req.body.sanitizedInput)
       const plato = em.create(Plato, platoValido)
       await Promise.all(ingredientesValidos.map(async (ingreCant: {ingrediente: Ingrediente, cantidadNecesaria: number}) => {
         const elabPlato = em.create(ElaboracionPlato, {plato, ingrediente: ingreCant.ingrediente, cantidadNecesaria: ingreCant.cantidadNecesaria})
-        console.log(elabPlato)
         await em.persistAndFlush(elabPlato)
       }))
       await em.persistAndFlush(plato)
@@ -138,7 +193,11 @@ async function remove(req:Request, res:Response) {
     try {
     const numPlato = Number.parseInt(req.params.numPlato)
     const plato = await em.findOneOrFail(Plato, {numPlato}, {failHandler: () => {throw new PlatoNotFoundError}})
-    em.removeAndFlush(plato)
+    const elaboracionesPlato = await em.find(ElaboracionPlato, {plato})
+    elaboracionesPlato.map(async (elabPlato) => {
+      await em.removeAndFlush(elabPlato)
+    })
+    await em.removeAndFlush(plato)
     res.status(200).json({message: 'El plato ha sido eliminado con éxito', data: plato})
   } catch(error: any) {
     handleErrors(error, res)
