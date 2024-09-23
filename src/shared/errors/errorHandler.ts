@@ -3,29 +3,15 @@ import { Response } from 'express'
 
 function handleErrors(error: any, res: Response) {
   if(error instanceof z.ZodError) {
-    console.log(error)
     res.status(400).json({message: `ValidationError: ${JSON.parse(error.message)[0].message}`})
 
-  } else if (error.name.includes('NotFoundError')) {
-    res.status(404).json({message: `NotFoundError: ${error.message}`})
-
-  } else if (error.name.includes('UniqueConstraintViolation')) {
-    res.status(400).json({message: `UniqueConstrainViolation: ${error.message}`})
-
-  } else if (error.name.includes('PreconditionFailed')) {
-    res.status(412).json({message: `PreconditionFailed: ${error.message}`})
-
+  } else if(error.type) {
+    res.status(400).json({message: error.message})
+    
   } else if (error.name === 'UniqueConstraintViolationException') {
     res.status(400).json({message: error.sqlMessage})
 
-  } else if (error.name.includes('TypeError')) {
-    res.status(400).json({message: `TypeError: ${error.message}`})
-    
-  } else if(error.name.includes('BadRequest')) {
-    res.status(400).json({message: `BadRequest: ${error.message}`})
-
-  }
-    else {
+  } else {
     res.status(500).json({message: error.message})
   }
 }

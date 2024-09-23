@@ -3,7 +3,7 @@ import { orm } from '../shared/db/orm.js'
 import { Proveedor } from './proveedor.entity.js'
 import { validarProveedor, validarProveedorPatch } from './proveedor.schema.js'
 import { handleErrors } from '../shared/errors/errorHandler.js'
-import { ProveedorNotFoundError } from '../shared/errors/entityErrors/proveedor.errors.js'
+import { ProveedorNotFoundError, ProveedorUniqueConstraintViolation } from '../shared/errors/entityErrors/proveedor.errors.js'
 import { validarFindAll } from '../shared/validarFindAll.js'
 
 const em = orm.em
@@ -62,6 +62,9 @@ async function add(req: Request, res: Response) {
     await em.flush()
     res.status(201).json({data: proveedor})
   } catch(error: any) {
+    if(error.name === 'UniqueConstraintViolationException') {
+      error = new ProveedorUniqueConstraintViolation
+    }
     handleErrors(error, res)
   }
 }
@@ -80,6 +83,9 @@ async function update(req: Request, res: Response) {
     await em.flush()
     res.status(200).json({message: `El proveedor ${proveedor.razonSocial} ha sido actualizado con éxito`, data: proveedor})
   } catch(error: any) {
+    if(error.name === 'UniqueConstraintViolationException') {
+      error = new ProveedorUniqueConstraintViolation
+    }
     handleErrors(error, res)
   }
 }

@@ -3,7 +3,7 @@ import { Usuario } from "./usuario.entity.js"
 import { orm } from "../shared/db/orm.js"
 import { validarUsuario, validarUsuarioLogIn, validarUsuarioLogInSafe, validarUsuarioPatch, validarUsuarioSafe } from "./usuarios.schema.js"
 import { validarFindAll } from "../shared/validarFindAll.js"
-import { UsuarioNotFoundError } from "../shared/errors/entityErrors/usuario.errors.js"
+import { UsuarioNotFoundError, UsuarioUniqueConstraintViolation } from "../shared/errors/entityErrors/usuario.errors.js"
 import { handleErrors } from "../shared/errors/errorHandler.js"
 
 const em = orm.em
@@ -61,6 +61,9 @@ async function addUsuario(req: Request, res: Response){
     await em.flush()
     res.status(201).json({message: 'Usuario creado con éxito', data: usuario})
   } catch (error: any){
+    if(error.name === 'UniqueConstraintViolationException') {
+      error = new UsuarioUniqueConstraintViolation
+    }
     handleErrors(error, res)
   }
 }
@@ -79,6 +82,9 @@ async function updateUsuario (req:Request,res:Response){
     await em.flush()
     res.status(200).json({message: 'Usuario actualizado', data: usuarioToUpdate})
   } catch (error:any){
+    if(error.name === 'UniqueConstraintViolationException') {
+      error = new UsuarioUniqueConstraintViolation
+    }
     handleErrors(error, res)
   }
 }

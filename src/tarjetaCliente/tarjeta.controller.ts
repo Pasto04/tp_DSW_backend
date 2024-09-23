@@ -3,6 +3,7 @@ import { Tarjeta } from './tarjeta.entity.js';
 import { orm } from '../shared/db/orm.js';
 import { validarTarjeta } from './tarjeta.schema.js';
 import z from 'zod'
+import { TarjetaUniqueConstraintViolation } from '../shared/errors/entityErrors/tarjeta.errors.js';
 
 const em = orm.em;
 
@@ -49,6 +50,9 @@ async function add(req: Request, res: Response) {
     await em.flush();
     res.status(201).json({ message: 'La tarjeta fue creada con éxito', data: tarjeta });
   } catch (error: any) {
+    if(error.name === 'UniqueConstraintViolationException') {
+      error = new TarjetaUniqueConstraintViolation
+    }
     handleErrors(error, res)
   }
 }
@@ -63,6 +67,9 @@ async function update(req: Request, res: Response) {
     await em.flush();
     res.status(200).json({ message: 'La tarjeta fue actualizada con éxito', data: tarjeta });
   } catch (error: any) {
+    if(error.name === 'UniqueConstraintViolationException') {
+      error = new TarjetaUniqueConstraintViolation
+    }
     handleErrors(error, res)
   }
 }

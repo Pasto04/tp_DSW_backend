@@ -21,12 +21,15 @@ Content-Type: application/json
 
 {
   "descripcion": "Ñoquis con salsa bolognesa",
-  "tiempo": 30,
+  "tiempo": 35,
   "precio": 3500,
   "aptoCeliacos": false,
   "aptoVegetarianos": false,
   "aptoVeganos": false,
-  "tipoPlato": 2
+  "tipoPlato": 2,
+  "ingredientes": [{
+    "ingrediente": 
+  }]
 }
 
 ###
@@ -38,10 +41,15 @@ Content-Type: application/json
   "descripcion": "Milanesa napolitana con papas fritas",
   "tiempo": 45,
   "precio": 5000,
-  "aptoCeliacos": false,
-  "aptoVegetarianos": false,
-  "aptoVeganos": false,
-  "tipoPlato": 2
+  "tipoPlato": 2,
+  "ingredientes": [{
+    "ingrediente": 2,
+    "cantidadNecesaria": 400
+  },
+  {
+    "ingrediente": 3,
+    "cantidadNecesaria": 50
+  }]
 }
 
 ###
@@ -104,4 +112,4 @@ Content-Type: application/json
 
 ###Elimina un plato existente utilizando su código
 
-DELETE http://localhost:3000/api/platos/12
+DELETE http://localhost:3000/api/platos/10

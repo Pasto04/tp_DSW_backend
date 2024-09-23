@@ -6,7 +6,7 @@ import { TarjetaCliente } from "./tarjetaCliente.entity.js"
 import { validarTarjetaCliente } from "./tarjetaCliente.schema.js"
 import { handleErrors } from "../shared/errors/errorHandler.js"
 import { validarFindAll } from "../shared/validarFindAll.js"
-import { TarjetaClienteNotFoundError, TarjetaClientePreconditionFailed } from "../shared/errors/entityErrors/tarjetaCliente.errors.js"
+import { TarjetaClienteNotFoundError, TarjetaClientePreconditionFailed, TarjetaClienteUniqueConstraintViolation } from "../shared/errors/entityErrors/tarjetaCliente.errors.js"
 import { UsuarioNotFoundError } from "../shared/errors/entityErrors/usuario.errors.js"
 import { Tarjeta } from "./tarjeta.entity.js"
 
@@ -48,6 +48,9 @@ async function add(req:Request,res:Response) {
     await em.flush()
     res.status(201).json({message: 'Tarjeta agregada', data: tarjetaCliente})
   } catch (error:any){
+    if(error.name === 'UniqueConstraintViolationException') {
+      error = new TarjetaClienteUniqueConstraintViolation
+    }
     handleErrors(error, res)
   }
 }

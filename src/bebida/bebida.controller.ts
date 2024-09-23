@@ -3,7 +3,7 @@ import { orm } from "../shared/db/orm.js";
 import { Bebida } from "./bebida.entity.js";
 import { Proveedor } from "../proveedor/proveedor.entity.js";
 import { validarBebida, validarBebidaPatch } from "./bebida.schema.js";
-import { BebidaBadRequest, BebidaNotFoundError, BebidaPreconditionFailed } from "../shared/errors/entityErrors/bebida.errors.js";
+import { BebidaBadRequest, BebidaNotFoundError, BebidaPreconditionFailed, BebidaUniqueConstraintViolation } from "../shared/errors/entityErrors/bebida.errors.js";
 import { handleErrors } from "../shared/errors/errorHandler.js";
 import { validarFindAll } from "../shared/validarFindAll.js";
 import { BebidaDeProveedor } from "./bebidaDeProveedor/bebidaDeProveedor.entity.js";
@@ -67,6 +67,9 @@ async function add(req: Request, res: Response) {
       res.status(201).json({data: {codBebida: bebida.codBebida, descripcion: bebida.descripcion, unidadMedida: bebida.unidadMedida, contenido: bebida.contenido, precio: bebida.precio}})
     }
   } catch(error: any) {
+    if(error.name === 'UniqueConstraintViolationException') {
+      error = new BebidaUniqueConstraintViolation
+    }
     handleErrors(error, res)
   }
 }
@@ -85,6 +88,9 @@ async function update(req: Request, res: Response) {
     await em.flush()
     res.status(200).json({message: `La bebida ${bebida.descripcion} fue actualizada con éxito`, data: bebida})
   } catch(error: any) {
+    if(error.name === 'UniqueConstraintViolationException') {
+      error = new BebidaUniqueConstraintViolation
+    }
     handleErrors(error, res)
   }
 }

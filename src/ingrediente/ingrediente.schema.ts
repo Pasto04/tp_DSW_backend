@@ -18,7 +18,7 @@ const ingredienteSchema = z.object({
   codigo: z.number().int().positive().optional(),
   descIngre: z.string({
                 required_error: 'La descripción del ingrediente es requerida', 
-                invalid_type_error: 'La descripción del ingrediente debe ser un string'
+                invalid_type_error: 'La descripción del ingrediente debe ser un string',
               }),
   puntoDePedido: z.number({
                    required_error: 'El punto de pedido es requerido', 

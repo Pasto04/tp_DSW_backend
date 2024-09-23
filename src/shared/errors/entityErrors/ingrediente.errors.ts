@@ -1,8 +1,10 @@
 import { NotFoundError } from "@mikro-orm/core";
 
 export class IngredienteNotFoundError extends NotFoundError {
+  type: string
   constructor(message?: string)
-  constructor(params: string | undefined | any) {
+  constructor(array: object)
+  constructor(params: string | undefined | object) {
     let message
     if (typeof params === 'string' || params === undefined) {
       message = 'El ingrediente ingresado no existe'
@@ -10,34 +12,38 @@ export class IngredienteNotFoundError extends NotFoundError {
       message = 'No se han encontrado ingredientes'
     }
     super(message)
-    this.name = 'IngredienteNotFoundError'
+    this.type = 'IngredienteNotFoundError'
   }
 }
 
 export class IngredientePreconditionFailed extends Error {
+  type: string
   constructor(message: string = 'No se puede crear un ingrediente si no hay proveedores registrados') {
     super(message)
-    this.name = 'IngredientePreconditionFailed'
+    this.type = 'IngredientePreconditionFailed'
   }
 }
 
 export class IngredienteUniqueConstraintViolation extends Error {
+  type: string
   constructor(message: string = 'Ya existe una ingrediente con ese nombre') {
     super(message)
-    this.name = 'IngredienteUniqueConstraintViolation'
+    this.type = 'IngredienteUniqueConstraintViolation'
   }
 }
 
 export class IngredienteUnidadMedidaTypeError extends Error {
+  type: string
   constructor (message: string = 'La unidad de medida puede ser -kg-, -g-, -l-, -ml- o -unidades-') {
     super(message)
-    this.name = 'IngredienteUnidadMedidaTypeError'
+    this.type = 'IngredienteUnidadMedidaTypeError'
   }
 }
 
 export class IngredienteBadRequest extends Error {
+  type: string
   constructor (message: string = 'No se puede crear un ingrediente sin un proveedor') {
     super(message)
-    this.name = 'IngredienteBadRequest' 
+    this.type = 'IngredienteBadRequest' 
   }
 }

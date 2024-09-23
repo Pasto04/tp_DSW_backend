@@ -1,8 +1,10 @@
 import { NotFoundError } from "@mikro-orm/core";
 
 export class MesaNotFoundError extends NotFoundError {
+  type: string
   constructor(message?: string)
-  constructor(params: string | any | undefined){
+  constructor(array: object)
+  constructor(params: string | object | undefined){
     let message
     if(typeof params === 'string' || params === undefined){
       message = 'La mesa no existe'
@@ -10,6 +12,6 @@ export class MesaNotFoundError extends NotFoundError {
       message = 'No se ha encontrado ninguna mesa'
     }
     super(message)
-    this.name = 'MesaNotFoundError'
+    this.type = 'MesaNotFoundError'
   }
 }

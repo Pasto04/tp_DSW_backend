@@ -5,7 +5,7 @@ GET http://localhost:3000/api/ingredientes
 
 ###Solicita todos los ingredientes
 
-GET http://localhost:3000/api/ingredientes?aptoVeganos=false
+GET http://localhost:3000/api/ingredientes?aptoVegetarianos=true&descripcionParcial=Queso
 
 ###Solicita un ingrediente en particular utilizando su código
 
@@ -27,7 +27,7 @@ Content-Type: application/json
   "proveedor": 1
 }
 
-###
+### Ingresa un nuevo ingrediente
 
 POST http://localhost:3000/api/ingredientes
 Content-Type: application/json
@@ -43,7 +43,7 @@ Content-Type: application/json
   "proveedor": 1
 }
 
-###
+### Ingresa un nuevo ingrediente
 
 POST http://localhost:3000/api/ingredientes
 Content-Type: application/json
@@ -59,13 +59,29 @@ Content-Type: application/json
   "proveedor": 1
 }
 
+### Ingresa un nuevo ingrediente
+
+POST http://localhost:3000/api/ingredientes
+Content-Type: application/json
+
+{
+  "descIngre": "Sal Fina",
+  "puntoDePedido": 1800,
+  "stock": 8850,
+  "unidadMedida": "mililitros",
+  "aptoCeliacos": true,
+  "aptoVegetarianos": true,
+  "aptoVeganos": false,
+  "proveedor": 1
+}
+
 ###Modifica la descripción de un ingrediente ya ingresado utilizando su código
 
 PATCH http://localhost:3000/api/ingredientes/1
 Content-Type: application/json
 
 {
-  "descIngre": "Papas Fritas"
+  "descIngre": "Sal Fina"
 }
 
 ###Modifica la descripción de un ingrediente ya ingresado utilizando su código

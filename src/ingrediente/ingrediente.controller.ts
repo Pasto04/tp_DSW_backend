@@ -3,7 +3,7 @@ import { orm } from "../shared/db/orm.js";
 import { Ingrediente } from "./ingrediente.entity.js";
 import { NextFunction, Request, Response } from "express";
 import { validarIngrediente, validarIngredientePatch } from "./ingrediente.schema.js";
-import { IngredienteBadRequest, IngredienteNotFoundError, IngredientePreconditionFailed } from "../shared/errors/entityErrors/ingrediente.errors.js";
+import { IngredienteBadRequest, IngredienteNotFoundError, IngredientePreconditionFailed, IngredienteUniqueConstraintViolation } from "../shared/errors/entityErrors/ingrediente.errors.js";
 import { handleErrors } from "../shared/errors/errorHandler.js";
 import { ProveedorNotFoundError } from "../shared/errors/entityErrors/proveedor.errors.js";
 import { IngredienteDeProveedor } from "./ingredienteDeProveedor/ingredienteDeProveedor.entity.js";
@@ -39,13 +39,16 @@ function sanitizeQuery(req: Request){
   Object.keys(queryResult).forEach((keys) => {
     if(queryResult[keys] === undefined) {
       delete queryResult[keys]
-    } else if(keys !== 'descIngre' && queryResult[keys] === 'true') {
-      queryResult[keys] = !!queryResult[keys]
-    } else if(keys !== 'descIngre' && queryResult[keys] === 'false') {
-      queryResult[keys] = !!!(queryResult[keys])
     } else if(keys === 'descIngre') {
       queryResult[keys] = {$like: `%${req.query.descripcionParcial}%`}
-    }
+
+    } else if(queryResult[keys] === 'true') {
+      queryResult[keys] = !!queryResult[keys]
+
+    } else if(queryResult[keys] === 'false') {
+      queryResult[keys] = !!!(queryResult[keys])
+
+    } 
   })
   return queryResult
 }
@@ -80,8 +83,7 @@ async function add(req: Request, res: Response) {
       throw new IngredientePreconditionFailed
     } else if (req.body.proveedor === undefined){
       throw new IngredienteBadRequest
-    }
-    else {
+    } else {
       const ingredienteValido = validarIngrediente(req.body.sanitizedInput)
       const ingre = em.create(Ingrediente, ingredienteValido)
       // creación de la relación entre ingrediente y proveedor
@@ -92,7 +94,10 @@ async function add(req: Request, res: Response) {
       await em.flush()
       res.status(201).json({message: `El ingrediente ${ingre.descIngre} fue creado con éxito`, data: ingre})
     }
-    } catch(error: any) {
+  } catch(error: any) {
+    if(error.name === 'UniqueConstraintViolationException') {
+      error = new IngredienteUniqueConstraintViolation
+    }
     handleErrors(error, res)
   }
 }
@@ -111,6 +116,9 @@ async function update(req: Request, res: Response) {
     await em.flush()
     res.status(200).json({message: `El ingrediente ${ingre.descIngre} ha sido actualizado con éxito`, data: ingre})
   } catch(error: any) {
+    if(error.name === 'UniqueConstraintViolationException') {
+      error = new IngredienteUniqueConstraintViolation
+    }
     handleErrors(error, res)
   }
 }

@@ -1,8 +1,10 @@
 import { NotFoundError } from "@mikro-orm/core";
 
 export class UsuarioNotFoundError extends NotFoundError {
+  type: string
   constructor(message?: string)
-  constructor(params: any | string | undefined) {
+  constructor(array: object)
+  constructor(params: object | string | undefined) {
     let message
     if (params === undefined || typeof params === 'string') {
       message = 'El usuario ingresado no existe'
@@ -10,13 +12,14 @@ export class UsuarioNotFoundError extends NotFoundError {
       message = 'No se ha encontrado ningún usuario'
     }
     super(message);
-    this.name = 'UsuarioNotFoundError'
+    this.type = 'UsuarioNotFoundError'
   }
 }
 
 export class UsuarioUniqueConstraintViolation extends Error {
+  type: string
   constructor(message: string = 'Ya existe un usuario con ese email'){
     super(message)
-    this.name = 'UsuarioUniqueConstraintViolation'
+    this.type = 'UsuarioUniqueConstraintViolation'
   }
 }

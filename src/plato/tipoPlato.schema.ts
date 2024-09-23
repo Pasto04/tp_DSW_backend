@@ -3,21 +3,7 @@ import { Plato } from './plato.entity.js'
 
 const tipoPlatoSchema = z.object({
   codigo: z.number().int().positive().optional(),
-  descTPlato: z.string({
-                required_error: 'La descripción del tipo de plato es requerida', 
-                invalid_type_error: 'La descripción del tipo de plato debe ser un string'
-              })
-              .includes('Entrada', {message: 'El tipo de plato puede ser -Entrada-, -Plato Principal- o -Postre-'})
-              .or(z.string({
-                    required_error: 'La descripción del tipo de plato es requerida', 
-                    invalid_type_error: 'La descripción del tipo de plato debe ser un string'
-                  })
-                  .includes('Plato Principal', {message: 'El tipo de plato puede ser -Entrada-, -Plato Principal- o -Postre-'})
-                  .or(z.string({
-                        required_error: 'La descripción del tipo de plato es requerida', 
-                        invalid_type_error: 'La descripción del tipo de plato debe ser un string'
-                      })
-                      .includes('Postre', {message: 'El tipo de plato puede ser -Entrada-, -Plato Principal- o -Postre-'}))),
+  descTPlato: z.string(z.enum(['Entrada', 'Plato Principal', 'Postre'], {message: 'El tipo de plato debe ser "Entrada", "Plato Principal" o "Postre"'})),
   platos: z.array(z.instanceof(Plato)).optional()
 })
 

@@ -1,6 +1,6 @@
 ### Obtener todos los ingredientes y sus cantidades de un plato
 
-GET http://localhost:3000/api/platos/2/ingredientes
+GET http://localhost:3000/api/platos/5/ingredientes
 
 ###
 

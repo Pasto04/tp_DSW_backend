@@ -1,8 +1,17 @@
 import { NotFoundError } from "@mikro-orm/core";
 
 export class ElaboracionPlatoNotFoundError extends NotFoundError {
-  constructor(message: string = 'Elaboración de plato no encontrada') {
+  type: string
+  constructor(message?: string)
+  constructor(array: object)
+  constructor(params: string | object | undefined) {
+    let message
+    if(params === undefined || typeof params === 'string') {
+      message = 'Elaboración de plato no encontrada'
+    } else {
+      message = 'No se han encontrado elaboraciones de plato'
+    }
     super(message);
-    this.name = 'ElaboracionPlatoNotFoundError';
+    this.type = 'ElaboracionPlatoNotFoundError';
   }
 }
