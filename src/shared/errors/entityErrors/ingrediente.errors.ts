@@ -47,3 +47,11 @@ export class IngredienteBadRequest extends Error {
     this.type = 'IngredienteBadRequest' 
   }
 }
+
+export class IngredienteAlreadyInUseError extends Error {
+  type: string
+  constructor(message: string = 'Ya existe un plato que utiliza este ingrediente, por lo que no puede eliminarse') {
+    super(message)
+    this.type = 'IngredienteAlreadyInUseError'
+  }
+}

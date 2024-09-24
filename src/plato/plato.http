@@ -84,6 +84,50 @@ Content-Type: application/json
 
 ###Modifica la descripción de un plato ya ingresado utilizando su código
 
+PUT http://localhost:3000/api/platos/16
+Content-Type: application/json
+
+{
+  "descripcion": "Suprema napolitana con papas fritas",
+  "tiempo": 45,
+  "precio": 5000,
+  "tipoPlato": 2,
+  "ingredientes": [{
+    "ingrediente": 1,
+    "cantidadNecesaria": 75
+  }, 
+  {
+    "ingrediente": 2,
+    "cantidadNecesaria": 400
+  },
+  {
+    "ingrediente": 3,
+    "cantidadNecesaria": 50
+  }]
+}
+
+###Modifica la descripción de un plato ya ingresado utilizando su código
+
+PATCH http://localhost:3000/api/platos/16
+Content-Type: application/json
+
+{
+  "ingredientes": [{
+    "ingrediente": 1,
+    "cantidadNecesaria": 75
+  }, 
+  {
+    "ingrediente": 2,
+    "cantidadNecesaria": 400
+  },
+  {
+    "ingrediente": 3,
+    "cantidadNecesaria": 50
+  }]
+}
+
+### Modifica la descripción de un plato ya ingresado utilizando su código
+
 PATCH http://localhost:3000/api/platos/5
 Content-Type: application/json
 
@@ -111,4 +155,4 @@ Content-Type: application/json
 
 ###Elimina un plato existente utilizando su código
 
-DELETE http://localhost:3000/api/platos/14
+DELETE http://localhost:3000/api/platos/15

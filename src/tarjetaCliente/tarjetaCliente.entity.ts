@@ -9,7 +9,7 @@ import { vencimiento } from '../shared/db/vencimiento.type.js';
 export class TarjetaCliente extends BaseClass6 {
 
   @Property({ nullable: false, unique: true })
-  nroTarjeta!: number;
+  nroTarjeta!: string;
 
   @Property({ nullable: false })
   tipoTarjeta!: string;

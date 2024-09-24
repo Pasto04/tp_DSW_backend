@@ -91,4 +91,4 @@ Content-Type: application/json
 
 ### Elimina un proveedor
 
-DELETE http://localhost:3000/api/proveedores/8
+DELETE http://localhost:3000/api/proveedores/3

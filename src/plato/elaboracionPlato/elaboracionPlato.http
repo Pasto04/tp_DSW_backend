@@ -2,17 +2,9 @@
 
 GET http://localhost:3000/api/platos/5/ingredientes
 
-###
-
-GET http://localhost:3000/api/ingredientes/1/platos
-
 ### Obtener la cantidad para un ingrediente y un plato
 
 GET http://localhost:3000/api/platos/2/ingredientes/2
-
-###
-
-GET http://localhost:3000/api/ingredientes/1/platos/3
 
 ### Establecer una cantidad para un ingrediente dado un plato
 
@@ -21,7 +13,6 @@ Content-Type: application/json
 
 {
   "ingrediente": 3,
-  "fechaVigencia": "2024-08-26",
   "cantidadNecesaria": 50
 }
 
@@ -32,7 +23,6 @@ Content-Type: application/json
 
 {
   "ingrediente": 2,
-  "fechaVigencia": "2024-08-26",
   "cantidadNecesaria": 675
 }
 
@@ -43,30 +33,7 @@ Content-Type: application/json
 
 {
   "ingrediente": 1,
-  "fechaVigencia": "2024-08-26",
   "cantidadNecesaria": 450
-}
-
-###
-
-POST http://localhost:3000/api/ingredientes/1/platos
-Content-Type: application/json
-
-{
-  "plato": 3,
-  "fechaVigencia": "16-08-2024",
-  "cantidadNecesaria": 500
-}
-
-###
-
-POST http://localhost:3000/api/ingredientes/2/platos
-Content-Type: application/json
-
-{
-  "plato": 2,
-  "fechaVigencia": "2024-08-16",
-  "cantidadNecesaria": 1500
 }
 
 ### Modificar la cantidad de un ingrediente dado un plato
@@ -78,19 +45,6 @@ Content-Type: application/json
   "cantidadNecesaria": 1050
 }
 
-### IDEM
-
-PATCH http://localhost:3000/api/ingredientes/2/platos/2
-Content-Type: application/json
-
-{
-  "CantidadNecesaria": 1100
-}
-
 ### Eliminar la cantidad asociada a un ingrediente y un plato
 
 DELETE http://localhost:3000/api/platos/1/ingredientes/3
-
-### IDEM
-
-DELETE http://localhost:3000/api/ingredientes/2/platos/2

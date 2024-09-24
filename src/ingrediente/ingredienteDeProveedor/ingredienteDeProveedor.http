@@ -2,10 +2,6 @@
 
 GET http://localhost:3000/api/ingredientes/1/proveedores
 
-### FindAll Ingredientes de un proveedor (ELIMINAR)
-
-GET http://localhost:3000/api/proveedores/2/ingredientes
-
 ### GetOne Proveedor de un ingrediente
 
 GET http://localhost:3000/api/ingredientes/1/proveedores/1
@@ -16,11 +12,11 @@ GET http://localhost:3000/api/proveedores/1/ingredientes/1
 
 ### Post Nuevo proveedor de un ingrediente
 
-POST http://localhost:3000/api/ingredientes/1/proveedores
+POST http://localhost:3000/api/ingredientes/10/proveedores
 Content-Type: application/json
 
 {
-  "proveedor": 1
+  "proveedor": 3
 }
 
 ### Post Nuevo ingrediente de un proveedor (ELIMINAR)

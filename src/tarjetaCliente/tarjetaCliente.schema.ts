@@ -5,22 +5,20 @@ import { Usuario } from '../usuario/usuario.entity.js'
 
 const tarjetaClienteSchema = z.object({
   idTarjeta: z.number().int().positive().optional(),
-  nroTarjeta: z.number({
-                required_error: 'El número de tarjeta es requerido', 
-                invalid_type_error: 'El número de tarjeta debe ser un número'
-              })
-              .int({message: 'El número de tarjeta debe ser un número entero'})
-              .positive({message: 'El número de tarjeta debe ser un número entero positivo'}),
+  nroTarjeta: z.string({
+                required_error: 'El número de la tarjeta es requerido', 
+                invalid_type_error: 'El número de la tarjeta debe ser un string'
+              }),
   tipoTarjeta: z.string({
                  required_error: 'El tipo de tarjeta es requerido', 
                  invalid_type_error: 'El tipo de tarjeta debe ser un string'
                })
-               .includes('Debito', {message: 'El tipo de tarjeta es "Debito" o "Credito"'})
+               .includes('Débito', {message: 'El tipo de tarjeta es "Debito" o "Credito"'})
                .or(z.string({
                      required_error: 'El tipo de tarjeta es requerido', 
                      invalid_type_error: 'El tipo de tarjeta debe ser un string'
                    })
-                   .includes('Credito', {message: 'El tipo de tarjeta es "Debito" o "Credito"'})),
+                   .includes('Crédito', {message: 'El tipo de tarjeta es "Débito" o "Crédito"'})),
   bancoTarjeta: z.string({
                   required_error: 'El banco de la tarjeta es requerido', 
                   invalid_type_error: 'El banco de la tarjeta debe ser un string'

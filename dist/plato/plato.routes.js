@@ -4,7 +4,7 @@ export const platoRouter = Router();
 platoRouter.get('/', findAll);
 platoRouter.get('/:numPlato', findOne);
 platoRouter.post('/', sanitizePlato, add);
-platoRouter.put('/:numPlato', update);
-platoRouter.patch('/:numPlato', update);
+platoRouter.put('/:numPlato', sanitizePlato, update);
+platoRouter.patch('/:numPlato', sanitizePlato, update);
 platoRouter.delete('/:numPlato', remove);
 //# sourceMappingURL=plato.routes.js.map

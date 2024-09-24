@@ -8,10 +8,9 @@ GET http://localhost:3000/api/bebidas/1/proveedores/1
 
 ### Crear una nueva bebida de proveedor
 
-POST http://localhost:3000/api/bebidas/1/proveedores
+POST http://localhost:3000/api/bebidas/5/proveedores
 Content-Type: application/json
 
 {
-  "proveedor": 1
+  "proveedor": 3
 }
-

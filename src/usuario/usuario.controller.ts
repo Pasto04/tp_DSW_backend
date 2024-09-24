@@ -13,7 +13,7 @@ async function findAllByTipoUsuario(req:Request, res:Response) {
     const { tipoUsuario } = req.query
     if(tipoUsuario){
       const tipoUsuario = (req.query.tipoUsuario as string).toLowerCase()
-      const usuarios = validarFindAll(await em.find(Usuario, {tipoUsuario}), UsuarioNotFoundError)
+      const usuarios = validarFindAll(await em.find(Usuario, {tipoUsuario}, {populate: ['tarjetasCliente']}), UsuarioNotFoundError)
       res.status(200).json({message: `Todos los ${tipoUsuario}s encontrados`, data: usuarios})
     } 
   } catch (error:any){

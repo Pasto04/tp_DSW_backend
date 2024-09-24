@@ -50,6 +50,8 @@ async function add(req: Request, res: Response) {
     const codigo = Number.parseInt(req.params.cod)
     const ingrediente = await em.findOneOrFail(Ingrediente, {codigo}, {failHandler: () => {throw new IngredienteNotFoundError}})
     req.body.sanitizedInput.ingrediente = ingrediente
+    const id = Number.parseInt(req.body.sanitizedInput.proveedor)
+    req.body.sanitizedInput.proveedor = await em.findOneOrFail(Proveedor, {id}, {failHandler: () => {throw new ProveedorNotFoundError}})
     const ingreDeProvValido = validarIngredienteDeProveedor(req.body.sanitizedInput)
     const ingreDeProv = em.create(IngredienteDeProveedor, ingreDeProvValido)
     await em.flush()

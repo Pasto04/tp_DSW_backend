@@ -3,8 +3,13 @@ import { orm } from '../shared/db/orm.js'
 import { Proveedor } from './proveedor.entity.js'
 import { validarProveedor, validarProveedorPatch } from './proveedor.schema.js'
 import { handleErrors } from '../shared/errors/errorHandler.js'
-import { ProveedorNotFoundError, ProveedorUniqueConstraintViolation } from '../shared/errors/entityErrors/proveedor.errors.js'
+import { ProveedorIsUniqueForIngredienteError, ProveedorNotFoundError, ProveedorUniqueConstraintViolation } from '../shared/errors/entityErrors/proveedor.errors.js'
 import { validarFindAll } from '../shared/validarFindAll.js'
+import { IngredienteDeProveedor } from '../ingrediente/ingredienteDeProveedor/ingredienteDeProveedor.entity.js'
+import { Ingrediente } from '../ingrediente/ingrediente.entity.js'
+import { Bebida } from '../bebida/bebida.entity.js'
+import { ProveedorIsUniqueForBebidaError } from '../shared/errors/entityErrors/bebida.errors.js'
+import { BebidaDeProveedor } from '../bebida/bebidaDeProveedor/bebidaDeProveedor.entity.js'
 
 const em = orm.em
 
@@ -94,7 +99,43 @@ async function remove(req: Request, res: Response) {
   try {
     const id = Number.parseInt(req.params.id)
     const proveedor = await em.findOneOrFail(Proveedor, {id}, {failHandler: () => {throw new ProveedorNotFoundError}})
-    await em.removeAndFlush(proveedor)
+
+    // Validamos que cada ingrediente que esté asociado a este proveedor tenga, por lo menos, otro proveedor asociado para poder eliminarlo
+    const ingredientes = await em.find(Ingrediente, {}, {populate: ['ingredienteDeProveedor']})
+    ingredientes.forEach((ingrediente: Ingrediente) => {
+      if(Object.keys(ingrediente.ingredienteDeProveedor).length < 11) { // 11 representa la cantidad de elementos almacenados dentro del objeto "Collection". Sólo 2 representan instancias de "IngredienteDeProveedor", mientras que los demás son elementos propios de la colección
+        ingrediente.ingredienteDeProveedor.getItems().forEach((ingreDeProv) => { 
+          if(ingreDeProv.proveedor.id === proveedor.id) {
+            throw new ProveedorIsUniqueForIngredienteError    
+          }
+        })             
+      }
+    })
+    const bebidas = await em.find(Bebida, {}, {populate: ['bebidasDeProveedor']})
+    bebidas.forEach((bebida) => {
+      if(Object.keys(bebida.bebidasDeProveedor).length < 11) {
+        bebida.bebidasDeProveedor.getItems().forEach((bebidaDeProv) => {
+          if(bebidaDeProv.proveedor.id === proveedor.id) {
+            throw new ProveedorIsUniqueForBebidaError
+          }
+        })
+      }
+    })
+    // Validamos que cada ingrediente que esté asociado a este proveedor tenga, por lo menos, otro proveedor asociado para poder eliminarlo
+    
+    // Una vez hecho esto, traemos todas las instancias de IngredienteDeProveedor y BebidaDeProveedor correspondientes y las eliminamos junto con el proveedor
+    const ingredientesDeProveedor = await em.find(IngredienteDeProveedor, {proveedor})
+    ingredientesDeProveedor.map((ingreDeProveedor) => {
+      em.remove(ingreDeProveedor)
+    })
+    const bebidasDeProveedor = await em.find(BebidaDeProveedor, {proveedor})
+    bebidasDeProveedor.map((bebidaDeProv) => {
+      em.remove(bebidaDeProv)
+    })
+    em.remove(proveedor)
+    await em.flush()
+    // Una vez hecho esto, traemos todas las instancias de IngredienteDeProveedor y BebidaDeProveedor correspondientes y las eliminamos junto con el proveedor
+    
     res.status(200).json({message: `El proveedor ${proveedor.razonSocial} ha sido eliminado con éxito`, data: proveedor})
   } catch(error: any) {
     handleErrors(error, res)

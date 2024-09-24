@@ -23,3 +23,11 @@ export class ProveedorUniqueConstraintViolation extends Error {
     this.type = 'ProveedorUniqueConstraintViolation'
   }
 }
+
+export class ProveedorIsUniqueForIngredienteError extends Error {
+  type: string
+  constructor(message: string = 'Existe al menos un ingrediente cuyo único proveedor es el que usted desea eliminar, por lo que la acción no fue posible') {
+    super(message)
+    this.type = 'ProveedorIsUniqueForIngredienteError'
+  }
+}

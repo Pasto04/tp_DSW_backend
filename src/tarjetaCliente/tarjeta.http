@@ -29,7 +29,8 @@ POST http://localhost:3000/api/tarjetas
 Content-Type: application/json
 
 {
-  "descTarjeta": "Amex Black"
+  "descTarjeta": "Amex Black",
+  "Pepe": 123
 }
 
 ###

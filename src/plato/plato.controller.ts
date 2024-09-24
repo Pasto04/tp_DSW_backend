@@ -25,6 +25,11 @@ function sanitizePlato(req: Request, res: Response, next: NextFunction) {
     aptoVeganos: req.body.aptoVeganos,
     tipoPlato: req.body.tipoPlato
   }
+  Object.keys(req.body.sanitizedInput).forEach((keys) => {
+    if(req.body.sanitizedInput[keys] === undefined) {
+      delete req.body.sanitizedInput[keys]
+    }
+  })
   next()
 }
 
@@ -36,33 +41,32 @@ function sanitizeQuery(req: Request) {
     aptoVegetarianos: req.query.aptoVegetarianos,
     aptoVeganos: req.query.aptoVeganos
   }
-  Object.keys(queryResult).forEach(async (keys) => {
+  for(let keys of Object.keys(queryResult)) {
     if(queryResult[keys] === undefined) {
       delete queryResult[keys]
 
     } else if(keys === 'descripcion') {
       queryResult[keys] = { $like: `%${req.query.descripcionParcial}%` }
 
-    } else if(keys === 'tipoPlato') {
-      queryResult[keys] = await em.findOneOrFail(TipoPlato, {numPlato: Number.parseInt(req.query.tipoPlato as string)}, {failHandler: () => {throw new TipoPlatoNotFoundError}})
-      //console.log(queryResult[keys])
-
     } else if(queryResult[keys] === 'true') {
       queryResult[keys] = !!queryResult[keys]
 
-    } else {
+    } else if(queryResult[keys] === 'false') {
       queryResult[keys] = !!!queryResult[keys]
     }
-  })
-  console.log(queryResult)
+  }
   return queryResult
 }
 
 //Incorporar manejo del req.query para filtrar por tipo de plato, ingrediente, aptoPara[x], etc.
 async function findAll(req:Request,res:Response) {
   try{
-    req.query.sanitizedQuery = sanitizeQuery(req)
-    const platos = validarFindAll(await em.find(Plato, req.query.sanitizedQuery as object, {populate:['tipoPlato']}), PlatoNotFoundError)
+    const sanitizedQuery = sanitizeQuery(req)
+    //Manejo dentro del propio método la posibilidad de que me envíen por queryString el tipo de plato (para evitar errores)
+    if(sanitizedQuery.tipoPlato) {
+      sanitizedQuery.tipoPlato = await em.findOneOrFail(TipoPlato, {numPlato: Number.parseInt(req.query.tipoPlato as string)}, {failHandler: () => {throw new TipoPlatoNotFoundError}})
+    }
+    const platos = validarFindAll(await em.find(Plato, sanitizedQuery as object, {populate:['tipoPlato']}), PlatoNotFoundError)
     res.status (200).json({message: 'Todos los platos encontrados', data: platos})
   } catch (error:any){
     handleErrors(error, res)
@@ -153,11 +157,12 @@ async function add(req:Request,res:Response) {
       req.body.sanitizedInput.tipoPlato = (await em.findOneOrFail(TipoPlato, {numPlato: req.body.sanitizedInput.tipoPlato}, {failHandler: () => {throw new TipoPlatoNotFoundError}})) as TipoPlato
       const platoValido = validarPlato(req.body.sanitizedInput)
       const plato = em.create(Plato, platoValido)
-      await Promise.all(ingredientesValidos.map(async (ingreCant: {ingrediente: Ingrediente, cantidadNecesaria: number}) => {
+      await Promise.all(ingredientesValidos.map((ingreCant: {ingrediente: Ingrediente, cantidadNecesaria: number}) => {
         const elabPlato = em.create(ElaboracionPlato, {plato, ingrediente: ingreCant.ingrediente, cantidadNecesaria: ingreCant.cantidadNecesaria})
-        await em.persistAndFlush(elabPlato)
+        em.persist(elabPlato)
       }))
-      await em.persistAndFlush(plato)
+      em.persist(plato)
+      await em.flush()
       res.status(201).json({message: 'Plato creado', data: plato})
     }
     } catch (error:any){
@@ -168,17 +173,59 @@ async function add(req:Request,res:Response) {
   }
 }
 
+
+function elabPlatoExists(elabPlato: ElaboracionPlato, elabPlatoArray: ElaboracionPlato[]): boolean {
+  for(let i = 0; i < elabPlatoArray.length; i++) {
+    if(elabPlato.plato === elabPlatoArray[i].plato && elabPlato.ingrediente === elabPlatoArray[i].ingrediente) {
+      return true
+    }
+  }
+  return false
+}
+
+
 async function update(req:Request,res:Response) {
   try{
+    let ingredientesValidos
+    if(req.body.ingredientes) { //Los ingrediente que me envían serán la totalidad de los ingredientes del plato, no sólo los que quiero agregar
+      let ingredientes: {ingrediente: Ingrediente, cantidadNecesaria: number}[] = []
+      await Promise.all(req.body.ingredientes.map(async (ingreCant: {ingrediente: number, cantidadNecesaria: number}) => {
+        const ingre = await em.findOneOrFail(Ingrediente, {codigo: ingreCant.ingrediente}, {failHandler: () => {throw new IngredienteNotFoundError}})
+        ingredientes.push({ingrediente: ingre, cantidadNecesaria: ingreCant.cantidadNecesaria})
+      }))
+      ingredientesValidos = validarIngredientesOfPlato(ingredientes) //Arreglo de ingredientes del plato
+      req.body.sanitizedInput.aptoCeliacos = isAptoCeliacos(ingredientesValidos)
+      req.body.sanitizedInput.aptoVegetarianos = isAptoVegetarianos(ingredientesValidos)
+      req.body.sanitizedInput.aptoVeganos = isAptoVeganos(ingredientesValidos)
+    }
+    if(req.body.sanitizedInput.tipoPlato) {
+      const numPlato = Number.parseInt(req.body.sanitizedInput.tipoPlato)
+      req.body.sanitizedInput.tipoPlato = await em.findOneOrFail(TipoPlato, {numPlato}, {failHandler: () => {throw new TipoPlatoNotFoundError}})
+    }
     const numPlato = Number.parseInt(req.params.numPlato)
+    req.body.sanitizedInput.numPlato = numPlato
     const platoToUpdate = await em.findOneOrFail(Plato, {numPlato}, {failHandler: () => {throw new PlatoNotFoundError}})
     let platoUpdated
     if(req.method === 'PATCH') {
-      platoUpdated = validarPlatoPatch(req.body)
+      platoUpdated = validarPlatoPatch(req.body.sanitizedInput)
     } else {
-      platoUpdated = validarPlato(req.body)
+      platoUpdated = validarPlato(req.body.sanitizedInput)
     }
+
+    // Creo las elaboracionesPlato que sean necesarias. Si ya existen, por supuesto, no las creo.
+    if(ingredientesValidos !== undefined) {
+      const elaboracionesPlato = await em.find(ElaboracionPlato, {plato: platoToUpdate})
+      ingredientesValidos.map((ingredienteInput) => {
+        const elabPlato = em.create(ElaboracionPlato, {plato: platoToUpdate, ingrediente: ingredienteInput.ingrediente, cantidadNecesaria: ingredienteInput.cantidadNecesaria})
+        if(!elabPlatoExists(elabPlato, elaboracionesPlato)) {
+          em.persist(elabPlato)
+        }
+      })
+    }
+    // Creo las elaboracionesPlato que sean necesarias. Si ya existen, por supuesto, no las creo.
+
     em.assign(platoToUpdate, platoUpdated)
+    console.log(platoUpdated)
     await em.flush()
     res.status(200).json({message: 'El plato ha sido actualizado exitosamente', data: platoToUpdate})
   } catch (error:any){

@@ -65,28 +65,28 @@ POST http://localhost:3000/api/ingredientes
 Content-Type: application/json
 
 {
-  "descIngre": "Sal Fina",
-  "puntoDePedido": 1800,
-  "stock": 8850,
-  "unidadMedida": "mililitros",
-  "aptoCeliacos": true,
+  "descIngre": "Ñoquis de Papa",
+  "puntoDePedido": 3300,
+  "stock": 11250,
+  "unidadMedida": "gramos",
+  "aptoCeliacos": false,
   "aptoVegetarianos": true,
-  "aptoVeganos": false,
+  "aptoVeganos": true,
   "proveedor": 1
 }
 
 ###Modifica la descripción de un ingrediente ya ingresado utilizando su código
 
-PATCH http://localhost:3000/api/ingredientes/1
+PATCH http://localhost:3000/api/ingredientes/3
 Content-Type: application/json
 
 {
-  "descIngre": "Sal Fina"
+  "descIngre": "Sal Muy Fina"
 }
 
 ###Modifica la descripción de un ingrediente ya ingresado utilizando su código
 
-PATCH http://localhost:3000/api/ingredientes/1
+PATCH http://localhost:3000/api/ingredientes/3
 Content-Type: application/json
 
 {
@@ -104,4 +104,4 @@ Content-Type: application/json
 
 ###Elimina un ingrediente existente utilizando su código
 
-DELETE http://localhost:3000/api/ingredientes/1
+DELETE http://localhost:3000/api/ingredientes/9

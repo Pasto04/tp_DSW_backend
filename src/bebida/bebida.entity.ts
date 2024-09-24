@@ -23,5 +23,5 @@ export class Bebida extends BaseClass7 {
   bebidasPedido = new Collection<BebidaPedido>(this)
 
   @OneToMany(() => BebidaDeProveedor, (bebidaDeProveedor) => bebidaDeProveedor.bebida)
-  bebidasDeProveedor = new Collection<BebidaPedido>(this)
+  bebidasDeProveedor = new Collection<BebidaDeProveedor>(this)
 }

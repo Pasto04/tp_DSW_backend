@@ -1,5 +1,5 @@
 ###Solicita todos los clientes
-GET http://localhost:3000/api/usuarios
+GET http://localhost:3000/api/usuarios?tipoUsuario=cliente
 
 ###Solicita todos los empleados
 GET http://localhost:3000/api/usuarios?tipoUsuario=empleado
@@ -78,7 +78,7 @@ Content-Type: application/json
 }
 
 ###Elimina un usuario existente
-DELETE http://localhost:3000/api/usuarios/3
+DELETE http://localhost:3000/api/usuarios/1
 
 ###-----------------------------------------------------------------------
 

@@ -3,8 +3,9 @@ import { TipoPlato } from './tipoPlato.entity.js'
 import { orm } from '../shared/db/orm.js'
 import { validarTipoPlato } from './tipoPlato.schema.js'
 import { handleErrors } from '../shared/errors/errorHandler.js'
-import { TipoPlatoNotFoundError, TipoPlatoUniqueConstraintViolation } from '../shared/errors/entityErrors/tipoPlato.errors.js'
+import { TipoPlatoAlreadyInUseError, TipoPlatoNotFoundError, TipoPlatoUniqueConstraintViolation } from '../shared/errors/entityErrors/tipoPlato.errors.js'
 import { validarFindAll } from '../shared/validarFindAll.js'
+import { Plato } from './plato.entity.js'
 
 const em = orm.em
 
@@ -64,6 +65,9 @@ async function remove (req: Request, res: Response,) {
   try {
     const numPlato = Number.parseInt(req.params.numPlato)
     const deletedTipoPlato = await em.findOneOrFail(TipoPlato, {numPlato}, {failHandler: () => {throw new TipoPlatoNotFoundError}}) 
+    if((await em.find(Plato, {tipoPlato: deletedTipoPlato})).length > 0) {
+      throw new TipoPlatoAlreadyInUseError
+    }
     await em.removeAndFlush(deletedTipoPlato)
     res.status(200).json({message: `El tipo de plato ${deletedTipoPlato.descTPlato} ha sido eliminado con éxito`, data: deletedTipoPlato})
   } catch(error: any){

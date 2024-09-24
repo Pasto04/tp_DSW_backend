@@ -23,3 +23,19 @@ export class UsuarioUniqueConstraintViolation extends Error {
     this.type = 'UsuarioUniqueConstraintViolation'
   }
 }
+
+export class UsuarioIsNotAllowedError extends Error {
+  type: string
+  constructor(message: string = 'No tiene permisos para realizar esta acción') {
+    super(message)
+    this.type = 'UsuarioIsNotAllowedError'
+  }
+}
+
+export class UsuarioUnauthorizedError extends Error {
+  type: string
+  constructor(message: string = 'Primero debe iniciar sesión para acceder a este recurso') {
+    super(message)
+    this.type = 'UsuarioUnauthorizedError'
+  }
+}

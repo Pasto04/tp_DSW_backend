@@ -3,11 +3,13 @@ import { orm } from "../shared/db/orm.js";
 import { Ingrediente } from "./ingrediente.entity.js";
 import { NextFunction, Request, Response } from "express";
 import { validarIngrediente, validarIngredientePatch } from "./ingrediente.schema.js";
-import { IngredienteBadRequest, IngredienteNotFoundError, IngredientePreconditionFailed, IngredienteUniqueConstraintViolation } from "../shared/errors/entityErrors/ingrediente.errors.js";
+import { IngredienteAlreadyInUseError, IngredienteBadRequest, IngredienteNotFoundError, IngredientePreconditionFailed, IngredienteUniqueConstraintViolation } from "../shared/errors/entityErrors/ingrediente.errors.js";
 import { handleErrors } from "../shared/errors/errorHandler.js";
 import { ProveedorNotFoundError } from "../shared/errors/entityErrors/proveedor.errors.js";
 import { IngredienteDeProveedor } from "./ingredienteDeProveedor/ingredienteDeProveedor.entity.js";
 import { validarFindAll } from "../shared/validarFindAll.js";
+import { Plato } from "../plato/plato.entity.js";
+import { ElaboracionPlato } from "../plato/elaboracionPlato/elaboracionPlato.entity.js";
 
 const em = orm.em
 
@@ -22,6 +24,11 @@ function sanitizeIngrediente(req: Request, res: Response, next: NextFunction) {
     aptoVegetarianos: req.body.aptoVegetarianos,
     aptoVeganos: req.body.aptoVeganos,
   }
+  Object.keys(req.body.sanitizedInput).forEach((keys) => {
+    if(req.body.sanitizedInput[keys] === undefined) {
+      delete req.body.sanitizedInput[keys]
+    }
+  })
   next()
 }
 
@@ -89,7 +96,7 @@ async function add(req: Request, res: Response) {
       // creación de la relación entre ingrediente y proveedor
       const id = Number.parseInt(req.body.proveedor)
       const proveedor = await em.findOneOrFail(Proveedor, {id}, {failHandler: () => {throw new ProveedorNotFoundError}})
-      const ingredienteDeProveedor = await em.create(IngredienteDeProveedor, {ingrediente: ingre, proveedor})
+      const ingredienteDeProveedor = em.create(IngredienteDeProveedor, {ingrediente: ingre, proveedor})
       // creación de la relación entre ingrediente y proveedor 
       await em.flush()
       res.status(201).json({message: `El ingrediente ${ingre.descIngre} fue creado con éxito`, data: ingre})
@@ -108,9 +115,9 @@ async function update(req: Request, res: Response) {
     const ingre = await em.findOneOrFail(Ingrediente, {codigo}, {failHandler: () => {throw new IngredienteNotFoundError}})
     let ingreUpdated
     if(req.method === 'PATCH') {
-      ingreUpdated = validarIngredientePatch(req.body)
+      ingreUpdated = validarIngredientePatch(req.body.sanitizedInput)
     } else {
-      ingreUpdated = validarIngrediente(req.body)
+      ingreUpdated = validarIngrediente(req.body.sanitizedInput)
     }
     em.assign(ingre, ingreUpdated)
     await em.flush()
@@ -127,7 +134,15 @@ async function remove(req: Request, res: Response) {
     try {
     const codigo = Number.parseInt(req.params.cod)
     const ingre = await em.findOneOrFail(Ingrediente, {codigo}, {failHandler: () => {throw new IngredienteNotFoundError}})
-    await em.removeAndFlush(ingre)
+    if((await em.find(ElaboracionPlato, {ingrediente: ingre})).length > 0) {
+      throw new IngredienteAlreadyInUseError
+    }
+    const ingredienteDeProveedores = await em.find(IngredienteDeProveedor, {ingrediente: ingre})
+    ingredienteDeProveedores.map((ingreDeProv) => {
+      em.remove(ingreDeProv)
+    })
+    em.remove(ingre)
+    await em.flush()
     res.status(200).json({message: `El ingrediente ${ingre.descIngre} ha sido eliminado con éxito`, data: ingre})
   } catch(error: any) {
     handleErrors(error, res)

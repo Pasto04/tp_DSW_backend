@@ -23,3 +23,11 @@ export class TipoPlatoUniqueConstraintViolation extends Error {
     this.type = 'TipoPlatoUniqueConstraintViolation'
   }
 }
+
+export class TipoPlatoAlreadyInUseError extends Error {
+  type: string
+  constructor(message: string = 'Ya existe un plato de este tipo, por lo que no puede eliminarse'){
+    super(message)
+    this.type = 'TipoPlatoAlreadyInUseError'
+  }
+}

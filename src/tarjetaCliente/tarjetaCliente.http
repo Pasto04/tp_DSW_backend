@@ -1,11 +1,11 @@
 ###
-GET http://localhost:3000/api/clientes/1/tarjetas
+GET http://localhost:3000/api/clientes/2/tarjetas
 
 ###
 GET http://localhost:3000/api/clientes/1/tarjetas/2
 
 ###
-POST http://localhost:3000/api/clientes/1/tarjetas
+POST http://localhost:3000/api/clientes/2/tarjetas
 Content-Type: application/json
 
 {
@@ -17,13 +17,12 @@ Content-Type: application/json
     "month": 7,
     "year": 2028
   },
-  "codSeguridad": "182",
-  "tarjeta": 1,
-  "cliente": 1
+  "codSeguridad": 182,
+  "tarjeta": 1
 }
 
 ###
-POST http://localhost:3000/api/clientes/1/tarjetas
+POST http://localhost:3000/api/clientes/2/tarjetas
 Content-Type: application/json
 
 {
@@ -35,13 +34,12 @@ Content-Type: application/json
     "month": 8,
     "year": 2029
   },
-  "codSeguridad": "281",
-  "tarjeta": 1,
-  "cliente": 1
+  "codSeguridad": 281,
+  "tarjeta": 2
 }
 
 ###
-POST http://localhost:3000/api/clientes/2/tarjetas
+POST http://localhost:3000/api/clientes/3/tarjetas
 Content-Type: application/json
 
 {
@@ -54,8 +52,7 @@ Content-Type: application/json
     "year": 2028
   },
   "codSeguridad": "551",
-  "tarjeta": 1,
-  "cliente": 2
+  "tarjeta": 1
 }
 
 ###
@@ -67,4 +64,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3000/api/clientes/1/tarjetas/3
+DELETE http://localhost:3000/api/clientes/2/tarjetas/2
