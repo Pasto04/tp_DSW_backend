@@ -15,7 +15,7 @@ export class BebidaPedido {
   pedido!: Rel<Pedido>
 
   @Property({ nullable: false, primary: true })
-  fechaSolicitud?: Date
+  fechaSolicitud?: string
 
   @Property({ nullable: false, primary: true })
   horaSolicitud?: string
@@ -28,7 +28,7 @@ export class BebidaPedido {
 
   @BeforeCreate()
   establecerFechaYHora() {
-    this.fechaSolicitud = new Date()
+    this.fechaSolicitud = (new Date()).toDateString()
     this.horaSolicitud = (new Date()).toTimeString().split(' ')[0]
   }
 }

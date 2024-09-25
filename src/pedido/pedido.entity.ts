@@ -1,4 +1,4 @@
-import { Entity, Property, ManyToOne, OneToMany, Rel, Collection, OneToOne, BeforeCreate } from '@mikro-orm/core'
+import { Entity, Property, ManyToOne, OneToMany, Rel, Collection, OneToOne, BeforeCreate, BeforeUpdate } from '@mikro-orm/core'
 import { BaseClass3 } from '../shared/db/baseEntity.entity.js'
 import { Resena } from './reseña.entity.js'
 import { Usuario } from '../usuario/usuario.entity.js'
@@ -11,10 +11,10 @@ import { BebidaPedido } from '../bebida/bebidaPedido/bebidaPedido.entity.js'
 export class Pedido extends BaseClass3 {
   
   @Property({ nullable: false })
-  estado: string = 'En Curso'
+  estado: string = 'en curso'
 
   @Property({ nullable: false })
-  fecha?: Date
+  fecha?: string
 
   @Property({ nullable: false })
   hora?: string
@@ -45,8 +45,16 @@ export class Pedido extends BaseClass3 {
 
   @BeforeCreate()
   establecerFechaYHora() {
-    this.fecha = new Date()
+    this.fecha = (new Date()).toDateString()
     this.hora = (new Date()).toTimeString().split(' ')[0]
+  }
+
+  @BeforeUpdate()
+  establecerFechaYHoraCancelacion() {
+    if(this.estado === 'cancelado') {
+      this.fechaCancelacion = new Date()
+      this.horaCancelacion = (new Date()).toTimeString().split(' ')[0]
+    }
   }
 
 }

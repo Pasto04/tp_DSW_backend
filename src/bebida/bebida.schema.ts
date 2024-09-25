@@ -29,16 +29,7 @@ const bebidaToPatchSchema = z.object({
                  required_error: 'La descripción de la bebida es requerida',
                  invalid_type_error: 'La descripción de la bebida debe ser un texto'
                }).optional(),
-  unidadMedida: z.string({
-                  required_error: 'La unidad de medida de la bebida es requerida',
-                  invalid_type_error: 'La unidad de medida de la bebida debe ser un texto'
-                })
-                .includes('l', {message: 'La unidad de medida de la bebida debe ser "l" (litros) o "ml" (mililitros)'})
-                .or(z.string({
-                      required_error: 'La unidad de medida de la bebida es requerida',
-                      invalid_type_error: 'La unidad de medida de la bebida debe ser un texto'
-                    })
-                    .includes('ml', {message: 'La unidad de medida de la bebida debe ser "l" (litros) o "ml" (mililitros)'}))
+  unidadMedida: z.string(z.enum(['l', 'ml']))
                 .optional(),
   contenido: z.number({
                required_error: 'El contenido de la bebida es requerido',
@@ -69,3 +60,5 @@ function validarBebidaPatch(object: any) {
 }
 
 export { validarBebida, validarBebidaPatch }
+
+/* , {message: 'La unidad de medida de la bebida debe ser "l" (litros) o "ml" (mililitros'} */

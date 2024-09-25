@@ -13,7 +13,7 @@ export class Pago {
   idPago!: string
 
   @Property({ nullable: false })
-  fechaPago?: Date
+  fechaPago?: string
 
   @Property({ nullable: false })
   horaPago?: string
@@ -28,8 +28,7 @@ export class Pago {
 
   @BeforeCreate()
   establecerFechaYHora() {
-    const now = new Date()
-    this.fechaPago = now
-    this.horaPago = now.toTimeString().split(' ')[0]
+    this.fechaPago = (new Date()).toDateString()
+    this.horaPago = (new Date()).toTimeString().split(' ')[0]
   }
 }

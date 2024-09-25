@@ -4,7 +4,7 @@ import { orm } from "../shared/db/orm.js"
 import { validarMesa, validarMesaToPatch } from "./mesa.schema.js"
 import crypto from 'node:crypto'
 import { handleErrors } from "../shared/errors/errorHandler.js"
-import { MesaNotFoundError } from "../shared/errors/entityErrors/mesa.errors.js"
+import { MesaAlreadyInUseError, MesaNotFoundError } from "../shared/errors/entityErrors/mesa.errors.js"
 import { validarFindAll } from "../shared/validarFindAll.js"
 
 const em = orm.em
@@ -16,7 +16,7 @@ async function findAll(req:Request,res:Response) {
       const mesas = validarFindAll(await em.find(Mesa, {estado}), MesaNotFoundError)
       res.status(200).json({message: `Todas las mesas con estado ${estado} encontradas`, data: mesas})
     } else {
-      const mesas = await em.find(Mesa, {})
+      const mesas = validarFindAll(await em.find(Mesa, {}), MesaNotFoundError)
       res.status (200).json({message: 'Todas las mesas encontradas', data: mesas})
     }
   } catch (error:any){
@@ -69,7 +69,10 @@ async function update(req:Request,res:Response){
 async function remove(req:Request,res:Response) {
     try {
     const nroMesa = Number.parseInt(req.params.nroMesa)
-    const mesa = await em.findOneOrFail(Mesa, {nroMesa}, {failHandler: () => {throw new MesaNotFoundError}})
+    const mesa = await em.findOneOrFail(Mesa, {nroMesa}, {populate: ['pedidos'], failHandler: () => {throw new MesaNotFoundError}})
+    if(mesa.pedidos.length > 0) {
+      throw new MesaAlreadyInUseError
+    }
     await em.removeAndFlush(mesa)
     res.status(200).json({message: 'La mesa ha sido eliminada con éxito', data: mesa})
   } catch(error: any) {

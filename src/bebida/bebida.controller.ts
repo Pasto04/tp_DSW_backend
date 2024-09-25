@@ -19,6 +19,11 @@ function sanitizeBebida(req: Request, res: Response, next: NextFunction) {
     contenido: req.body.contenido,
     precio: req.body.precio
   }
+  Object.keys(req.body.sanitizedInput).forEach(key => {
+    if(req.body.sanitizedInput[key] === undefined){
+      delete req.body.sanitizedInput[key]
+    }
+  })
   next()
 }
 
@@ -77,14 +82,16 @@ async function add(req: Request, res: Response) {
 async function update(req: Request, res: Response) {
   try{
     const codBebida = Number.parseInt(req.params.codBebida)
-    const bebida = await em.findOneOrFail(Bebida, {codBebida})
+    const bebida = await em.findOneOrFail(Bebida, {codBebida}, {failHandler: () => {throw new BebidaNotFoundError}})
     let bebidaUpdated
     if (req.method === 'PATCH') {
-      bebidaUpdated = validarBebidaPatch(req.body)
+      bebidaUpdated = validarBebidaPatch(req.body.sanitizedInput)
     } else {
-      bebidaUpdated = validarBebida(req.body)
+      bebidaUpdated = validarBebida(req.body.sanitizedInput)
     }
+    console.log(bebida)
     em.assign(bebida, bebidaUpdated)
+    console.log(bebida)
     await em.flush()
     res.status(200).json({message: `La bebida ${bebida.descripcion} fue actualizada con éxito`, data: bebida})
   } catch(error: any) {

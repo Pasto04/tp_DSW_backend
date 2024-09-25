@@ -18,7 +18,7 @@ function sanitizeBebidaPedido(req: Request, res: Response, next: NextFunction) {
     fechaSolicitud: req.body.fechaSolicitud,
     horaSolicitud: req.body.horaSolicitud,
     cantidad: req.body.cantidad,
-    entregado: req.body.entregado
+    entregado: true
   }
   next()
 }
@@ -63,20 +63,23 @@ async function add(req: Request, res: Response) {
 
 /* NO TIENE SENTIDO ACTUALIZAR UNA BEBIDA DE UN PEDIDO. SI EL CLIENTE DESEA ORDENAR NUEVAMENTE UNA BEBIDA, SE CREARÁ Y QUEDARÁ 
 REGISTRADA CON UNA HORA (Y QUIZÁS UNA FECHA) DISTINTA DENTRO DEL MISMO PEDIDO.
+Este método únicamente permitirá a los usuarios (ya sea empleado o cliente) modificar el atributo "entregado" de BebidaPedido a "true".
+*/
 async function update(req: Request, res: Response) {
   try {
     const nroPed = Number.parseInt(req.params.nroPed)
-    const pedido = await em.findOneOrFail(Pedido, {nroPed}, {populate: ['cliente', 'mesa']})
+    req.body.sanitizedInput.pedido = await em.findOneOrFail(Pedido, {nroPed}, {failHandler: () => {throw new PedidoNotFoundError}})
     const codBebida = Number.parseInt(req.params.codBebida)
-    const bebida = await em.findOneOrFail(Bebida, {codBebida})
-    const bebidaPedido = await em.findOneOrFail(BebidaPedido, {pedido, bebida})
+    req.body.sanitizedInput.bebida = await em.findOneOrFail(Bebida, {codBebida}, {failHandler: () => {throw new BebidaNotFoundError}})
+    const bebidaPedidoValida = validarBebidaPedido(req.body.sanitizedInput)
+    const bebidaPedido = await em.findOneOrFail(BebidaPedido, bebidaPedidoValida, {failHandler: () => {throw new BebidaPedidoNotFoundError}})
     em.assign(bebidaPedido, req.body.sanitizedInput)
     await em.flush()
-    res.status(200).json({message: `La bebida ${bebida.descripcion} del pedido ${pedido.nroPed} ha sido actualizada con éxito`, data: bebidaPedido})
+    res.status(200).json({message: `La bebida ${bebidaPedido.bebida.descripcion} del pedido ${bebidaPedido.pedido.nroPed} ha sido actualizada con éxito`, data: bebidaPedido})
   } catch (error: any) {
     handleErrors(error, res)
   }
-}*/
+}
 
 async function remove(req: Request, res: Response) {
   try {
@@ -92,4 +95,4 @@ async function remove(req: Request, res: Response) {
   }
 }
 
-export { sanitizeBebidaPedido, findAll, findOne, add, remove }
+export { sanitizeBebidaPedido, findAll, findOne, add, update, remove }

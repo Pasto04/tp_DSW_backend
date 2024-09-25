@@ -4,7 +4,7 @@ GET http://localhost:3000/api/mesas
 
 ### Solicita TODAS las mesas DISPONIBLES
 
-GET http://localhost:3000/api/mesas?estado=Disponibol
+GET http://localhost:3000/api/mesas?estado=Disponible
 
 ### Solicita un ÚNICO mesa
 

@@ -3,7 +3,7 @@ GET http://localhost:3000/api/bebidas
 
 ### Solicita todas las bebidas con un filtro por queryString (descripción parcial)
 // el nombre del parámetro de la queryString debe coincidir con el utilizado en el método del controlador.
-GET http://localhost:3000/api/bebidas?descripcionParcial=gaseosa
+GET http://localhost:3000/api/bebidas?descripcionParcial=taco
 
 ###
 GET http://localhost:3000/api/bebidas/2
@@ -44,21 +44,29 @@ Content-Type: application/json
   "proveedor": 1
 }
 ###
-PUT http://localhost:3000/api/bebidas/1
+PUT http://localhost:3000/api/bebidas/2
 Content-Type: application/json
 
 {
   "descripcion": "Gaseosa Coca-Cola",
-  "unidadMedida": "cm^3",
+  "unidadMedida": "cm",
   "contenido": 750,
   "precio": 2000
 }
 ###
-PATCH http://localhost:3000/api/bebidas/3
+PATCH http://localhost:3000/api/bebidas/5
 Content-Type: application/json
 
 {
   "contenido": 1.25
+}
+
+###
+PATCH http://localhost:3000/api/bebidas/2
+Content-Type: application/json
+
+{
+  "unidadMedida": "ml"
 }
 ###
 DELETE http://localhost:3000/api/bebidas/1

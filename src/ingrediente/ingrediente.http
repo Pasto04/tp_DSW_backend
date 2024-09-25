@@ -95,11 +95,11 @@ Content-Type: application/json
 
 ###Modifica la descripción de un ingrediente ya ingresado utilizando su código
 
-PATCH http://localhost:3000/api/ingredientes/4
+PATCH http://localhost:3000/api/ingredientes/1
 Content-Type: application/json
 
 {
-  "puntoDePedido": 10000
+  "stock": 15000
 }
 
 ###Elimina un ingrediente existente utilizando su código

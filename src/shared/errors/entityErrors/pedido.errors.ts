@@ -24,3 +24,27 @@ export class PedidoPreconditionFailed extends Error {
     this.type = 'PedidoPreconditionFailed'
   }
 }
+
+export class PedidoAlreadyInUseError extends Error {
+  type: string
+  constructor(message: string = 'Ya se han entregado bebidas y/o platos a este pedido, por lo que no puede ser eliminado (y será pagado)') {
+    super(message);
+    this.type = 'PedidoAlreadyInUseError'
+  }
+}
+
+export class PedidoAlreadyExistsError extends Error {
+  type: string
+  constructor(message: string = 'Ya existe un pedido en curso, por lo que no puede crearse un nuevo pedido') {
+    super(message)
+    this.type = 'PedidoAlreadyExistsError'
+  }
+}
+
+export class PedidoAlreadyEndedError extends Error {
+  type: string
+  constructor(message: string = 'El pedido ya ha finalizado, por lo que no puede ser actualizado') {
+    super(message)
+    this.type = 'PedidoAlreadyEndedError'
+  }
+}

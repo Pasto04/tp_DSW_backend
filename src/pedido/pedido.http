@@ -6,6 +6,8 @@ GET http://localhost:3000/api/pedidos
 
 GET http://localhost:3000/api/pedidos/1
 
+// Los métodos POST, PUT, PATCH y DELETE NO SERÁN POSIBLES DESDE LA URL /api/pedidos.
+
 ### Crea un nuevo pedido V1
 
 POST http://localhost:3000/api/pedidos

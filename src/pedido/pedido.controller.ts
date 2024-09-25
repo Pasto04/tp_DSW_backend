@@ -49,6 +49,10 @@ async function findOne(req:Request,res:Response) {
   }
 }
 
+/* NO SE DEBERÍAN PODER CREAR, MODIFICAR NI ELIMINAR PEDIDOS DESDE UN USUARIO EMPLEADO. 
+ESTE SÓLO DEBERÍA PODER VER O ACCEDER A TODOS LOS PEDIDOS PARA OBTENER LISTADOS Y HACER ESTADÍSTICAS.
+
+Sin embargo, deberían ser capaces de modificar el estado de entrega de los platos y bebidas de un pedido en curso (entregado de false a true)
 async function add(req:Request,res:Response) {
   try{
     const pedidoValido = validarPedido(req.body)
@@ -88,5 +92,6 @@ async function remove (req:Request,res:Response) {
     handleErrors(error, res)
   }
 }
+*/
 
-export {sanitizePedidoInput,findAll,findOne,add,update,remove}
+export {sanitizePedidoInput,findAll,findOne/*,add,update,remove*/}

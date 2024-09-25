@@ -13,7 +13,7 @@ async function findAllByTipoUsuario(req:Request, res:Response) {
     const { tipoUsuario } = req.query
     if(tipoUsuario){
       const tipoUsuario = (req.query.tipoUsuario as string).toLowerCase()
-      const usuarios = validarFindAll(await em.find(Usuario, {tipoUsuario}, {populate: ['tarjetasCliente']}), UsuarioNotFoundError)
+      const usuarios = validarFindAll(await em.find(Usuario, {tipoUsuario}), UsuarioNotFoundError)
       res.status(200).json({message: `Todos los ${tipoUsuario}s encontrados`, data: usuarios})
     } 
   } catch (error:any){
@@ -93,7 +93,7 @@ async function remove (req:Request,res:Response) {
     try {
     const id = Number.parseInt(req.params.id)
     const cliente = await em.findOneOrFail(Usuario, {id})
-    em.removeAndFlush(cliente)
+    await em.removeAndFlush(cliente)
     res.status(200).json({message: 'El cliente ha sido eliminado con éxito', data: cliente})
   } catch(error: any) {
     handleErrors(error, res)

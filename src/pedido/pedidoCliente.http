@@ -1,21 +1,28 @@
 ### Solicita TODOS los pedidos
 
-GET http://localhost:3000/api/clientes/1/pedidos
+GET http://localhost:3000/api/clientes/2/pedidos
 
 ### Solicita un ÚNICO pedido
 
-GET http://localhost:3000/api/clientes/1/pedidos/1
+GET http://localhost:3000/api/clientes/2/pedidos/1
 
 ### Crea un nuevo pedido V1
 
-POST http://localhost:3000/api/clientes/1/pedidos
+POST http://localhost:3000/api/clientes/2/pedidos
 Content-Type: application/json
 
 {
-    "mesa": 3,
-    "estado": "En curso",
-    "fecha": "2024-09-05",
-    "hora": "01:37"
+    "mesa": 2
+}
+
+### Crea un nuevo pedido V2
+
+POST http://localhost:3000/api/clientes/2/pedidos
+Content-Type: application/json
+
+{
+    "mesa": 2,
+    "estado": "En CuRsO"
 }
 
 ###Modifica la descripción de un ingrediente ya ingresado utilizando su código
@@ -29,4 +36,4 @@ Content-Type: application/json
 
 ###Elimina un ingrediente existente utilizando su código
 
-DELETE http://localhost:3000/api/clientes/1/pedidos/1
+DELETE http://localhost:3000/api/clientes/2/pedidos/1

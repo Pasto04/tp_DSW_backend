@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { Response } from 'express'
 
 function isConflictError(error: any): boolean {
-  const errorTypes = ['PreconditionFailed', 'BadRequest', 'AlreadyInUse']
+  const errorTypes = ['PreconditionFailed', 'BadRequest', 'Already', 'AllBusy']
   let result
   errorTypes.forEach((errorType) => {
     if(error.type.includes(errorType)) {
@@ -29,6 +29,20 @@ function isNotAllowedError(error: any): boolean {
   return result
 }
 
+function isUnauthorizedError(error: any): boolean {
+  const errorTypes = ['Unauthorized']
+  let result
+  errorTypes.forEach((errorType) => {
+    if(error.type.includes(errorType)) {
+      result = true
+    } 
+  })
+  if(result === undefined) {
+    result = false
+  }
+  return result
+}
+
 function handleErrors(error: any, res: Response) {
   if(error instanceof z.ZodError) {
     res.status(400).json({message: `ValidationError: ${JSON.parse(error.message)[0].message}`})
@@ -39,9 +53,12 @@ function handleErrors(error: any, res: Response) {
 
     } else if(isConflictError(error)) {
       res.status(409).json({message: error.message})
-      
+
     } else if (isNotAllowedError(error)){
       res.status(403).json({message: error.message})
+      
+    } else if(isUnauthorizedError(error)) {
+      res.status(401).json({message: error.message})
     }
       else {
       res.status(400).json({message: error.message})

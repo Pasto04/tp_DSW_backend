@@ -15,3 +15,19 @@ export class MesaNotFoundError extends NotFoundError {
     this.type = 'MesaNotFoundError'
   }
 }
+
+export class MesaAlreadyInUseError extends Error {
+  type: string
+  constructor(message: string = 'Ya existen pedidos asociados a esta mesa, por lo que no puede eliminarse') {
+    super(message)
+    this.type = 'MesaAlreadyInUseError'
+  }
+}
+
+export class MesaAllBusyError extends Error {
+  type: string
+  constructor(message: string = 'Todas las mesas están ocupadas') {
+    super(message)
+    this.type = 'MesaAllBusyError'
+  }
+}

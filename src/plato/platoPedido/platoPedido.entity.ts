@@ -15,7 +15,7 @@ export class PlatoPedido {
   plato!: Rel<Plato>
 
   @Property({ nullable: false, primary: true })
-  fechaSolicitud?: Date
+  fechaSolicitud?: string
 
   @Property({ nullable: false, primary: true, type: 'time' })
   horaSolicitud?: string
@@ -28,7 +28,7 @@ export class PlatoPedido {
 
   @BeforeCreate()
   establecerFechaYHora() {
-    this.fechaSolicitud = new Date()
+    this.fechaSolicitud = (new Date()).toDateString()
     this.horaSolicitud = (new Date()).toTimeString().split(' ')[0]
   }
 } 

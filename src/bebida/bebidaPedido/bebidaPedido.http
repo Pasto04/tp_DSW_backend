@@ -38,11 +38,14 @@ Content-Type: application/json
   "entregado": false
 }
 ###
-PATCH http://localhost:3000/api/pedidos/4/bebidas/3
+PATCH http://localhost:3000/api/pedidos/2/bebidas/3
 Content-Type: application/json
 
 {
-  "entregado": true
+  "bebida": 4,
+  "fechaSolicitud": "Wed Sep 25 2024",
+  "horaSolicitud": "02:33:02",
+  "cantidad": 1
 }
 ###
 DELETE http://localhost:3000/api/pedidos/4/bebidas/3
