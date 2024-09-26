@@ -6,7 +6,7 @@ import { Plato } from "../plato.entity.js";
 import { validarPlatoPedido } from "./platoPedido.schema.js";
 import { PedidoNotFoundError } from "../../shared/errors/entityErrors/pedido.errors.js";
 import { PlatoNotFoundError } from "../../shared/errors/entityErrors/plato.errors.js";
-import { PlatoPedidoNotFoundError } from "../../shared/errors/entityErrors/platoPedido.errors.js";
+import { PlatoPedidoAlreadyDeliveredError, PlatoPedidoNotFoundError } from "../../shared/errors/entityErrors/platoPedido.errors.js";
 import { handleErrors } from "../../shared/errors/errorHandler.js";
 
 const em = orm.em
@@ -18,7 +18,7 @@ function sanitizePlatoPedido(req: Request, res: Response, next: NextFunction) {
     fechaSolicitud: req.body.fechaSolicitud,
     horaSolicitud: req.body.horaSolicitud,
     cantidad: req.body.cantidad,
-    entregado: req.body.entregado
+    entregado: true
   }
   next()
 }
@@ -61,22 +61,35 @@ async function add(req: Request, res: Response) {
     handleErrors(error, res)
   }
 }
+
+
+function isAlreadyDelivered(platoPedido: PlatoPedido): void {
+  if(platoPedido.entregado === true) {
+    throw new PlatoPedidoAlreadyDeliveredError
+  }
+}
+
+
 /*NO TIENE SENTIDO ACTUALIZAR UN PLATO DE UN PEDIDO. SI EL CLIENTE DESEA ORDENAR NUEVAMENTE UN PLATO, SE CREARÁ Y QUEDARÁ 
 REGISTRADO CON UNA HORA (Y QUIZÁS UNA FECHA) DISTINTA DENTRO DEL MISMO PEDIDO.
+Este método únicamente permitirá a los usuarios (ya sea empleado o cliente) modificar el atributo "entregado" de PlatoPedido a "true".
+*/
 async function update(req: Request, res: Response) {
   try{
     const numPlato = Number.parseInt(req.params.nro)
+    req.body.sanitizedInput.plato = await em.findOneOrFail(Plato, {numPlato}, {failHandler: () => {throw new PlatoNotFoundError}})
     const nroPed = Number.parseInt(req.params.nroPed)
-    const plato = await em.findOneOrFail(Plato, {numPlato})
-    const pedido = await em.findOneOrFail(Pedido, {nroPed})
-    const platoPed = await em.findOneOrFail(PlatoPedido, {plato, pedido})
-    em.assign(platoPed, req.body.sanitizedPlatoPedido)
-    em.flush()
-    res.status(200).json({message: 'Actualiza la cantidad de pedidos', data: platoPed})
+    req.body.sanitizedInput.pedido = await em.findOneOrFail(Pedido, {nroPed}, {populate: ['cliente'], failHandler: () => {throw new PedidoNotFoundError}})
+    const platoPedValido = validarPlatoPedido(req.body.sanitizedInput)
+    const platoPed = await em.findOneOrFail(PlatoPedido, platoPedValido, {failHandler: () => {throw new PlatoPedidoNotFoundError}})
+    isAlreadyDelivered(platoPed) //Validamos que el plato no haya sido entregado
+    em.assign(platoPed, req.body.sanitizedInput)
+    await em.flush()
+    res.status(200).json({message: `El plato [${platoPed.plato.descripcion}] del cliente [${platoPed.pedido.cliente.nombre} ${platoPed.pedido.cliente.apellido}] ha sido entregado con éxito`, data: platoPed})
   } catch(error:any){
     res.status(500).json({message: error.message})
   }
-}*/
+}
 
 async function remove(req: Request, res: Response) {
   try {
@@ -92,4 +105,4 @@ async function remove(req: Request, res: Response) {
   }
 }
 
-export { findAll, findOne, add, remove, sanitizePlatoPedido }
+export { findAll, findOne, add, update, remove, sanitizePlatoPedido }

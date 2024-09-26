@@ -34,20 +34,13 @@ Content-Type: application/json
 
 ### Modificar la cantidad de un ingrediente dado un plato
 
-PATCH http://localhost:3000/api/pedidos/3/platos/1
+PUT http://localhost:3000/api/pedidos/9/platos/16
 Content-Type: application/json
 
 {
-  "entregado": true 
-}
-
-### IDEM
-
-PATCH http://localhost:3000/api/pedidos/17/platos/3
-Content-Type: application/json
-
-{
-  "cantidad": 54
+  "fechaSolicitud": "2024-09-26",
+  "horaSolicitud": "21:57:48",
+  "cantidad": 1
 }
 
 ### Eliminar la cantidad asociada a un ingrediente y un plato

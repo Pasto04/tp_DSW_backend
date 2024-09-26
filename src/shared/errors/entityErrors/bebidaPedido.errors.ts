@@ -15,3 +15,11 @@ export class BebidaPedidoNotFoundError extends NotFoundError {
     this.type = 'BebidaPedidoNotFoundError'
   }
 }
+
+export class BebidaPedidoAlreadyDeliveredError extends Error {
+  type: string
+  constructor(message: string = 'La bebida ya ha sido entregada') {
+    super(message)
+    this.type = 'BebidaPedidoAlreadyDeliveredError'
+  }
+}

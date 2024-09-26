@@ -15,3 +15,11 @@ export class PlatoPedidoNotFoundError extends NotFoundError {
     this.type = 'PlatoPedidoNotFoundError'
   }
 }
+
+export class PlatoPedidoAlreadyDeliveredError extends Error {
+  type: string
+  constructor(message: string = 'El plato ya ha sido entregado') {
+    super(message)
+    this.type = 'PlatoPedidoAlreadyDeliveredError'
+  }
+}

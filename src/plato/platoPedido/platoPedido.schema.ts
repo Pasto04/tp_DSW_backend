@@ -14,10 +14,7 @@ const platoPedidoSchema = z.object({
               invalid_type_error: 'La cantidad de platos es requerida'
             })
             .int({message: 'La cantidad de platos debe ser un número entero'})
-            .positive({message: 'La cantidad de platos debe ser un número entero positivo'}),
-  entregado: z.boolean({
-               required_error: 'El estado de entrega del plato es requerido', 
-               invalid_type_error: 'El estado de la entrega del plato debe ser un booleano'})
+            .positive({message: 'La cantidad de platos debe ser un número entero positivo'})
 })
 
 function validarPlatoPedido(object: any) {

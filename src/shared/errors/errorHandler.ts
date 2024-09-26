@@ -65,7 +65,7 @@ function handleErrors(error: any, res: Response) {
     }
 
   } else {
-    res.status(500).json({message: error.message})
+    res.status(500).json({message: `Name: ${error.name} | Message: ${error.message}`})
   }
 }
 

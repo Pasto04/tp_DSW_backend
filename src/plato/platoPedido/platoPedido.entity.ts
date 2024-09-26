@@ -1,4 +1,4 @@
-import { BeforeCreate, Cascade, Entity, Index, ManyToOne, PrimaryKeyType, Property, Rel } from "@mikro-orm/core";
+import { BeforeCreate, Cascade, DateType, Entity, Index, ManyToOne, PrimaryKeyType, Property, Rel, TimeType } from "@mikro-orm/core";
 import { Pedido } from "../../pedido/pedido.entity.js";
 import { Plato } from "../plato.entity.js";
 
@@ -14,10 +14,10 @@ export class PlatoPedido {
   @ManyToOne(() => Plato, {primary: true, nullable: false})
   plato!: Rel<Plato>
 
-  @Property({ nullable: false, primary: true })
-  fechaSolicitud?: string
+  @Property({ nullable: false, primary: true, type: DateType })
+  fechaSolicitud?: Date
 
-  @Property({ nullable: false, primary: true, type: 'time' })
+  @Property({ nullable: false, primary: true, type: TimeType })
   horaSolicitud?: string
 
   @Property({ nullable: false })
@@ -28,7 +28,7 @@ export class PlatoPedido {
 
   @BeforeCreate()
   establecerFechaYHora() {
-    this.fechaSolicitud = (new Date()).toDateString()
+    this.fechaSolicitud = new Date()
     this.horaSolicitud = (new Date()).toTimeString().split(' ')[0]
   }
 } 

@@ -1,4 +1,13 @@
 import z from 'zod'
+import { MesaEstadoError } from '../shared/errors/entityErrors/mesa.errors.js'
+
+const estados = ['Disponible', 'Ocupada']
+
+const isIn = z.function().args(z.string(), z.array(z.string())).implement((a, b) => {
+  if(b.find((e) => e.toLowerCase() === a.toLowerCase())){
+    return true
+  }
+})
 
 const mesaSchema = z.object({
   nroMesa: z.number().int().positive().optional(),
@@ -26,7 +35,12 @@ const mesaToPatchSchema = z.object({
 
 function validarMesa(object: any) {
   try {
-    return mesaSchema.parse(object)
+    const result = isIn(object.estado, estados)
+    if(result) {
+      return mesaSchema.parse(object)
+    } else {
+      throw new MesaEstadoError
+    }
   } catch (error: any) {
     throw error
   }
@@ -34,7 +48,16 @@ function validarMesa(object: any) {
 
 function validarMesaToPatch(object: any) {
   try {
-    return mesaToPatchSchema.parse(object)
+    if(object.estado) {
+      const result = isIn(object.estado, estados)
+      if(result) {
+        return mesaToPatchSchema.parse(object)
+      } else {
+        throw new MesaEstadoError
+      }
+    } else {
+      return mesaToPatchSchema.parse(object)
+    }
   } catch (error: any) {
     throw error
   }

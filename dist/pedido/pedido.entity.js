@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Entity, Property, ManyToOne, OneToMany, Collection, OneToOne, BeforeCreate, BeforeUpdate } from '@mikro-orm/core';
+import { Entity, Property, ManyToOne, OneToMany, Collection, OneToOne, BeforeCreate, DateType, TimeType } from '@mikro-orm/core';
 import { BaseClass3 } from '../shared/db/baseEntity.entity.js';
 import { Resena } from './reseña.entity.js';
 import { Usuario } from '../usuario/usuario.entity.js';
@@ -22,15 +22,13 @@ export let Pedido = class Pedido extends BaseClass3 {
         this.platosPedido = new Collection(this);
         this.bebidasPedido = new Collection(this);
     }
-    establecerFechaYHora() {
-        this.fecha = (new Date()).toDateString();
-        this.hora = (new Date()).toTimeString().split(' ')[0];
-    }
     establecerFechaYHoraCancelacion() {
-        if (this.estado === 'cancelado') {
-            this.fechaCancelacion = new Date();
-            this.horaCancelacion = (new Date()).toTimeString().split(' ')[0];
-        }
+        this.fechaCancelacion = new Date();
+        this.horaCancelacion = (new Date()).toTimeString().split(' ')[0];
+    }
+    establecerFechaYHora() {
+        this.fecha = new Date();
+        this.hora = (new Date()).toTimeString().split(' ')[0];
     }
 };
 __decorate([
@@ -38,19 +36,19 @@ __decorate([
     __metadata("design:type", String)
 ], Pedido.prototype, "estado", void 0);
 __decorate([
-    Property({ nullable: false }),
-    __metadata("design:type", String)
+    Property({ nullable: false, type: DateType }),
+    __metadata("design:type", Date)
 ], Pedido.prototype, "fecha", void 0);
 __decorate([
-    Property({ nullable: false }),
+    Property({ nullable: false, type: TimeType }),
     __metadata("design:type", String)
 ], Pedido.prototype, "hora", void 0);
 __decorate([
-    Property({ nullable: true }),
+    Property({ nullable: true, type: DateType }),
     __metadata("design:type", Date)
 ], Pedido.prototype, "fechaCancelacion", void 0);
 __decorate([
-    Property({ nullable: true }),
+    Property({ nullable: true, type: TimeType }),
     __metadata("design:type", String)
 ], Pedido.prototype, "horaCancelacion", void 0);
 __decorate([
@@ -83,12 +81,6 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], Pedido.prototype, "establecerFechaYHora", null);
-__decorate([
-    BeforeUpdate(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], Pedido.prototype, "establecerFechaYHoraCancelacion", null);
 Pedido = __decorate([
     Entity()
 ], Pedido);

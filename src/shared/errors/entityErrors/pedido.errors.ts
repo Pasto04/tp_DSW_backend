@@ -43,8 +43,16 @@ export class PedidoAlreadyExistsError extends Error {
 
 export class PedidoAlreadyEndedError extends Error {
   type: string
-  constructor(message: string = 'El pedido ya ha finalizado, por lo que no puede ser actualizado') {
+  constructor(message: string = 'El pedido ya ha finalizado o ha sido cancelado, por lo que no puede ser actualizado') {
     super(message)
     this.type = 'PedidoAlreadyEndedError'
+  }
+}
+
+export class PedidoUniqueConstraintViolationError extends Error {
+  type: string
+  constructor(message: string = 'No puede ingresar de forma separada un mismo plato o bebida. Dado un producto, ingrese la cantidad que quiere del mismo. Si más tarde quiere ordenarlo nuevamente, puede hacerlo sin problemas.') {
+    super(message)
+    this.type = 'PedidoUniqueConstraintViolationError'
   }
 }

@@ -1,4 +1,4 @@
-import { Collection, DecimalType, Entity, OneToMany, Property } from "@mikro-orm/core";
+import { Collection, DecimalType, Entity, FloatType, OneToMany, Property } from "@mikro-orm/core";
 import { BaseClass7 } from '../shared/db/baseEntity.entity.js'
 import { BebidaPedido } from "./bebidaPedido/bebidaPedido.entity.js";
 import { BebidaDeProveedor } from "./bebidaDeProveedor/bebidaDeProveedor.entity.js";
@@ -13,10 +13,10 @@ export class Bebida extends BaseClass7 {
   @Property({ nullable: false })
   unidadMedida!: string
 
-  @Property({ nullable: false })
+  @Property({ nullable: false, type: FloatType })
   contenido!: number
 
-  @Property({ nullable: false })
+  @Property({ nullable: false, type: FloatType })
   precio!: number
 
   @OneToMany(() => BebidaPedido, (bebidaPedido) => bebidaPedido.bebida)

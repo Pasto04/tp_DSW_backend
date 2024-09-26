@@ -47,3 +47,11 @@ export class ProveedorIsUniqueForBebidaError extends Error {
     this.type = 'ProveedorIsUniqueForBebidaError'
   }
 }
+
+export class BebidaUnidadMedidaTypeError extends Error {
+  type: string
+  constructor (message: string = 'La unidad de medida puede ser -litros- o -mililitros-') {
+    super(message)
+    this.type = 'BebidaUnidadMedidaTypeError'
+  }
+}

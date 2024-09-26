@@ -1,4 +1,4 @@
-import { BeforeCreate, DateType, Entity, Index, ManyToOne, PrimaryKeyType, Property, Rel } from "@mikro-orm/core";
+import { BeforeCreate, DateType, Entity, Index, ManyToOne, PrimaryKeyType, Property, Rel, TimeType } from "@mikro-orm/core";
 import { Bebida } from "../bebida.entity.js";
 import { Pedido } from "../../pedido/pedido.entity.js";
 
@@ -14,10 +14,10 @@ export class BebidaPedido {
   @ManyToOne(() => Pedido, { nullable: false, primary: true })
   pedido!: Rel<Pedido>
 
-  @Property({ nullable: false, primary: true })
-  fechaSolicitud?: string
+  @Property({ nullable: false, primary: true, type: DateType })
+  fechaSolicitud?: Date
 
-  @Property({ nullable: false, primary: true })
+  @Property({ nullable: false, primary: true, type: TimeType })
   horaSolicitud?: string
 
   @Property({ nullable: false })
@@ -28,7 +28,7 @@ export class BebidaPedido {
 
   @BeforeCreate()
   establecerFechaYHora() {
-    this.fechaSolicitud = (new Date()).toDateString()
+    this.fechaSolicitud = new Date()
     this.horaSolicitud = (new Date()).toTimeString().split(' ')[0]
   }
 }

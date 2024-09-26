@@ -14,11 +14,9 @@ const bebidaPedidoSchema = z.object ({
               invalid_type_error: 'La cantidad de bebidas debe ser un número'
             })
             .int({message: 'La cantidad debe ser un número entero'})
-            .positive({message: 'La cantidad debe ser un número entero positivo'}),
-  entregado: z.boolean({
-               required_error: 'El estado de entrega es requerido', 
-               invalid_type_error: 'El estado de entrega debe ser un booleano'})
+            .positive({message: 'La cantidad debe ser un número entero positivo'})
 })
+
 
 function validarBebidaPedido(object: any) {
   try{

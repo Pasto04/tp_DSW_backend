@@ -34,7 +34,7 @@ export class IngredienteUniqueConstraintViolation extends Error {
 
 export class IngredienteUnidadMedidaTypeError extends Error {
   type: string
-  constructor (message: string = 'La unidad de medida puede ser -kg-, -g-, -l-, -ml- o -unidades-') {
+  constructor (message: string = 'La unidad de medida puede ser -kilogramos-, -gramos-, -litros-, -mililitros- o -unidades-') {
     super(message)
     this.type = 'IngredienteUnidadMedidaTypeError'
   }

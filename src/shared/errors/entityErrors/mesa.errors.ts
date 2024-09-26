@@ -31,3 +31,19 @@ export class MesaAllBusyError extends Error {
     this.type = 'MesaAllBusyError'
   }
 }
+
+export class MesaEstadoError extends Error {
+  type: string
+  constructor(message: string = 'El estado de la mesa debe ser Disponible u Ocupada') {
+    super(message)
+    this.type = 'MesaEstadoError'
+  }
+}
+
+export class MesaCodigoError extends Error {
+  type: string
+  constructor(message: string = 'El código ingresado no coincide con el de la mesa') {
+    super(message)
+    this.type = 'MesaCodigoError'
+  }
+}

@@ -4,7 +4,7 @@ GET http://localhost:3000/api/clientes/2/pedidos
 
 ### Solicita un ÚNICO pedido
 
-GET http://localhost:3000/api/clientes/2/pedidos/1
+GET http://localhost:3000/api/clientes/pedidos/9
 
 ### Crea un nuevo pedido V1
 
@@ -12,7 +12,8 @@ POST http://localhost:3000/api/clientes/2/pedidos
 Content-Type: application/json
 
 {
-    "mesa": 2
+    "mesa": 3,
+    "codigo": "187943d2-0743-45f8-9224-9b8a59733149"
 }
 
 ### Crea un nuevo pedido V2
@@ -25,15 +26,58 @@ Content-Type: application/json
     "estado": "En CuRsO"
 }
 
-###Modifica la descripción de un ingrediente ya ingresado utilizando su código
+###Agrega platos y bebidas a un pedido en curso
 
-PATCH http://localhost:3000/api/clientes/1/pedidos/1
+PATCH http://localhost:3000/api/clientes/pedidos/9
 Content-Type: application/json
 
 {
-  "estado": "Finalizado"
+  "platos": [
+  {
+    "numPlato": 16,
+    "cantidad": 2
+  }
+  ],
+  "bebidas": [
+    {
+      "codBebida": 3,
+      "cantidad": 1
+    }
+  ]
+}
+
+###Agrega platos y bebidas a un pedido en curso
+
+PATCH http://localhost:3000/api/clientes/pedidos/9
+Content-Type: application/json
+
+{
+  "platos": [
+  {
+    "numPlato": 16,
+    "cantidad": 1
+  }
+  ]
+}
+
+###Cancela un pedido
+
+PATCH http://localhost:3000/api/clientes/pedidos/8
+Content-Type: application/json
+
+{
+  "estado": "cancelado"
+}
+
+###Finaliza un pedido y genera el pago.
+
+PUT http://localhost:3000/api/clientes/pedidos/8
+Content-Type: application/json
+
+{
+  "estado": "finalizado"
 }
 
 ###Elimina un ingrediente existente utilizando su código
 
-DELETE http://localhost:3000/api/clientes/2/pedidos/1
+DELETE http://localhost:3000/api/clientes/pedidos/1

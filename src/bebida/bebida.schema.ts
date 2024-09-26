@@ -1,4 +1,13 @@
 import z from 'zod'
+import { BebidaUnidadMedidaTypeError } from '../shared/errors/entityErrors/bebida.errors.js'
+
+const unidadesMedida = ['litros', 'mililitros']
+
+const isIn = z.function().args(z.string(), z.array(z.string())).implement((a, b) => {
+  if(b.find((e) => e.toLowerCase() === a.toLowerCase())){
+    return true
+  }
+})
 
 const bebidaSchema = z.object({
   codBebida: z.number({
@@ -11,7 +20,7 @@ const bebidaSchema = z.object({
                  required_error: 'La descripción de la bebida es requerida',
                  invalid_type_error: 'La descripción de la bebida debe ser un texto'
                }),
-  unidadMedida: z.string(z.enum(['l', 'ml'], {message: 'La unidad de medida de la bebida debe ser "l" (litros) o "ml" (mililitros'})),
+  unidadMedida: z.string({required_error: 'La unidad de medida es requerida', invalid_type_error: 'La unidad de medida debe ser un string'}),
   contenido: z.number({
                required_error: 'El contenido de la bebida es requerido',
                invalid_type_error: 'El contenido de la bebida debe ser un número'
@@ -29,7 +38,7 @@ const bebidaToPatchSchema = z.object({
                  required_error: 'La descripción de la bebida es requerida',
                  invalid_type_error: 'La descripción de la bebida debe ser un texto'
                }).optional(),
-  unidadMedida: z.string(z.enum(['l', 'ml']))
+  unidadMedida: z.string({required_error: 'La unidad de medida es requerida', invalid_type_error: 'La unidad de medida debe ser un string'})
                 .optional(),
   contenido: z.number({
                required_error: 'El contenido de la bebida es requerido',
@@ -45,7 +54,12 @@ const bebidaToPatchSchema = z.object({
 
 function validarBebida(object: any) {
   try {
-    return bebidaSchema.parse(object)
+    const result = isIn(object.unidadMedida, unidadesMedida)
+    if(result) {
+      return bebidaSchema.parse(object)
+    } else {
+      throw new BebidaUnidadMedidaTypeError
+    }
   } catch (error: any) {
     throw error
   }
@@ -53,7 +67,16 @@ function validarBebida(object: any) {
 
 function validarBebidaPatch(object: any) {
   try {
-    return bebidaToPatchSchema.parse(object)
+    if(object.unidadMedida) {
+      const result = isIn(object.unidadMedida, unidadesMedida)
+      if(!result) {
+        throw new BebidaUnidadMedidaTypeError
+      } else {
+        return bebidaToPatchSchema.parse(object)
+      }
+    } else {
+      return bebidaToPatchSchema.parse(object)
+    }
   } catch (error: any) {
     throw error
   }
