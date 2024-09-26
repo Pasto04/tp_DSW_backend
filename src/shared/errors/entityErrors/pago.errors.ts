@@ -18,8 +18,9 @@ export class PagoNotFoundError extends NotFoundError {
 
 export class PagoPreconditionFailed extends Error {
   type: string
-  constructor(message: string = 'No se puede realizar un pago si no hay pedidos y/o tarjetas de clientes registradas') {
+  constructor(message: string = 'No se puede realizar el pago hasta que todos los productos hayan sido entregados') {
     super(message);
     this.type = 'PagoPreconditionFailed'
   }
 }
+

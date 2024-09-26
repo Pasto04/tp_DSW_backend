@@ -27,23 +27,11 @@ const tarjetaClienteSchema = z.object({
              required_error: 'El titular de la tarjeta es requerido', 
              invalid_type_error: 'El titular de la tarjeta debe ser un string'
            }),
-  vencimiento: z.object({
-    month: z.number({
-             required_error: 'El mes de vencimiento es requerido', 
-             invalid_type_error: 'El mes de vencimiento es un número'
-           })
-           .int({message: 'El mes de vencimiento es un número entero'})
-           .positive({message: 'El mes de vencimiento es un número entero positivo'})
-           .gte(1, {message: 'El mes de vencimiento es un número entero positivo mayor o igual a 1'})
-           .lte(12, {message: 'El mes de vencimiento es un número entero positivo menor o igual a 12'}),
-    year: z.number({
-            required_error: 'El año de vencimiento es requerido', 
-            invalid_type_error: 'El año de nacimiento es un número'
-          })
-          .int({message: 'El año de vencimiento es un número entero'})
-          .positive({message: 'El año de vencimiento es un número entero positivo'})
-          .gte(2024, {message: 'El año de vencimiento es un número entero positivo mayor o igual a 2024'})
-  }),
+  vencimiento: z.string({
+                required_error: 'La fecha de vencimiento de la tarjeta es requerida', 
+                invalid_type_error: 'La fecha de vencimiento de la tarjeta debe ser un string'
+              })
+              .date('La fecha de vencimiento de la tarjeta debe tener el formato aaaa-mm-dd'),
   codSeguridad: z.number({
                   required_error: 'El código de seguridad es requerido', 
                   invalid_type_error: 'El código de seguridad es un número'

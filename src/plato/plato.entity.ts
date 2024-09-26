@@ -1,4 +1,4 @@
-import { Entity, Property, ManyToOne, OneToMany, Cascade, Rel, Collection } from '@mikro-orm/core'
+import { Entity, Property, ManyToOne, OneToMany, Cascade, Rel, Collection, FloatType } from '@mikro-orm/core'
 import { TipoPlato } from './tipoPlato.entity.js'
 import { BaseClass1 } from '../shared/db/baseEntity.entity.js'
 import { ElaboracionPlato } from './elaboracionPlato/elaboracionPlato.entity.js'
@@ -14,7 +14,7 @@ export class Plato extends BaseClass1 {
   @Property({nullable:false})
   tiempo!: number
 
-  @Property({nullable:false})
+  @Property({nullable:false, type: FloatType})
   precio!: number
 
   @Property()

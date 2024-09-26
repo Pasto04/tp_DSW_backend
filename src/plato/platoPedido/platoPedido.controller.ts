@@ -8,6 +8,7 @@ import { PedidoNotFoundError } from "../../shared/errors/entityErrors/pedido.err
 import { PlatoNotFoundError } from "../../shared/errors/entityErrors/plato.errors.js";
 import { PlatoPedidoAlreadyDeliveredError, PlatoPedidoNotFoundError } from "../../shared/errors/entityErrors/platoPedido.errors.js";
 import { handleErrors } from "../../shared/errors/errorHandler.js";
+import { validarFindAll } from "../../shared/validarFindAll.js";
 
 const em = orm.em
 
@@ -23,41 +24,14 @@ function sanitizePlatoPedido(req: Request, res: Response, next: NextFunction) {
   next()
 }
 
+// Es posible que termine siendo eliminado, pero por ahora lo utilizo para ver las distintas instancias
 async function findAll(req: Request, res: Response) {
   try {
     const nroPed = Number.parseInt(req.params.nroPed)
-    const pedido = await em.findOneOrFail(Pedido, {nroPed}, {populate: ['cliente'], 
-      failHandler: () => {throw new PedidoNotFoundError}})
-    const platosPed = await em.find(PlatoPedido, {pedido}, {populate: ['plato', 'pedido']})
+    const pedido = await em.findOneOrFail(Pedido, {nroPed}, {failHandler: () => {throw new PedidoNotFoundError}})
+    const platosPed = validarFindAll(await em.find(PlatoPedido, {pedido}), PlatoPedidoNotFoundError)
     res.status(200).json({message: 'Platos del pedido encontrados', data: platosPed})
   } catch(error: any){
-    handleErrors(error, res)
-  }
-}
-async function findOne(req: Request, res: Response) {
-  try{
-    const numPlato = Number.parseInt(req.params.nro)
-    const nroPed = Number.parseInt(req.params.nroPed)
-    const plato = await em.findOneOrFail(Plato, {numPlato}, {populate: ['tipoPlato'], 
-      failHandler: () => {throw new PlatoNotFoundError}})
-    const pedido = await em.findOneOrFail(Pedido, {nroPed}, {failHandler: () => {throw new PedidoNotFoundError}})
-    const platoPed = await em.findOneOrFail(PlatoPedido, {plato, pedido}, {populate: ['plato', 'pedido'], 
-      failHandler: () => {throw new PlatoPedidoNotFoundError}})
-    res.status(200).json({message: `El plato del pedido ha sido encontrada con éxito`, data: platoPed})
-  } catch(error:any){
-    handleErrors(error, res)
-  }
-}
-
-async function add(req: Request, res: Response) {
-  try {
-    req.body.sanitizedInput.pedido = await em.findOneOrFail(Pedido, {nroPed: Number.parseInt(req.body.sanitizedInput.pedido)}, 
-      {failHandler: () => {throw new PedidoNotFoundError}})
-    const platoPedidoValido = validarPlatoPedido(req.body.sanitizedInput)
-    const platoPed = em.create(PlatoPedido, platoPedidoValido)
-    await em.flush()
-    res.status(201).json({data: platoPed})
-  } catch (error: any) {
     handleErrors(error, res)
   }
 }
@@ -105,4 +79,4 @@ async function remove(req: Request, res: Response) {
   }
 }
 
-export { findAll, findOne, add, update, remove, sanitizePlatoPedido }
+export { findAll, update, remove, sanitizePlatoPedido }

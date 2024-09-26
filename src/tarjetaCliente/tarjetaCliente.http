@@ -13,10 +13,7 @@ Content-Type: application/json
   "tipoTarjeta": "Débito",
   "bancoTarjeta": "Santander",
   "titular": "Mauro F. Giraudo",
-  "vencimiento": {
-    "month": 7,
-    "year": 2028
-  },
+  "vencimiento": "2028-07-01",
   "codSeguridad": 182,
   "tarjeta": 1
 }
@@ -30,10 +27,7 @@ Content-Type: application/json
   "tipoTarjeta": "Crédito",
   "bancoTarjeta": "Santander",
   "titular": "Mauro F. Giraudo",
-  "vencimiento": {
-    "month": 8,
-    "year": 2029
-  },
+  "vencimiento": "2029-08-01",
   "codSeguridad": 281,
   "tarjeta": 2
 }
@@ -47,10 +41,7 @@ Content-Type: application/json
   "tipoTarjeta": "Débito",
   "bancoTarjeta": "Macro",
   "titular": "Tobías López",
-  "vencimiento": {
-    "month": 11,
-    "year": 2028
-  },
+  "vencimiento": "2027-05-01",
   "codSeguridad": "551",
   "tarjeta": 1
 }

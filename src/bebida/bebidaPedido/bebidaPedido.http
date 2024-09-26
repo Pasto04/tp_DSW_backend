@@ -1,5 +1,5 @@
 ###
-GET http://localhost:3000/api/pedidos/4/bebidas
+GET http://localhost:3000/api/pedidos/9/bebidas
 
 ###
 GET http://localhost:3000/api/pedidos/4/bebidas/1?fechaSolicitud=2024-09-05&horaSolicitud=00:51
@@ -38,14 +38,13 @@ Content-Type: application/json
   "entregado": false
 }
 ###
-PUT http://localhost:3000/api/pedidos/9/bebidas/3
+PUT http://localhost:3000/api/pedidos/10/bebidas/2
 Content-Type: application/json
 
 {
   "fechaSolicitud": "2024-09-26",
-  "horaSolicitud": "21:35:22",
-  "cantidad": 1,
-  "entregado": "bananas"
+  "horaSolicitud": "02:10:08",
+  "cantidad": 1
 }
 ###
 DELETE http://localhost:3000/api/pedidos/4/bebidas/3

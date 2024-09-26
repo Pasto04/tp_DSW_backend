@@ -1,4 +1,4 @@
-import { Entity, Property, Rel, ManyToOne, OneToOne, Index, PrimaryKeyType, BeforeCreate, DateType, TimeType } from '@mikro-orm/core'
+import { Entity, Property, Rel, ManyToOne, OneToOne, Index, PrimaryKeyType, BeforeCreate, DateType, TimeType, FloatType } from '@mikro-orm/core'
 import { Pedido } from '../pedido.entity.js'
 import { TarjetaCliente } from '../../tarjetaCliente/tarjetaCliente.entity.js'
 
@@ -18,7 +18,7 @@ export class Pago {
   @Property({ nullable: false, type: TimeType })
   horaPago?: string
 
-  @Property({ nullable: false })
+  @Property({ nullable: false, type: FloatType })
   importe!: number
 
   @ManyToOne(() => TarjetaCliente, { nullable: false })

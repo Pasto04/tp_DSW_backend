@@ -52,8 +52,6 @@ const bebidaOfPedidoSchema = z.array(z.object({
 const pedidoToPutSchema = z.object({
   nroPed: z.number().int().positive().optional(),
   estado: z.string().includes('finalizado', {message: 'El estado del pedido debe ser "finalizado"'}),
-  fecha: z.string().date(),
-  hora: z.string().time(),
   cliente: z.instanceof(Usuario),
   mesa: z.instanceof(Mesa),
   platosPedido: z.array(z.instanceof(PlatoPedido)),

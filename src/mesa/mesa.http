@@ -8,7 +8,7 @@ GET http://localhost:3000/api/mesas?estado=Disponible
 
 ### Solicita una ÚNICA mesa (y genera el código para que el cliente pueda inicar su pedido)
 
-GET http://localhost:3000/api/mesas/3
+GET http://localhost:3000/api/mesas/1
 
 ### Crea un nuevo pedido V1
 
@@ -41,7 +41,7 @@ Content-Type: application/json
 
 ###Modifica la descripción de un ingrediente ya ingresado utilizando su código
 
-PATCH http://localhost:3000/api/mesas/1
+PATCH http://localhost:3000/api/mesas/3
 Content-Type: application/json
 
 {

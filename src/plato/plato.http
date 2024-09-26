@@ -20,16 +20,24 @@ POST http://localhost:3000/api/platos
 Content-Type: application/json
 
 {
-  "descripcion": "Ñoquis con salsa bolognesa",
+  "descripcion": "Ñoquis de papa con salsa bolognesa",
   "tiempo": 35,
-  "precio": 3500,
-  "aptoCeliacos": false,
-  "aptoVegetarianos": false,
-  "aptoVeganos": false,
+  "precio": 6000,
   "tipoPlato": 2,
-  "ingredientes": [{
-    "ingrediente": 
-  }]
+  "ingredientes": [
+    {
+    "ingrediente": 2,
+    "cantidadNecesaria": 75
+    },
+    {
+      "ingrediente": 3,
+      "cantidadNecesaria": 10
+    },
+    {
+      "ingrediente": 10,
+      "cantidadNecesaria": 150
+    }
+  ]
 }
 
 ###

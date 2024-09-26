@@ -1,49 +1,19 @@
-### Obtener todos los platos asociados a un ingrediente y sus cantidades
+### Obtener todos los platos asociados a un pedido y sus cantidades (NO CREO QUE SEA NECESARIO)
 
-GET http://localhost:3000/api/pedidos/3/platos
+GET http://localhost:3000/api/pedidos/9/platos
 
-### Obtener la cantidad para un ingrediente y un plato
 
-GET http://localhost:3000/api/pedidos/3/platos/2?fechaSolicitud=2024-09-17&horaSolicitud=19:42
-
-### Establecer una cantidad para un ingrediente dado un plato
-
-POST http://localhost:3000/api/pedidos/3/platos
-Content-Type: application/json
-
-{
-  "plato": 2,
-  "cantidad": 1,
-  "fechaSolicitud": "{{$localDatetime rfc1123}}",
-  "horaSolicitud": "{{$localDatetime rfc1123}}",
-  "entregado": false
-}
-
-### IDEM
-
-POST http://localhost:3000/api/pedidos/3/platos
-Content-Type: application/json
-
-{
-  "plato": 1,
-  "cantidad": 1,
-  "fechaSolicitud": "{{$localDatetime rfc1123}}",
-  "horaSolicitud": "{{$localDatetime rfc1123}}",
-  "entregado": false
-}
-
-### Modificar la cantidad de un ingrediente dado un plato
-
-PUT http://localhost:3000/api/pedidos/9/platos/16
+### Establecer un Plato de un Pedido como "entregado"
+PUT http://localhost:3000/api/pedidos/10/platos/17
 Content-Type: application/json
 
 {
   "fechaSolicitud": "2024-09-26",
-  "horaSolicitud": "21:57:48",
+  "horaSolicitud": "02:10:08",
   "cantidad": 1
 }
 
-### Eliminar la cantidad asociada a un ingrediente y un plato
+### Eliminar la cantidad asociada a un ingrediente y un plato (INTERESANTE CUANDO SE DESEA CANCELAR UN PLATO. SE ELIMINA DEL PEDIDO)
 
 DELETE http://localhost:3000/api/pedidos/14/platos/4
 

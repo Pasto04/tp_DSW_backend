@@ -16,6 +16,8 @@ import { PlatoPedido } from "../plato/platoPedido/platoPedido.entity.js"
 import { Bebida } from "../bebida/bebida.entity.js"
 import { BebidaNotFoundError } from "../shared/errors/entityErrors/bebida.errors.js"
 import { BebidaPedido } from "../bebida/bebidaPedido/bebidaPedido.entity.js"
+import { Pago } from "./pago/pago.entity.js"
+import { PagoNotFoundError } from "../shared/errors/entityErrors/pago.errors.js"
 
 const em = orm.em
 
@@ -108,6 +110,18 @@ async function add(req:Request,res:Response) {
   }
 }
 
+
+async function fillSanitizedInput(pedido: Pedido, req: Request) {
+  req.body.sanitizedInput.estado = 'finalizado'
+  req.body.sanitizedInput.fecha = pedido.fecha
+  req.body.sanitizedInput.hora = pedido.hora
+  req.body.sanitizedInput.cliente = pedido.cliente
+  req.body.sanitizedInput.mesa = pedido.mesa
+  req.body.sanitizedInput.platosPedido = pedido.platosPedido.getItems()
+  req.body.sanitizedInput.bebidasPedido = pedido.bebidasPedido.getItems()
+}
+
+
 // Permite cancelar un pedido sin platos y bebidas y, por otro lado, añadir platos y bebidas al pedido con PATCH
 // En caso de querer finalizar el pedido, se debe usar PUT.
 async function update (req:Request,res:Response){
@@ -145,12 +159,15 @@ async function update (req:Request,res:Response){
         }
       }
     } else {
-      pedidoToUpdate.estado = 'finalizado'
+      fillSanitizedInput(pedidoToUpdate, req)
+      req.body.sanitizedInput.pago = await em.findOneOrFail(Pago, {pedido: pedidoToUpdate}, {failHandler: () => {throw new PagoNotFoundError}})
       pedidoUpdated = validarPedidoPut(req.body.sanitizedInput)
-
+      let mesaDesocupada = pedidoUpdated.mesa
+      mesaDesocupada.estado = 'Disponible'
+      em.assign(pedidoUpdated.mesa, mesaDesocupada)
     }
 
-    em.assign(pedidoToUpdate, req.body.sanitizedInput)
+    em.assign(pedidoToUpdate, pedidoUpdated)
     await em.flush()
     res.status(200).json({message: `Pedido ${nroPed} del cliente ${pedidoToUpdate.cliente.nombre} ${pedidoToUpdate.cliente.apellido} ha sido actualizado`, data: pedidoToUpdate})
   } catch (error:any){

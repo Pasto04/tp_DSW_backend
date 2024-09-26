@@ -3,40 +3,31 @@ import { Pago } from "./pago.entity.js"
 import { orm } from "../../shared/db/orm.js"
 import { Pedido } from "../pedido.entity.js"
 import { PedidoNotFoundError } from "../../shared/errors/entityErrors/pedido.errors.js"
-import { PagoNotFoundError } from "../../shared/errors/entityErrors/pago.errors.js"
+import { PagoNotFoundError, PagoPreconditionFailed } from "../../shared/errors/entityErrors/pago.errors.js"
 import { handleErrors } from "../../shared/errors/errorHandler.js"
 import crypto from "node:crypto"
 import { validarPago } from "./pago.schema.js"
+import { TarjetaCliente } from "../../tarjetaCliente/tarjetaCliente.entity.js"
+import { TarjetaClienteNotFoundError } from "../../shared/errors/entityErrors/tarjetaCliente.errors.js"
 
 const em = orm.em
 
 async function sanitizePagoInput(req:Request, res:Response, next:NextFunction){
   req.body.sanitizedInput = {
+    pedido: req.params.nroPed,
     idPago: req.body.idPago,
     fechaPago: req.body.fechaPago,
     horaPago: req.body.horaPago,
     importe: req.body.importe,
-    pedido: req.params.nroPed,
     tarjetaCliente: req.body.tarjetaCliente
   }
 
-  Object.keys(req.body.sanitizedInput).forEach(key => {
+  /*Object.keys(req.body.sanitizedInput).forEach(key => {
     if(req.body.sanitizedInput [key] === undefined){
       delete req.body.sanitizedInput [key]
     }
-  })
+  })*/
   next()
-}
-
-function calcularImporte(pedido: Pedido): number {
-  let total = 0
-  pedido.platosPedido.getItems().forEach(platoPedido => {
-    total += platoPedido.plato.precio
-  })
-  pedido.bebidasPedido.getItems().forEach(bebidaPedido => {
-    total += bebidaPedido.bebida.precio
-  })
-  return total
 }
 
 //Modificar el método para sólo tome el nroPed y, con eso, identifique el pago. La ruta será '/:nroPed/pago'
@@ -54,14 +45,36 @@ async function findOne(req:Request,res:Response) {
   }
 }
 
+
+function validarEntregaDeElementos(pedido: Pedido): void {
+  pedido.platosPedido.getItems().forEach((platoPedido) => {
+    if(platoPedido.entregado === false) {
+      throw new PagoPreconditionFailed
+    }
+  })
+}
+
+// RECORDAR HACER BIEN EL POPULATE DE LA ENTIDAD PEDIDO PARA QUE MUESTRE CORRECTAMENTE LOS PRECIOS
+function calcularImporte(pedido: Pedido, totalPlatos: number = 0, totalBebidas: number = 0): number {
+  pedido.platosPedido.getItems().map(platoPedido => {
+    totalPlatos +=  platoPedido.plato.precio * platoPedido.cantidad
+  })
+  pedido.bebidasPedido.getItems().map(bebidaPedido => {
+    totalBebidas += bebidaPedido.bebida.precio * bebidaPedido.cantidad
+  })
+  return totalPlatos + totalBebidas
+}
+
+
 async function add(req:Request,res:Response) {
   try{
     const nroPed = Number.parseInt(req.params.nroPed)
-    const pedido = await em.findOneOrFail(Pedido, {nroPed}, {populate: ['platosPedido', 'bebidasPedido'], failHandler: () => {throw new PedidoNotFoundError}})
-    req.body.sanitizedInput.pedido = pedido
+    const pedido = await em.findOneOrFail(Pedido, {nroPed}, {populate: ['platosPedido.plato', 'bebidasPedido.bebida'], failHandler: () => {throw new PedidoNotFoundError}})
+    validarEntregaDeElementos(pedido) // Si bien considero que no es correcto, el pago no se podrá realizar hasta que todos los productos hayan sido entregados.
+    req.body.sanitizedInput.pedido = await em.findOneOrFail(Pedido, {nroPed}, {failHandler: () => {throw new PedidoNotFoundError}})
     req.body.sanitizedInput.idPago = crypto.randomUUID()
-    let importe = calcularImporte(pedido)
-    req.body.sanitizedInput.importe = importe
+    req.body.sanitizedInput.importe = calcularImporte(pedido)
+    req.body.sanitizedInput.tarjetaCliente = await em.findOneOrFail(TarjetaCliente, {idTarjeta: req.body.tarjetaCliente}, {failHandler: () => {throw new TarjetaClienteNotFoundError}})
     const pagoValido = validarPago(req.body.sanitizedInput)
     const pago = em.create(Pago, pagoValido)
     await em.flush()

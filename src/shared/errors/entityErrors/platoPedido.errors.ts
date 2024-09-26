@@ -7,7 +7,7 @@ export class PlatoPedidoNotFoundError extends NotFoundError {
   constructor(params: string | undefined | object) {
     let message
     if(params === undefined || typeof params === 'string') {
-      message = 'El plato del pedido ingresado no existe'
+      message = 'El plato ingresado no se encuentra en el pedido'
     } else {
       message = 'No se han encontrado platos de pedido'
     }
