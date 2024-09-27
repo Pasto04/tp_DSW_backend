@@ -37,10 +37,10 @@ export class Pedido extends BaseClass3 {
   @OneToMany(() => BebidaPedido, (bebidaPedido) => bebidaPedido.pedido)
   bebidasPedido = new Collection<BebidaPedido>(this)
 
-  @OneToOne(() => Pago, (pago) => pago.pedido, { nullable: true })
+  @OneToOne(() => Pago, { inversedBy: (pago) => pago.pedido,  nullable: true })
   pago?: Rel<Pago>
 
-  @OneToOne(()=> Resena, {inversedBy: (resena) => resena.pedido,  nullable: true })
+  @OneToOne(()=> Resena, { inversedBy: (resena) => resena.pedido,  nullable: true })
   resena?: Rel<Resena>
 
   establecerFechaYHoraCancelacion() {

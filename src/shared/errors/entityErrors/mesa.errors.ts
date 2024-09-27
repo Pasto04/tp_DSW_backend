@@ -6,10 +6,14 @@ export class MesaNotFoundError extends NotFoundError {
   constructor(array: object)
   constructor(params: string | object | undefined){
     let message
-    if(typeof params === 'string' || params === undefined){
+    if(params === undefined){
       message = 'La mesa no existe'
-    } else {
+
+    } else if(typeof params !== 'string') {
       message = 'No se ha encontrado ninguna mesa'
+
+    } else {
+      message = params
     }
     super(message)
     this.type = 'MesaNotFoundError'

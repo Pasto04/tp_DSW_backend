@@ -6,10 +6,14 @@ export class BebidaDeProveedorNotFoundError extends NotFoundError {
   constructor(array: object)
   constructor(params: string | object | undefined ) {
     let message
-    if(params === undefined || typeof params === 'string') {
+    if(params === undefined) {
       message = 'El proveedor de la bebida ingresada no existe'
-    } else {
+
+    } else if(typeof params !== 'string') {
       message = 'No se ha encontrado ningún proveedor de la bebida'
+      
+    } else {
+      message = params
     }
     super(message)
     this.type = 'BebidaDeProveedorNotFoundError'

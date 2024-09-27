@@ -6,10 +6,14 @@ export class PagoNotFoundError extends NotFoundError {
   constructor(array: object)
   constructor(params: string | undefined | object) {
     let message
-    if(params === undefined || typeof params === 'string') {
+    if(params === undefined) {
       message = 'El pago ingresado no existe'
-    } else {
+
+    } else if(typeof params !== 'string') {
       message = 'No se han encontrado pagos'
+
+    } else {
+      message = params
     }
     super(message)
     this.type = 'PagoNotFoundError'

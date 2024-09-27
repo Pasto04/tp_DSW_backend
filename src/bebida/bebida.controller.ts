@@ -3,7 +3,7 @@ import { orm } from "../shared/db/orm.js";
 import { Bebida } from "./bebida.entity.js";
 import { Proveedor } from "../proveedor/proveedor.entity.js";
 import { validarBebida, validarBebidaPatch } from "./bebida.schema.js";
-import { BebidaBadRequest, BebidaNotFoundError, BebidaPreconditionFailed, BebidaUniqueConstraintViolation } from "../shared/errors/entityErrors/bebida.errors.js";
+import { BebidaHasNoProveedor, BebidaNotFoundError, BebidaPreconditionFailed, BebidaUniqueConstraintViolation } from "../shared/errors/entityErrors/bebida.errors.js";
 import { handleErrors } from "../shared/errors/errorHandler.js";
 import { validarFindAll } from "../shared/validarFindAll.js";
 import { BebidaDeProveedor } from "./bebidaDeProveedor/bebidaDeProveedor.entity.js";
@@ -58,7 +58,7 @@ async function add(req: Request, res: Response) {
     if ((await em.find(Proveedor, {})).length === 0) {
       throw new BebidaPreconditionFailed
     } else if (req.body.proveedor === undefined) {
-      throw new BebidaBadRequest
+      throw new BebidaHasNoProveedor
     }
       else {
       const bebidaValida = validarBebida(req.body.sanitizedInput)

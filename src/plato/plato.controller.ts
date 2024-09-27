@@ -5,7 +5,7 @@ import { TipoPlato } from "./tipoPlato.entity.js"
 import { Ingrediente } from "../ingrediente/ingrediente.entity.js"
 import { validarIngredientesOfPlato, validarPlato, validarPlatoPatch } from "./plato.schema.js"
 import { handleErrors } from "../shared/errors/errorHandler.js";
-import { PlatoBadRequest, PlatoNotFoundError, PlatoPreconditionFailed, PlatoUniqueConstraintViolation } from "../shared/errors/entityErrors/plato.errors.js"
+import { PlatoHasNoIngredientes, PlatoNotFoundError, PlatoPreconditionFailed, PlatoUniqueConstraintViolation } from "../shared/errors/entityErrors/plato.errors.js"
 import { validarFindAll } from "../shared/validarFindAll.js"
 import { TipoPlatoNotFoundError } from "../shared/errors/entityErrors/tipoPlato.errors.js"
 import { IngredienteNotFoundError } from "../shared/errors/entityErrors/ingrediente.errors.js"
@@ -135,7 +135,7 @@ async function add(req:Request,res:Response) {
     if((await em.find(TipoPlato, {})).length === 0 || (await em.find(Ingrediente, {})).length === 0) {
       throw new PlatoPreconditionFailed
     } else if(req.body.ingredientes === undefined || req.body.ingredientes.length === 0) {
-      throw new PlatoBadRequest
+      throw new PlatoHasNoIngredientes
     } else {
 
       // Validamos que los ingredientes ingresados y sus cantidades sean correctos

@@ -6,10 +6,14 @@ export class PlatoNotFoundError extends NotFoundError {
   constructor(array: object)
   constructor(params: string | undefined | object) {
     let message
-    if(params === undefined || typeof params === 'string') {
+    if(params === undefined) {
       message = 'El plato ingresado no existe'
-    } else {
+
+    } else if(typeof params !== 'string') {
       message = 'No se han encontrado platos'
+      
+    } else {
+      message = params
     }
     super(message)
     this.type = 'PlatoNotFoundError'
@@ -32,10 +36,10 @@ export class PlatoUniqueConstraintViolation extends Error {
   }
 }
 
-export class PlatoBadRequest extends Error {
+export class PlatoHasNoIngredientes extends Error {
   type: string
   constructor(message: string = 'Ingrese los ingredientes que componen el plato y la cantidad necesaria') {
     super(message)
-    this.type = 'PlatoBadRequest'
+    this.type = 'PlatoHasNoIngredientes'
   }
 }

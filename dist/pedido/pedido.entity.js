@@ -68,7 +68,7 @@ __decorate([
     __metadata("design:type", Object)
 ], Pedido.prototype, "bebidasPedido", void 0);
 __decorate([
-    OneToOne(() => Pago, (pago) => pago.pedido, { nullable: true }),
+    OneToOne(() => Pago, { inversedBy: (pago) => pago.pedido, nullable: true }),
     __metadata("design:type", Object)
 ], Pedido.prototype, "pago", void 0);
 __decorate([

@@ -6,10 +6,14 @@ export class BebidaPedidoNotFoundError extends NotFoundError {
   constructor(array: object)
   constructor(params: string | object | undefined) {
     let message
-    if(params === undefined || typeof params === 'string') {
+    if(params === undefined) {
       message = 'La bebida del pedido ingresado no existe'
-    } else {
+
+    } else if(typeof params !== 'string') {
       message = 'No se han encontrado bebidas de pedido'
+
+    } else {
+      message = params
     }
     super(message)
     this.type = 'BebidaPedidoNotFoundError'

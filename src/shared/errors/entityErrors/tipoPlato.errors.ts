@@ -6,10 +6,12 @@ export class TipoPlatoNotFoundError extends NotFoundError {
   constructor(array: object)
   constructor(params: string | undefined | object) {
     let message
-    if (params === undefined || typeof params === 'string') {
+    if (params === undefined) {
       message = 'El tipo de plato ingresado no existe'
-    } else {
+    } else if(typeof params !== 'string') {
       message = 'No se ha encontrado ningún tipo de plato'
+    } else {
+      message = params
     }
     super(message)
     this.type = 'TipoPlatoNotFoundError'

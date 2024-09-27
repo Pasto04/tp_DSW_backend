@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { Response } from 'express'
 
 function isConflictError(error: any): boolean {
-  const errorTypes = ['PreconditionFailed', 'BadRequest', 'Already', 'AllBusy']
+  const errorTypes = ['PreconditionFailed', 'Already', 'AllBusy', 'HasNo']
   let result
   errorTypes.forEach((errorType) => {
     if(error.type.includes(errorType)) {

@@ -6,10 +6,14 @@ export class IngredienteNotFoundError extends NotFoundError {
   constructor(array: object)
   constructor(params: string | undefined | object) {
     let message
-    if (typeof params === 'string' || params === undefined) {
+    if (params === undefined) {
       message = 'El ingrediente ingresado no existe'
-    } else {
+
+    } else if(typeof params !== 'string') {
       message = 'No se han encontrado ingredientes'
+      
+    } else {
+      message = params
     }
     super(message)
     this.type = 'IngredienteNotFoundError'
@@ -40,11 +44,11 @@ export class IngredienteUnidadMedidaTypeError extends Error {
   }
 }
 
-export class IngredienteBadRequest extends Error {
+export class IngredienteHasNoProveedor extends Error {
   type: string
   constructor (message: string = 'No se puede crear un ingrediente sin un proveedor') {
     super(message)
-    this.type = 'IngredienteBadRequest' 
+    this.type = 'IngredienteHasNoProveedor' 
   }
 }
 

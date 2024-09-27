@@ -8,7 +8,7 @@ GET http://localhost:3000/api/usuarios?tipoUsuario=empleado
 GET http://localhost:3000/api/usuarios/3
 
 ###Solicita un usuario en particular por su mail y contraseña (TODAVÍA NO IMPLEMENTADO, VA A DAR ERROR)
-POST http://localhost:3000/api/usuarios
+POST http://localhost:3000/api/usuarios/registro
 Content-Type: application/json
 
 {
@@ -17,7 +17,7 @@ Content-Type: application/json
 }
 
 ###Ingresa un nuevo cliente
-POST http://localhost:3000/api/usuarios
+POST http://localhost:3000/api/usuarios/registro
 Content-Type: application/json
 
 {
@@ -30,20 +30,20 @@ Content-Type: application/json
 }
 
 ###Ingresa un nuevo empleado
-POST http://localhost:3000/api/usuarios
+POST http://localhost:3000/api/usuarios/registro
 Content-Type: application/json
 
 {
   "nombre": "Rin",
   "apellido": "Tohsaka",
   "mail": "rtohsaka@gmail.com",
-  "contrasenia": "1234",
+  "contrasenia": "123456",
   "telefono": "+81 92 62819372",
   "tipoUsuario": "empleado"
 }
 
 ###Ingresa un nuevo usuario (CON ERROR)
-POST http://localhost:3000/api/usuarios
+POST http://localhost:3000/api/usuarios/registro
 Content-Type: application/json
 
 {
@@ -52,7 +52,25 @@ Content-Type: application/json
   "mail": "tsawada@gmail.com",
   "contrasenia": "kyoko10",
   "telefono": "+81 3 56281736",
-  "tipoUsuario": "jefe"
+  "tipoUsuario": "cliente"
+}
+
+### Inicia sesión con un usuario (EN ESTE CASO ES UN CLIENTE)
+POST http://localhost:3000/api/usuarios/login
+Content-Type: application/json
+
+{
+  "mail": "",
+  "contrasenia": ""
+}
+
+### Inicia sesión con un usuario (EN ESTE CASO ES UN EMPLEADO)
+POST http://localhost:3000/api/usuarios/login
+Content-Type: application/json
+
+{
+  "mail": "rtohsaka@gmail.com",
+  "contrasenia": "123456"
 }
 
 ###Modifica un usuario ya ingresado (PUT)
@@ -78,9 +96,15 @@ Content-Type: application/json
 }
 
 ###Elimina un usuario existente
-DELETE http://localhost:3000/api/usuarios/1
+DELETE http://localhost:3000/api/usuarios/5
+
+
+
 
 ###-----------------------------------------------------------------------
+
+
+
 
 ###Solicita todos los clientes
 

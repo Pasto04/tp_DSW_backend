@@ -29,4 +29,27 @@ export class Usuario extends BaseClass2{
   @OneToMany(() => TarjetaCliente, (tarjetaCliente) => tarjetaCliente.cliente, {nullable: true})
   tarjetasCliente = new Collection<TarjetaCliente>(this)
 
+  asPublicUser(): publicUser {
+    return {
+      id: this.id,
+      nombre: this.nombre,
+      apellido: this.apellido,
+      mail: this.apellido,
+      telefono: this.telefono,
+      tipoUsuario: this.tipoUsuario,
+      pedidos: this.pedidos,
+      tarjetasCliente: this.tarjetasCliente
+    }
+  }
+}
+
+export type publicUser = {
+  id: number | undefined,
+  nombre: string,
+  apellido: string,
+  mail: string,
+  telefono: string | undefined,
+  tipoUsuario: string,
+  pedidos: Collection<Pedido>,
+  tarjetasCliente: Collection<TarjetaCliente>
 }

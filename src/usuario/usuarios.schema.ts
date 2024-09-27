@@ -5,6 +5,7 @@ import { TarjetaCliente } from "../tarjetaCliente/tarjetaCliente.entity.js";
 const usuarioSchema = z.object({
   id: z.number().int().positive().optional(),
   mail: z.string({invalid_type_error: 'El mail debe ser un string', required_error: 'El mail es requerido'})
+        .min(6, {message: 'La contraseña debe tener al menos 6 caracteres'})
         .email({message: 'El mail debe ser válido'}),
   contrasenia: z.string({required_error: 'La contraseña es requerida', invalid_type_error: 'La contraseña debe ser un string'}),
   nombre: z.string({required_error: 'El nombre es requerido', invalid_type_error: 'El nombre debe ser un string'}),
@@ -19,6 +20,7 @@ const usuarioToPatchSchema = z.object({
   mail: z.string({invalid_type_error: 'El mail debe ser un string'})
         .email({message: 'El mail debe ser válido'}).optional(),
   contrasenia: z.string({invalid_type_error: 'La contraseña debe ser un string'})
+               .min(6, {message: 'La contraseña debe tener al menos 6 caracteres'})
                .optional(),
   nombre: z.string({invalid_type_error: 'El nombre debe ser un string'}).optional(),
   apellido: z.string({invalid_type_error: 'El apellido debe ser un string'}).optional(),
@@ -32,6 +34,7 @@ const usuarioToLogIn = z.object({
   mail: z.string({required_error: 'El mail es requerido', invalid_type_error: 'El mail debe ser un string'})
         .email({message: 'El mail debe ser válido'}),
   contrasenia: z.string({required_error: 'La contraseña es requerida', invalid_type_error: 'La contraseña debe ser un string'})
+               .min(6, {message: 'La contraseña debe tener al menos 6 caracteres'})
 })
 
 function validarUsuario(object: any) {

@@ -7,10 +7,14 @@ export class PedidoNotFoundError extends NotFoundError {
   constructor(array: object)
   constructor(params: object | string | undefined) {
     let message
-    if(params === undefined || typeof params === 'string'){
+    if(params === undefined){
       message = 'El pedido ingresado no existe'
-    } else {
+
+    } else if(typeof params !== 'string') {
       message = 'No se ha encontrado ningún pedido'
+
+    } else {
+      message = params
     }
     super(message);
     this.type = 'PedidoNotFoundError'

@@ -20,10 +20,12 @@ import { bebidaRouter } from './bebida/bebida.routes.js'
 import { bebidaPedidoRouter } from './bebida/bebidaPedido/bebidaPedido.routes.js'
 import { PedidoPagoRouter } from './pedido/pago/pago.routes.js'
 import { bebidaDeProveedorRouter } from './bebida/bebidaDeProveedor/bebidaDeProveedor.routes.js'
+import  cookieParser  from 'cookie-parser' // Nos permite guardar el token para mantener la sesión del usuario en una cookie
 
 const port = process.env.PORT ?? 3000
 const app = express()
 app.use(express.json())
+app.use(cookieParser())
 
 //
 

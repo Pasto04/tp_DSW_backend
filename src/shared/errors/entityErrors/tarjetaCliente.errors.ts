@@ -6,10 +6,12 @@ export class TarjetaClienteNotFoundError extends NotFoundError {
   constructor(array: object)
   constructor(params: string | object | undefined) {
     let message
-    if(params === undefined || typeof params === 'string') {
+    if(params === undefined) {
       message = 'La tarjeta del cliente ingresado no se encuentra registrada'
-    } else {
+    } else if(typeof params !== 'string') {
       message = `No hay tarjetas del cliente registradas`
+    } else {
+      message = params
     }
     super(message)
     this.type = 'TarjetaClienteNotFoundError'

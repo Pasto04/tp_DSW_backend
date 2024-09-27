@@ -6,10 +6,14 @@ export class TarjetaNotFoundError extends Error {
   constructor(array: object)
   constructor(params: string | undefined | object) {
     let message
-    if(params === undefined || typeof params === 'string') {
+    if(params === undefined) {
       message = 'La tarjeta ingresada no existe'
-    } else {
+
+    } else if(typeof params !== 'string') {
       message = 'No se han encontrado tarjetas'
+      
+    } else {
+      message = params
     }
     super(message)
     this.type = 'TarjetaNotFoundError'

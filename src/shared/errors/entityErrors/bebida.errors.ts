@@ -6,10 +6,14 @@ export class BebidaNotFoundError extends NotFoundError {
   constructor(array: object)
   constructor(params: string | undefined | object) {
     let message
-    if (params === undefined || typeof params === 'string') {
+    if (params === undefined) {
       message = 'La bebida ingresada no existe'
-    } else {
+
+    } else if(typeof params !== 'string') {
       message = 'No se ha encontrado ninguna bebida'
+
+    } else {
+      message = params
     }
     super(message);
     this.type = 'BebidaNotFoundError'
@@ -32,11 +36,11 @@ export class BebidaUniqueConstraintViolation extends Error {
   }
 }
 
-export class BebidaBadRequest extends Error {
+export class BebidaHasNoProveedor extends Error {
   type: string
   constructor(message: string = 'No se puede crear una bebida sin proveedor') {
     super(message);
-    this.type = 'BebidaBadRequest'
+    this.type = 'BebidaHasNoProveedor'
   }
 }
 

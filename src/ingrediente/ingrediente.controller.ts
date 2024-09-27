@@ -3,7 +3,7 @@ import { orm } from "../shared/db/orm.js";
 import { Ingrediente } from "./ingrediente.entity.js";
 import { NextFunction, Request, Response } from "express";
 import { validarIngrediente, validarIngredientePatch } from "./ingrediente.schema.js";
-import { IngredienteAlreadyInUseError, IngredienteBadRequest, IngredienteNotFoundError, IngredientePreconditionFailed, IngredienteUniqueConstraintViolation } from "../shared/errors/entityErrors/ingrediente.errors.js";
+import { IngredienteAlreadyInUseError, IngredienteHasNoProveedor, IngredienteNotFoundError, IngredientePreconditionFailed, IngredienteUniqueConstraintViolation } from "../shared/errors/entityErrors/ingrediente.errors.js";
 import { handleErrors } from "../shared/errors/errorHandler.js";
 import { ProveedorNotFoundError } from "../shared/errors/entityErrors/proveedor.errors.js";
 import { IngredienteDeProveedor } from "./ingredienteDeProveedor/ingredienteDeProveedor.entity.js";
@@ -89,7 +89,7 @@ async function add(req: Request, res: Response) {
     if ((await em.find(Proveedor, {})).length === 0) {
       throw new IngredientePreconditionFailed
     } else if (req.body.proveedor === undefined){
-      throw new IngredienteBadRequest
+      throw new IngredienteHasNoProveedor
     } else {
       const ingredienteValido = validarIngrediente(req.body.sanitizedInput)
       const ingre = em.create(Ingrediente, ingredienteValido)

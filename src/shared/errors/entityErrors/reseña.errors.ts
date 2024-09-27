@@ -6,10 +6,14 @@ export class ResenaNotFoundError extends NotFoundError {
   constructor(array: object)
   constructor(params: string | undefined | object) {
     let message
-    if(params === undefined || typeof params === 'string') {
+    if(params === undefined) {
       message = 'La reseña ingresada no existe'
-    } else {
+
+    } else if(typeof params !== 'string') {
       message = 'No se han encontrado reseñas'
+      
+    } else {
+      message = params
     }
     super(message)
     this.type = 'ResenaNotFoundError'

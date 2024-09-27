@@ -6,10 +6,14 @@ export class UsuarioNotFoundError extends NotFoundError {
   constructor(array: object)
   constructor(params: object | string | undefined) {
     let message
-    if (params === undefined || typeof params === 'string') {
+    if (params === undefined) {
       message = 'El usuario ingresado no existe'
-    } else {
+
+    } else if(typeof params !== 'string') {
       message = 'No se ha encontrado ningún usuario'
+      
+    } else {
+      message = params
     }
     super(message);
     this.type = 'UsuarioNotFoundError'
@@ -37,5 +41,21 @@ export class UsuarioUnauthorizedError extends Error {
   constructor(message: string = 'Primero debe iniciar sesión para acceder a este recurso') {
     super(message)
     this.type = 'UsuarioUnauthorizedError'
+  }
+}
+
+export class ClienteAlreadyHasPedido extends Error {
+  type: string
+  constructor(message: string = 'El cliente ya ha realizado al menos un pedido, por lo que no puede ser eliminado.') {
+    super(message)
+    this.type = 'ClienteAlreadyHasPedido'
+  }
+}
+
+export class UsuarioBadRequestError extends Error {
+  type: string
+  constructor(message: string) {
+    super(message)
+    this.type = 'UsuarioBadRequestError'
   }
 }
