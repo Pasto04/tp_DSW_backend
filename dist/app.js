@@ -21,10 +21,25 @@ import { bebidaPedidoRouter } from './bebida/bebidaPedido/bebidaPedido.routes.js
 import { PedidoPagoRouter } from './pedido/pago/pago.routes.js';
 import { bebidaDeProveedorRouter } from './bebida/bebidaDeProveedor/bebidaDeProveedor.routes.js';
 import cookieParser from 'cookie-parser'; // Nos permite guardar el token para mantener la sesión del usuario en una cookie
+import { ACCEPTED_ORIGINS } from './shared/config.js';
+import cors from 'cors';
 const port = process.env.PORT ?? 3000;
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({
+    origin: (origin, callback) => {
+        if (origin && ACCEPTED_ORIGINS.includes(origin)) {
+            return callback(null, true);
+        }
+        else if (!origin) {
+            return callback(null, true);
+        }
+        else {
+            return callback(new Error('Not allowed by CORS'));
+        }
+    }
+}));
 //
 app.use((req, res, next) => {
     RequestContext.create(orm.em, next);

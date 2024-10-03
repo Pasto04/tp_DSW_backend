@@ -26,6 +26,9 @@ export class Plato extends BaseClass1 {
   @Property()
   aptoVeganos!: boolean
 
+  @Property({nullable: true})
+  imagen?: string
+
   @ManyToOne(() => TipoPlato, {nullable: false})
   tipoPlato!: Rel<TipoPlato>
 

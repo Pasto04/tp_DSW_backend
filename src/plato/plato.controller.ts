@@ -23,6 +23,7 @@ function sanitizePlato(req: Request, res: Response, next: NextFunction) {
     aptoCeliacos: req.body.aptoCeliacos,
     aptoVegetarianos: req.body.aptoVegetarianos,
     aptoVeganos: req.body.aptoVeganos,
+    imagen: req.body.imagen,
     tipoPlato: req.body.tipoPlato
   }
   Object.keys(req.body.sanitizedInput).forEach((keys) => {
