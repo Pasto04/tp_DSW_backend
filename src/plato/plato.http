@@ -1,32 +1,166 @@
-###  obteber todos los characters
-GET http://localhost:3000/api/plato
+###Solicita todos los platos
 
-###  obteber un character
-GET http://localhost:3000/api/plato/b780c4c6-68c2-4177-2004-af0102a99d39
+GET http://localhost:3000/api/platos
 
+###Solicita todos los platos filtrados por queryString (CAMBIAR Y PROBAR)
 
+GET http://localhost:3000/api/platos?tipoPlato=2
 
-### modificar un character (PUT recurso completo e idempotente)
-PATCH  http://localhost:3000/api/plato/b780c4c6-68c2-4177-2004-af0102a99d39
+###Solicita todos los platos aptos para vegetarianos
+
+GET http://localhost:3000/api/platos?aptoVegetarianos=true
+
+###Solicita un plato en particular utilizando su numero de plato
+
+GET http://localhost:3000/api/platos/3
+
+###Ingresa un nuevo plato
+
+POST http://localhost:3000/api/platos
 Content-Type: application/json
 
 {
-    "descripcion": "Fideos a la Bolonegsa",
-    "tiempo": 20
+  "descripcion": "Ñoquis de papa con salsa bolognesa",
+  "tiempo": 35,
+  "precio": 6000,
+  "tipoPlato": 2,
+  "ingredientes": [
+    {
+    "ingrediente": 2,
+    "cantidadNecesaria": 75
+    },
+    {
+      "ingrediente": 3,
+      "cantidadNecesaria": 10
+    },
+    {
+      "ingrediente": 10,
+      "cantidadNecesaria": 150
+    }
+  ]
 }
 
-### crear un nuevo character
-POST http://localhost:3000/api/plato
+###
+
+POST http://localhost:3000/api/platos
 Content-Type: application/json
-    
+
 {
-    "platoClass": {
-        "descripcion": "Plato Principal",
-        "id": "b780c4c6-68c2-4177-8371-af0102a66d39"
-    }, 
-    "descripcion": "Milanesa",
-    "tiempo": 35
+  "descripcion": "Milanesa napolitana con papas fritas",
+  "tiempo": 45,
+  "precio": 5000,
+  "tipoPlato": 2,
+  "ingredientes": [{
+    "ingrediente": 2,
+    "cantidadNecesaria": 400
+  },
+  {
+    "ingrediente": 3,
+    "cantidadNecesaria": 50
+  }]
 }
 
-### borrar info
-DELETE http://localhost:3000/api/plato/0ec6ee25-e2dd-481c-8cc8-b4aa5dc83e96
+###
+
+POST http://localhost:3000/api/platos
+Content-Type: application/json
+
+{
+  "descripcion": "Tiramisú",
+  "tiempo": 5,
+  "precio": 2500,
+  "aptoCeliacos": true,
+  "aptoVegetarianos": true,
+  "aptoVeganos": false,
+  "tipoPlato": 4
+}
+
+###
+
+POST http://localhost:3000/api/platos
+Content-Type: application/json
+
+{
+  "descripcion": "Arroz Primavera",
+  "tiempo": 18,
+  "precio": 2000,
+  "aptoCeliacos": true,
+  "aptoVegetarianos": true,
+  "aptoVeganos": true,
+  "tipoPlato": 2
+}
+
+###Modifica la descripción de un plato ya ingresado utilizando su código
+
+PUT http://localhost:3000/api/platos/16
+Content-Type: application/json
+
+{
+  "descripcion": "Suprema napolitana con papas fritas",
+  "tiempo": 45,
+  "precio": 5000,
+  "tipoPlato": 2,
+  "ingredientes": [{
+    "ingrediente": 1,
+    "cantidadNecesaria": 75
+  }, 
+  {
+    "ingrediente": 2,
+    "cantidadNecesaria": 400
+  },
+  {
+    "ingrediente": 3,
+    "cantidadNecesaria": 50
+  }]
+}
+
+###Modifica la descripción de un plato ya ingresado utilizando su código
+
+PATCH http://localhost:3000/api/platos/16
+Content-Type: application/json
+
+{
+  "ingredientes": [{
+    "ingrediente": 1,
+    "cantidadNecesaria": 75
+  }, 
+  {
+    "ingrediente": 2,
+    "cantidadNecesaria": 400
+  },
+  {
+    "ingrediente": 3,
+    "cantidadNecesaria": 50
+  }]
+}
+
+### Modifica la descripción de un plato ya ingresado utilizando su código
+
+PATCH http://localhost:3000/api/platos/5
+Content-Type: application/json
+
+{
+  "descripcion": "Tiramisú",
+  "tiempo": 5,
+  "precio": 2500,
+  "aptoCeliacos": true,
+  "aptoVegetarianos": true,
+  "aptoVeganos": false,
+  "tipoPlato": 3
+}
+
+###Modifica la descripción de un plato ya ingresado utilizando su código
+
+PATCH http://localhost:3000/api/platos/3
+Content-Type: application/json
+
+{
+  "precio": 2800,
+  "aptoCeliacos": false,
+  "aptoVegetarianos": false,
+  "aptoVeganos": false
+}
+
+###Elimina un plato existente utilizando su código
+
+DELETE http://localhost:3000/api/platos/15

@@ -1,0 +1,50 @@
+###
+GET http://localhost:3000/api/pedidos/9/bebidas
+
+###
+GET http://localhost:3000/api/pedidos/4/bebidas/1?fechaSolicitud=2024-09-05&horaSolicitud=00:51
+
+###
+POST http://localhost:3000/api/pedidos/4/bebidas
+Content-Type: application/json
+
+{
+  "bebida": 3,
+  "fechaSolicitud": "2024-09-05",
+  "horaSolicitud": "00:51",
+  "cantidad": 2,
+  "entregado": false
+}
+###
+POST http://localhost:3000/api/pedidos/4/bebidas
+Content-Type: application/json
+
+{
+  "bebida": 1,
+  "fechaSolicitud": "2024-09-05",
+  "horaSolicitud": "01:17",
+  "cantidad": 1,
+  "entregado": false
+}
+###
+POST http://localhost:3000/api/pedidos/4/bebidas
+Content-Type: application/json
+
+{
+  "bebida": 4,
+  "fechaSolicitud": "2024-09-05",
+  "horaSolicitud": "01:51",
+  "cantidad": 1,
+  "entregado": false
+}
+###
+PUT http://localhost:3000/api/pedidos/10/bebidas/2
+Content-Type: application/json
+
+{
+  "fechaSolicitud": "2024-09-26",
+  "horaSolicitud": "02:10:08",
+  "cantidad": 1
+}
+###
+DELETE http://localhost:3000/api/pedidos/4/bebidas/3

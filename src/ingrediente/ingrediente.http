@@ -3,9 +3,13 @@
 
 GET http://localhost:3000/api/ingredientes
 
+###Solicita todos los ingredientes
+
+GET http://localhost:3000/api/ingredientes?aptoVegetarianos=true&descripcionParcial=Queso
+
 ###Solicita un ingrediente en particular utilizando su código
 
-GET http://localhost:3000/api/ingredientes/b780c456-68s2-4177-5371-af0102199j38
+GET http://localhost:3000/api/ingredientes/13
 
 ###Ingresa un nuevo ingrediente
 
@@ -13,24 +17,91 @@ POST http://localhost:3000/api/ingredientes
 Content-Type: application/json
 
 {
-  "descIngrediente": "Papa",
-  "stockIngrediente": 125,
-  "puntoPedido": 40,
-  "tipoIngrediente": {
-    "codigo": "b780c4c6-68c2-4177-8371-af0102a99d38", 
-    "descripcion": "Verdura",
-    "medicionCantidad": "Gramos"}
+  "descIngre": "Queso Cremoso",
+  "puntoDePedido": 7500,
+  "stock": 10000,
+  "unidadMedida": "gramos",
+  "aptoCeliacos": true,
+  "aptoVegetarianos": true,
+  "aptoVeganos": false,
+  "proveedor": 1
+}
+
+### Ingresa un nuevo ingrediente
+
+POST http://localhost:3000/api/ingredientes
+Content-Type: application/json
+
+{
+  "descIngre": "Pechuga de Pollo",
+  "puntoDePedido": 2000,
+  "stock": 10000,
+  "unidadMedida": "gramos",
+  "aptoCeliacos": true,
+  "aptoVegetarianos": false,
+  "aptoVeganos": false,
+  "proveedor": 1
+}
+
+### Ingresa un nuevo ingrediente
+
+POST http://localhost:3000/api/ingredientes
+Content-Type: application/json
+
+{
+  "descIngre": "Sal Fina",
+  "puntoDePedido": 2000,
+  "stock": 10000,
+  "unidadMedida": "gramos",
+  "aptoCeliacos": true,
+  "aptoVegetarianos": true,
+  "aptoVeganos": true,
+  "proveedor": 1
+}
+
+### Ingresa un nuevo ingrediente
+
+POST http://localhost:3000/api/ingredientes
+Content-Type: application/json
+
+{
+  "descIngre": "Ñoquis de Papa",
+  "puntoDePedido": 3300,
+  "stock": 11250,
+  "unidadMedida": "gramos",
+  "aptoCeliacos": false,
+  "aptoVegetarianos": true,
+  "aptoVeganos": true,
+  "proveedor": 1
 }
 
 ###Modifica la descripción de un ingrediente ya ingresado utilizando su código
 
-PATCH http://localhost:3000/api/ingredientes/b780c456-68s2-4177-5371-af0102199j38
+PATCH http://localhost:3000/api/ingredientes/3
 Content-Type: application/json
 
 {
-  "descIngrediente": "Calabaza Escocesa"
+  "descIngre": "Sal Muy Fina"
+}
+
+###Modifica la descripción de un ingrediente ya ingresado utilizando su código
+
+PATCH http://localhost:3000/api/ingredientes/3
+Content-Type: application/json
+
+{
+  "puntoDePedido": 3000
+}
+
+###Modifica la descripción de un ingrediente ya ingresado utilizando su código
+
+PATCH http://localhost:3000/api/ingredientes/1
+Content-Type: application/json
+
+{
+  "stock": 15000
 }
 
 ###Elimina un ingrediente existente utilizando su código
 
-DELETE http://localhost:3000/api/ingredientes/b780c456-68s2-4177-5371-af0102199j38
+DELETE http://localhost:3000/api/ingredientes/9

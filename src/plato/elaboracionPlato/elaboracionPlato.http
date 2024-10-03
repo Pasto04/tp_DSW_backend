@@ -1,0 +1,50 @@
+### Obtener todos los ingredientes y sus cantidades de un plato
+
+GET http://localhost:3000/api/platos/5/ingredientes
+
+### Obtener la cantidad para un ingrediente y un plato
+
+GET http://localhost:3000/api/platos/2/ingredientes/2
+
+### Establecer una cantidad para un ingrediente dado un plato
+
+POST http://localhost:3000/api/platos/1/ingredientes
+Content-Type: application/json
+
+{
+  "ingrediente": 3,
+  "cantidadNecesaria": 50
+}
+
+### IDEM
+
+POST http://localhost:3000/api/platos/2/ingredientes
+Content-Type: application/json
+
+{
+  "ingrediente": 2,
+  "cantidadNecesaria": 675
+}
+
+### IDEM
+
+POST http://localhost:3000/api/platos/2/ingredientes
+Content-Type: application/json
+
+{
+  "ingrediente": 1,
+  "cantidadNecesaria": 450
+}
+
+### Modificar la cantidad de un ingrediente dado un plato
+
+PATCH http://localhost:3000/api/platos/1/ingredientes/3
+Content-Type: application/json
+
+{
+  "cantidadNecesaria": 1050
+}
+
+### Eliminar la cantidad asociada a un ingrediente y un plato
+
+DELETE http://localhost:3000/api/platos/1/ingredientes/3

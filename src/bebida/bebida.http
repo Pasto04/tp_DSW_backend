@@ -1,0 +1,72 @@
+###
+GET http://localhost:3000/api/bebidas
+
+### Solicita todas las bebidas con un filtro por queryString (descripción parcial)
+// el nombre del parámetro de la queryString debe coincidir con el utilizado en el método del controlador.
+GET http://localhost:3000/api/bebidas?descripcionParcial=taco
+
+###
+GET http://localhost:3000/api/bebidas/2
+
+###
+POST http://localhost:3000/api/bebidas
+Content-Type: application/json
+
+{
+  "descripcion": "Taconni Serrano",
+  "unidadMedida": "litros",
+  "contenido": 1.5,
+  "precio": 900,
+  "proveedor": 1,
+  "papas": "si"
+}
+//Como la función sanitizadora se encuentra presenta, ignoramos todos los campos que no correspondan al modelo (papas, en este caso).
+###
+POST http://localhost:3000/api/bebidas
+Content-Type: application/json
+
+{
+  "descripcion": "Gaseosa Pepsi Cola",
+  "unidadMedida": "litros",
+  "contenido": 1.5,
+  "precio": 2000,
+  "proveedor": 1
+}
+###
+POST http://localhost:3000/api/bebidas
+Content-Type: application/json
+
+{
+  "descripcion": "Bebida Energética Monster Naranja",
+  "unidadMedida": "mililitros",
+  "contenido": 500,
+  "precio": 2300,
+  "proveedor": 1
+}
+###
+PUT http://localhost:3000/api/bebidas/2
+Content-Type: application/json
+
+{
+  "descripcion": "Gaseosa Coca-Cola",
+  "unidadMedida": "mililitros",
+  "contenido": 750,
+  "precio": 2000
+}
+###
+PATCH http://localhost:3000/api/bebidas/3
+Content-Type: application/json
+
+{
+  "contenido": 2.25
+}
+
+###
+PATCH http://localhost:3000/api/bebidas/4
+Content-Type: application/json
+
+{
+  "unidadMedida": "mililitros"
+}
+###
+DELETE http://localhost:3000/api/bebidas/1

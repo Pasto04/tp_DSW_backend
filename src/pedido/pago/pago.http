@@ -1,0 +1,25 @@
+### Muestra el pago de un pedido
+
+GET http://localhost:3000/api/pedidos/9/pagos
+
+### Crea el pago del pedido
+
+POST http://localhost:3000/api/pedidos/10/pagos
+Content-Type: application/json
+
+{
+    "tarjetaCliente": 5
+}
+
+### Crea el pago del pedido
+
+POST http://localhost:3000/api/pedidos/4/pagos
+Content-Type: application/json
+
+{
+    "tarjetaCliente": 2
+}
+
+###Elimina el pago del pedido (NO CREO QUE SEA CORRECTO DEFINIR ESTE MÉTODO)
+
+DELETE http://localhost:3000/api/pedidos/9/pagos

@@ -1,55 +1,48 @@
-# OBTENER TODOS LOS PEDIDOS #
-GET http://localhost:3000/api/pedido
+### Solicita TODOS los pedidos
 
-###
+GET http://localhost:3000/api/pedidos
 
-# OBTENER UN PEDIDO #
-GET http://localhost:3000/api/pedido/d0c48218-7b5b-4796-8569-a6b24e638e9f
+### Solicita un ÚNICO pedido
 
-###
+GET http://localhost:3000/api/pedidos/1
 
-# NUEVO PEDIDO #
-POST http://localhost:3000/api/pedido 
+// Los métodos POST, PUT, PATCH y DELETE NO SERÁN POSIBLES DESDE LA URL /api/pedidos.
+
+### Crea un nuevo pedido V1
+
+POST http://localhost:3000/api/pedidos
 Content-Type: application/json
 
 {
-  "estado": "Libre",
-  "fecha": "2023-07-28",
-  "hora": "14:30",
-  "nroMesa": 4,
-  "cliente": {
-    "nombre": "jose",
-    "apellido": "pasto",
-    "mail": "josepas@gmail.com",
-    "telefono": 36346363,
-    "codigo": "d0c48218-7b5b-4796-8569-a6b24e638e9f"}
+    "estado": "En curso",
+    "fecha": "{{$localDate rfc1123}}",
+    "hora": "2024-08-26T19:28:00",
+    "cliente": 1,
+    "mesa": 2
 }
 
-###
+### Crea un nuevo pedido V2
 
-# MODIFICAR PEDIDO (PUT) #
-PUT http://localhost:3000/api/pedido/d0c48218-7b5b-4796-8569-a6b24e638e9f 
+POST http://localhost:3000/api/pedidos
 Content-Type: application/json
 
 {
-  "estado": "Ocupada",
-  "fecha": "2023-07-15",
-  "hora": "16:30",
-  "nroMesa": 3
+    "estado": "En curso",
+    "fecha": "2024-09-05",
+    "hora": "00:58",
+    "cliente": 2,
+    "mesa": 5
 }
 
-###
+###Modifica la descripción de un ingrediente ya ingresado utilizando su código
 
-# MODIFICAR PEDIDO (PATCH) #
-PATCH http://localhost:3000/api/pedido/d0c48218-7b5b-4796-8569-a6b24e638e9f 
+PATCH http://localhost:3000/api/pedidos/2
 Content-Type: application/json
 
 {
-  "hora": "19:30",
-  "nroMesa": 6
+  "estado": "Finalizado"
 }
 
-###
+###Elimina un ingrediente existente utilizando su código
 
-# BORRAR PEDIDO #
-DELETE http://localhost:3000/api/pedido/d0c48218-7b5b-4796-8569-a6b24e638e9f
+DELETE http://localhost:3000/api/pedidos/3

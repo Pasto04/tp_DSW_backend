@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { sanitizePlatoInput, findAll, findOne, add, update, remove } from "./plato.controler.js";
+import { findAll, findOne, add, update, remove, sanitizePlato } from "./plato.controller.js";
 export const platoRouter = Router();
 platoRouter.get('/', findAll);
-platoRouter.get('/:nro', findOne);
-platoRouter.post('/', sanitizePlatoInput, add);
-platoRouter.put('/:nro', sanitizePlatoInput, update);
-platoRouter.patch('/:nro', sanitizePlatoInput, update);
-platoRouter.delete('/:nro', sanitizePlatoInput, remove);
+platoRouter.get('/:numPlato', findOne);
+platoRouter.post('/', sanitizePlato, add);
+platoRouter.put('/:numPlato', sanitizePlato, update);
+platoRouter.patch('/:numPlato', sanitizePlato, update);
+platoRouter.delete('/:numPlato', remove);
 //# sourceMappingURL=plato.routes.js.map

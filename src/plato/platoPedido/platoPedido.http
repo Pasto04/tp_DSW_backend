@@ -1,0 +1,22 @@
+### Obtener todos los platos asociados a un pedido y sus cantidades (NO CREO QUE SEA NECESARIO)
+
+GET http://localhost:3000/api/pedidos/9/platos
+
+
+### Establecer un Plato de un Pedido como "entregado"
+PUT http://localhost:3000/api/pedidos/10/platos/17
+Content-Type: application/json
+
+{
+  "fechaSolicitud": "2024-09-26",
+  "horaSolicitud": "02:10:08",
+  "cantidad": 1
+}
+
+### Eliminar la cantidad asociada a un ingrediente y un plato (INTERESANTE CUANDO SE DESEA CANCELAR UN PLATO. SE ELIMINA DEL PEDIDO)
+
+DELETE http://localhost:3000/api/pedidos/14/platos/4
+
+### IDEM
+
+DELETE http://localhost:3000/api/pedidos/17/platos/3

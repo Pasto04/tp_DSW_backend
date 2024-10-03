@@ -1,0 +1,233 @@
+###Solicita todos los clientes
+GET http://localhost:3000/api/usuarios?tipoUsuario=cliente
+
+###Solicita todos los empleados
+GET http://localhost:3000/api/usuarios?tipoUsuario=empleado
+
+###Solicita un usuario en particular por su ID
+GET http://localhost:3000/api/usuarios/3
+
+###Solicita un usuario en particular por su mail y contraseña (TODAVÍA NO IMPLEMENTADO, VA A DAR ERROR)
+POST http://localhost:3000/api/usuarios/registro
+Content-Type: application/json
+
+{
+  "mail": "rtohsaka@gmail.com",
+  "contrasenia": ""
+}
+
+###Ingresa un nuevo cliente
+POST http://localhost:3000/api/usuarios/registro
+Content-Type: application/json
+
+{
+  "nombre": "Levi",
+  "apellido": "Ackerman",
+  "mail": "Levi@gmail.com",
+  "contrasenia": "jaja123",
+  "telefono": "+81 3 13215415",
+  "tipoUsuario": "cliente"
+}
+
+###Ingresa un nuevo empleado
+POST http://localhost:3000/api/usuarios/registro
+Content-Type: application/json
+
+{
+  "nombre": "Rin",
+  "apellido": "Tohsaka",
+  "mail": "rtohsaka@gmail.com",
+  "contrasenia": "123456",
+  "telefono": "+81 92 62819372",
+  "tipoUsuario": "empleado"
+}
+
+###Ingresa un nuevo usuario (CON ERROR)
+POST http://localhost:3000/api/usuarios/registro
+Content-Type: application/json
+
+{
+  "nombre": "Tsuna",
+  "apellido": "Sawada",
+  "mail": "tsawada@gmail.com",
+  "contrasenia": "kyoko10",
+  "telefono": "+81 3 56281736",
+  "tipoUsuario": "cliente"
+}
+
+### Inicia sesión con un usuario (EN ESTE CASO ES UN CLIENTE)
+POST http://localhost:3000/api/usuarios/login
+Content-Type: application/json
+
+{
+  "mail": "",
+  "contrasenia": ""
+}
+
+### Inicia sesión con un usuario (EN ESTE CASO ES UN EMPLEADO)
+POST http://localhost:3000/api/usuarios/login
+Content-Type: application/json
+
+{
+  "mail": "rtohsaka@gmail.com",
+  "contrasenia": "123456"
+}
+
+###Modifica un usuario ya ingresado (PUT)
+
+PUT http://localhost:3000/api/usuarios/3
+Content-Type: application/json
+
+{
+  "nombre": "Rin",
+  "apellido": "Tohsaka",
+  "mail": "rtohsaka@gmail.com",
+  "contrasenia": "1234",
+  "telefono": "+81 92 62819372",
+  "tipoUsuario": "empleado"
+}
+
+###Modifica un usuario ya ingresado (PATCH)
+PATCH http://localhost:3000/api/usuarios/3
+Content-Type: application/json
+
+{
+  "contrasenia": "emiya999"
+}
+
+###Elimina un usuario existente
+DELETE http://localhost:3000/api/usuarios/5
+
+
+
+
+###-----------------------------------------------------------------------
+
+
+
+
+###Solicita todos los clientes
+
+GET http://localhost:3000/api/clientes
+
+###Solicita todos los empleados
+
+GET http://localhost:3000/api/empleados
+
+###Solicita un cliente en particular utilizando su id
+
+GET http://localhost:3000/api/clientes/1
+
+###Solicita un empleado en particular utilizando su id
+
+GET http://localhost:3000/api/empleados/1
+
+###Ingresa un nuevo cliente
+
+POST http://localhost:3000/api/clientes
+Content-Type: application/json
+
+{
+  "nombre": "Jorge",
+  "apellido": "Kralje",
+  "mail": "Jorege@gmail.com",
+  "contrasenia": "1234",
+  "telefono": "+54 9 3462 132154",
+  "tipoUsuario": "cliente"
+}
+
+###Ingresa un nuevo cliente (2)
+
+POST http://localhost:3000/api/clientes
+Content-Type: application/json
+
+{
+  "nombre": "Levi",
+  "apellido": "Ackerman",
+  "mail": "Levi@gmail.com",
+  "contrasenia": "jaja123",
+  "telefono": "+81 3 13215415",
+  "tipoUsuario": "cliente"
+}
+
+###Ingresa un nuevo cliente (ERROR)
+
+POST http://localhost:3000/api/clientes
+Content-Type: application/json
+
+{
+  "nombre": "Tsuna",
+  "apellido": "Sawada",
+  "mail": "tsawada@gmail.com",
+  "contrasenia": "kyoko10",
+  "telefono": "+81 3 56281736",
+  "tipoUsuario": "jefe"
+}
+
+###Ingresa un nuevo empleado
+
+POST http://localhost:3000/api/empleados
+Content-Type: application/json
+
+{
+  "nombre": "Rin",
+  "apellido": "Tohsaka",
+  "mail": "rtohsaka@gmail.com",
+  "contrasenia": "1234",
+  "telefono": "+81 92 62819372",
+  "tipoUsuario": "empleado"
+}
+
+###Ingresa un nuevo empleado (2)
+
+POST http://localhost:3000/api/empleados
+Content-Type: application/json
+
+{
+  "nombre": "Erwin",
+  "apellido": "Smith",
+  "mail": "esmith@gmail.com",
+  "contrasenia": "titan123",
+  "telefono": "+81 75 88920174",
+  "tipoUsuario": "empleado"
+}
+
+###Ingresa un nuevo empleado (ERROR)
+
+POST http://localhost:3000/api/empleados
+Content-Type: application/json
+
+{
+  "nombre": "Peter",
+  "apellido": "Parker",
+  "mail": "pparker@gmail.com",
+  "contrasenia": "spider07",
+  "telefono": "+1 408 7728194",
+  "tipoUsuario": "subordinado"
+}
+
+###Modifica el mail de un cliente ya ingresado utilizando su id
+
+PATCH http://localhost:3000/api/clientes/1
+Content-Type: application/json
+
+{
+  "mail": "Ackerman@gmail.com"
+}
+
+###Modifica el mail de un empleado ya ingresado utilizando su id
+
+PATCH http://localhost:3000/api/empleados/3
+Content-Type: application/json
+
+{
+  "contrasenia": "emiya999"
+}
+
+###Elimina un cliente existente utilizando su id
+
+DELETE http://localhost:3000/api/clientes/3
+
+###Elimina un empleado existente utilizando su id
+
+DELETE http://localhost:3000/api/empleados/3

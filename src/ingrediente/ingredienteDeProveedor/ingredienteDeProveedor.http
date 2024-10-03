@@ -1,0 +1,38 @@
+### FindAll Proveedores de un ingrediente
+
+GET http://localhost:3000/api/ingredientes/1/proveedores
+
+### GetOne Proveedor de un ingrediente
+
+GET http://localhost:3000/api/ingredientes/1/proveedores/1
+
+### GetOne Ingrediente de un proveedor (ELIMINAR)
+
+GET http://localhost:3000/api/proveedores/1/ingredientes/1
+
+### Post Nuevo proveedor de un ingrediente
+
+POST http://localhost:3000/api/ingredientes/10/proveedores
+Content-Type: application/json
+
+{
+  "proveedor": 3
+}
+
+### Post Nuevo ingrediente de un proveedor (ELIMINAR)
+
+POST http://localhost:3000/api/proveedores/2/ingredientes
+Content-Type: application/json
+
+{
+  "ingrediente": 1
+}
+
+### Delete Proveedor de ingrediente
+
+DELETE http://localhost:3000/api/ingredientes/1/proveedores/1
+
+### Delete Ingrediente de proveedor (ELIMINAR)
+
+DELETE http://localhost:3000/api/proveedores/1/ingredientes/1
+
