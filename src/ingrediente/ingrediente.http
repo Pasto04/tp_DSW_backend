@@ -17,11 +17,11 @@ POST http://localhost:3000/api/ingredientes
 Content-Type: application/json
 
 {
-  "descIngre": "Queso Cremoso",
-  "puntoDePedido": 7500,
-  "stock": 10000,
+  "descIngre": "Porcion de brownie",
+  "puntoDePedido": 3000,
+  "stock": 7000,
   "unidadMedida": "gramos",
-  "aptoCeliacos": true,
+  "aptoCeliacos": false,
   "aptoVegetarianos": true,
   "aptoVeganos": false,
   "proveedor": 1

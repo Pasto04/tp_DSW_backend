@@ -20,15 +20,17 @@ POST http://localhost:3000/api/platos
 Content-Type: application/json
 
 {
-  "descripcion": "Ñoquis con salsa bolognesa",
-  "tiempo": 35,
-  "precio": 3500,
-  "aptoCeliacos": false,
-  "aptoVegetarianos": false,
+  "descripcion": "Tiramisu",
+  "tiempo": 15,
+  "precio": 2500,
+  "aptoCeliacos": true,
+  "aptoVegetarianos": true,
   "aptoVeganos": false,
-  "tipoPlato": 2,
+  "imagen": "https://img2.rtve.es/v/6897051?w=1600&preview=1684846584492.jpg",
+  "tipoPlato": 3,
   "ingredientes": [{
-    "ingrediente": 
+    "ingrediente": 13,
+    "cantidadNecesaria": 100
   }]
 }
 
@@ -49,7 +51,7 @@ Content-Type: application/json
   {
     "ingrediente": 3,
     "cantidadNecesaria": 50
-  }]
+  }],
 }
 
 ###
@@ -128,17 +130,11 @@ Content-Type: application/json
 
 ### Modifica la descripción de un plato ya ingresado utilizando su código
 
-PATCH http://localhost:3000/api/platos/5
+PATCH http://localhost:3000/api/platos/20
 Content-Type: application/json
 
 {
-  "descripcion": "Tiramisú",
-  "tiempo": 5,
-  "precio": 2500,
-  "aptoCeliacos": true,
-  "aptoVegetarianos": true,
-  "aptoVeganos": false,
-  "tipoPlato": 3
+  "imagen": "https://club.cruzverde.cl/wp-content/uploads/2022/11/Receta_1-2-scaled.jpg"
 }
 
 ###Modifica la descripción de un plato ya ingresado utilizando su código

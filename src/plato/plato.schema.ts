@@ -25,6 +25,8 @@ const platoSchema = z.object({
 
   aptoVeganos: z.boolean({message: 'Se debe indicar si el plato es apto para veganos o no'}),
 
+  imagen: z.string().url({message: 'La imagen debe ser una URL válida'}).optional(), // Agrega el campo imagen
+
   tipoPlato: z.instanceof(TipoPlato, {message: 'El tipo de plato debe ser del tipo "TipoPlato"'}),
 
   elaboracionesPlato: z.array(z.instanceof(ElaboracionPlato)).optional(),
@@ -51,6 +53,8 @@ const platoToPatchSchema = z.object({
   aptoVegetarianos: z.boolean({message: 'Se debe indicar si el plato es apto para vegetarianos o no'}).optional(),
 
   aptoVeganos: z.boolean({message: 'Se debe indicar si el plato es apto para veganos o no'}).optional(),
+
+  imagen: z.string().url({message: 'La imagen debe ser una URL válida'}).optional(), // Añadir la validación del campo imagen
 
   tipoPlato: z.instanceof(TipoPlato).optional(),
 

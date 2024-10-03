@@ -26,6 +26,9 @@ export class Plato extends BaseClass1 {
   @Property()
   aptoVeganos!: boolean
 
+  @Property({ nullable: true }) // Hacemos que este campo sea opcional
+  imagen?: string; // Propiedad para almacenar la URL de la imagen
+
   @ManyToOne(() => TipoPlato, {nullable: false})
   tipoPlato!: Rel<TipoPlato>
 
