@@ -34,7 +34,7 @@ Content-Type: application/json
       "cantidadNecesaria": 10
     },
     {
-      "ingrediente": 10,
+      "ingrediente": 4,
       "cantidadNecesaria": 150
     }
   ]
