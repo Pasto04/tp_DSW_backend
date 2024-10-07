@@ -26,7 +26,6 @@ import cors from 'cors';
 const port = process.env.PORT ?? 3000;
 const app = express();
 app.use(express.json());
-app.use(cookieParser());
 app.use(cors({
     origin: (origin, callback) => {
         if (origin && ACCEPTED_ORIGINS.includes(origin)) {
@@ -40,6 +39,7 @@ app.use(cors({
         }
     }
 }));
+app.use(cookieParser());
 //
 app.use((req, res, next) => {
     RequestContext.create(orm.em, next);

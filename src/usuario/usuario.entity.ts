@@ -12,7 +12,7 @@ export class Usuario extends BaseClass2{
   apellido!: string
 
   @Property({nullable : false, unique: true})
-  mail!: string
+  email!: string
 
   @Property({nullable: false})
   contrasenia!: string
@@ -34,7 +34,7 @@ export class Usuario extends BaseClass2{
       id: this.id,
       nombre: this.nombre,
       apellido: this.apellido,
-      mail: this.apellido,
+      email: this.apellido,
       telefono: this.telefono,
       tipoUsuario: this.tipoUsuario,
       pedidos: this.pedidos,
@@ -47,7 +47,7 @@ export type publicUser = {
   id: number | undefined,
   nombre: string,
   apellido: string,
-  mail: string,
+  email: string,
   telefono: string | undefined,
   tipoUsuario: string,
   pedidos: Collection<Pedido>,

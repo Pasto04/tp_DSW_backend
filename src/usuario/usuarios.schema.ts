@@ -4,9 +4,9 @@ import { TarjetaCliente } from "../tarjetaCliente/tarjetaCliente.entity.js";
 
 const usuarioSchema = z.object({
   id: z.number().int().positive().optional(),
-  mail: z.string({invalid_type_error: 'El mail debe ser un string', required_error: 'El mail es requerido'})
+  email: z.string({invalid_type_error: 'El email debe ser un string', required_error: 'El email es requerido'})
         .min(6, {message: 'La contraseña debe tener al menos 6 caracteres'})
-        .email({message: 'El mail debe ser válido'}),
+        .email({message: 'El email debe ser válido'}),
   contrasenia: z.string({required_error: 'La contraseña es requerida', invalid_type_error: 'La contraseña debe ser un string'}),
   nombre: z.string({required_error: 'El nombre es requerido', invalid_type_error: 'El nombre debe ser un string'}),
   apellido: z.string({required_error: 'El apellido es requerido', invalid_type_error: 'El apellido debe ser un string'}),
@@ -17,8 +17,8 @@ const usuarioSchema = z.object({
 })
 
 const usuarioToPatchSchema = z.object({
-  mail: z.string({invalid_type_error: 'El mail debe ser un string'})
-        .email({message: 'El mail debe ser válido'}).optional(),
+  email: z.string({invalid_type_error: 'El email debe ser un string'})
+        .email({message: 'El email debe ser válido'}).optional(),
   contrasenia: z.string({invalid_type_error: 'La contraseña debe ser un string'})
                .min(6, {message: 'La contraseña debe tener al menos 6 caracteres'})
                .optional(),
@@ -31,8 +31,8 @@ const usuarioToPatchSchema = z.object({
 })
 
 const usuarioToLogIn = z.object({
-  mail: z.string({required_error: 'El mail es requerido', invalid_type_error: 'El mail debe ser un string'})
-        .email({message: 'El mail debe ser válido'}),
+  email: z.string({required_error: 'El email es requerido', invalid_type_error: 'El email debe ser un string'})
+        .email({message: 'El email debe ser válido'}),
   contrasenia: z.string({required_error: 'La contraseña es requerida', invalid_type_error: 'La contraseña debe ser un string'})
                .min(6, {message: 'La contraseña debe tener al menos 6 caracteres'})
 })

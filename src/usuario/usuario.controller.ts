@@ -14,7 +14,7 @@ const em = orm.em
 function sanitizeUsuario(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedInput = {
     id: req.body.id,
-    mail: req.body.mail,
+    email: req.body.email,
     contrasenia: req.body.contrasenia,
     nombre: req.body.nombre,
     apellido: req.body.apellido,
@@ -31,7 +31,7 @@ function sanitizeUsuario(req: Request, res: Response, next: NextFunction) {
 
 function sanitizeLogIn(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedLogIn = {
-    mail: req.body.mail,
+    email: req.body.email,
     contrasenia: req.body.contrasenia
   }
   next()
@@ -92,14 +92,14 @@ async function addUsuario(req: Request, res: Response){
 //Recibo mail y contraseña del usuario, lo busco por su mail. Si lo encuentro, valido la contraseña. Si es válida, 
 async function logInUsuario(req: Request, res: Response) {
   try { 
-    const mailYContraseniaValidos = validarUsuarioLogIn(req.body.sanitizedLogIn)
-    const usuario = await em.findOneOrFail(Usuario, {mail: mailYContraseniaValidos.mail}, {failHandler: () => {throw new UsuarioNotFoundError('El mail ingresado no se encuentra registrado')}})
-    const esUsuarioValido = await bcrypt.compare( mailYContraseniaValidos.contrasenia, usuario.contrasenia )
+    const emailYContraseniaValidos = validarUsuarioLogIn(req.body.sanitizedLogIn)
+    const usuario = await em.findOneOrFail(Usuario, {email: emailYContraseniaValidos.email}, {failHandler: () => {throw new UsuarioNotFoundError('El mail ingresado no se encuentra registrado')}})
+    const esUsuarioValido = await bcrypt.compare( emailYContraseniaValidos.contrasenia, usuario.contrasenia )
     if(!esUsuarioValido) {
       throw new UsuarioBadRequestError('La contraseña ingresada es incorrecta')
     }
     const usuarioPublico = usuario.asPublicUser()
-    const token = jwt.sign({id: usuarioPublico.id, mail: usuarioPublico.mail}, SECRET_JWT_KEY, {
+    const token = jwt.sign({id: usuarioPublico.id, email: usuarioPublico.email}, SECRET_JWT_KEY, {
       expiresIn: '3h'
     })
     res.cookie('access_token', token, {
