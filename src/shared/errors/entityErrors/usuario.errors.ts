@@ -59,3 +59,11 @@ export class UsuarioBadRequestError extends Error {
     this.type = 'UsuarioBadRequestError'
   }
 }
+
+export class UsuarioAlreadyExists extends Error {
+  type: string
+  constructor(message: string = 'El usuario ya existe') {
+    super(message)
+    this.type = 'UsuarioAlreadyExists'
+  }
+}

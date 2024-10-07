@@ -1,6 +1,6 @@
 ### Solicita TODOS los pedidos
 
-GET http://localhost:3000/api/clientes/2/pedidos
+GET http://localhost:3000/api/clientes/1/pedidos
 
 ### Solicita un ÚNICO pedido
 

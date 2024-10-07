@@ -9,6 +9,10 @@ import bcrypt from "bcrypt"
 import jwt from 'jsonwebtoken'
 import { SECRET_JWT_KEY } from "../shared/config.js"
 
+/*
+HABILITAR LUEGO LOS PERMISOS DE USUARIO
+*/
+
 const em = orm.em
 
 function sanitizeUsuario(req: Request, res: Response, next: NextFunction) {
@@ -40,9 +44,9 @@ function sanitizeLogIn(req: Request, res: Response, next: NextFunction) {
 async function findAllByTipoUsuario(req:Request, res:Response) {
   try{
     const token = req.cookies.access_token
-    if(!token) {
+    /*if(!token) {
       throw new UsuarioUnauthorizedError
-    }
+    }*/
     const { tipoUsuario } = req.query
     if(tipoUsuario){
       const tipoUsuario = (req.query.tipoUsuario as string).toLowerCase()
@@ -60,9 +64,9 @@ async function findAllByTipoUsuario(req:Request, res:Response) {
 async function findOne(req:Request,res:Response) {
   try{
     const token = req.cookies.access_token
-    if(!token) {
+    /*if(!token) {
       throw new UsuarioUnauthorizedError
-    }
+    }*/
     const id = Number.parseInt(req.params.id)
     const usuario = await em.findOneOrFail(Usuario, {id},)
     res.status(200).json({message: 'Usuario encontrado', data: usuario})
@@ -76,7 +80,6 @@ async function addUsuario(req: Request, res: Response){
     const usuarioValido = validarUsuario(req.body.sanitizedInput)
 
     usuarioValido.contrasenia = await bcrypt.hash(req.body.sanitizedInput.contrasenia, 10)
-    console.log(typeof usuarioValido.contrasenia)
 
     const usuario = em.create(Usuario, usuarioValido)
     await em.flush()
@@ -119,9 +122,9 @@ function logOutUsuario(req: Request, res: Response) {
 async function updateUsuario (req:Request,res:Response){
   try {
     const token = req.cookies.access_token
-    if(!token) {
+    /*if(!token) {
       throw new UsuarioUnauthorizedError
-    }
+    }*/
     const id = Number.parseInt(req.params.id)
     const usuarioToUpdate = await em.findOneOrFail(Usuario, {id})
     let usuarioUpdated
@@ -144,9 +147,9 @@ async function updateUsuario (req:Request,res:Response){
 async function remove (req:Request,res:Response) {
   try {
     const token = req.cookies.access_token
-    if(!token) {
+    /*if(!token) {
       throw new UsuarioUnauthorizedError
-    }
+    }*/
     const id = Number.parseInt(req.params.id)
     const cliente = await em.findOneOrFail(Usuario, {id})
     await em.removeAndFlush(cliente)

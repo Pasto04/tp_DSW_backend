@@ -39,7 +39,9 @@ const usuarioToLogIn = z.object({
 
 function validarUsuario(object: any) {
   try {
-    return usuarioSchema.parse(object)
+    const usuario = usuarioSchema.parse(object)
+    usuario.email = usuario.email.toLowerCase()
+    return usuario
   } catch(error: any) {
     throw error
   }

@@ -21,7 +21,7 @@ export class Usuario extends BaseClass2{
   telefono?: string
 
   @Property({nullable: false})
-  tipoUsuario!: string
+  tipoUsuario: string = 'cliente'
 
   @OneToMany(() => Pedido, (pedido) => pedido.cliente, {nullable: true})
   pedidos = new Collection<Pedido>(this)
