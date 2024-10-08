@@ -12,7 +12,7 @@ import { pedidoResenaRouter, resenaRouter } from './pedido/reseña.routes.js'
 import { elabPlatoRouter } from './plato/elaboracionPlato/elaboracionPlato.routes.js'
 import { pedidoClienteRouter } from './pedido/pedidoCliente.routes.js'
 import { proveedorRouter } from './proveedor/proveedor.routes.js'
-import { ingredienteDeProveedorRouter, proveedorDeIngredienteRouter } from './ingrediente/ingredienteDeProveedor/ingredienteDeProveedor.routes.js'
+import { ingredienteDeProveedorRouter } from './ingrediente/ingredienteDeProveedor/ingredienteDeProveedor.routes.js'
 import { tarjetaRouter } from './tarjetaCliente/tarjeta.routes.js'
 import { tarjetaClienteRouter } from './tarjetaCliente/tarjetaCliente.routes.js'
 import { mesaRouter } from './mesa/mesa.routes.js'
@@ -76,8 +76,6 @@ app.use('/api/pedidos', pedidoResenaRouter)
 app.use('/api/pedidos', pedidoRouter)
 
 app.use('/api/resenas', resenaRouter)
-
-app.use('/api/proveedores', proveedorDeIngredienteRouter)
 
 app.use('/api/proveedores', proveedorRouter)
 

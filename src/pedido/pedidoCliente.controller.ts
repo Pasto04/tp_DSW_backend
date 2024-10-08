@@ -41,11 +41,26 @@ async function sanitizePedidoCliente(req:Request, res:Response, next:NextFunctio
   next()
 }
 
+function sanitizeQuery(req: Request) {
+  const queryResult: any = {
+    fecha: req.query.fecha,
+    fechaCancelacion: req.query.fechaCancelacion,
+  }
+  for(let key of Object.keys(queryResult)) {
+    if(queryResult[key] === undefined) {
+      delete queryResult[key]
+    }
+  }
+  return queryResult
+}
+
 async function findAll(req:Request,res:Response) {
   try{
+    const sanitizedQuery = sanitizeQuery(req)
     const id = Number.parseInt(req.params.id)
     const cliente = await em.findOneOrFail(Usuario, {id}, {failHandler: () => {throw new UsuarioNotFoundError}})
-    const pedidos = validarFindAll(await em.find(Pedido, {cliente}), PedidoNotFoundError)
+    sanitizedQuery.cliente = cliente
+    const pedidos = validarFindAll(await em.find(Pedido, sanitizedQuery), PedidoNotFoundError)
     res.status (200).json({message: `Todos los pedidos del cliente ${cliente.nombre} ${cliente.apellido} encontrados con éxito`, data: pedidos})
   } catch (error:any){
     handleErrors(error, res)

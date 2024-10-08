@@ -12,17 +12,7 @@ import { IngredienteNotFoundError } from "../../shared/errors/entityErrors/ingre
 
 const em = orm.em
 
-async function findAll(req: Request, res: Response) {
-  try {
-    const numPlato = Number.parseInt(req.params.nro)
-    const plato = await em.findOneOrFail(Plato, {numPlato}, {populate: ['tipoPlato'], failHandler: () => {throw new PlatoNotFoundError}})
-    const elabPlato = await em.find(ElaboracionPlato, {plato}, {populate: ['ingrediente', 'plato']})
-    res.status(200).json({message: `La cantidades de los ingredientes del plato ${plato.descripcion} fueron encontradas con éxito`, data: elabPlato})
-  } catch(error: any){
-    handleErrors(error, res)
-  }
-}
-
+//DEJAR POR AHORA, PUEDE LLEGAR A SER ÚTIL
 async function findOne(req: Request, res: Response) {
   try{
     const numPlato = Number.parseInt(req.params.nro)
@@ -32,17 +22,6 @@ async function findOne(req: Request, res: Response) {
     const elabPlato = await em.findOneOrFail(ElaboracionPlato, {plato, ingrediente}, {populate: ['plato', 'ingrediente'], failHandler: () => {throw new ElaboracionPlatoNotFoundError}})
     res.status(200).json({message: `La cantidad del ingrediente ${ingrediente.descIngre} para el plato ${plato.descripcion} ha sido encontrada con éxito`, data: elabPlato})
   } catch(error:any){
-    handleErrors(error, res)
-  }
-}
-
-async function add(req: Request, res: Response) {
-  try {
-    const elabPlatoValido = validarElaboracionPlato(req.body)
-    const elabPlato = em.create(ElaboracionPlato, elabPlatoValido)
-    await em.flush()
-    res.status(201).json({data: elabPlato})
-  } catch (error: any) {
     handleErrors(error, res)
   }
 }
@@ -82,4 +61,4 @@ async function remove(req: Request, res: Response) {
   }
 }
 
-export { findAll, findOne, add, update, remove}
+export { findOne, update, remove}

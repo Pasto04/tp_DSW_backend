@@ -5,6 +5,8 @@ import { handleErrors } from "../shared/errors/errorHandler.js"
 import { validarFindAll } from "../shared/validarFindAll.js"
 import { PedidoNotFoundError } from "../shared/errors/entityErrors/pedido.errors.js"
 import { validarPedido, validarPedidoPatch } from "./pedido.schema.js"
+import { Mesa } from "../mesa/mesa.entity.js"
+import { MesaNotFoundError } from "../shared/errors/entityErrors/mesa.errors.js"
 
 const em = orm.em
 
@@ -29,10 +31,29 @@ async function sanitizePedidoInput(req:Request, res:Response, next:NextFunction)
   next()
 }
 
-//Manejar posibles QueryStrings para filtrar pedidos por estado, fecha, hora, cliente, mesa, etc.
+function sanitizeQuery(req: Request) {
+  const queryResult: any = {
+    estado: req.query.estado,
+    fecha: req.query.fecha,
+    fechaCancelacion: req.query.fechaCancelacion,
+    mesa: req.query.mesa //Asumo que me ingresan el número de la mesa
+  }
+  for(let key of Object.keys(queryResult)) {
+    if(queryResult[key] === undefined) {
+      delete queryResult[key]
+    }
+  }
+  return queryResult
+}
+
+//Manejar posibles QueryStrings para filtrar pedidos por estado, fecha, fechaCancelación y mesa.
 async function findAll(req:Request,res:Response) {
   try{
-    const pedidos = validarFindAll(await em.find(Pedido, {}, {populate: ['cliente', 'mesa']}), PedidoNotFoundError)
+    const sanitizedQuery = sanitizeQuery(req)
+    if(sanitizedQuery.mesa) {
+      sanitizedQuery.mesa = em.findOneOrFail(Mesa, {nroMesa: Number.parseInt(sanitizedQuery.mesa)}, {failHandler: () => {throw new MesaNotFoundError}})
+    }
+    const pedidos = validarFindAll(await em.find(Pedido, sanitizedQuery, {populate: ['cliente', 'mesa']}), PedidoNotFoundError)
     res.status (200).json({message: 'Todos los pedidos encontrados', data: pedidos})
   } catch (error:any){
     handleErrors(error, res)

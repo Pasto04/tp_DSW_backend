@@ -18,17 +18,6 @@ function sanitizeBebidaDeProveedor(req: Request, res: Response, next: NextFuncti
   next()
 }
 
-async function findAll(req: Request, res: Response) {
-  try {
-    const codBebida = Number.parseInt(req.params.cod)
-    const bebida = await em.findOneOrFail(Bebida, {codBebida})
-    const bebidasDeProv = await em.find(BebidaDeProveedor, {bebida}, {populate: ['bebida', 'proveedor']})
-    res.status(200).json({message: `Los proveedores de la bebida "${bebida.descripcion}" han sido encontrados con éxito`, data: bebidasDeProv})
-  } catch (error: any) {
-    handleErrors(error, res)
-  }
-}
-
 async function findOne(req: Request, res: Response) {
   try {
     const codBebida = Number.parseInt(req.params.cod)
@@ -88,4 +77,4 @@ async function remove(req: Request, res: Response) {
   }
 }
 
-export { findAll, findOne, add, sanitizeBebidaDeProveedor, /*update,*/ remove }
+export { findOne, add, sanitizeBebidaDeProveedor, /*update,*/ remove }

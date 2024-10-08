@@ -19,18 +19,6 @@ function sanitizeIngredienteDeProveedor(req: Request, res: Response, next: NextF
   next()
 }
 
-//Esta funcionalidad creo que no tiene sentido para nuestro sistema.
-async function findAll(req: Request, res: Response) {
-  try {
-    const codigo = Number.parseInt(req.params.cod)
-    const ingrediente = await em.findOneOrFail(Ingrediente, {codigo}, {failHandler: () => {throw new IngredienteNotFoundError}})
-    const ingresDeProv = await em.find(IngredienteDeProveedor, {ingrediente}, {populate: ['ingrediente', 'proveedor']})
-    res.status(200).json({message: `Los proveedores del ingrediente "${ingrediente.descIngre}" han sido encontrados con éxito`, data: ingresDeProv})
-  } catch (error: any) {
-    handleErrors(error, res)
-  }
-}
-
 async function findOne(req: Request, res: Response) {
   try {
     const codigo = Number.parseInt(req.params.cod)
@@ -91,4 +79,4 @@ async function remove(req: Request, res: Response) {
   }
 }
 
-export { sanitizeIngredienteDeProveedor, findAll, findOne, add, /*update,*/ remove }
+export { sanitizeIngredienteDeProveedor, findOne, add, remove }

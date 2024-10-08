@@ -16,26 +16,10 @@ function sanitizePlatoPedido(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedInput = {
     pedido: req.params.nroPed,
     plato: req.body.plato,
-    fechaSolicitud: req.body.fechaSolicitud,
-    horaSolicitud: req.body.horaSolicitud,
-    cantidad: req.body.cantidad,
     entregado: true
   }
   next()
 }
-
-// Es posible que termine siendo eliminado, pero por ahora lo utilizo para ver las distintas instancias
-async function findAll(req: Request, res: Response) {
-  try {
-    const nroPed = Number.parseInt(req.params.nroPed)
-    const pedido = await em.findOneOrFail(Pedido, {nroPed}, {failHandler: () => {throw new PedidoNotFoundError}})
-    const platosPed = validarFindAll(await em.find(PlatoPedido, {pedido}), PlatoPedidoNotFoundError)
-    res.status(200).json({message: 'Platos del pedido encontrados', data: platosPed})
-  } catch(error: any){
-    handleErrors(error, res)
-  }
-}
-
 
 function isAlreadyDelivered(platoPedido: PlatoPedido): void {
   if(platoPedido.entregado === true) {
@@ -57,11 +41,12 @@ async function update(req: Request, res: Response) {
     const platoPedValido = validarPlatoPedido(req.body.sanitizedInput)
     const platoPed = await em.findOneOrFail(PlatoPedido, platoPedValido, {failHandler: () => {throw new PlatoPedidoNotFoundError}})
     isAlreadyDelivered(platoPed) //Validamos que el plato no haya sido entregado
+    platoPed.establecerFechaYHoraEntrega()
     em.assign(platoPed, req.body.sanitizedInput)
     await em.flush()
     res.status(200).json({message: `El plato [${platoPed.plato.descripcion}] del cliente [${platoPed.pedido.cliente.nombre} ${platoPed.pedido.cliente.apellido}] ha sido entregado con éxito`, data: platoPed})
   } catch(error:any){
-    res.status(500).json({message: error.message})
+    handleErrors(error, res)
   }
 }
 
@@ -79,4 +64,4 @@ async function remove(req: Request, res: Response) {
   }
 }
 
-export { findAll, update, remove, sanitizePlatoPedido }
+export { update, remove, sanitizePlatoPedido }

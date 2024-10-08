@@ -10,7 +10,6 @@ import { validarFindAll } from "../shared/validarFindAll.js"
 import { TipoPlatoNotFoundError } from "../shared/errors/entityErrors/tipoPlato.errors.js"
 import { IngredienteNotFoundError } from "../shared/errors/entityErrors/ingrediente.errors.js"
 import { ElaboracionPlato } from "./elaboracionPlato/elaboracionPlato.entity.js"
-import { Loaded } from "@mikro-orm/core"
 
 const em = orm.em
 
@@ -67,7 +66,7 @@ async function findAll(req:Request,res:Response) {
     if(sanitizedQuery.tipoPlato) {
       sanitizedQuery.tipoPlato = await em.findOneOrFail(TipoPlato, {numPlato: Number.parseInt(req.query.tipoPlato as string)}, {failHandler: () => {throw new TipoPlatoNotFoundError}})
     }
-    const platos = validarFindAll(await em.find(Plato, sanitizedQuery as object, {populate:['tipoPlato']}), PlatoNotFoundError)
+    const platos = validarFindAll(await em.find(Plato, sanitizedQuery as object, {populate:['tipoPlato', 'elaboracionesPlato']}), PlatoNotFoundError)
     res.status (200).json({message: 'Todos los platos encontrados', data: platos})
   } catch (error:any){
     handleErrors(error, res)
