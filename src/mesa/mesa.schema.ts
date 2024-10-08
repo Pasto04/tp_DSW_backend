@@ -18,8 +18,7 @@ const mesaSchema = z.object({
                    .int({message: 'La cantidad de personas máxima debe ser un número entero'})
                    .positive({message: 'La cantidad de personas máxima debe ser un número entero positivo'})
                    .min(2, {message: 'La cantidad máxima de personas debe ser, al menos, 2'}),
-  estado: z.string().includes('Disponible', {message: 'El estado de la mesa debe ser Disponible'}),
-  codigo: z.string({invalid_type_error: 'El codigo debe ser un string'}).optional()
+  estado: z.string().includes('Disponible', {message: 'El estado de la mesa debe ser Disponible'})
 })
 
 const mesaToPatchSchema = z.object({
@@ -29,7 +28,7 @@ const mesaToPatchSchema = z.object({
                   .positive({message: 'La cantidad de personas máxima debe ser un número entero positivo'})
                   .min(2, {message: 'La cantidad de personas máxima debe ser de, al menos, 2 personas'})
                   .optional(),
-  estado: z.string(z.enum(['Disponible', 'Ocupada'], {message: 'El estado de la mesa puede ser Disponible u Ocupada'})).optional(),
+  estado: z.string({invalid_type_error: 'El estado de la mesa debe ser un string'}).optional(),
           
 })
 

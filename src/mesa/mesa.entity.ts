@@ -10,9 +10,6 @@ export class Mesa extends BaseClass4 {
   @Property({nullable: false})
   estado!: string
 
-  @Property({nullable: true})
-  codigo?: string
-
   @OneToMany(() => Pedido, pedido => pedido.mesa)
   pedidos = new Collection<Pedido>(this);
 }

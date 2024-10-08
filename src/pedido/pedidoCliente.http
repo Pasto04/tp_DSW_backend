@@ -12,8 +12,7 @@ POST http://localhost:3000/api/clientes/2/pedidos
 Content-Type: application/json
 
 {
-    "mesa": 1,
-    "codigo": "445d551f-b01a-4b55-ac8d-61116c2a8644"
+    "mesa": 1
 }
 
 ### Crea un nuevo pedido V2
@@ -22,8 +21,7 @@ POST http://localhost:3000/api/clientes/2/pedidos
 Content-Type: application/json
 
 {
-    "mesa": 2,
-    "estado": "En CuRsO"
+    "mesa": 2
 }
 
 ###Agrega platos y bebidas a un pedido en curso

@@ -94,13 +94,6 @@ async function allMesasBusy() {
 }
 
 
-function isCodigoCorrect(mesa: Mesa, codigo: string): void {
-  if (mesa.codigo !== codigo) {
-      throw new MesaCodigoError
-    }
-}
-
-
 async function add(req:Request,res:Response) {
   try{
     if((await em.find(Usuario, {tipoUsuario: 'cliente'})).length === 0 || (await em.find(Mesa, {})).length === 0) {
@@ -112,7 +105,6 @@ async function add(req:Request,res:Response) {
     allMesasBusy() // Valido que haya mesas disponibles. Igualmente, la mesa ingresada en la request debería estar disponible.
     req.body.sanitizedInput.cliente = cliente
     req.body.sanitizedInput.mesa = await em.findOneOrFail(Mesa, {nroMesa: req.body.sanitizedInput.mesa}, {failHandler: () => {throw new MesaNotFoundError}})
-    isCodigoCorrect(req.body.sanitizedInput.mesa, req.body.codigo) // Primero se busca la mesa en particular, se genera el código y luego el usuario debe ingresarlo.
     const mesaUpdated = validarMesa(req.body.sanitizedInput.mesa)
     mesaUpdated.estado = 'Ocupada'
     em.assign(req.body.sanitizedInput.mesa, mesaUpdated)

@@ -24,12 +24,11 @@ async function findAll(req:Request,res:Response) {
   }
 }
 
+//Creo que este método ya no es necesario
 async function findOne(req:Request,res:Response) {
   try{
     const nroMesa = Number.parseInt(req.params.nroMesa)
     const mesa = await em.findOneOrFail(Mesa, {nroMesa}, {failHandler: () => {throw new MesaNotFoundError}})
-    const newCodigo = { codigo: crypto.randomUUID() }
-    em.assign(mesa, newCodigo)
     await em.flush()
     res.status(200).json({message: 'Mesa encontrada exitosamente', data: mesa})
   } catch (error:any){
@@ -48,6 +47,8 @@ async function add(req:Request,res:Response) {
   }
 }
 
+//La única razón para utilizar este método sería cambiar la cantidad de personas que pueden utilizar la misma mesa, lo cual me parece
+// que no vale la pena. Igualmente dejo este método, pero no creo que se utilice.
 async function update(req:Request,res:Response){
   try{
     const nroMesa = Number.parseInt(req.params.nroMesa)
