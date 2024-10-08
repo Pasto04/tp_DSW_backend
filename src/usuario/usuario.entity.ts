@@ -34,7 +34,7 @@ export class Usuario extends BaseClass2{
       id: this.id,
       nombre: this.nombre,
       apellido: this.apellido,
-      email: this.apellido,
+      email: this.email,
       telefono: this.telefono,
       tipoUsuario: this.tipoUsuario,
       pedidos: this.pedidos,
