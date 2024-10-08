@@ -1,7 +1,7 @@
 import { Request,Response,NextFunction } from "express"
 import { publicUser, Usuario } from "./usuario.entity.js"
 import { orm } from "../shared/db/orm.js"
-import { validarUsuario, validarUsuarioLogIn, validarUsuarioLogInSafe, validarUsuarioPatch, validarUsuarioSafe } from "./usuarios.schema.js"
+import { validarUsuario, validarUsuarioLogIn, validarUsuarioPatch } from "./usuarios.schema.js"
 import { validarFindAll } from "../shared/validarFindAll.js"
 import { ClienteAlreadyHasPedido, UsuarioBadRequestError, UsuarioIsNotAllowedError, UsuarioNotFoundError, UsuarioUnauthorizedError, UsuarioUniqueConstraintViolation } from "../shared/errors/entityErrors/usuario.errors.js"
 import { handleErrors } from "../shared/errors/errorHandler.js"

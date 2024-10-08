@@ -60,10 +60,10 @@ export class UsuarioBadRequestError extends Error {
   }
 }
 
-export class UsuarioAlreadyExists extends Error {
+export class UsuarioWrongRole extends Error {
   type: string
-  constructor(message: string = 'El usuario ya existe') {
+  constructor(message: string = 'El rol del usuario debe ser "cliente" o "empleado"') {
     super(message)
-    this.type = 'UsuarioAlreadyExists'
+    this.type = 'UsuarioWrongRole'
   }
 }
