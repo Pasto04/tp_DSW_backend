@@ -19,6 +19,12 @@ export class Bebida extends BaseClass7 {
   @Property({ nullable: false, type: FloatType })
   precio!: number
 
+  @Property({ nullable: false})
+  alcohol?: string
+
+  @Property({nullable: true})
+  imagen?: string
+
   @OneToMany(() => BebidaPedido, (bebidaPedido) => bebidaPedido.bebida)
   bebidasPedido = new Collection<BebidaPedido>(this)
 

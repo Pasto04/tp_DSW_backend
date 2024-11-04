@@ -30,7 +30,15 @@ const bebidaSchema = z.object({
             required_error: 'El precio de la bebida es requerido', 
             invalid_type_error: 'El precio de la bebida debe ser un número'
           })
-          .positive({message: 'El precio de la bebida debe ser un número positivo'})
+          .positive({message: 'El precio de la bebida debe ser un número positivo'}),
+   alcohol: z.string({
+             required_error: 'El porcentaje de alcohol es requerido',
+             invalid_type_error: 'El porcentaje de alcohol debe ser un string'
+           }).optional(), // El alcohol ahora es un string
+  imagen: z.string({
+             invalid_type_error: 'La imagen debe ser un string'
+           }).url({message: 'La imagen debe ser una URL válida'})
+           .optional(),  
 })
 
 const bebidaToPatchSchema = z.object({
@@ -49,7 +57,15 @@ const bebidaToPatchSchema = z.object({
             required_error: 'El precio de la bebida es requerido', 
             invalid_type_error: 'El precio de la bebida debe ser un número'
           })
-          .positive({message: 'El precio de la bebida debe ser un número positivo'}).optional()
+          .positive({message: 'El precio de la bebida debe ser un número positivo'}).optional(),
+  alcohol: z.string({
+             invalid_type_error: 'El alcohol debe ser un string'
+           }).optional(),
+  imagen: z.string({
+             invalid_type_error: 'La imagen debe ser un string'
+           })
+           .url({message: 'La imagen debe ser una URL válida'})
+           .optional(), 
 })
 
 function validarBebida(object: any) {
