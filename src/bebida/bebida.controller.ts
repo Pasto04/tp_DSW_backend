@@ -17,7 +17,9 @@ function sanitizeBebida(req: Request, res: Response, next: NextFunction) {
     descripcion: req.body.descripcion,
     unidadMedida: req.body.unidadMedida,
     contenido: req.body.contenido,
-    precio: req.body.precio
+    precio: req.body.precio,
+    alcohol: req.body.alcohol,
+    imagen: req.body.imagen
   }
   Object.keys(req.body.sanitizedInput).forEach(key => {
     if(req.body.sanitizedInput[key] === undefined){

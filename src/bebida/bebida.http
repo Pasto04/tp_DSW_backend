@@ -13,10 +13,12 @@ POST http://localhost:3000/api/bebidas
 Content-Type: application/json
 
 {
-  "descripcion": "Taconni Serrano",
+  "descripcion": "Whisky Blue Label",
   "unidadMedida": "litros",
-  "contenido": 1.5,
-  "precio": 900,
+  "contenido": 750,
+  "precio": 28000,
+  "alcohol": "con alcohol",
+  "imagen": "https://acdn.mitiendanube.com/stores/002/337/119/products/johnnie-walker-blue-label-11-a9dd0aaa90f6cfd69016824431153453-640-0.png",
   "proveedor": 1,
   "papas": "si"
 }
@@ -54,11 +56,12 @@ Content-Type: application/json
   "precio": 2000
 }
 ###
-PATCH http://localhost:3000/api/bebidas/3
+PATCH http://localhost:3000/api/bebidas/7
 Content-Type: application/json
 
 {
-  "contenido": 2.25
+  "alcohol": "con alcohol",
+  "imagen": "https://ladoctalatinos.com/1183-medium_default/trumpeter-malbec-750-ml.jpg"
 }
 
 ###
