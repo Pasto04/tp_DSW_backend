@@ -14,10 +14,16 @@ import {
 import { PlatoNotFoundError } from '../../shared/errors/entityErrors/plato.errors.js';
 import {
   PlatoPedidoAlreadyDeliveredError,
+  PlatoPedidoNotEnoughIngredientsError,
   PlatoPedidoNotFoundError,
 } from '../../shared/errors/entityErrors/platoPedido.errors.js';
 import { handleErrors } from '../../shared/errors/errorHandler.js';
 import { validarFindAll } from '../../shared/validarFindAll.js';
+import { Ingrediente } from '../../ingrediente/ingrediente.entity.js';
+import { IngredienteNotFoundError } from '../../shared/errors/entityErrors/ingrediente.errors.js';
+import { validarIngrediente } from '../../ingrediente/ingrediente.schema.js';
+import { ElaboracionPlato } from '../elaboracionPlato/elaboracionPlato.entity.js';
+import { ElaboracionPlatoNotFoundError } from '../../shared/errors/entityErrors/elaboracionPlato.errors.js';
 
 const em = orm.em;
 
@@ -45,6 +51,36 @@ function alreadyEnded(pedido: Pedido): void {
   }
 }
 
+async function enoughIngredientes(plato: Plato, cantidad: number) {
+  // Validamos que haya stock de ingredientes para preparar el plato solicitado
+  plato.elaboracionesPlato.getItems().forEach((elaboracion) => {
+    if (
+      elaboracion.ingrediente.stock <
+      elaboracion.cantidadNecesaria * cantidad
+    ) {
+      throw new PlatoPedidoNotEnoughIngredientsError();
+    }
+  });
+}
+
+async function adjustIngredientes(plato: Plato, cantidad: number) {
+  // Ajustamos el stock de ingredientes luego de agregar un plato al pedido
+  plato.elaboracionesPlato.getItems().forEach(async (elaboracion) => {
+    const codigo = elaboracion.ingrediente.codigo;
+    const ingre = await em.findOneOrFail(
+      Ingrediente,
+      { codigo },
+      {
+        failHandler: () => {
+          throw new IngredienteNotFoundError();
+        },
+      }
+    );
+    ingre.stock -= elaboracion.cantidadNecesaria * cantidad;
+    await em.persistAndFlush(ingre);
+  });
+}
+
 async function add(req: Request, res: Response) {
   try {
     const nroPed = Number.parseInt(req.params.nroPed);
@@ -62,6 +98,7 @@ async function add(req: Request, res: Response) {
       Plato,
       { numPlato },
       {
+        populate: ['elaboracionesPlato.ingrediente'],
         failHandler: () => {
           throw new PlatoNotFoundError();
         },
@@ -69,6 +106,11 @@ async function add(req: Request, res: Response) {
     );
     alreadyEnded(req.body.sanitizedInput.pedido); //Validamos que el pedido al que queremos agregar el plato no haya finalizado.
     const platoPedidoValido = validarPlatoPedido(req.body.sanitizedInput);
+
+    enoughIngredientes(platoPedidoValido.plato, platoPedidoValido.cantidad); // Validamos que haya stock de ingredientes para preparar el plato solicitado
+
+    adjustIngredientes(platoPedidoValido.plato, platoPedidoValido.cantidad); // Ajustamos el stock de los ingredientes.
+
     const platoPedido = em.create(PlatoPedido, platoPedidoValido);
     em.persist(platoPedido);
     await em.flush();
@@ -128,6 +170,24 @@ async function update(req: Request, res: Response) {
   }
 }
 
+async function returnIngredientes(plato: Plato, cantidad: number) {
+  // Devolvemos el stock de ingredientes luego de eliminar un plato del pedido (no fue entregado, por lo que establecemos que no se consumieron los ingredientes)
+  plato.elaboracionesPlato.getItems().forEach(async (elaboracion) => {
+    const codigo = elaboracion.ingrediente.codigo;
+    const ingre = await em.findOneOrFail(
+      Ingrediente,
+      { codigo },
+      {
+        failHandler: () => {
+          throw new IngredienteNotFoundError();
+        },
+      }
+    );
+    ingre.stock += elaboracion.cantidadNecesaria * cantidad;
+    await em.persistAndFlush(ingre);
+  });
+}
+
 async function remove(req: Request, res: Response) {
   try {
     const numPlato = Number.parseInt(req.params.nro);
@@ -156,12 +216,16 @@ async function remove(req: Request, res: Response) {
       PlatoPedido,
       { plato, pedido, fechaSolicitud, horaSolicitud },
       {
+        populate: ['plato.elaboracionesPlato.ingrediente'],
         failHandler: () => {
           throw new PlatoPedidoNotFoundError();
         },
       }
     );
     isAlreadyDelivered(platoPed); //Validamos que el plato no haya sido entregado
+
+    returnIngredientes(platoPed.plato, platoPed.cantidad); // Devolvemos el stock de los ingredientes no utilizados.
+
     await em.removeAndFlush(platoPed);
     res.status(200).json({
       message: `El plato [${platoPed.plato.descripcion}] ha sido eliminado del pedido`,

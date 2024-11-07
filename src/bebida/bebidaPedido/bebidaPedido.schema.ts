@@ -5,10 +5,13 @@ import { Pedido } from '../../pedido/pedido.entity.js';
 const bebidaPedidoSchema = z.object({
   bebida: z.instanceof(Bebida),
   pedido: z.instanceof(Pedido),
-  /*fechaSolicitud: z.string({required_error: 'La fecha de solicitud es requerida'})
-                  .date('La fecha de solicitud debe tener el formato aaaa-mm-dd'),
-  horaSolicitud: z.string({required_error: 'La hora de solicitud es requerida'})
-                 .time({message: 'La hora de solicitud debe tener el formato HH:MM:SS'}),*/
+  /*fechaSolicitud: z
+    .date({ message: 'La fecha de solicitud debe tener el formato aaaa-mm-dd' })
+    .optional(),
+  horaSolicitud: z
+    .string()
+    .time({ message: 'La hora de solicitud debe tener el formato HH:MM:SS' })
+    .optional(),*/
   cantidad: z
     .number({
       required_error: 'La cantidad de bebidas es requerida',

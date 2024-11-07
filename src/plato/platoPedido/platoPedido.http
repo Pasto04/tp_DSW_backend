@@ -23,8 +23,8 @@ Content-Type: application/json
 
 ### Eliminar un plato de un pedido
 
-DELETE http://localhost:3000/api/pedidos/1/platos/1/fecha/2024-11-07/hora/13:47:49
+DELETE http://localhost:3000/api/pedidos/1/platos/1/fecha/2024-11-07/hora/17:01:34
 
-### IDEM
+### IDEM (DA ERROR INTENCIONALMENTE PORQUE YA FUE ENTREGADO)
 
 DELETE http://localhost:3000/api/pedidos/1/platos/1/fecha/2024-11-07/hora/13:46:15

@@ -15,6 +15,7 @@ import {
 import { BebidaNotFoundError } from '../../shared/errors/entityErrors/bebida.errors.js';
 import {
   BebidaPedidoAlreadyDeliveredError,
+  BebidaPedidoNotEnoughStockError,
   BebidaPedidoNotFoundError,
 } from '../../shared/errors/entityErrors/bebidaPedido.errors.js';
 
@@ -44,6 +45,28 @@ function alreadyEnded(pedido: Pedido): void {
   }
 }
 
+type BebidaPedidoToValidate = {
+  bebida: Bebida;
+  pedido: Pedido;
+  cantidad: number;
+};
+
+function enoughBebidas(bebida: Bebida, cantidad: number) {
+  // Validamos que haya stock de bebidas
+  if (bebida.stock < cantidad) {
+    throw new BebidaPedidoNotEnoughStockError();
+  }
+}
+
+async function adjustBebidas(bebidaPedido: BebidaPedidoToValidate) {
+  const bebida = await em.findOneOrFail(Bebida, {
+    codBebida: bebidaPedido.bebida.codBebida,
+  });
+  const cantidad = bebidaPedido.cantidad;
+  bebida.stock -= cantidad;
+  await em.persistAndFlush(bebida);
+}
+
 //Esta funcionalidad permite agregar una bebida a un pedido. La bebida debe existir en la base de datos y el pedido debe estar en estado "en curso".
 async function add(req: Request, res: Response) {
   try {
@@ -69,6 +92,11 @@ async function add(req: Request, res: Response) {
     );
     alreadyEnded(req.body.sanitizedInput.pedido); //Validamos que el pedido no haya finalizado
     const bebidaPedidoValida = validarBebidaPedido(req.body.sanitizedInput);
+
+    enoughBebidas(bebidaPedidoValida.bebida, bebidaPedidoValida.cantidad); // Validamos que haya stock de la bebida
+
+    adjustBebidas(bebidaPedidoValida); // Ajustamos el stock de bebidas luego de agregar una bebida al pedido
+
     const bebidaPedido = em.create(BebidaPedido, bebidaPedidoValida);
     em.persist(bebidaPedido);
     await em.flush();
@@ -133,6 +161,15 @@ async function update(req: Request, res: Response) {
   }
 }
 
+async function returnBebidas(bebidaPedido: BebidaPedidoToValidate) {
+  const bebida = await em.findOneOrFail(Bebida, {
+    codBebida: bebidaPedido.bebida.codBebida,
+  });
+  const cantidad = bebidaPedido.cantidad;
+  bebida.stock += cantidad;
+  await em.persistAndFlush(bebida);
+}
+
 async function remove(req: Request, res: Response) {
   try {
     const nroPed = Number.parseInt(req.params.nroPed);
@@ -168,6 +205,8 @@ async function remove(req: Request, res: Response) {
       }
     );
     isAlreadyDelivered(bebidaPedido); //Validamos que la bebida no haya sido entregada. Dado ese caso, no puede eliminarse del pedido.
+
+    returnBebidas(bebidaPedido); // Devolvemos las bebidas que fueron devueltas.
     await em.removeAndFlush(bebidaPedido);
     res.status(200).json({
       message: `La bebida ${bebida.descripcion} del pedido ${pedido.nroPed} ha sido eliminada con éxito`,
