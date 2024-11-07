@@ -1,14 +1,14 @@
 ### Solicita TODOS los pedidos
 
-GET http://localhost:3000/api/clientes/1/pedidos
+GET http://localhost:3000/api/clientes/21/pedidos
 
 ### Solicita un ÚNICO pedido
 
-GET http://localhost:3000/api/clientes/pedidos/10
+GET http://localhost:3000/api/clientes/pedidos/1
 
 ### Crea un nuevo pedido V1
 
-POST http://localhost:3000/api/clientes/2/pedidos
+POST http://localhost:3000/api/clientes/21/pedidos
 Content-Type: application/json
 
 {
