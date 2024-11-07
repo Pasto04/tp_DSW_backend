@@ -1,33 +1,44 @@
-import { Collection, DecimalType, Entity, FloatType, OneToMany, Property } from "@mikro-orm/core";
-import { BaseClass7 } from '../shared/db/baseEntity.entity.js'
-import { BebidaPedido } from "./bebidaPedido/bebidaPedido.entity.js";
-import { BebidaDeProveedor } from "./bebidaDeProveedor/bebidaDeProveedor.entity.js";
-
+import {
+  Collection,
+  DecimalType,
+  Entity,
+  FloatType,
+  OneToMany,
+  Property,
+} from '@mikro-orm/core';
+import { BaseClass7 } from '../shared/db/baseEntity.entity.js';
+import { BebidaPedido } from './bebidaPedido/bebidaPedido.entity.js';
+import { BebidaDeProveedor } from './bebidaDeProveedor/bebidaDeProveedor.entity.js';
 
 @Entity()
 export class Bebida extends BaseClass7 {
+  @Property({ nullable: false })
+  descripcion!: string;
 
   @Property({ nullable: false })
-  descripcion!: string
+  stock!: number;
 
   @Property({ nullable: false })
-  unidadMedida!: string
+  unidadMedida!: string;
 
   @Property({ nullable: false, type: FloatType })
-  contenido!: number
+  contenido!: number;
 
   @Property({ nullable: false, type: FloatType })
-  precio!: number
+  precio!: number;
 
-  @Property({ nullable: false})
-  alcohol?: string
+  @Property({ nullable: false })
+  alcohol?: string;
 
-  @Property({nullable: true})
-  imagen?: string
+  @Property({ nullable: true })
+  imagen?: string;
 
   @OneToMany(() => BebidaPedido, (bebidaPedido) => bebidaPedido.bebida)
-  bebidasPedido = new Collection<BebidaPedido>(this)
+  bebidasPedido = new Collection<BebidaPedido>(this);
 
-  @OneToMany(() => BebidaDeProveedor, (bebidaDeProveedor) => bebidaDeProveedor.bebida)
-  bebidasDeProveedor = new Collection<BebidaDeProveedor>(this)
+  @OneToMany(
+    () => BebidaDeProveedor,
+    (bebidaDeProveedor) => bebidaDeProveedor.bebida
+  )
+  bebidasDeProveedor = new Collection<BebidaDeProveedor>(this);
 }

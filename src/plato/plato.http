@@ -12,7 +12,7 @@ GET http://localhost:3000/api/platos?aptoVegetarianos=true
 
 ###Solicita un plato en particular utilizando su numero de plato
 
-GET http://localhost:3000/api/platos/3
+GET http://localhost:3000/api/platos/2
 
 ###Ingresa un nuevo plato
 
