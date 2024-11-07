@@ -7,7 +7,10 @@ import {
   validarPlatoPedido,
   validarPlatoPedidoToPatch,
 } from './platoPedido.schema.js';
-import { PedidoNotFoundError } from '../../shared/errors/entityErrors/pedido.errors.js';
+import {
+  PedidoAlreadyEndedError,
+  PedidoNotFoundError,
+} from '../../shared/errors/entityErrors/pedido.errors.js';
 import { PlatoNotFoundError } from '../../shared/errors/entityErrors/plato.errors.js';
 import {
   PlatoPedidoAlreadyDeliveredError,
@@ -36,6 +39,12 @@ function isAlreadyDelivered(platoPedido: PlatoPedido): void {
   }
 }
 
+function alreadyEnded(pedido: Pedido): void {
+  if (pedido.estado !== 'en curso') {
+    throw new PedidoAlreadyEndedError();
+  }
+}
+
 async function add(req: Request, res: Response) {
   try {
     const nroPed = Number.parseInt(req.params.nroPed);
@@ -58,6 +67,7 @@ async function add(req: Request, res: Response) {
         },
       }
     );
+    alreadyEnded(req.body.sanitizedInput.pedido); //Validamos que el pedido al que queremos agregar el plato no haya finalizado.
     const platoPedidoValido = validarPlatoPedido(req.body.sanitizedInput);
     const platoPedido = em.create(PlatoPedido, platoPedidoValido);
     em.persist(platoPedido);
@@ -151,10 +161,12 @@ async function remove(req: Request, res: Response) {
         },
       }
     );
+    isAlreadyDelivered(platoPed); //Validamos que el plato no haya sido entregado
     await em.removeAndFlush(platoPed);
-    res
-      .status(200)
-      .json({ message: 'El pedido ha sido eliminado', data: platoPed });
+    res.status(200).json({
+      message: `El plato [${platoPed.plato.descripcion}] ha sido eliminado del pedido`,
+      data: platoPed,
+    });
   } catch (error: any) {
     handleErrors(error, res);
   }

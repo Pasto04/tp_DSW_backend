@@ -21,10 +21,10 @@ Content-Type: application/json
   "cantidad": 2
 }
 
-### Eliminar la cantidad asociada a un ingrediente y un plato (INTERESANTE CUANDO SE DESEA CANCELAR UN PLATO. SE ELIMINA DEL PEDIDO)
+### Eliminar un plato de un pedido
 
-DELETE http://localhost:3000/api/pedidos/1/platos/1/fecha//hora/
+DELETE http://localhost:3000/api/pedidos/1/platos/1/fecha/2024-11-07/hora/13:47:49
 
 ### IDEM
 
-DELETE http://localhost:3000/api/pedidos/17/platos/3/fecha//hora/
+DELETE http://localhost:3000/api/pedidos/1/platos/1/fecha/2024-11-07/hora/13:46:15

@@ -8,7 +8,10 @@ import {
   validarBebidaPedidoToPatch,
 } from './bebidaPedido.schema.js';
 import { handleErrors } from '../../shared/errors/errorHandler.js';
-import { PedidoNotFoundError } from '../../shared/errors/entityErrors/pedido.errors.js';
+import {
+  PedidoAlreadyEndedError,
+  PedidoNotFoundError,
+} from '../../shared/errors/entityErrors/pedido.errors.js';
 import { BebidaNotFoundError } from '../../shared/errors/entityErrors/bebida.errors.js';
 import {
   BebidaPedidoAlreadyDeliveredError,
@@ -35,6 +38,12 @@ function isAlreadyDelivered(bebidaPedido: BebidaPedido): void {
   }
 }
 
+function alreadyEnded(pedido: Pedido): void {
+  if (pedido.estado !== 'en curso') {
+    throw new PedidoAlreadyEndedError();
+  }
+}
+
 //Esta funcionalidad permite agregar una bebida a un pedido. La bebida debe existir en la base de datos y el pedido debe estar en estado "en curso".
 async function add(req: Request, res: Response) {
   try {
@@ -58,6 +67,7 @@ async function add(req: Request, res: Response) {
         },
       }
     );
+    alreadyEnded(req.body.sanitizedInput.pedido); //Validamos que el pedido no haya finalizado
     const bebidaPedidoValida = validarBebidaPedido(req.body.sanitizedInput);
     const bebidaPedido = em.create(BebidaPedido, bebidaPedidoValida);
     em.persist(bebidaPedido);
