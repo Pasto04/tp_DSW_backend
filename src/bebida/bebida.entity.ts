@@ -31,7 +31,7 @@ export class Bebida extends BaseClass7 {
   alcohol?: string;
 
   @Property({ nullable: true })
-  imagen?: string;
+  imagen?: string | null;
 
   @OneToMany(() => BebidaPedido, (bebidaPedido) => bebidaPedido.bebida)
   bebidasPedido = new Collection<BebidaPedido>(this);

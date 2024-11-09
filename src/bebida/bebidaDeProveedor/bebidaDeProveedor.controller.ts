@@ -20,7 +20,7 @@ function sanitizeBebidaDeProveedor(req: Request, res: Response, next: NextFuncti
 
 async function findOne(req: Request, res: Response) {
   try {
-    const codBebida = Number.parseInt(req.params.cod)
+    const codBebida = Number.parseInt(req.params.codBebida)
     const id = Number.parseInt(req.params.id)
     const bebida = await em.findOneOrFail(Bebida, {codBebida})
     const proveedor = await em.findOneOrFail(Proveedor, {id})
@@ -65,7 +65,7 @@ async function update(req: Request, res: Response) {
 
 async function remove(req: Request, res: Response) {
   try {
-    const codBebida = Number.parseInt(req.params.cod)
+    const codBebida = Number.parseInt(req.params.codBebida)
     const id = Number.parseInt(req.params.id)
     const bebida = await em.findOneOrFail(Bebida, {codBebida})
     const proveedor = await em.findOneOrFail(Proveedor, {id})

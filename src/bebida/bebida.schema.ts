@@ -67,7 +67,8 @@ const bebidaSchema = z.object({
       invalid_type_error: 'La imagen debe ser un string',
     })
     .url({ message: 'La imagen debe ser una URL válida' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 const bebidaToPatchSchema = z.object({
@@ -120,7 +121,8 @@ const bebidaToPatchSchema = z.object({
       invalid_type_error: 'La imagen debe ser un string',
     })
     .url({ message: 'La imagen debe ser una URL válida' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 function validarBebida(object: any) {
