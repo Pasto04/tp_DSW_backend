@@ -12,7 +12,7 @@ POST http://localhost:3000/api/clientes/21/pedidos
 Content-Type: application/json
 
 {
-    "mesa": 1
+    "mesa": 2
 }
 
 ### Crea un nuevo pedido V2
@@ -69,7 +69,7 @@ Content-Type: application/json
 
 ###Finaliza un pedido y genera el pago.
 
-PUT http://localhost:3000/api/clientes/pedidos/10
+PUT http://localhost:3000/api/clientes/pedidos/1
 Content-Type: application/json
 
 {

@@ -1,8 +1,8 @@
 ###
-GET http://localhost:3000/api/pedidos/9/bebidas
+GET http://localhost:3000/api/pedidos/1/bebidas
 
 ###
-GET http://localhost:3000/api/pedidos/4/bebidas/1?fechaSolicitud=2024-09-05&horaSolicitud=00:51
+GET http://localhost:3000/api/pedidos/1/bebidas/3
 
 ###
 POST http://localhost:3000/api/pedidos/1/bebidas

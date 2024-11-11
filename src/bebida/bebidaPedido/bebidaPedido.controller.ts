@@ -3,21 +3,12 @@ import { orm } from '../../shared/db/orm.js';
 import { Pedido } from '../../pedido/pedido.entity.js';
 import { BebidaPedido } from './bebidaPedido.entity.js';
 import { Bebida } from '../bebida.entity.js';
-import {
-  validarBebidaPedido,
-  validarBebidaPedidoToPatch,
-} from './bebidaPedido.schema.js';
+import { validarBebidaPedido, validarBebidaPedidoToPatch} from './bebidaPedido.schema.js';
 import { handleErrors } from '../../shared/errors/errorHandler.js';
-import {
-  PedidoAlreadyEndedError,
-  PedidoNotFoundError,
-} from '../../shared/errors/entityErrors/pedido.errors.js';
+import {PedidoAlreadyEndedError, PedidoNotFoundError} from '../../shared/errors/entityErrors/pedido.errors.js';
 import { BebidaNotFoundError } from '../../shared/errors/entityErrors/bebida.errors.js';
-import {
-  BebidaPedidoAlreadyDeliveredError,
-  BebidaPedidoNotEnoughStockError,
-  BebidaPedidoNotFoundError,
-} from '../../shared/errors/entityErrors/bebidaPedido.errors.js';
+import { BebidaPedidoAlreadyDeliveredError, BebidaPedidoNotEnoughStockError, BebidaPedidoNotFoundError} from '../../shared/errors/entityErrors/bebidaPedido.errors.js';
+import { validarFindAll } from '../../shared/validarFindAll.js';
 
 const em = orm.em;
 
@@ -31,6 +22,34 @@ function sanitizeBebidaPedido(req: Request, res: Response, next: NextFunction) {
     horaSolicitud: req.body.horaSolicitud,
   };
   next();
+}
+
+async function findAll(req: Request, res: Response) {
+  try {
+    const nroPed = Number.parseInt(req.params.nroPed)
+    const pedido = await em.findOneOrFail(Pedido, { nroPed }, { failHandler: () => { throw new PedidoNotFoundError() } })
+    const bebidasPedido = validarFindAll(await em.find(BebidaPedido, { pedido }, { populate: ['bebida', 'pedido'] }), BebidaPedidoNotFoundError)
+    res.status(200).json({message: `Bebidas del pedido ${pedido.nroPed} encontradas con éxito`, data: bebidasPedido})
+
+  } catch (error: any) {
+    handleErrors(error, res);
+  }
+}
+
+async function findOne(req: Request, res: Response) {
+  try {
+    const nroPed = Number.parseInt(req.params.nroPed);
+    const pedido = await em.findOneOrFail(Pedido, { nroPed }, { failHandler: () => {throw new PedidoNotFoundError()} })
+    const codBebida = Number.parseInt(req.params.codBebida)
+    const bebida = await em.findOneOrFail(Bebida, { codBebida }, { failHandler: () => { throw new BebidaNotFoundError() } })
+    const fechaEntrega = req.params.fecha
+    const horaEntrega = req.params.hora
+    const bebidaPedido = await em.findOneOrFail(BebidaPedido, { pedido, bebida, fechaEntrega, horaEntrega }, { failHandler: () => { throw new BebidaPedidoNotFoundError() } })
+    res.status(200).json({message: `Bebida ${bebida.descripcion} del pedido ${pedido.nroPed} encontrada con éxito`, data: bebidaPedido})
+
+  } catch (error: any) {
+    handleErrors(error, res);
+  }
 }
 
 function isAlreadyDelivered(bebidaPedido: BebidaPedido): void {
@@ -110,7 +129,7 @@ async function add(req: Request, res: Response) {
 }
 
 /* NO TIENE SENTIDO ACTUALIZAR UNA BEBIDA DE UN PEDIDO. SI EL CLIENTE DESEA ORDENAR NUEVAMENTE UNA BEBIDA, SE CREARÁ Y QUEDARÁ 
-REGISTRADA CON UNA HORA (Y QUIZÁS UNA FECHA) DISTINTA DENTRO DEL MISMO PEDIDO.
+REGISTRADA CON UNA HORA Y UNA FECHA DISTINTA DENTRO DEL MISMO PEDIDO.
 Este método únicamente permitirá a los usuarios (ya sea empleado o cliente) modificar el atributo "entregado" de BebidaPedido a "true".
 */
 async function update(req: Request, res: Response) {
@@ -217,4 +236,4 @@ async function remove(req: Request, res: Response) {
   }
 }
 
-export { sanitizeBebidaPedido, add, update, remove };
+export { sanitizeBebidaPedido, findAll, findOne, add, update, remove };

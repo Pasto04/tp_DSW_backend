@@ -1,18 +1,14 @@
-import { Router } from 'express';
-import {
-  add,
-  remove,
-  update,
-  sanitizePlatoPedido,
-} from './platoPedido.controller.js';
+import { Router } from 'express'
+import { findAll, findOne, add, remove, update, sanitizePlatoPedido } from './platoPedido.controller.js'
 
-export const platoPedidoRouter = Router();
+export const platoPedidoRouter = Router()
 
-platoPedidoRouter.post('/:nroPed/platos', sanitizePlatoPedido, add);
+platoPedidoRouter.get('/:nroPed/platos', findAll)
 
-platoPedidoRouter.put('/:nroPed/platos/:nro', sanitizePlatoPedido, update);
+platoPedidoRouter.get('/:nroPed/platos/:nro/fecha/:fecha/hora/:hora', findOne)
 
-platoPedidoRouter.delete(
-  '/:nroPed/platos/:nro/fecha/:fecha/hora/:hora',
-  remove
-);
+platoPedidoRouter.post('/:nroPed/platos', sanitizePlatoPedido, add)
+
+platoPedidoRouter.put('/:nroPed/platos/:nro', sanitizePlatoPedido, update)
+
+platoPedidoRouter.delete('/:nroPed/platos/:nro/fecha/:fecha/hora/:hora', remove)

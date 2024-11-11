@@ -97,17 +97,8 @@ async function findAll(req: Request, res: Response) {
 async function findOne(req: Request, res: Response) {
   try {
     const numPlato = Number.parseInt(req.params.numPlato);
-    const plato = await em.findOneOrFail(
-      Plato,
-      { numPlato },
-      {
-        populate: ['tipoPlato', 'elaboracionesPlato'],
-        failHandler: () => {
-          throw new PlatoNotFoundError();
-        },
-      }
-    );
-    res.status(200).json({ message: 'Plato encontrado', data: plato });
+    const plato = await em.findOneOrFail(Plato, { numPlato }, {populate: ['tipoPlato', 'elaboracionesPlato'], failHandler: () => {throw new PlatoNotFoundError()} })
+    res.status(200).json({ message: 'Plato encontrado', data: plato })
   } catch (error: any) {
     handleErrors(error, res);
   }

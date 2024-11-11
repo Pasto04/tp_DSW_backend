@@ -9,7 +9,7 @@ export class BebidaPedidoNotFoundError extends NotFoundError {
     if (params === undefined) {
       message = 'La bebida del pedido ingresado no existe';
     } else if (typeof params !== 'string') {
-      message = 'No se han encontrado bebidas de pedido';
+      message = 'No se han encontrado bebidas del pedido';
     } else {
       message = params;
     }

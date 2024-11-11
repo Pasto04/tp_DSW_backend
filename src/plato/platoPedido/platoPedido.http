@@ -1,6 +1,10 @@
-### Obtener todos los platos asociados a un pedido y sus cantidades (NO CREO QUE SEA NECESARIO)
+### Obtener todos los platos asociados a un pedido y sus cantidades
 
 GET http://localhost:3000/api/pedidos/1/platos
+
+### Obtener un plato asociado a un pedido y su cantidad
+
+GET http://localhost:3000/api/pedidos/1/platos/1
 
 ### Agregar un plato a un pedido
 POST http://localhost:3000/api/pedidos/1/platos
