@@ -2,7 +2,6 @@ import { Request,Response } from "express"
 import { Mesa } from "./mesa.entity.js"
 import { orm } from "../shared/db/orm.js"
 import { validarMesa, validarMesaToPatch } from "./mesa.schema.js"
-import crypto from 'node:crypto'
 import { handleErrors } from "../shared/errors/errorHandler.js"
 import { MesaAlreadyInUseError, MesaNotFoundError } from "../shared/errors/entityErrors/mesa.errors.js"
 import { validarFindAll } from "../shared/validarFindAll.js"

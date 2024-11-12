@@ -4,7 +4,7 @@ GET http://localhost:3000/api/clientes/21/pedidos
 
 ### Solicita un ÚNICO pedido
 
-GET http://localhost:3000/api/clientes/pedidos/1
+GET http://localhost:3000/api/clientes/pedidos/2
 
 ### Crea un nuevo pedido V1
 

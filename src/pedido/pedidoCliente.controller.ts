@@ -186,6 +186,10 @@ async function cancel(req: Request, res: Response) {
 
     pedidoToUpdate.establecerFechaYHoraCancelacion()
     req.body.sanitizedInput.estado = 'cancelado'
+    let newMesa = pedidoToUpdate.mesa
+    newMesa.estado = 'Disponible'
+    em.assign(pedidoToUpdate.mesa, newMesa)
+
     em.assign(pedidoToUpdate, pedidoUpdated)
     await em.flush()
     res.status(200).json({
