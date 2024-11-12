@@ -1,6 +1,6 @@
-import { Entity, Property, OneToMany, Collection, Cascade } from "@mikro-orm/core";
-import { BaseClass6 } from "../shared/db/baseEntity.entity.js";
-import { TarjetaCliente } from "./tarjetaCliente.entity.js";
+import { Entity, Property, OneToMany, Collection, Cascade } from "@mikro-orm/core"
+import { BaseClass6 } from "../shared/db/baseEntity.entity.js"
+import { TarjetaCliente } from "./tarjetaCliente.entity.js"
 
 @Entity()
 export class Tarjeta extends BaseClass6{
@@ -9,6 +9,6 @@ export class Tarjeta extends BaseClass6{
   descTarjeta!: string
 
     @OneToMany(() => TarjetaCliente, tarjetaCliente => tarjetaCliente.tarjeta)
-  tarjetaClientes = new Collection<TarjetaCliente>(this);
+  tarjetaClientes = new Collection<TarjetaCliente>(this)
 
 }

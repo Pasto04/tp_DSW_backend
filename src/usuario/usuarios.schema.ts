@@ -1,7 +1,7 @@
-import { z } from "zod";
-import { Pedido } from "../pedido/pedido.entity.js";
-import { TarjetaCliente } from "../tarjetaCliente/tarjetaCliente.entity.js";
-import { UsuarioWrongRole } from "../shared/errors/entityErrors/usuario.errors.js";
+import { z } from "zod"
+import { Pedido } from "../pedido/pedido.entity.js"
+import { TarjetaCliente } from "../tarjetaCliente/tarjetaCliente.entity.js"
+import { UsuarioWrongRole } from "../shared/errors/entityErrors/usuario.errors.js"
 
 const roles = ['cliente', 'empleado']
 

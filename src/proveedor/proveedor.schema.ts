@@ -1,6 +1,6 @@
-import { z } from "zod";
-import { IngredienteDeProveedor } from "../ingrediente/ingredienteDeProveedor/ingredienteDeProveedor.entity.js";
-import { BebidaDeProveedor } from "../bebida/bebidaDeProveedor/bebidaDeProveedor.entity.js";
+import { z } from "zod"
+import { IngredienteDeProveedor } from "../ingrediente/ingredienteDeProveedor/ingredienteDeProveedor.entity.js"
+import { BebidaDeProveedor } from "../bebida/bebidaDeProveedor/bebidaDeProveedor.entity.js"
 
  const proveedorSchema = z.object({
   id: z.number().int().positive().optional(),
@@ -15,7 +15,7 @@ import { BebidaDeProveedor } from "../bebida/bebidaDeProveedor/bebidaDeProveedor
          .email({ message: "El email debe ser válido"}),
   ingredienteDeProveedor: z.array(z.instanceof(IngredienteDeProveedor)).optional(),
   bebidasDeProveedor: z.array(z.instanceof(BebidaDeProveedor)).optional()
-});
+})
 
  const proveedorToPatchSchema = z.object({
   cuit: z.string({invalid_type_error: 'El cuit debe ser un string'}).optional(),

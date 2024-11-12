@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router } from "express"
 import { findAll, findOne, add, update, remove, sanitizeBebida} from './bebida.controller.js'
 
 export const bebidaRouter = Router()

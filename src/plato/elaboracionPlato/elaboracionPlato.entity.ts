@@ -1,6 +1,6 @@
-import { Entity, Index, ManyToOne, PrimaryKeyType, Property, Rel, Unique } from "@mikro-orm/core";
-import { Plato } from "../plato.entity.js";
-import { Ingrediente } from "../../ingrediente/ingrediente.entity.js";
+import { Entity, Index, ManyToOne, PrimaryKeyType, Property, Rel, Unique } from "@mikro-orm/core"
+import { Plato } from "../plato.entity.js"
+import { Ingrediente } from "../../ingrediente/ingrediente.entity.js"
 
 @Entity()
 @Index({properties: ['ingrediente', 'plato']})

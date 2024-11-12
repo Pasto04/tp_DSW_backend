@@ -1,5 +1,5 @@
-import { Router } from "express";
-import { findAll, findOne, add, sanitizeTarjetaCliente, /*update,*/ remove } from "./tarjetaCliente.controller.js";
+import { Router } from "express"
+import { findAll, findOne, add, sanitizeTarjetaCliente, /*update,*/ remove } from "./tarjetaCliente.controller.js"
 
 export const tarjetaClienteRouter = Router()
 

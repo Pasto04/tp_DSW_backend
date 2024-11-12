@@ -1,5 +1,5 @@
-import { Router } from "express";
-import { sanitizePedidoInput, findAll, findOne/*, add, update, remove*/ } from "./pedido.controller.js";
+import { Router } from "express"
+import { sanitizePedidoInput, findAll, findOne/*, add, update, remove*/ } from "./pedido.controller.js"
 
 export const pedidoRouter = Router()
 

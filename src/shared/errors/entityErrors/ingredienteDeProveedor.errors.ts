@@ -1,4 +1,4 @@
-import { NotFoundError } from "@mikro-orm/core";
+import { NotFoundError } from "@mikro-orm/core"
 
 export class IngredienteDeProveedorNotFoundError extends NotFoundError {
   type: string

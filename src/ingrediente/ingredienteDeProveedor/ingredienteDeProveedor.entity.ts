@@ -1,6 +1,6 @@
-import { Entity, Index, ManyToOne, PrimaryKeyType, Property, Rel, Unique } from "@mikro-orm/core";
-import { Ingrediente } from "../ingrediente.entity.js";
-import { Proveedor } from "../../proveedor/proveedor.entity.js";
+import { Entity, Index, ManyToOne, PrimaryKeyType, Property, Rel, Unique } from "@mikro-orm/core"
+import { Ingrediente } from "../ingrediente.entity.js"
+import { Proveedor } from "../../proveedor/proveedor.entity.js"
 
 
 @Entity()

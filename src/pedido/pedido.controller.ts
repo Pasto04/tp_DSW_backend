@@ -1,20 +1,16 @@
-import { Request, Response, NextFunction } from 'express';
-import { Pedido } from './pedido.entity.js';
-import { orm } from '../shared/db/orm.js';
-import { handleErrors } from '../shared/errors/errorHandler.js';
-import { validarFindAll } from '../shared/validarFindAll.js';
-import { PedidoNotFoundError } from '../shared/errors/entityErrors/pedido.errors.js';
-import { validarPedido, validarPedidoFinalizar } from './pedido.schema.js';
-import { Mesa } from '../mesa/mesa.entity.js';
-import { MesaNotFoundError } from '../shared/errors/entityErrors/mesa.errors.js';
+import { Request, Response, NextFunction } from 'express'
+import { Pedido } from './pedido.entity.js'
+import { orm } from '../shared/db/orm.js'
+import { handleErrors } from '../shared/errors/errorHandler.js'
+import { validarFindAll } from '../shared/validarFindAll.js'
+import { PedidoNotFoundError } from '../shared/errors/entityErrors/pedido.errors.js'
+import { validarPedido, validarPedidoFinalizar } from './pedido.schema.js'
+import { Mesa } from '../mesa/mesa.entity.js'
+import { MesaNotFoundError } from '../shared/errors/entityErrors/mesa.errors.js'
 
-const em = orm.em;
+const em = orm.em
 
-async function sanitizePedidoInput(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+async function sanitizePedidoInput(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedInput = {
     nroPed: req.body.nroPed,
     estado: req.body.estado,
@@ -29,10 +25,10 @@ async function sanitizePedidoInput(
 
   Object.keys(req.body.sanitizedInput).forEach((key) => {
     if (req.body.sanitizedInput[key] === undefined) {
-      delete req.body.sanitizedInput[key];
+      delete req.body.sanitizedInput[key]
     }
-  });
-  next();
+  })
+  next()
 }
 
 function sanitizeQuery(req: Request) {
@@ -41,53 +37,38 @@ function sanitizeQuery(req: Request) {
     fecha: req.query.fecha,
     fechaCancelacion: req.query.fechaCancelacion,
     mesa: req.query.mesa, //Asumo que me ingresan el número de la mesa
-  };
+  }
   for (let key of Object.keys(queryResult)) {
     if (queryResult[key] === undefined) {
-      delete queryResult[key];
+      delete queryResult[key]
     }
   }
-  return queryResult;
+  return queryResult
 }
 
 //Manejar posibles QueryStrings para filtrar pedidos por estado, fecha, fechaCancelación y mesa.
 async function findAll(req: Request, res: Response) {
   try {
-    const sanitizedQuery = sanitizeQuery(req);
+    const sanitizedQuery = sanitizeQuery(req)
     if (sanitizedQuery.mesa) {
-      sanitizedQuery.mesa = em.findOneOrFail(
-        Mesa,
-        { nroMesa: Number.parseInt(sanitizedQuery.mesa) },
-        {
-          failHandler: () => {
-            throw new MesaNotFoundError();
-          },
-        }
-      );
+      sanitizedQuery.mesa = em.findOneOrFail(Mesa, { nroMesa: Number.parseInt(sanitizedQuery.mesa) }, { failHandler: () => {throw new MesaNotFoundError()} })
     }
-    const pedidos = validarFindAll(
-      await em.find(Pedido, sanitizedQuery, { populate: ['cliente', 'mesa'] }),
-      PedidoNotFoundError
-    );
-    res
-      .status(200)
-      .json({ message: 'Todos los pedidos encontrados', data: pedidos });
+    const pedidos = validarFindAll(await em.find(Pedido, sanitizedQuery, { populate: ['cliente', 'mesa'] }), PedidoNotFoundError)
+    res.status(200).json({ message: 'Todos los pedidos encontrados', data: pedidos })
+
   } catch (error: any) {
-    handleErrors(error, res);
+    handleErrors(error, res)
   }
 }
 
 async function findOne(req: Request, res: Response) {
   try {
-    const nroPed = Number.parseInt(req.params.nroPed);
-    const pedido = await em.findOneOrFail(
-      Pedido,
-      { nroPed },
-      { populate: ['cliente', 'mesa'] }
-    );
-    res.status(200).json({ message: 'Pedido encontrado', data: pedido });
+    const nroPed = Number.parseInt(req.params.nroPed)
+    const pedido = await em.findOneOrFail(Pedido, { nroPed }, { populate: ['cliente', 'mesa'] })
+    res.status(200).json({ message: 'Pedido encontrado', data: pedido })
+
   } catch (error: any) {
-    handleErrors(error, res);
+    handleErrors(error, res)
   }
 }
 
@@ -136,4 +117,4 @@ async function remove (req:Request,res:Response) {
 }
 */
 
-export { sanitizePedidoInput, findAll, findOne /*,add,update,remove*/ };
+export { sanitizePedidoInput, findAll, findOne /*,add,update,remove*/ }

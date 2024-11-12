@@ -1,6 +1,6 @@
-import { Loaded, NotFoundError } from "@mikro-orm/core";
+import { Loaded, NotFoundError } from "@mikro-orm/core"
 
-export class TarjetaNotFoundError extends Error {
+export class TarjetaNotFoundError extends NotFoundError {
   type: string
   constructor(message?: string)
   constructor(array: object)

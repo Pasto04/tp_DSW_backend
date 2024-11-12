@@ -1,5 +1,5 @@
-import { MikroORM } from '@mikro-orm/core';
-import { SqlHighlighter } from '@mikro-orm/sql-highlighter';
+import { MikroORM } from '@mikro-orm/core'
+import { SqlHighlighter } from '@mikro-orm/sql-highlighter'
 
 export const orm = await MikroORM.init({
   entities: ['dist/**/*.entity.js'],
@@ -17,10 +17,10 @@ export const orm = await MikroORM.init({
 });
 
 export const syncSchema = async () => {
-  const generator = orm.getSchemaGenerator();
+  const generator = orm.getSchemaGenerator()
   /*
   await generator.dropSchema();
   await generator.createSchema();
   */
-  await generator.updateSchema();
+  await generator.updateSchema()
 };

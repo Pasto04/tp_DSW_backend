@@ -35,10 +35,7 @@ async function findOne(req:Request,res:Response) {
   try{
     const nroPed = Number.parseInt(req.params.nroPed)
     const pedido = await em.findOneOrFail(Pedido, {nroPed}, {populate: ['pago'], failHandler: () => {throw new PedidoNotFoundError}})
-    const pago = pedido.pago as Pago
-    if(!pago){
-      throw new PagoNotFoundError
-    }
+    const pago = await em.findOneOrFail(Pago, {pedido}, {failHandler: () => {throw new PagoNotFoundError}})
     res.status(200).json({message: `Pago del pedido ${pedido.nroPed} encontrado`, data: pago})
   } catch (error:any){
     handleErrors(error, res)

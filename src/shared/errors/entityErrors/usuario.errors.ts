@@ -1,4 +1,4 @@
-import { NotFoundError } from "@mikro-orm/core";
+import { NotFoundError } from "@mikro-orm/core"
 
 export class UsuarioNotFoundError extends NotFoundError {
   type: string

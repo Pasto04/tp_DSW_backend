@@ -1,31 +1,22 @@
-import { NextFunction, Request, Response } from 'express';
-import { orm } from '../../shared/db/orm.js';
-import { Pedido } from '../../pedido/pedido.entity.js';
-import { PlatoPedido } from './platoPedido.entity.js';
-import { Plato } from '../plato.entity.js';
-import {
-  validarPlatoPedido,
-  validarPlatoPedidoToPatch,
-} from './platoPedido.schema.js';
-import {
-  PedidoAlreadyEndedError,
-  PedidoNotFoundError,
-} from '../../shared/errors/entityErrors/pedido.errors.js';
-import { PlatoNotFoundError } from '../../shared/errors/entityErrors/plato.errors.js';
-import {
-  PlatoPedidoAlreadyDeliveredError,
-  PlatoPedidoNotEnoughIngredientsError,
-  PlatoPedidoNotFoundError,
-} from '../../shared/errors/entityErrors/platoPedido.errors.js';
-import { handleErrors } from '../../shared/errors/errorHandler.js';
-import { validarFindAll } from '../../shared/validarFindAll.js';
-import { Ingrediente } from '../../ingrediente/ingrediente.entity.js';
-import { IngredienteNotFoundError } from '../../shared/errors/entityErrors/ingrediente.errors.js';
-import { validarIngrediente } from '../../ingrediente/ingrediente.schema.js';
-import { ElaboracionPlato } from '../elaboracionPlato/elaboracionPlato.entity.js';
-import { ElaboracionPlatoNotFoundError } from '../../shared/errors/entityErrors/elaboracionPlato.errors.js';
+import { NextFunction, Request, Response } from 'express'
+import { orm } from '../../shared/db/orm.js'
+import { Pedido } from '../../pedido/pedido.entity.js'
+import { PlatoPedido } from './platoPedido.entity.js'
+import { Plato } from '../plato.entity.js'
+import { validarPlatoPedido, validarPlatoPedidoToPatch} from './platoPedido.schema.js'
+import { PedidoAlreadyEndedError, PedidoNotFoundError} from '../../shared/errors/entityErrors/pedido.errors.js'
+import { PlatoNotFoundError } from '../../shared/errors/entityErrors/plato.errors.js'
+import { PlatoPedidoAlreadyDeliveredError, PlatoPedidoNotEnoughIngredientsError, PlatoPedidoNotFoundError} from 
+'../../shared/errors/entityErrors/platoPedido.errors.js'
+import { handleErrors } from '../../shared/errors/errorHandler.js'
+import { validarFindAll } from '../../shared/validarFindAll.js'
+import { Ingrediente } from '../../ingrediente/ingrediente.entity.js'
+import { IngredienteNotFoundError } from '../../shared/errors/entityErrors/ingrediente.errors.js'
+import { validarIngrediente } from '../../ingrediente/ingrediente.schema.js'
+import { ElaboracionPlato } from '../elaboracionPlato/elaboracionPlato.entity.js'
+import { ElaboracionPlatoNotFoundError } from '../../shared/errors/entityErrors/elaboracionPlato.errors.js'
 
-const em = orm.em;
+const em = orm.em
 
 function sanitizePlatoPedido(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedInput = {
@@ -47,7 +38,7 @@ async function findAll(req: Request, res: Response) {
     res.status(200).json({message: `Platos del pedido ${pedido.nroPed} encontrados con éxito`, data: platoPedido})
 
   } catch(error: any){
-    handleErrors(error, res);
+    handleErrors(error, res)
   }
 }
 
@@ -63,19 +54,19 @@ async function findOne(req: Request, res: Response){
     res.status(200).json({message: `El plato ${plato.descripcion} del pedido ${pedido.nroPed} ha sido encontrado con éxito`, data: platoPedido})
 
   } catch(error: any){
-    handleErrors(error, res);
+    handleErrors(error, res)
   }
 }
 
 function isAlreadyDelivered(platoPedido: PlatoPedido): void {
   if (platoPedido.entregado === true) {
-    throw new PlatoPedidoAlreadyDeliveredError();
+    throw new PlatoPedidoAlreadyDeliveredError()
   }
 }
 
 function alreadyEnded(pedido: Pedido): void {
   if (pedido.estado !== 'en curso') {
-    throw new PedidoAlreadyEndedError();
+    throw new PedidoAlreadyEndedError()
   }
 }
 
@@ -83,7 +74,7 @@ async function enoughIngredientes(plato: Plato, cantidad: number) {
   // Validamos que haya stock de ingredientes para preparar el plato solicitado
   plato.elaboracionesPlato.getItems().forEach((elaboracion) => {
     if (elaboracion.ingrediente.stock < elaboracion.cantidadNecesaria * cantidad) {
-      throw new PlatoPedidoNotEnoughIngredientsError();
+      throw new PlatoPedidoNotEnoughIngredientsError()
     }
   });
 }
@@ -94,7 +85,7 @@ async function adjustIngredientes(plato: Plato, cantidad: number) {
     const codigo = elaboracion.ingrediente.codigo;
     const ingre = await em.findOneOrFail(Ingrediente, { codigo }, { failHandler: () => {throw new IngredienteNotFoundError()} })
     ingre.stock -= elaboracion.cantidadNecesaria * cantidad;
-    await em.persistAndFlush(ingre);
+    await em.persistAndFlush(ingre)
   });
 }
 
@@ -105,19 +96,19 @@ async function add(req: Request, res: Response) {
     const numPlato = req.body.sanitizedInput.plato;
     req.body.sanitizedInput.plato = await em.findOneOrFail(Plato, { numPlato }, { populate: ['elaboracionesPlato.ingrediente'], failHandler: () => {throw new PlatoNotFoundError()} })
     alreadyEnded(req.body.sanitizedInput.pedido); //Validamos que el pedido al que queremos agregar el plato no haya finalizado.
-    const platoPedidoValido = validarPlatoPedido(req.body.sanitizedInput);
+    const platoPedidoValido = validarPlatoPedido(req.body.sanitizedInput)
 
-    enoughIngredientes(platoPedidoValido.plato, platoPedidoValido.cantidad); // Validamos que haya stock de ingredientes para preparar el plato solicitado
+    enoughIngredientes(platoPedidoValido.plato, platoPedidoValido.cantidad) // Validamos que haya stock de ingredientes para preparar el plato solicitado
 
-    adjustIngredientes(platoPedidoValido.plato, platoPedidoValido.cantidad); // Ajustamos el stock de los ingredientes.
+    adjustIngredientes(platoPedidoValido.plato, platoPedidoValido.cantidad) // Ajustamos el stock de los ingredientes.
 
-    const platoPedido = em.create(PlatoPedido, platoPedidoValido);
-    em.persist(platoPedido);
-    await em.flush();
+    const platoPedido = em.create(PlatoPedido, platoPedidoValido)
+    em.persist(platoPedido)
+    await em.flush()
     res.status(201).json({message: `El plato [${platoPedido.plato.descripcion}] ha sido agregado al pedido [${platoPedido.pedido.nroPed}] con éxito`, data: platoPedido})
   
   } catch (error: any) {
-    handleErrors(error, res);
+    handleErrors(error, res)
   }
 }
 
@@ -141,7 +132,7 @@ async function update(req: Request, res: Response) {
     res.status(200).json({message: `El plato [${platoPed.plato.descripcion}] ha sido entregado con éxito`, data: platoPed})
 
   } catch (error: any) {
-    handleErrors(error, res);
+    handleErrors(error, res)
   }
 }
 
@@ -151,7 +142,7 @@ async function returnIngredientes(plato: Plato, cantidad: number) {
     const codigo = elaboracion.ingrediente.codigo
     const ingre = await em.findOneOrFail(Ingrediente, { codigo }, { failHandler: () => { throw new IngredienteNotFoundError() } })
     ingre.stock += elaboracion.cantidadNecesaria * cantidad;
-    await em.persistAndFlush(ingre);
+    await em.persistAndFlush(ingre)
   });
 }
 

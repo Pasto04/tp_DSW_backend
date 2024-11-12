@@ -1,6 +1,6 @@
-import z from 'zod';
-import { Pedido } from '../../pedido/pedido.entity.js';
-import { Plato } from '../plato.entity.js';
+import z from 'zod'
+import { Pedido } from '../../pedido/pedido.entity.js'
+import { Plato } from '../plato.entity.js'
 
 const platoPedidoSchema = z.object({
   pedido: z.instanceof(Pedido),
@@ -18,7 +18,7 @@ const platoPedidoSchema = z.object({
     .positive({
       message: 'La cantidad de platos debe ser un número entero positivo',
     }),
-});
+})
 
 const platoPedidoToPatchSchema = z.object({
   pedido: z.instanceof(Pedido),
@@ -31,22 +31,22 @@ const platoPedidoToPatchSchema = z.object({
     .time({
       message: 'La hora de solicitud del plato debe tener el formato HH:MM:SS',
     }),
-});
+})
 
 function validarPlatoPedido(object: any) {
   try {
-    return platoPedidoSchema.parse(object);
+    return platoPedidoSchema.parse(object)
   } catch (error: any) {
-    throw error;
+    throw error
   }
 }
 
 function validarPlatoPedidoToPatch(object: any) {
   try {
-    return platoPedidoToPatchSchema.parse(object);
+    return platoPedidoToPatchSchema.parse(object)
   } catch (error: any) {
-    throw error;
+    throw error
   }
 }
 
-export { validarPlatoPedido, validarPlatoPedidoToPatch };
+export { validarPlatoPedido, validarPlatoPedidoToPatch }

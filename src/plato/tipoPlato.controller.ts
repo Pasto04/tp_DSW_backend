@@ -3,7 +3,8 @@ import { TipoPlato } from './tipoPlato.entity.js'
 import { orm } from '../shared/db/orm.js'
 import { validarTipoPlato } from './tipoPlato.schema.js'
 import { handleErrors } from '../shared/errors/errorHandler.js'
-import { TipoPlatoAlreadyInUseError, TipoPlatoNotFoundError, TipoPlatoUniqueConstraintViolation } from '../shared/errors/entityErrors/tipoPlato.errors.js'
+import { TipoPlatoAlreadyInUseError, TipoPlatoNotFoundError, TipoPlatoUniqueConstraintViolation } from 
+'../shared/errors/entityErrors/tipoPlato.errors.js'
 import { validarFindAll } from '../shared/validarFindAll.js'
 import { Plato } from './plato.entity.js'
 

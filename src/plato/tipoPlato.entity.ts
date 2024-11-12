@@ -1,6 +1,6 @@
-import { Entity, Property, OneToMany, Collection, Cascade } from "@mikro-orm/core";
-import { BaseClass1 } from "../shared/db/baseEntity.entity.js";
-import { Plato } from "../plato/plato.entity.js";
+import { Entity, Property, OneToMany, Collection, Cascade } from "@mikro-orm/core"
+import { BaseClass1 } from "../shared/db/baseEntity.entity.js"
+import { Plato } from "../plato/plato.entity.js"
 
 @Entity()
 export class TipoPlato extends BaseClass1{

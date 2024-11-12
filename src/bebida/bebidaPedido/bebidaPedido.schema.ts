@@ -1,6 +1,6 @@
-import z from 'zod';
-import { Bebida } from '../bebida.entity.js';
-import { Pedido } from '../../pedido/pedido.entity.js';
+import z from 'zod'
+import { Bebida } from '../bebida.entity.js'
+import { Pedido } from '../../pedido/pedido.entity.js'
 
 const bebidaPedidoSchema = z.object({
   bebida: z.instanceof(Bebida),
@@ -41,7 +41,7 @@ const bebidaPedidoToPatchSchema = z.object({
 
 function validarBebidaPedido(object: any) {
   try {
-    return bebidaPedidoSchema.parse(object);
+    return bebidaPedidoSchema.parse(object)
   } catch (error: any) {
     throw error;
   }
@@ -49,10 +49,10 @@ function validarBebidaPedido(object: any) {
 
 function validarBebidaPedidoToPatch(object: any) {
   try {
-    return bebidaPedidoToPatchSchema.parse(object);
+    return bebidaPedidoToPatchSchema.parse(object)
   } catch (error: any) {
     throw error;
   }
 }
 
-export { validarBebidaPedido, validarBebidaPedidoToPatch };
+export { validarBebidaPedido, validarBebidaPedidoToPatch }

@@ -1,4 +1,4 @@
-import { NotFoundError } from "@mikro-orm/core";
+import { NotFoundError } from "@mikro-orm/core"
 
 export class PagoNotFoundError extends NotFoundError {
   type: string

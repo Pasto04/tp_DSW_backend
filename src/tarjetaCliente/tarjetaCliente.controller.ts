@@ -5,8 +5,10 @@ import { TarjetaCliente } from "./tarjetaCliente.entity.js"
 import { validarTarjetaCliente } from "./tarjetaCliente.schema.js"
 import { handleErrors } from "../shared/errors/errorHandler.js"
 import { validarFindAll } from "../shared/validarFindAll.js"
-import { TarjetaClienteNotFoundError, TarjetaClientePreconditionFailed, TarjetaClienteUniqueConstraintViolation } from "../shared/errors/entityErrors/tarjetaCliente.errors.js"
-import { UsuarioIsNotAllowedError, UsuarioNotFoundError, UsuarioUnauthorizedError } from "../shared/errors/entityErrors/usuario.errors.js"
+import { TarjetaClienteNotFoundError, TarjetaClientePreconditionFailed, TarjetaClienteUniqueConstraintViolation } from 
+"../shared/errors/entityErrors/tarjetaCliente.errors.js"
+import { UsuarioIsNotAllowedError, UsuarioNotFoundError, UsuarioUnauthorizedError } from 
+"../shared/errors/entityErrors/usuario.errors.js"
 import { Tarjeta } from "./tarjeta.entity.js"
 import { TarjetaNotFoundError } from "../shared/errors/entityErrors/tarjeta.errors.js"
 

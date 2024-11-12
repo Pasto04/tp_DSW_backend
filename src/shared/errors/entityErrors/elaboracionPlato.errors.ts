@@ -1,4 +1,4 @@
-import { NotFoundError } from "@mikro-orm/core";
+import { NotFoundError } from "@mikro-orm/core"
 
 export class ElaboracionPlatoNotFoundError extends NotFoundError {
   type: string
@@ -16,6 +16,6 @@ export class ElaboracionPlatoNotFoundError extends NotFoundError {
       message = params
     }
     super(message);
-    this.type = 'ElaboracionPlatoNotFoundError';
+    this.type = 'ElaboracionPlatoNotFoundError'
   }
 }

@@ -1,14 +1,14 @@
-import z from 'zod';
-import { BebidaUnidadMedidaTypeError } from '../shared/errors/entityErrors/bebida.errors.js';
+import z from 'zod'
+import { BebidaUnidadMedidaTypeError } from '../shared/errors/entityErrors/bebida.errors.js'
 
-const unidadesMedida = ['litros', 'mililitros'];
+const unidadesMedida = ['litros', 'mililitros']
 
 const isIn = z
   .function()
   .args(z.string(), z.array(z.string()))
   .implement((a, b) => {
     if (b.find((e) => e.toLowerCase() === a.toLowerCase())) {
-      return true;
+      return true
     }
   });
 
@@ -69,7 +69,7 @@ const bebidaSchema = z.object({
     .url({ message: 'La imagen debe ser una URL válida' })
     .optional()
     .nullable(),
-});
+})
 
 const bebidaToPatchSchema = z.object({
   descripcion: z
@@ -123,18 +123,18 @@ const bebidaToPatchSchema = z.object({
     .url({ message: 'La imagen debe ser una URL válida' })
     .optional()
     .nullable(),
-});
+})
 
 function validarBebida(object: any) {
   try {
-    const result = isIn(object.unidadMedida, unidadesMedida);
+    const result = isIn(object.unidadMedida, unidadesMedida)
     if (result) {
-      return bebidaSchema.parse(object);
+      return bebidaSchema.parse(object)
     } else {
-      throw new BebidaUnidadMedidaTypeError();
+      throw new BebidaUnidadMedidaTypeError()
     }
   } catch (error: any) {
-    throw error;
+    throw error
   }
 }
 
@@ -143,18 +143,18 @@ function validarBebidaPatch(object: any) {
     if (object.unidadMedida) {
       const result = isIn(object.unidadMedida, unidadesMedida);
       if (!result) {
-        throw new BebidaUnidadMedidaTypeError();
+        throw new BebidaUnidadMedidaTypeError()
       } else {
-        return bebidaToPatchSchema.parse(object);
+        return bebidaToPatchSchema.parse(object)
       }
     } else {
-      return bebidaToPatchSchema.parse(object);
+      return bebidaToPatchSchema.parse(object)
     }
   } catch (error: any) {
-    throw error;
+    throw error
   }
 }
 
-export { validarBebida, validarBebidaPatch };
+export { validarBebida, validarBebidaPatch }
 
 /* , {message: 'La unidad de medida de la bebida debe ser "l" (litros) o "ml" (mililitros'} */

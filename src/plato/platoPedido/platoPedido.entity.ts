@@ -1,6 +1,6 @@
-import { BeforeCreate, DateType, Entity, Index, ManyToOne, PrimaryKeyType, Property, Rel, TimeType } from "@mikro-orm/core";
-import { Pedido } from "../../pedido/pedido.entity.js";
-import { Plato } from "../plato.entity.js";
+import { BeforeCreate, DateType, Entity, Index, ManyToOne, PrimaryKeyType, Property, Rel, TimeType } from "@mikro-orm/core"
+import { Pedido } from "../../pedido/pedido.entity.js"
+import { Plato } from "../plato.entity.js"
 
 @Index({properties: ['pedido', 'plato', 'fechaSolicitud', 'horaSolicitud']})
 @Entity()

@@ -1,5 +1,5 @@
-import { Router } from "express";
-import { add, findAll, findOne, remove, update } from "./proveedor.controller.js";
+import { Router } from "express"
+import { add, findAll, findOne, remove, update } from "./proveedor.controller.js"
 
 
 export const proveedorRouter = Router()

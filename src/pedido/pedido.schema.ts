@@ -1,11 +1,11 @@
-import z from 'zod';
-import { Usuario } from '../usuario/usuario.entity.js';
-import { Mesa } from '../mesa/mesa.entity.js';
-import { PlatoPedido } from '../plato/platoPedido/platoPedido.entity.js';
-import { BebidaPedido } from '../bebida/bebidaPedido/bebidaPedido.entity.js';
-import { Pago } from './pago/pago.entity.js';
-import { Plato } from '../plato/plato.entity.js';
-import { orm } from '../shared/db/orm.js';
+import z from 'zod'
+import { Usuario } from '../usuario/usuario.entity.js'
+import { Mesa } from '../mesa/mesa.entity.js'
+import { PlatoPedido } from '../plato/platoPedido/platoPedido.entity.js'
+import { BebidaPedido } from '../bebida/bebidaPedido/bebidaPedido.entity.js'
+import { Pago } from './pago/pago.entity.js'
+import { Plato } from '../plato/plato.entity.js'
+import { orm } from '../shared/db/orm.js'
 
 const pedidoSchema = z.object({
   nroPed: z.number().int().positive().optional(),
@@ -19,7 +19,7 @@ const pedidoSchema = z.object({
   hora: z.string().time().optional(),
   cliente: z.instanceof(Usuario),
   mesa: z.instanceof(Mesa),
-});
+})
 
 const pedidoToCancelSchema = z.object({
   estado: z
@@ -30,7 +30,7 @@ const pedidoToCancelSchema = z.object({
     .optional(),
   fechaCancelacion: z.string().date().optional(),
   horaCancelacion: z.string().time().optional(),
-});
+})
 
 const pedidoToEndSchema = z.object({
   nroPed: z.number().int().positive().optional(),
@@ -42,30 +42,30 @@ const pedidoToEndSchema = z.object({
   platosPedido: z.array(z.instanceof(PlatoPedido)),
   bebidasPedido: z.array(z.instanceof(BebidaPedido)),
   pago: z.instanceof(Pago),
-});
+})
 
 function validarPedido(object: any) {
   try {
-    return pedidoSchema.parse(object);
+    return pedidoSchema.parse(object)
   } catch (error: any) {
-    throw error;
+    throw error
   }
 }
 
 function validarPedidoCancelar(object: any) {
   try {
-    return pedidoToCancelSchema.parse(object);
+    return pedidoToCancelSchema.parse(object)
   } catch (error: any) {
-    throw error;
+    throw error
   }
 }
 
 function validarPedidoFinalizar(object: any) {
   try {
-    return pedidoToEndSchema.parse(object);
+    return pedidoToEndSchema.parse(object)
   } catch (error: any) {
-    throw error;
+    throw error
   }
 }
 
-export { validarPedido, validarPedidoCancelar, validarPedidoFinalizar };
+export { validarPedido, validarPedidoCancelar, validarPedidoFinalizar }

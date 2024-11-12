@@ -1,5 +1,5 @@
-import { Router } from "express";
-import { add, findOne, remove, sanitizeIngredienteDeProveedor, /*update*/ } from "./ingredienteDeProveedor.controller.js";
+import { Router } from "express"
+import { add, findOne, remove, sanitizeIngredienteDeProveedor, /*update*/ } from "./ingredienteDeProveedor.controller.js"
 
 
 export const ingredienteDeProveedorRouter = Router()

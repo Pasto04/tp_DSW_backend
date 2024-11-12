@@ -1,5 +1,5 @@
-import { Router } from "express";
-import { sanitizePagoInput, findOne, add, remove } from "./pago.controller.js";
+import { Router } from "express"
+import { sanitizePagoInput, findOne, add, remove } from "./pago.controller.js"
 
 export const PedidoPagoRouter = Router()
 

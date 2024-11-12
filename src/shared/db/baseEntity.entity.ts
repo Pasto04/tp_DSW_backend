@@ -1,4 +1,4 @@
-import { PrimaryKey, DateTimeType } from "@mikro-orm/core";
+import { PrimaryKey, DateTimeType } from "@mikro-orm/core"
 
 export abstract class BaseClass {
   

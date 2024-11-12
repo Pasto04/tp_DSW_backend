@@ -1,5 +1,5 @@
-import { Entity, Property, OneToOne, Rel, PrimaryKeyType, DateTimeType } from "@mikro-orm/core";
-import { Pedido } from "./pedido.entity.js";
+import { Entity, Property, OneToOne, Rel, PrimaryKeyType, DateTimeType } from "@mikro-orm/core"
+import { Pedido } from "./pedido.entity.js"
 
 @Entity()
 export class Resena {

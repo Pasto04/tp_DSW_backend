@@ -1,4 +1,5 @@
-import { Entity, Property, Rel, ManyToOne, OneToOne, Index, PrimaryKeyType, BeforeCreate, DateType, TimeType, FloatType } from '@mikro-orm/core'
+import { Entity, Property, Rel, ManyToOne, OneToOne, Index, PrimaryKeyType, BeforeCreate, DateType, TimeType, FloatType } from 
+'@mikro-orm/core'
 import { Pedido } from '../pedido.entity.js'
 import { TarjetaCliente } from '../../tarjetaCliente/tarjetaCliente.entity.js'
 

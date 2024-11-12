@@ -1,7 +1,7 @@
-import { Entity, Property, Collection, Cascade, ManyToOne, Rel, OneToMany } from "@mikro-orm/core";
+import { Entity, Property, Collection, Cascade, ManyToOne, Rel, OneToMany } from "@mikro-orm/core"
 import { BaseClass2 } from '../shared/db/baseEntity.entity.js'
-import { Pedido } from "../pedido/pedido.entity.js";
-import { TarjetaCliente } from "../tarjetaCliente/tarjetaCliente.entity.js";
+import { Pedido } from "../pedido/pedido.entity.js"
+import { TarjetaCliente } from "../tarjetaCliente/tarjetaCliente.entity.js"
 @Entity()
 export class Usuario extends BaseClass2{
 
