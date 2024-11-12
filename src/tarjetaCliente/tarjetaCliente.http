@@ -33,7 +33,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:3000/api/clientes/28/tarjetas
+POST http://localhost:3000/api/clientes/8/tarjetas
 Content-Type: application/json
 
 {

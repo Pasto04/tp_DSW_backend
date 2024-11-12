@@ -1,6 +1,6 @@
 ### Solicita TODOS los pedidos
 
-GET http://localhost:3000/api/clientes/21/pedidos
+GET http://localhost:3000/api/clientes/8/pedidos
 
 ### Solicita un ÚNICO pedido
 
@@ -69,7 +69,7 @@ Content-Type: application/json
 
 ###Finaliza un pedido y genera el pago.
 
-PUT http://localhost:3000/api/clientes/pedidos/1
+PUT http://localhost:3000/api/clientes/pedidos/34
 Content-Type: application/json
 
 {

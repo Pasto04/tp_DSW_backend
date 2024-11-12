@@ -133,8 +133,8 @@ async function fillSanitizedInput(pedido: Pedido, req: Request) {
   req.body.sanitizedInput.platosPedido = platosPedido
   req.body.sanitizedInput.bebidasPedido = bebidasPedido*/
 
-  //req.body.sanitizedInput.platosPedido = pedido.platosPedido.getItems()
-  //req.body.sanitizedInput.bebidasPedido = pedido.bebidasPedido.getItems()
+  req.body.sanitizedInput.platosPedido = pedido.platosPedido.getItems()
+  req.body.sanitizedInput.bebidasPedido = pedido.bebidasPedido.getItems()
 }
 
 // Permite finalizar el pedido, se debe usar PUT.
