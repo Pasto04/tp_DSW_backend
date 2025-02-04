@@ -9,6 +9,6 @@ export const pedidoResenaRouter = Router()
 
 pedidoResenaRouter.get('/:nroPed/resena', findOne)
 pedidoResenaRouter.post('/:nroPed/resena', sanitizeResena, add)
-pedidoResenaRouter.put('/:nroPed/resena', sanitizeResena, update)
-pedidoResenaRouter.patch('/:nroPed/resena', sanitizeResena, update)
+pedidoResenaRouter.put('/:nroPed/resena', sanitizeResena, update) // Funciona correctamente
+//pedidoResenaRouter.patch('/:nroPed/resena', sanitizeResena, update) PATCH tiene problemas debido a que el atributo "puntaje" es requerido (por resolver)
 pedidoResenaRouter.delete('/:nroPed/resena', remove)

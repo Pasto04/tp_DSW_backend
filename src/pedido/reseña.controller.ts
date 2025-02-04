@@ -5,7 +5,7 @@ import { orm } from '../shared/db/orm.js'
 import { handleErrors } from '../shared/errors/errorHandler.js'
 import { PedidoNotFoundError } from '../shared/errors/entityErrors/pedido.errors.js'
 import { validarResena, validarResenaPatch } from './reseña.schema.js'
-import { ResenaNotFoundError } from '../shared/errors/entityErrors/reseña.errors.js'
+import { ResenaAlreadyExists, ResenaAPedidoNoFinalizado, ResenaNotFoundError } from '../shared/errors/entityErrors/reseña.errors.js'
 import { validarFindAll } from '../shared/validarFindAll.js'
 
 
@@ -14,8 +14,6 @@ const em = orm.em
 function sanitizeResena(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedInput = {
     pedido: req.params.nroPed,
-    fechaResena: req.body.fechaResena,
-    fechaModificacion: req.body.fechaModificacion,
     cuerpo: req.body.cuerpo,
     puntaje: req.body.puntaje
   }
@@ -52,8 +50,32 @@ async function add(req:Request, res:Response) {
     const nroPed = Number.parseInt(req.params.nroPed)
     const pedido = await em.findOneOrFail(Pedido, { nroPed }, {failHandler: () => {throw new PedidoNotFoundError}})
     req.body.sanitizedInput.pedido = pedido
-    const resenaValida = validarResena(req.body.sanitizedInput)
-    const resena = em.create(Resena, resenaValida)
+    //Validamos que el pedido haya finalizado
+    if(pedido.estado !== 'finalizado') {
+      throw new ResenaAPedidoNoFinalizado()
+    }
+    //Validamos que el pedido haya finalizado
+
+    //Validamos que el pedido no cuente ya con una reseña
+    const resenaExistente = await em.findOne(Resena, { pedido })
+    if(resenaExistente !== null) {
+      throw new ResenaAlreadyExists()
+    }
+    //Validamos que el pedido no cuente ya con una reseña
+
+    const fecha = new Date()
+
+    /* No logramos que ZOD reconozca el tipo Date, por lo que la entidad "resena" a ser creada no pasa por esta validación
+    req.body.sanitizedInput.fechaHoraResena = fecha.toISOString()
+    req.body.sanitizedInput.fechaHoraModificacion = fecha.toISOString()
+    */
+
+    validarResena(req.body.sanitizedInput)
+
+    req.body.sanitizedInput.fechaHoraResena = fecha
+    req.body.sanitizedInput.fechaHoraModificacion = fecha
+
+    const resena = em.create(Resena, req.body.sanitizedInput)
     await em.flush(),
     res.status(201).json({data: resena})
   } catch(error: any){
@@ -67,13 +89,18 @@ async function update(req:Request, res:Response) {
     const pedido = await em.findOneOrFail(Pedido, { nroPed }, {failHandler: () => {throw new PedidoNotFoundError}})
     req.body.sanitizedInput.pedido = pedido
     const resena = await em.findOneOrFail(Resena, { pedido }, {failHandler: () => {throw new ResenaNotFoundError}})
+
+    req.body.sanitizedInput.fechaHoraModificacion = new Date()
+
     let resenaUpdated
     if(req.method === 'PATCH'){
       resenaUpdated = validarResenaPatch(req.body.sanitizedInput)
     } else {
       resenaUpdated = validarResena(req.body.sanitizedInput)
     }
-    em.assign(resena, resenaUpdated)
+    console.log('Buenass')
+    em.assign(resena, req.body.sanitizedInput)
+    console.log('Buenass')
     await em.flush()
     res.status(200).json({message: `La reseña del pedido ${nroPed} fue actualizada con éxito`, data: resena})
   } catch(error: any){

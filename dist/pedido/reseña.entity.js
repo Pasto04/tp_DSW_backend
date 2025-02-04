@@ -16,11 +16,11 @@ __decorate([
     __metadata("design:type", Object)
 ], Resena.prototype, "pedido", void 0);
 __decorate([
-    Property({ nullable: false, type: DateTimeType, onCreate: () => new Date() }),
+    Property({ nullable: false, type: DateTimeType }),
     __metadata("design:type", Date)
 ], Resena.prototype, "fechaHoraResena", void 0);
 __decorate([
-    Property({ type: DateTimeType, onUpdate: () => new Date() }),
+    Property({ type: DateTimeType }),
     __metadata("design:type", Date)
 ], Resena.prototype, "fechaHoraModificacion", void 0);
 __decorate([

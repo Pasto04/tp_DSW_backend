@@ -7,10 +7,10 @@ export class Resena {
   @OneToOne(() => Pedido, {primary: true})
   pedido!: Rel<Pedido>
 
-  @Property({nullable: false, type: DateTimeType, onCreate: () => new Date()})
-  fechaHoraResena!: Date
+  @Property({nullable: false, type: DateTimeType})
+  fechaHoraResena?: Date
 
-  @Property({type: DateTimeType, onUpdate: () => new Date()})
+  @Property({type: DateTimeType})
   fechaHoraModificacion?: Date
 
   @Property({nullable: false})

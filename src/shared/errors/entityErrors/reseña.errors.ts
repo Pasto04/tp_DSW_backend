@@ -27,3 +27,19 @@ export class ResenaPreconditionFailed extends Error {
     this.type = 'ResenaPreconditionFailed'
   }
 }
+
+export class ResenaAPedidoNoFinalizado extends Error {
+  type: string
+  constructor(message: string = 'No se puede crear una reseña si el pedido no ha finalizado') {
+    super(message);
+    this.type = 'ResenaPreconditionFailed'
+  }
+}
+
+export class ResenaAlreadyExists extends Error {
+  type: string
+  constructor(message: string = 'Ya existe una reseña para ese pedido') {
+    super(message);
+    this.type = 'ResenaAlreadyExists'
+  }
+}
