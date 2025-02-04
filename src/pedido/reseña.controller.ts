@@ -98,9 +98,7 @@ async function update(req:Request, res:Response) {
     } else {
       resenaUpdated = validarResena(req.body.sanitizedInput)
     }
-    console.log('Buenass')
     em.assign(resena, req.body.sanitizedInput)
-    console.log('Buenass')
     await em.flush()
     res.status(200).json({message: `La reseña del pedido ${nroPed} fue actualizada con éxito`, data: resena})
   } catch(error: any){
