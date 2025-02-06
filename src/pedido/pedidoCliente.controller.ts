@@ -177,11 +177,15 @@ async function cancel(req: Request, res: Response) {
     const pedidoToUpdate = await em.findOneOrFail(Pedido, { nroPed }, { populate: ['platosPedido', 'bebidasPedido', 'cliente'],
         failHandler: () => {throw new PedidoNotFoundError()} })
 
-    const pedidoUpdated = validarPedidoCancelar(req.body.sanitizedInput)
+    validarPedidoCancelar(req.body.sanitizedInput)
     if (pedidoToUpdate.estado === 'finalizado' || pedidoToUpdate.estado === 'cancelado') {
       throw new PedidoAlreadyEndedError()
     } else if (pedidoToUpdate.platosPedido.length > 0 || pedidoToUpdate.bebidasPedido.length > 0) {
-      throw new PedidoAlreadyInUseError()
+      pedidoToUpdate.platosPedido.getItems().forEach((platoPedido) => {
+        if (platoPedido.entregado) {
+          throw new PedidoAlreadyInUseError()
+        }
+      })
     }
 
     pedidoToUpdate.establecerFechaYHoraCancelacion()
@@ -190,7 +194,7 @@ async function cancel(req: Request, res: Response) {
     newMesa.estado = 'Disponible'
     em.assign(pedidoToUpdate.mesa, newMesa)
 
-    em.assign(pedidoToUpdate, pedidoUpdated)
+    em.assign(pedidoToUpdate, req.body.sanitizedInput)
     await em.flush()
     res.status(200).json({
       message: `Pedido ${nroPed} del cliente ${pedidoToUpdate.cliente.nombre} ${pedidoToUpdate.cliente.apellido} ha sido actualizado`,
