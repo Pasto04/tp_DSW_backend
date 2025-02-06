@@ -122,8 +122,8 @@ async function update(req: Request, res: Response) {
     req.body.sanitizedInput.plato = await em.findOneOrFail(Plato, { numPlato }, { failHandler: () => {throw new PlatoNotFoundError()} })
     const nroPed = Number.parseInt(req.params.nroPed)
     req.body.sanitizedInput.pedido = await em.findOneOrFail(Pedido, { nroPed }, { populate: ['cliente'], failHandler: () => { throw new PedidoNotFoundError() } })
-    const platoPedValido = validarPlatoPedidoToPatch(req.body.sanitizedInput)
-    const platoPed = await em.findOneOrFail(PlatoPedido, platoPedValido, { failHandler: () => { throw new PlatoPedidoNotFoundError() } })
+    validarPlatoPedidoToPatch(req.body.sanitizedInput)
+    const platoPed = await em.findOneOrFail(PlatoPedido, req.body.sanitizedInput, { failHandler: () => { throw new PlatoPedidoNotFoundError() } })
     isAlreadyDelivered(platoPed) //Validamos que el plato no haya sido entregado
     platoPed.establecerFechaYHoraEntrega()
     req.body.sanitizedInput.entregado = true
