@@ -41,7 +41,7 @@ function sanitizeQuery(req: Request) {
     aptoCeliacos: req.query.aptoCeliacos,
     aptoVegetarianos: req.query.aptoVegetarianos,
     aptoVeganos: req.query.aptoVeganos,
-  };
+  }
   for (let keys of Object.keys(queryResult)) {
     if (queryResult[keys] === undefined) {
       delete queryResult[keys]
@@ -56,7 +56,6 @@ function sanitizeQuery(req: Request) {
   return queryResult
 }
 
-//Incorporar manejo del req.query para filtrar por tipo de plato, ingrediente, aptoPara[x], etc.
 async function findAll(req: Request, res: Response) {
   try {
     const sanitizedQuery = sanitizeQuery(req)
