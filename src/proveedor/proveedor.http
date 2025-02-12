@@ -22,6 +22,21 @@ Content-Type: application/json
   "email": "contactHunkel@gmail.com"
 }
 
+### Crear un nuevo proveedor
+POST http://localhost:3000/api/proveedores
+Content-Type: application/json
+
+{
+  "cuit": "20452157393",
+  "razonSocial": "Judgement",
+  "direccion": "Invisible Street 123",
+  "ciudad": "Academic City",
+  "provincia": "Neverland",
+  "pais": "Neverland",
+  "telefono": "81 72 75849123",
+  "email": "skuroko@gmail.com"
+}
+
 ### Crea un nuevo proveedor
 
 POST http://localhost:3000/api/proveedores
@@ -38,6 +53,22 @@ Content-Type: application/json
   "email": "contactTheitus@gmail.com"
 }
 
+### Crea un nuevo proveedor
+
+POST http://localhost:3000/api/proveedores
+Content-Type: application/json
+
+{
+  "cuit": "71452157207",
+  "razonSocial": "PruebaErrorEliminar S.A.",
+  "direccion": "Italia 731",
+  "ciudad": "Venado Tuerto",
+  "provincia": "Santa Fe",
+  "pais": "Argentina",
+  "telefono": "+54 9 3462 526624",
+  "email": "contactTheituss@gmail.com"
+}
+
 ### Crea un nuevo proveedor (CON ERRORES)
 
 POST http://localhost:3000/api/proveedores
@@ -45,7 +76,7 @@ Content-Type: application/json
 
 {
   "cuit": "71452157982",
-  "razonSocial": "Termos San Telmo",
+  "razonSocial": "DeleteMe S.A.",
   "direccion": "Italia 738",
   "ciudad": "Venado Tuerto",
   "provincia": "Santa Fe",
@@ -91,4 +122,4 @@ Content-Type: application/json
 
 ### Elimina un proveedor
 
-DELETE http://localhost:3000/api/proveedores/3
+DELETE http://localhost:3000/api/proveedores/4
