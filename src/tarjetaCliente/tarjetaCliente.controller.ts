@@ -96,6 +96,7 @@ async function update(req:Request,res:Response) {
     const id = Number.parseInt(req.params.id)
     const cliente = await em.findOneOrFail(Usuario, {id})
     const tarjetaCliente = await em.findOneOrFail(TarjetaCliente, {idTarjeta, cliente})
+    validarTarjetaCliente(req.body.sanitizedInput)
     em.assign(tarjetaCliente, req.body.sanitizedInput)
     await em.flush()
     res.status(200).json({message: 'La tarjeta ha sido actualizada exitosamente', data: tarjetaCliente})
