@@ -71,4 +71,5 @@ await syncSchema();
 app.listen(port, () => {
     console.log(`Server running in: http://localhost:${port}/`);
 });
+export { app };
 //# sourceMappingURL=app.js.map
