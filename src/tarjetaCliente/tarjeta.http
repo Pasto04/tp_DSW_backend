@@ -3,7 +3,7 @@ GET http://localhost:3000/api/tarjetas
 
 ###
 
-GET http://localhost:3000/api/tarjetas/1
+GET http://localhost:3000/api/tarjetas/1000
 
 ###
 
@@ -44,5 +44,5 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3000/api/tarjetas/1
+DELETE http://localhost:3000/api/tarjetas/10000
 

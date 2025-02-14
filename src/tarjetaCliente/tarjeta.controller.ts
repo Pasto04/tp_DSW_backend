@@ -25,7 +25,7 @@ async function findAll(req: Request, res: Response) {
 async function findOne(req: Request, res: Response) {
   try {
     const idTarjeta = Number.parseInt(req.params.idTarjeta)
-    const tarjeta = await em.findOneOrFail(Tarjeta, { idTarjeta })
+    const tarjeta = await em.findOneOrFail(Tarjeta, { idTarjeta }, {failHandler: () => {throw new TarjetaNotFoundError()}})
     res.status(200).json({ message: 'La tarjeta fue encontrada con éxito', data: tarjeta })
   } catch (error: any) {
     handleErrors(error, res)
@@ -52,7 +52,7 @@ async function update(req: Request, res: Response) {
   try {
     const tarjetaValida = validarTarjeta(req.body)
     const idTarjeta = Number.parseInt(req.params.idTarjeta)
-    const tarjeta = await em.findOneOrFail(Tarjeta, { idTarjeta })
+    const tarjeta = await em.findOneOrFail(Tarjeta, { idTarjeta }, {failHandler: () => {throw new TarjetaNotFoundError()}})
     em.assign(tarjeta, tarjetaValida)
     await em.flush()
     res.status(200).json({ message: 'La tarjeta fue actualizada con éxito', data: tarjeta })
@@ -68,7 +68,7 @@ async function update(req: Request, res: Response) {
 async function remove(req: Request, res: Response) {
   try {
     const idTarjeta = Number.parseInt(req.params.idTarjeta)
-    const tarjeta = await em.findOneOrFail(Tarjeta, { idTarjeta }, {populate: ['tarjetaClientes']})
+    const tarjeta = await em.findOneOrFail(Tarjeta, { idTarjeta }, {populate: ['tarjetaClientes'], failHandler: () => {throw new TarjetaNotFoundError()}})
     // Usamos "populate" para obtener todas las tarjetas del cliente
 
     // Validamos que no exista ninguna tarjetaCliente que sea de este tipo de tarjeta (Visa, Mastercard, etc)

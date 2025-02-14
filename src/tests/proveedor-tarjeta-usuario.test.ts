@@ -2,6 +2,7 @@ import { app } from '../app'
 import request from 'supertest'
 import { describe, expect, it } from 'vitest'
 
+//TESTING DEL CRUD DE LA ENTIDAD "PROVEEDOR"
 describe('Testing del CRUD de la entidad Proveedor', () => {
 
   //TESTING DEL MÉTODO "GET"
@@ -89,7 +90,7 @@ describe('Testing del CRUD de la entidad Proveedor', () => {
   it('Solicitamos modificar los datos de un proveedor existente y devuelve un código de estado de 200', async () => {
     const response = await request(app).put('/api/proveedores/1').send({
       cuit: "20452159982",
-      razonSocial: "HunKel S.A.",
+      razonSocial: "HunKel S.A",
       direccion: "Dorrego 1265",
       ciudad: "Venado Tuerto",
       provincia: "Santa Fe",
@@ -201,5 +202,92 @@ describe('Testing del CRUD de la entidad Proveedor', () => {
     const response = await request(app).delete('/api/proveedores/4') 
     expect(response.status).toBe(400)
   })
+
+})
+
+
+//TESTING DEL CRUD DE LA ENTIDAD "TARJETA"
+describe('Testing del CRUD de la entidad Tarjeta', () => {
+
+  //TESTING DEL MÉTODO "GET"
+  it('Solicitamos todos los proveedores de la entidad Tarjeta, devuelve un código de estado de 200', async () => {
+    const response = await request(app).get('/api/tarjetas')
+    expect(response.status).toBe(200)
+  })
+  it('Solicitamos una tarjeta existente, devuelve un código de estado de 200', async () => {
+    const response = await request(app).get('/api/tarjetas/2')
+    expect(response.status).toBe(200)
+  })
+  it('Solicitamos una tarjeta no existente, devuelve un código de estado de 404', async () => {
+    const response = await request(app).get('/api/tarjetas/1000')
+    expect(response.status).toBe(404)
+  })
+
+  //TESTING DEL MÉTODO "POST"
+  it('Solicitamos crear una nueva tarjeta y devuelve un código de estado de 201', async () => {
+    const response = await request(app).post('/api/tarjetas').send({
+      descTarjeta: 'Visa Platinum'
+    })
+    expect(response.status).toBe(201)
+  })
+
+  //TESTING DEL MÉTODO "PUT"
+  it('Solicitamos modificar los datos de una tarjeta existente y devuelve un código de estado de 200', async () => {
+    const getResponse = await request(app).get('/api/tarjetas')
+    const idTarjeta = getResponse.body.data[getResponse.body.data.length - 1].idTarjeta
+    const response = await request(app).put(`/api/tarjetas/${idTarjeta}`).send({
+      descTarjeta: 'Mastercard Black'
+    })
+    expect(response.status).toBe(200)
+  })
+  it('Solicitamos modificar los datos de una tarjeta inexistente y devuelve un código de estado de 404', async () => {
+    const response = await request(app).put('/api/tarjetas/1000').send({
+      descTarjeta: 'Mastercard Black'
+    })
+    expect(response.status).toBe(404)
+  })
+    it('Solicitamos modificar los datos de una tarjeta existente pero, como su nombre está repetido, devuelve un código de estado de 400', async () => {
+    const response = await request(app).put('/api/tarjetas/2').send({
+      descTarjeta: 'Amex Black'
+    })
+    expect(response.status).toBe(400)
+  })
+
+  //TESTING DEL MÉTODO "DELETE"
+  it('Solicitamos eliminar una tarjeta existente y devuelve un código de estado de 200', async () => {
+    const postResponse = await request(app).post('/api/tarjetas').send({
+      descTarjeta: 'DeleteMe'
+    })
+    const idTarjeta = postResponse.body.data.idTarjeta
+    const response = await request(app).delete(`/api/tarjetas/${idTarjeta}`)
+    expect(response.status).toBe(200)
+  })
+  it('Solicitamos eliminar una tarjeta inexistente y devuelve un código de estado de 404', async () => {
+    const response = await request(app).delete('/api/tarjetas/10000')
+    expect(response.status).toBe(404)
+  })
+
+})
+
+//TESTING DEL CRUD DE LA ENTIDAD "USUARIO"
+describe('Testing del CRUD de la entidad Usuario', () => {
+
+  //TESTING DEL MÉTODO "GET"
+  it('Solicitamos todos los usuarios y devuelve un código de estado de 200', async () => {
+    const response = await request(app).get('/api/usuarios')
+    expect(response.status).toBe(200)
+  })
+
+  //TESTING DEL MÉTODO "POST"
+
+
+  //TESTING DEL LOGIN Y LOGOUT
+
+
+  //TESTING DEL MÉTODO "PUT"
+
+
+  //TESTING DEL MÉTODO "DELETE"
+
 
 })

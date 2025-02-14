@@ -58,9 +58,6 @@ async function findAllByTipoUsuario(req:Request, res:Response) {
   }
 }
 
-//Tiene sentido definir un "getOne" por ID para un usuario?
-// No sería mejor definir uno por email y contraseña?
-
 async function findOne(req:Request,res:Response) {
   try{
     const token = req.cookies.access_token

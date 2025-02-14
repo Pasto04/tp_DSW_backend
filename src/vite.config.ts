@@ -5,6 +5,10 @@ export default defineConfig({
     includeSource: ["src/**/*.{js, ts}"],
     coverage: {
       reporter: ["text", "json"],
+    },
+    sequence: {
+      shuffle: false,
+      concurrent: false,
     }
   }
 })
