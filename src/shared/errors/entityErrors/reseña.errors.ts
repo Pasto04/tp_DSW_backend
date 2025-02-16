@@ -43,3 +43,11 @@ export class ResenaAlreadyExists extends Error {
     this.type = 'ResenaAlreadyExists'
   }
 }
+
+export class ResenaDePedidoAjeno extends Error {
+  type: string
+  constructor(message: string = 'No puedes crear una reseña para un pedido que no realizaste') {
+    super(message);
+    this.type = 'ResenaConflict'
+  }
+}

@@ -5,8 +5,10 @@ import { orm } from '../shared/db/orm.js'
 import { handleErrors } from '../shared/errors/errorHandler.js'
 import { PedidoNotFoundError } from '../shared/errors/entityErrors/pedido.errors.js'
 import { validarResena, validarResenaPatch } from './reseña.schema.js'
-import { ResenaAlreadyExists, ResenaAPedidoNoFinalizado, ResenaNotFoundError } from '../shared/errors/entityErrors/reseña.errors.js'
+import { ResenaAlreadyExists, ResenaAPedidoNoFinalizado, ResenaNotFoundError, ResenaDePedidoAjeno } from '../shared/errors/entityErrors/reseña.errors.js'
 import { validarFindAll } from '../shared/validarFindAll.js'
+import { Usuario } from '../usuario/usuario.entity.js'
+import { UsuarioNotFoundError } from '../shared/errors/entityErrors/usuario.errors.js'
 
 
 const em = orm.em
@@ -47,9 +49,13 @@ async function findOne(req:Request, res:Response) {
 
 async function add(req:Request, res:Response) {
   try{
+    const id = Number.parseInt(req.params.id)
+    const usuario = await em.findOneOrFail(Usuario, {id}, {failHandler: () => {throw new UsuarioNotFoundError()}})
+
     const nroPed = Number.parseInt(req.params.nroPed)
-    const pedido = await em.findOneOrFail(Pedido, { nroPed }, {failHandler: () => {throw new PedidoNotFoundError}})
+    const pedido = await em.findOneOrFail(Pedido, { nroPed }, {populate: ['cliente'], failHandler: () => {throw new PedidoNotFoundError}})
     req.body.sanitizedInput.pedido = pedido
+
     //Validamos que el pedido haya finalizado
     if(pedido.estado !== 'finalizado') {
       throw new ResenaAPedidoNoFinalizado()
@@ -62,6 +68,14 @@ async function add(req:Request, res:Response) {
       throw new ResenaAlreadyExists()
     }
     //Validamos que el pedido no cuente ya con una reseña
+
+    //Validamos que el cliente que realiza la reseña sea el mismo que realizó el pedido
+
+    if(pedido.cliente !== usuario) {
+      throw new ResenaDePedidoAjeno()
+    }
+
+    //Validamos que el cliente que realiza la reseña sea el mismo que realizó el pedido
 
     const fecha = new Date()
 
@@ -85,10 +99,21 @@ async function add(req:Request, res:Response) {
 
 async function update(req:Request, res:Response) {
   try{
+    const id = Number.parseInt(req.params.id)
+    const usuario = await em.findOneOrFail(Usuario, {id}, {failHandler: () => {throw new UsuarioNotFoundError()}})
+
     const nroPed = Number.parseInt(req.params.nroPed)
-    const pedido = await em.findOneOrFail(Pedido, { nroPed }, {failHandler: () => {throw new PedidoNotFoundError}})
+    const pedido = await em.findOneOrFail(Pedido, { nroPed }, {populate: ['cliente'], failHandler: () => {throw new PedidoNotFoundError}})
     req.body.sanitizedInput.pedido = pedido
-    const resena = await em.findOneOrFail(Resena, { pedido }, {failHandler: () => {throw new ResenaNotFoundError}})
+    const resena = await em.findOneOrFail(Resena, { pedido }, {populate: ['pedido.cliente'], failHandler: () => {throw new ResenaNotFoundError}})
+
+    //Validamos que el cliente que modifica la reseña sea el mismo que realizó el pedido
+
+    if(pedido.cliente !== usuario) {
+      throw new ResenaDePedidoAjeno('No puedes modificar una reseña de un pedido que no realizaste')
+    }
+
+    //Validamos que el cliente que modifica la reseña sea el mismo que realizó el pedido
 
     req.body.sanitizedInput.fechaHoraModificacion = new Date()
 
@@ -108,9 +133,21 @@ async function update(req:Request, res:Response) {
 
 async function remove (req: Request, res: Response,) {
   try {
+    const id = Number.parseInt(req.params.id)
+    const usuario = await em.findOneOrFail(Usuario, {id}, {failHandler: () => {throw new UsuarioNotFoundError()}})
+
     const nroPed = Number.parseInt(req.params.nroPed)
     const pedido = await em.findOneOrFail(Pedido, { nroPed }, {failHandler: () => {throw new PedidoNotFoundError}});
     const deletedResena = await em.findOneOrFail(Resena, { pedido }, {failHandler: () => {throw new ResenaNotFoundError}}) 
+
+    //Validamos que el cliente que modifica la reseña sea el mismo que realizó el pedido
+
+    if(pedido.cliente !== usuario) {
+      throw new ResenaDePedidoAjeno('No puedes modificar una reseña de un pedido que no realizaste')
+    }
+
+    //Validamos que el cliente que modifica la reseña sea el mismo que realizó el pedido
+
     await em.removeAndFlush(deletedResena)
     res.status(200).json({message: `La reseña del pedido ${nroPed} ha sido eliminada con éxito`, data: deletedResena})
   } catch(error: any){
