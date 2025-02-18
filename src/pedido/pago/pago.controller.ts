@@ -14,12 +14,12 @@ const em = orm.em
 
 async function sanitizePagoInput(req:Request, res:Response, next:NextFunction){
   req.body.sanitizedInput = {
-    pedido: req.params.nroPed,
+    pedido: Number.parseInt(req.params.nroPed),
     idPago: req.body.idPago,
     fechaPago: req.body.fechaPago,
     horaPago: req.body.horaPago,
     importe: req.body.importe,
-    tarjetaCliente: req.body.tarjetaCliente
+    tarjetaCliente: Number.parseInt(req.body.tarjetaCliente)
   }
 
   /*Object.keys(req.body.sanitizedInput).forEach(key => {
@@ -68,12 +68,14 @@ async function add(req:Request,res:Response) {
     const nroPed = Number.parseInt(req.params.nroPed)
     const pedido = await em.findOneOrFail(Pedido, {nroPed}, {populate: ['platosPedido.plato', 'bebidasPedido.bebida'], failHandler: () => {throw new PedidoNotFoundError}})
     validarEntregaDeElementos(pedido) // Si bien considero que no es correcto, el pago no se podrá realizar hasta que todos los productos hayan sido entregados.
-    req.body.sanitizedInput.pedido = await em.findOneOrFail(Pedido, {nroPed}, {failHandler: () => {throw new PedidoNotFoundError}})
+    const ped = await em.findOneOrFail(Pedido, {nroPed}, {failHandler: () => {throw new PedidoNotFoundError}})
     req.body.sanitizedInput.idPago = crypto.randomUUID()
     req.body.sanitizedInput.importe = calcularImporte(pedido)
-    req.body.sanitizedInput.tarjetaCliente = await em.findOneOrFail(TarjetaCliente, {idTarjeta: req.body.tarjetaCliente}, {failHandler: () => {throw new TarjetaClienteNotFoundError}})
-    const pagoValido = validarPago(req.body.sanitizedInput)
-    const pago = em.create(Pago, pagoValido)
+    const tarjetaCliente = await em.findOneOrFail(TarjetaCliente, {idTarjeta: req.body.tarjetaCliente}, {failHandler: () => {throw new TarjetaClienteNotFoundError}})
+    validarPago(req.body.sanitizedInput)
+    req.body.sanitizedInput.pedido = ped
+    req.body.sanitizedInput.tarjetaCliente = tarjetaCliente
+    const pago = em.create(Pago, req.body.sanitizedInput)
     await em.flush()
     res.status(201).json({data: pago})
   } catch (error:any){

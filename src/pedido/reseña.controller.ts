@@ -15,7 +15,7 @@ const em = orm.em
 
 function sanitizeResena(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedInput = {
-    pedido: req.params.nroPed,
+    pedido: Number.parseInt(req.params.nroPed),
     cuerpo: req.body.cuerpo,
     puntaje: req.body.puntaje
   }
@@ -36,10 +36,7 @@ async function findOne(req:Request, res:Response) {
   try{
     const nroPed = Number.parseInt(req.params.nroPed)
     const pedido = await em.findOneOrFail(Pedido, { nroPed: nroPed }, {failHandler: () => {throw new PedidoNotFoundError}});
-    const resena = pedido.resena
-    if(!resena){
-      throw new ResenaNotFoundError
-    }
+    const resena = await em.findOneOrFail(Resena, { pedido }, {failHandler: () => {throw new ResenaNotFoundError}})
     res.status(200).json({message: `La reseña del pedido ${nroPed} fue encontrado con éxito`, data: resena})
   } catch(error: any) {
     handleErrors(error, res)
@@ -54,7 +51,6 @@ async function add(req:Request, res:Response) {
 
     const nroPed = Number.parseInt(req.params.nroPed)
     const pedido = await em.findOneOrFail(Pedido, { nroPed }, {populate: ['cliente'], failHandler: () => {throw new PedidoNotFoundError}})
-    req.body.sanitizedInput.pedido = pedido
 
     //Validamos que el pedido haya finalizado
     if(pedido.estado !== 'finalizado') {
@@ -86,6 +82,7 @@ async function add(req:Request, res:Response) {
 
     validarResena(req.body.sanitizedInput)
 
+    req.body.sanitizedInput.pedido = pedido
     req.body.sanitizedInput.fechaHoraResena = fecha
     req.body.sanitizedInput.fechaHoraModificacion = fecha
 
@@ -104,7 +101,7 @@ async function update(req:Request, res:Response) {
 
     const nroPed = Number.parseInt(req.params.nroPed)
     const pedido = await em.findOneOrFail(Pedido, { nroPed }, {populate: ['cliente'], failHandler: () => {throw new PedidoNotFoundError}})
-    req.body.sanitizedInput.pedido = pedido
+    
     const resena = await em.findOneOrFail(Resena, { pedido }, {populate: ['pedido.cliente'], failHandler: () => {throw new ResenaNotFoundError}})
 
     //Validamos que el cliente que modifica la reseña sea el mismo que realizó el pedido
@@ -123,6 +120,7 @@ async function update(req:Request, res:Response) {
     } else {
       resenaUpdated = validarResena(req.body.sanitizedInput)
     }
+    req.body.sanitizedInput.pedido = pedido
     em.assign(resena, req.body.sanitizedInput)
     await em.flush()
     res.status(200).json({message: `La reseña del pedido ${nroPed} fue actualizada con éxito`, data: resena})

@@ -16,13 +16,11 @@ Content-Type: application/json
 }
 
 ### Establecer un Plato de un Pedido como "entregado". Debe llegar la fecha, hora y cantidad del plato a entregar
-PUT http://localhost:3000/api/pedidos/1/platos/1
+PUT http://localhost:3000/api/pedidos/56/platos/16/fecha/2025-02-18/hora/01:35:08
 Content-Type: application/json
 
 {
-  "fechaSolicitud": "2024-11-07",
-  "horaSolicitud": "13:46:15",
-  "cantidad": 2
+
 }
 
 ### Eliminar un plato de un pedido

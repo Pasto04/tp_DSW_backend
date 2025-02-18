@@ -3,8 +3,18 @@ import { Bebida } from '../bebida.entity.js'
 import { Pedido } from '../../pedido/pedido.entity.js'
 
 const bebidaPedidoSchema = z.object({
-  bebida: z.instanceof(Bebida),
-  pedido: z.instanceof(Pedido),
+  bebida: z.number({
+      required_error: 'La bebida es requerida',
+      invalid_type_error: 'La bebidas debe ser un número',
+    })
+    .int({ message: 'La bebida debe ser un número entero' })
+    .positive({ message: 'La bebida debe ser un número entero positivo'}),
+  pedido: z.number({
+      required_error: 'El pedido es requerido',
+      invalid_type_error: 'El pedido debe ser un número',
+    })
+    .int({ message: 'El pedido debe ser un número entero' })
+    .positive({ message: 'El pedido debe ser un número entero positivo'}),
   /*fechaSolicitud: z
     .date({ message: 'La fecha de solicitud debe tener el formato aaaa-mm-dd' })
     .optional(),
@@ -22,8 +32,18 @@ const bebidaPedidoSchema = z.object({
 });
 
 const bebidaPedidoToPatchSchema = z.object({
-  bebida: z.instanceof(Bebida),
-  pedido: z.instanceof(Pedido),
+  bebida: z.number({
+      required_error: 'La bebida es requerida',
+      invalid_type_error: 'La bebidas debe ser un número',
+    })
+    .int({ message: 'La bebida debe ser un número entero' })
+    .positive({ message: 'La bebida debe ser un número entero positivo'}),
+  pedido: z.number({
+      required_error: 'El pedido es requerida',
+      invalid_type_error: 'El pedido debe ser un número',
+    })
+    .int({ message: 'El pedido debe ser un número entero' })
+    .positive({ message: 'El pedido debe ser un número entero positivo'}),
   fechaSolicitud: z
     .string({ required_error: 'La fecha de solicitud es requerida' })
     .date('La fecha de solicitud debe tener el formato aaaa-mm-dd'),

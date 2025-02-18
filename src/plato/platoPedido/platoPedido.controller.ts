@@ -20,13 +20,18 @@ const em = orm.em
 
 function sanitizePlatoPedido(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedInput = {
-    pedido: req.params.nroPed,
-    plato: req.body.plato,
+    pedido: Number.parseInt(req.params.nroPed),
+    plato: Number.parseInt(req.body.plato),
     cantidad: req.body.cantidad,
-    fechaSolicitud: req.body.fechaSolicitud,
-    horaSolicitud: req.body.horaSolicitud,
+    fechaSolicitud: req.params.fecha,
+    horaSolicitud: req.params.hora,
     entregado: false,
   }
+  Object.keys(req.body.sanitizedInput).forEach((key) => {
+    if(req.body.sanitizedInput[key] === undefined) {
+      delete req.body.sanitizedInput[key]
+    }
+  })
   next()
 }
 
@@ -92,17 +97,20 @@ async function adjustIngredientes(plato: Plato, cantidad: number) {
 async function add(req: Request, res: Response) {
   try {
     const nroPed = Number.parseInt(req.params.nroPed);
-    req.body.sanitizedInput.pedido = await em.findOneOrFail(Pedido, { nroPed }, { failHandler: () => {throw new PedidoNotFoundError()} });
+    const pedido = await em.findOneOrFail(Pedido, { nroPed }, { failHandler: () => {throw new PedidoNotFoundError()} });
     const numPlato = req.body.sanitizedInput.plato;
-    req.body.sanitizedInput.plato = await em.findOneOrFail(Plato, { numPlato }, { populate: ['elaboracionesPlato.ingrediente'], failHandler: () => {throw new PlatoNotFoundError()} })
-    alreadyEnded(req.body.sanitizedInput.pedido); //Validamos que el pedido al que queremos agregar el plato no haya finalizado.
-    const platoPedidoValido = validarPlatoPedido(req.body.sanitizedInput)
+    const plato = await em.findOneOrFail(Plato, { numPlato }, { populate: ['elaboracionesPlato.ingrediente'], failHandler: () => {throw new PlatoNotFoundError()} })
+    alreadyEnded(pedido); //Validamos que el pedido al que queremos agregar el plato no haya finalizado.
+    validarPlatoPedido(req.body.sanitizedInput)
 
-    enoughIngredientes(platoPedidoValido.plato, platoPedidoValido.cantidad) // Validamos que haya stock de ingredientes para preparar el plato solicitado
+    req.body.sanitizedInput.pedido = pedido
+    req.body.sanitizedInput.plato = plato
 
-    adjustIngredientes(platoPedidoValido.plato, platoPedidoValido.cantidad) // Ajustamos el stock de los ingredientes.
+    enoughIngredientes(req.body.sanitizedInput.plato, req.body.sanitizedInput.cantidad) // Validamos que haya stock de ingredientes para preparar el plato solicitado
 
-    const platoPedido = em.create(PlatoPedido, platoPedidoValido)
+    adjustIngredientes(req.body.sanitizedInput.plato, req.body.sanitizedInput.cantidad) // Ajustamos el stock de los ingredientes.
+
+    const platoPedido = em.create(PlatoPedido, req.body.sanitizedInput)
     em.persist(platoPedido)
     await em.flush()
     res.status(201).json({message: `El plato [${platoPedido.plato.descripcion}] ha sido agregado al pedido [${platoPedido.pedido.nroPed}] con éxito`, data: platoPedido})
@@ -119,14 +127,20 @@ Este método únicamente permitirá a los usuarios (ya sea empleado o cliente) m
 async function update(req: Request, res: Response) {
   try {
     const numPlato = Number.parseInt(req.params.nro)
-    req.body.sanitizedInput.plato = await em.findOneOrFail(Plato, { numPlato }, { failHandler: () => {throw new PlatoNotFoundError()} })
+    const plato = await em.findOneOrFail(Plato, { numPlato }, { failHandler: () => {throw new PlatoNotFoundError()} })
     const nroPed = Number.parseInt(req.params.nroPed)
-    req.body.sanitizedInput.pedido = await em.findOneOrFail(Pedido, { nroPed }, { populate: ['cliente'], failHandler: () => { throw new PedidoNotFoundError() } })
+    const pedido = await em.findOneOrFail(Pedido, { nroPed }, { populate: ['cliente'], failHandler: () => { throw new PedidoNotFoundError() } })
+    req.body.sanitizedInput.plato = numPlato
     validarPlatoPedidoToPatch(req.body.sanitizedInput)
-    const platoPed = await em.findOneOrFail(PlatoPedido, req.body.sanitizedInput, { failHandler: () => { throw new PlatoPedidoNotFoundError() } })
+    req.body.sanitizedInput.plato = plato
+    req.body.sanitizedInput.pedido = pedido
+    const fechaSolicitud = req.body.sanitizedInput.fechaSolicitud
+    const horaSolicitud = req.body.sanitizedInput.horaSolicitud
+    const platoPed = await em.findOneOrFail(PlatoPedido, { plato, pedido, fechaSolicitud, horaSolicitud }, { failHandler: () => { throw new PlatoPedidoNotFoundError() } })
     isAlreadyDelivered(platoPed) //Validamos que el plato no haya sido entregado
     platoPed.establecerFechaYHoraEntrega()
     req.body.sanitizedInput.entregado = true
+    req.body.sanitizedInput.cantidad = platoPed.cantidad
     em.assign(platoPed, req.body.sanitizedInput)
     await em.flush();
     res.status(200).json({message: `El plato [${platoPed.plato.descripcion}] ha sido entregado con éxito`, data: platoPed})

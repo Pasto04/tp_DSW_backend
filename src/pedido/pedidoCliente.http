@@ -8,11 +8,11 @@ GET http://localhost:3000/api/clientes/pedidos/2
 
 ### Crea un nuevo pedido V1
 
-POST http://localhost:3000/api/clientes/21/pedidos
+POST http://localhost:3000/api/clientes/7/pedidos
 Content-Type: application/json
 
 {
-    "mesa": 2
+    "mesa": 12
 }
 
 ### Crea un nuevo pedido V2

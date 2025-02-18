@@ -9,6 +9,6 @@ bebidaPedidoRouter.get('/:nroPed/bebidas/:codBebida/fecha/:fecha/hora/:hora', fi
 
 bebidaPedidoRouter.post('/:nroPed/bebidas', sanitizeBebidaPedido, add)
 
-bebidaPedidoRouter.put('/:nroPed/bebidas/:codBebida', sanitizeBebidaPedido, update)
+bebidaPedidoRouter.put('/:nroPed/bebidas/:codBebida/fecha/:fecha/hora/:hora', sanitizeBebidaPedido, update)
 
 bebidaPedidoRouter.delete('/:nroPed/bebidas/:codBebida/fecha/:fecha/hora/:hora', remove)

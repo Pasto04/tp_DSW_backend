@@ -23,7 +23,6 @@ async function findAll(req:Request,res:Response) {
   }
 }
 
-//Creo que este método ya no es necesario
 async function findOne(req:Request,res:Response) {
   try{
     const nroMesa = Number.parseInt(req.params.nroMesa)

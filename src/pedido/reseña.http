@@ -7,52 +7,51 @@ GET http://localhost:3000/api/pedidos/9/resena
 
 ### Ingresa una nueva reseña para un pedido
 
-POST http://localhost:3000/api/clientes/16/pedidos/29/resena
+POST http://localhost:3000/api/clientes/16/pedidos/36/resena
 Content-Type: application/json
 
 {
   "cuerpo": "Una extraña experiencia",
-  "puntaje": 4
-}
-
-###
-
-POST http://localhost:3000/api/pedidos/1/resena
-Content-Type: application/json
-
-{
-  "fechaResena": "{{$localDatetime rfc1123}}",
-  "cuerpo": "Horrible",
   "puntaje": 2
 }
 
 ###
-POST http://localhost:3000/api/pedidos/2/resena
+
+POST http://localhost:3000/api/clientes/8/pedidos/33/resena
 Content-Type: application/json
 
 {
-  "fechaResena": "{{$localDatetime rfc1123}}",
-  "cuerpo": "Aceptable",
-  "puntaje": 6
+  "cuerpo": "Excelente atención y calidad de productos",
+  "puntaje": 5
+}
+
+###
+POST http://localhost:3000/api/clientes/16/pedidos/37/resena
+Content-Type: application/json
+
+{
+  "cuerpo": "Excelente atención y calidad de productos",
+  "puntaje": 5
 }
 
 ### Modifica los atributos de una reseña
 
-PUT http://localhost:3000/api/pedidos/18/resena
+PUT http://localhost:3000/api/clientes/6/pedidos/18/resena
 Content-Type: application/json
 
 {
-  "cuerpo": "Horrible",
-  "puntaje": 3
+  "cuerpo": "En un principio no me gustó la comida y los precios me parecieron elevados, pero al comparar con otros establecimientos me di cuenta de que fueron acertados",
+  "puntaje": 4
 }
 
 ### Modifica los atributos de una reseña
 
-PATCH http://localhost:3000/api/pedidos/18/resena
+PUT http://localhost:3000/api/clientes/16/pedidos/37/resena
 Content-Type: application/json
 
 {
-  "cuerpo": "No me agradó"
+  "cuerpo": "No me agradó",
+  "puntaje": 4
 }
 
 ### Borra una reseña

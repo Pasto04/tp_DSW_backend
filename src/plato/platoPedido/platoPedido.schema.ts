@@ -3,8 +3,18 @@ import { Pedido } from '../../pedido/pedido.entity.js'
 import { Plato } from '../plato.entity.js'
 
 const platoPedidoSchema = z.object({
-  pedido: z.instanceof(Pedido),
-  plato: z.instanceof(Plato),
+  pedido: z.number({
+        required_error: 'El pedido es requerido',
+        invalid_type_error: 'El pedido debe ser un número',
+      })
+      .int({ message: 'El pedido debe ser un número entero' })
+      .positive({ message: 'El pedido debe ser un número entero positivo'}),
+  plato: z.number({
+        required_error: 'El plato es requerido',
+        invalid_type_error: 'El plato debe ser un número',
+      })
+      .int({ message: 'El plato debe ser un número entero' })
+      .positive({ message: 'El plato debe ser un número entero positivo'}),
   /*fechaSolicitud: z.string({required_error: 'La fecha de solicitud del plato es requerida'})
                   .date('La fecha de solicitud debe tener el formato aaaa-mm-dd'),
   horaSolicitud: z.string({required_error: 'La hora de solicitud del plato es requerida'})
@@ -21,8 +31,18 @@ const platoPedidoSchema = z.object({
 })
 
 const platoPedidoToPatchSchema = z.object({
-  pedido: z.instanceof(Pedido),
-  plato: z.instanceof(Plato),
+  pedido: z.number({
+        required_error: 'El pedido es requerido',
+        invalid_type_error: 'El pedido debe ser un número',
+      })
+      .int({ message: 'El pedido debe ser un número entero' })
+      .positive({ message: 'El pedido debe ser un número entero positivo'}),
+  plato: z.number({
+        required_error: 'El plato es requerido',
+        invalid_type_error: 'El plato debe ser un número',
+      })
+      .int({ message: 'El plato debe ser un número entero' })
+      .positive({ message: 'El plato debe ser un número entero positivo'}),
   fechaSolicitud: z
     .string({ required_error: 'La fecha de solicitud del plato es requerida' })
     .date('La fecha de solicitud debe tener el formato aaaa-mm-dd'),

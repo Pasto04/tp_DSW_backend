@@ -17,8 +17,14 @@ const pedidoSchema = z.object({
     .optional(),
   fecha: z.string().date().optional(),
   hora: z.string().time().optional(),
-  cliente: z.instanceof(Usuario),
-  mesa: z.instanceof(Mesa),
+  cliente: z.number({
+      required_error: 'El usuario es requerido',
+      invalid_type_error: 'El usuario se representa con un valor numérico'
+    }).positive({message: 'El usuario debe ser un número positivo'}),
+  mesa: z.number({
+      required_error: 'La mesa es requerida',
+      invalid_type_error: 'La mesa se representa con un valor numérico'
+    }).positive({message: 'La mesa debe ser un número positivo'})
 })
 
 const pedidoToCancelSchema = z.object({
@@ -37,11 +43,26 @@ const pedidoToEndSchema = z.object({
   estado: z.string().includes('finalizado', {
     message: 'El estado del pedido debe ser "finalizado"',
   }),
-  cliente: z.instanceof(Usuario),
-  mesa: z.instanceof(Mesa),
-  platosPedido: z.array(z.instanceof(PlatoPedido)),
-  bebidasPedido: z.array(z.instanceof(BebidaPedido)),
-  pago: z.instanceof(Pago),
+  cliente: z.number({
+          required_error: 'El usuario es requerido',
+          invalid_type_error: 'El usuario debe ser un número',
+        })
+        .int({ message: 'El usuario debe ser un número entero' })
+        .positive({ message: 'El usuario debe ser un número entero positivo'}),
+  mesa: z.number({
+          required_error: 'La mesa es requerida',
+          invalid_type_error: 'La mesa debe ser un número',
+        })
+        .int({ message: 'La mesa debe ser un número entero' })
+        .positive({ message: 'La mesa debe ser un número entero positivo'}),
+  /*platosPedido: z.array(z.instanceof(PlatoPedido)),
+  bebidasPedido: z.array(z.instanceof(BebidaPedido)),*/
+  pago: z.number({
+          required_error: 'El pago es requerido',
+          invalid_type_error: 'El pago debe ser un número',
+        })
+        .int({ message: 'El pago debe ser un número entero' })
+        .positive({ message: 'El pago debe ser un número entero positivo'})
 })
 
 function validarPedido(object: any) {

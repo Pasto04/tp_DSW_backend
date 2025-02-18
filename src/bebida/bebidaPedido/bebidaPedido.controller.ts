@@ -14,12 +14,12 @@ const em = orm.em
 
 function sanitizeBebidaPedido(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedInput = {
-    bebida: req.body.bebida,
-    pedido: req.params.nroPed,
+    bebida: Number.parseInt(req.body.bebida),
+    pedido: Number.parseInt(req.params.nroPed),
     cantidad: req.body.cantidad,
     entregado: false,
-    fechaSolicitud: req.body.fechaSolicitud,
-    horaSolicitud: req.body.horaSolicitud,
+    fechaSolicitud: req.params.fecha,
+    horaSolicitud: req.params.hora,
   }
   next()
 }
@@ -90,17 +90,20 @@ async function adjustBebidas(bebidaPedido: BebidaPedidoToValidate) {
 async function add(req: Request, res: Response) {
   try {
     const nroPed = Number.parseInt(req.params.nroPed)
-    req.body.sanitizedInput.pedido = await em.findOneOrFail(Pedido, { nroPed }, { failHandler: () => {throw new PedidoNotFoundError()} })
+    const pedido = await em.findOneOrFail(Pedido, { nroPed }, { failHandler: () => {throw new PedidoNotFoundError()} })
     const codBebida = req.body.sanitizedInput.bebida
-    req.body.sanitizedInput.bebida = await em.findOneOrFail(Bebida, { codBebida }, { failHandler: () => {throw new BebidaNotFoundError()} })
-    alreadyEnded(req.body.sanitizedInput.pedido) //Validamos que el pedido no haya finalizado
-    const bebidaPedidoValida = validarBebidaPedido(req.body.sanitizedInput)
+    const bebida = await em.findOneOrFail(Bebida, { codBebida }, { failHandler: () => {throw new BebidaNotFoundError()} })
+    alreadyEnded(pedido) //Validamos que el pedido no haya finalizado
+    validarBebidaPedido(req.body.sanitizedInput)
 
-    enoughBebidas(bebidaPedidoValida.bebida, bebidaPedidoValida.cantidad) // Validamos que haya stock de la bebida
+    req.body.sanitizedInput.pedido = pedido
+    req.body.sanitizedInput.bebida = bebida
 
-    adjustBebidas(bebidaPedidoValida) // Ajustamos el stock de bebidas luego de agregar una bebida al pedido
+    enoughBebidas(req.body.sanitizedInput.bebida, req.body.sanitizedInput.cantidad) // Validamos que haya stock de la bebida
 
-    const bebidaPedido = em.create(BebidaPedido, bebidaPedidoValida)
+    adjustBebidas(req.body.sanitizedInput) // Ajustamos el stock de bebidas luego de agregar una bebida al pedido
+
+    const bebidaPedido = em.create(BebidaPedido, req.body.sanitizedInput)
     em.persist(bebidaPedido)
     await em.flush()
     res.status(201).json({message: `La bebida ${bebidaPedido.bebida.descripcion} ha sido agregada al pedido 
@@ -117,13 +120,19 @@ Este método únicamente permitirá a los usuarios (ya sea empleado o cliente) m
 async function update(req: Request, res: Response) {
   try {
     const nroPed = Number.parseInt(req.params.nroPed);
-    req.body.sanitizedInput.pedido = await em.findOneOrFail(Pedido, { nroPed }, { failHandler: () => {throw new PedidoNotFoundError()} })
+    const pedido = await em.findOneOrFail(Pedido, { nroPed }, { failHandler: () => {throw new PedidoNotFoundError()} })
     const codBebida = Number.parseInt(req.params.codBebida)
-    req.body.sanitizedInput.bebida = await em.findOneOrFail(Bebida, { codBebida }, { failHandler: () => {throw new BebidaNotFoundError()} })
-    const bebidaPedidoValida = validarBebidaPedidoToPatch(req.body.sanitizedInput)
-    const bebidaPedido = await em.findOneOrFail(BebidaPedido, bebidaPedidoValida, { failHandler: () => {throw new BebidaPedidoNotFoundError()} })
+    const bebida = await em.findOneOrFail(Bebida, { codBebida }, { failHandler: () => {throw new BebidaNotFoundError()} })
+    req.body.sanitizedInput.bebida = codBebida
+    validarBebidaPedidoToPatch(req.body.sanitizedInput)
+    req.body.sanitizedInput.pedido = pedido
+    req.body.sanitizedInput.bebida = bebida
+    const fechaSolicitud = req.body.sanitizedInput.fechaSolicitud
+    const horaSolicitud = req.body.sanitizedInput.horaSolicitud
+    const bebidaPedido = await em.findOneOrFail(BebidaPedido, { pedido, bebida, fechaSolicitud, horaSolicitud }, { failHandler: () => {throw new BebidaPedidoNotFoundError()} })
     isAlreadyDelivered(bebidaPedido) //Validamos que la bebida no haya sido entregada
     req.body.sanitizedInput.entregado = true
+    req.body.sanitizedInput.cantidad = bebidaPedido.cantidad
     bebidaPedido.establecerFechaYHoraEntrega()
     em.assign(bebidaPedido, req.body.sanitizedInput)
     await em.flush()

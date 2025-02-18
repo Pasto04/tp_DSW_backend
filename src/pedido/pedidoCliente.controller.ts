@@ -28,7 +28,7 @@ async function sanitizePedidoCliente(req: Request, res: Response, next: NextFunc
     fecha: req.body.fecha,
     fechaCancelacion: req.body.fechaCancelacion,
     horaCancelacion: req.body.horaCancelacion,
-    cliente: req.params.id,
+    cliente: Number.parseInt(req.params.id),
     mesa: req.body.mesa,
     pago: req.body.pago,
   };
@@ -105,12 +105,17 @@ async function add(req: Request, res: Response) {
     
     allMesasBusy() // Valido que haya mesas disponibles. Igualmente, la mesa ingresada en la request debería estar disponible.
     
-    req.body.sanitizedInput.cliente = cliente
-    req.body.sanitizedInput.mesa = await em.findOneOrFail(Mesa, { nroMesa: req.body.sanitizedInput.mesa }, { failHandler: () => {throw new MesaNotFoundError()} })
-    const mesaUpdated = validarMesa(req.body.sanitizedInput.mesa)
-    mesaUpdated.estado = 'Ocupada'
-    em.assign(req.body.sanitizedInput.mesa, mesaUpdated)
+    const mesa = await em.findOneOrFail(Mesa, { nroMesa: req.body.sanitizedInput.mesa }, { failHandler: () => {throw new MesaNotFoundError()} })
+    
+    req.body.sanitizedInput.mesa = Number.parseInt(req.body.sanitizedInput.mesa)
     validarPedido(req.body.sanitizedInput)
+    req.body.sanitizedInput.cliente = cliente
+    req.body.sanitizedInput.mesa = mesa
+
+    const mesaUpdated = validarMesa(mesa)
+    mesaUpdated.estado = 'Ocupada'
+    em.assign(mesa, mesaUpdated)
+
     const pedido = em.create(Pedido, req.body.sanitizedInput)
     await em.flush()
     res.status(201).json({ data: pedido })
@@ -119,12 +124,13 @@ async function add(req: Request, res: Response) {
   }
 }
 
-async function fillSanitizedInput(pedido: Pedido, req: Request) {
+async function fillSanitizedInput(pedido: Pedido, req: Request, pago: Pago) {
   req.body.sanitizedInput.estado = 'finalizado'
   req.body.sanitizedInput.fecha = pedido.fecha
   req.body.sanitizedInput.hora = pedido.hora
-  req.body.sanitizedInput.cliente = pedido.cliente
-  req.body.sanitizedInput.mesa = pedido.mesa
+  req.body.sanitizedInput.cliente = pedido.cliente.id
+  req.body.sanitizedInput.mesa = pedido.mesa.nroMesa
+  req.body.sanitizedInput.pago = pago.pedido.nroPed
 
   // Como ya almacenamos los platos y bebidas en la base de datos cuando el cliente los va agregando a su pedido, 
   // no creo que sea necesario buscarlos y asignarlos nuevamente al pedido. (de ninguna de las 2 maneras)
@@ -146,17 +152,19 @@ async function update(req: Request, res: Response) {
     if (pedidoToUpdate.estado === 'finalizado' || pedidoToUpdate.estado === 'cancelado') {
       throw new PedidoAlreadyEndedError()
     }
+    const pago = await em.findOneOrFail(Pago, { pedido: pedidoToUpdate }, { failHandler: () => {throw new PagoNotFoundError()} })
 
-    fillSanitizedInput(pedidoToUpdate, req) 
+    fillSanitizedInput(pedidoToUpdate, req, pago) 
 
-    req.body.sanitizedInput.pago = await em.findOneOrFail(Pago, { pedido: pedidoToUpdate }, { failHandler: () => {throw new PagoNotFoundError()} })
-    
-    const pedidoUpdated = validarPedidoFinalizar(req.body.sanitizedInput)
-    let mesaDesocupada = pedidoUpdated.mesa
+    validarPedidoFinalizar(req.body.sanitizedInput)
+    req.body.sanitizedInput.cliente = pedidoToUpdate.cliente
+    req.body.sanitizedInput.mesa = pedidoToUpdate.mesa
+    req.body.sanitizedInput.pago = pago
+    let mesaDesocupada = req.body.sanitizedInput.mesa
     mesaDesocupada.estado = 'Disponible'
-    em.assign(pedidoUpdated.mesa, mesaDesocupada)
+    em.assign(req.body.sanitizedInput.mesa, mesaDesocupada)
 
-    em.assign(pedidoToUpdate, pedidoUpdated)
+    em.assign(pedidoToUpdate, req.body.sanitizedInput)
     await em.flush()
     res.status(200).json({
       message: `Pedido ${nroPed} del cliente ${pedidoToUpdate.cliente.nombre} ${pedidoToUpdate.cliente.apellido} ha finalizado`,
