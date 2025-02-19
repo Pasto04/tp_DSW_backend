@@ -26,6 +26,11 @@ function sanitizeTarjetaCliente(req: Request, res: Response, next: NextFunction)
     tarjeta: req.body.tarjeta,
     cliente: req.params.id
   }
+  Object.keys(req.body.sanitizedInput).forEach((key) => {
+    if(req.body.sanitizedInput[key] === undefined) {
+      delete req.body.sanitizedInput[key]
+    }
+  })
   next()
 }
 
@@ -95,7 +100,9 @@ async function update(req:Request,res:Response) {
     const idTarjeta = Number.parseInt(req.params.idTarjeta)
     const id = Number.parseInt(req.params.id)
     const cliente = await em.findOneOrFail(Usuario, {id})
-    const tarjetaCliente = await em.findOneOrFail(TarjetaCliente, {idTarjeta, cliente})
+    const tarjetaCliente = await em.findOneOrFail(TarjetaCliente, {idTarjeta, cliente}, {populate: ['tarjeta'], failHandler: () => {throw new TarjetaClienteNotFoundError}})
+    req.body.sanitizedInput.tarjeta = tarjetaCliente.tarjeta
+    req.body.sanitizedInput.cliente = cliente
     validarTarjetaCliente(req.body.sanitizedInput)
     em.assign(tarjetaCliente, req.body.sanitizedInput)
     await em.flush()

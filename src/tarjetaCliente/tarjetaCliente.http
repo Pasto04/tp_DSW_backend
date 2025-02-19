@@ -47,11 +47,26 @@ Content-Type: application/json
 }
 
 ###
-PATCH http://localhost:3000/api/clientes/1/tarjetas/2
+PUT http://localhost:3000/api/clientes/1/tarjetas/2
 Content-Type: application/json
 
 {
   "titular": "Tsunayoshi Sawada"
+}
+
+
+###
+PUT http://localhost:3000/api/clientes/8/tarjetas/5
+Content-Type: application/json
+
+{
+  "nroTarjeta": "4926-1827-5561-8298",
+  "tipoTarjeta": "Débito",
+  "bancoTarjeta": "Macro",
+  "titular": "Aqua Hoshino",
+  "vencimiento": "2027-05-01",
+  "codSeguridad": 551,
+  "tarjeta": 1
 }
 
 ###
