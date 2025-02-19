@@ -60,16 +60,16 @@ Content-Type: application/json
 
 ###Cancela un pedido
 
-PATCH http://localhost:3000/api/clientes/pedidos/8
+PUT http://localhost:3000/api/clientes/pedidos/37/cancelar
 Content-Type: application/json
 
 {
-  "estado": "cancelado"
+  
 }
 
 ###Finaliza un pedido y genera el pago.
 
-PUT http://localhost:3000/api/clientes/pedidos/36
+PUT http://localhost:3000/api/clientes/pedidos/35
 Content-Type: application/json
 
 {

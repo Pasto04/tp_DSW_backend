@@ -141,6 +141,20 @@ Content-Type: application/json
   "tipoUsuario": "cliente"
 }
 
+###Ingresa un nuevo cliente (2)
+
+POST http://localhost:3000/api/clientes
+Content-Type: application/json
+
+{
+  "nombre": "Touma",
+  "apellido": "Kamijou",
+  "mail": "tkamijou@gmail.com",
+  "contrasenia": "index",
+  "telefono": "+81 3 13215497",
+  "tipoUsuario": "cliente"
+}
+
 ###Ingresa un nuevo cliente (ERROR)
 
 POST http://localhost:3000/api/clientes

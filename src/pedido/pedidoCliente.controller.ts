@@ -28,7 +28,7 @@ async function sanitizePedidoCliente(req: Request, res: Response, next: NextFunc
     fecha: req.body.fecha,
     fechaCancelacion: req.body.fechaCancelacion,
     horaCancelacion: req.body.horaCancelacion,
-    cliente: Number.parseInt(req.params.id),
+    cliente: req.params.id,
     mesa: req.body.mesa,
     pago: req.body.pago,
   };
@@ -99,6 +99,7 @@ async function add(req: Request, res: Response) {
       throw new PedidoPreconditionFailed()
     }
     const id = Number.parseInt(req.params.id)
+    req.body.sanitizedInput.cliente = id
     const cliente = await em.findOneOrFail(Usuario, { id }, { populate: ['pedidos'], failHandler: () => {throw new UsuarioNotFoundError()}})
    
     pedidoAlreadyExists(cliente) // Verifico que el cliente no tenga un pedido en curso
@@ -185,7 +186,6 @@ async function cancel(req: Request, res: Response) {
     const pedidoToUpdate = await em.findOneOrFail(Pedido, { nroPed }, { populate: ['platosPedido', 'bebidasPedido', 'cliente'],
         failHandler: () => {throw new PedidoNotFoundError()} })
 
-    validarPedidoCancelar(req.body.sanitizedInput)
     if (pedidoToUpdate.estado === 'finalizado' || pedidoToUpdate.estado === 'cancelado') {
       throw new PedidoAlreadyEndedError()
     } else if (pedidoToUpdate.platosPedido.length > 0 || pedidoToUpdate.bebidasPedido.length > 0) {
@@ -198,6 +198,7 @@ async function cancel(req: Request, res: Response) {
 
     pedidoToUpdate.establecerFechaYHoraCancelacion()
     req.body.sanitizedInput.estado = 'cancelado'
+    validarPedidoCancelar(req.body.sanitizedInput)
     let newMesa = pedidoToUpdate.mesa
     newMesa.estado = 'Disponible'
     em.assign(pedidoToUpdate.mesa, newMesa)

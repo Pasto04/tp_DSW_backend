@@ -15,7 +15,7 @@ const em = orm.em
 
 function sanitizeResena(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedInput = {
-    pedido: Number.parseInt(req.params.nroPed),
+    pedido: req.params.nroPed,
     cuerpo: req.body.cuerpo,
     puntaje: req.body.puntaje
   }
@@ -50,6 +50,7 @@ async function add(req:Request, res:Response) {
     const usuario = await em.findOneOrFail(Usuario, {id}, {failHandler: () => {throw new UsuarioNotFoundError()}})
 
     const nroPed = Number.parseInt(req.params.nroPed)
+    req.body.sanitizedInput.pedido = nroPed
     const pedido = await em.findOneOrFail(Pedido, { nroPed }, {populate: ['cliente'], failHandler: () => {throw new PedidoNotFoundError}})
 
     //Validamos que el pedido haya finalizado
@@ -100,6 +101,7 @@ async function update(req:Request, res:Response) {
     const usuario = await em.findOneOrFail(Usuario, {id}, {failHandler: () => {throw new UsuarioNotFoundError()}})
 
     const nroPed = Number.parseInt(req.params.nroPed)
+    req.body.sanitizedInput.pedido = nroPed
     const pedido = await em.findOneOrFail(Pedido, { nroPed }, {populate: ['cliente'], failHandler: () => {throw new PedidoNotFoundError}})
     
     const resena = await em.findOneOrFail(Resena, { pedido }, {populate: ['pedido.cliente'], failHandler: () => {throw new ResenaNotFoundError}})

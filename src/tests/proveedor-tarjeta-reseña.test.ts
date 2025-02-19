@@ -336,6 +336,7 @@ describe('Testing del CRUD de la entidad Reseña', () => {
       cuerpo: 'En un principio no me gustó la comida y los precios me parecieron elevados, pero al comparar con otros establecimientos me di cuenta de que fueron acertados',
       puntaje: 4
     })
+    console.log(response.body)
     expect(response.status).toBe(200)
   })
   it('Solicitamos modificar los datos de una reseña pero faltan algunos de sus datos. Devuelve un código de estado de 400', async () => {
@@ -418,9 +419,7 @@ describe('Testing del CU: Realizar pedido', () => {
     //4- Confirmamos la recepción de los productos en la mesa
 
     const checkResponse1 = await request(app).put(`/api/pedidos/${nroPed}/platos/16/fecha/${supremaResponse.body.data.fechaSolicitud}/hora/${supremaResponse.body.data.horaSolicitud}`).send({})
-    console.log(checkResponse1.body)
     const checkResponse2 = await request(app).put(`/api/pedidos/${nroPed}/bebidas/2/fecha/${cocacolaResponse.body.data.fechaSolicitud}/hora/${cocacolaResponse.body.data.horaSolicitud}`).send({})
-    console.log(checkResponse2.body)
 
     //5- Procedemos al pago y finalización del pedido
 
