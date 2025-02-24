@@ -69,7 +69,7 @@ async function findOne(req:Request,res:Response) {
 
 async function add(req:Request,res:Response) {
   try{
-    const token = req.cookies.access_token
+    const token = req.cookies.accessToken
     /*if(!token) {
       throw new UsuarioUnauthorizedError
     } else*/ if((await em.find(Tarjeta, {})).length === 0 || (await em.find(Usuario, {tipoUsuario: 'cliente'})).length === 0) {

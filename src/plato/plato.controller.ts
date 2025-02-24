@@ -58,6 +58,7 @@ function sanitizeQuery(req: Request) {
 
 async function findAll(req: Request, res: Response) {
   try {
+    console.log(req.cookies)
     const sanitizedQuery = sanitizeQuery(req)
     //Manejo dentro del propio método la posibilidad de que me envíen por queryString el tipo de plato (para evitar errores)
     if (sanitizedQuery.tipoPlato) {

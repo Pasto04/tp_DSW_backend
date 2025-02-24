@@ -27,6 +27,7 @@ import cors from 'cors'
 const port = process.env.PORT ?? 3000
 const app = express()
 app.use(express.json())
+app.use(cookieParser())
 app.use(cors({
   origin: (origin, callback) => {
     if(origin && ACCEPTED_ORIGINS.includes(origin)) {
@@ -36,9 +37,11 @@ app.use(cors({
     } else {
       return callback(new Error('Not allowed by CORS'))
     }
-  }
+  },
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization']
 }))
-app.use(cookieParser())
+
 
 
 

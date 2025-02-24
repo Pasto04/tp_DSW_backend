@@ -102,18 +102,20 @@ async function logInUsuario(req: Request, res: Response) {
     const token = jwt.sign({id: usuarioPublico.id, email: usuarioPublico.email}, SECRET_JWT_KEY, {
       expiresIn: '3h'
     })
-    res.cookie('access_token', token, {
+    res.cookie('accessToken', token, {
       httpOnly: true,
-      sameSite: 'strict',
+      //secure: true,
+      //sameSite: 'lax',
       maxAge: 3000 * 60 * 60 // Pasaje de milisegundos a segundos * Pasaje de segundos a minutos * Pasaje de minutos a horas
     }).status(200).json({message: 'Sesión iniciada con éxito', data: usuarioPublico})
+    console.log(req.cookies.accessToken)
   } catch(error: any) {
     handleErrors(error, res)
   }
 }
 
 function logOutUsuario(req: Request, res: Response) {
-  res.clearCookie('access_token').status(200).json({message: 'Sesión cerrada con éxito'})
+  res.clearCookie('accessToken').status(200).json({message: 'Sesión cerrada con éxito'})
 }
 
 async function updateUsuario (req:Request,res:Response){

@@ -113,6 +113,33 @@ GET http://localhost:3000/api/clientes/1
 
 GET http://localhost:3000/api/empleados/1
 
+### Login Cliente
+POST http://localhost:3000/api/usuarios/login
+Content-Type: application/json
+
+{
+  "email": "tkamijou@gmail.com",
+  "contrasenia": "index"
+}
+
+### Login Empleado
+
+POST http://localhost:3000/api/usuarios/login
+Content-Type: application/json
+
+{
+  "email": "rtohsaka@gmail.com",
+  "contrasenia": "emiya999"
+}
+
+### Logout
+POST http://localhost:3000/api/usuarios/logout
+Content-Type: application/json
+
+{
+
+}
+
 ###Ingresa un nuevo cliente
 
 POST http://localhost:3000/api/clientes
