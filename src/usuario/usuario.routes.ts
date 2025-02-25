@@ -1,14 +1,15 @@
 import { Router } from "express"
 import { findAllByTipoUsuario, findOne, updateUsuario, remove, addUsuario, sanitizeUsuario, sanitizeLogIn, logInUsuario, logOutUsuario } 
 from "./usuario.controller.js"
+import { verificarToken } from "../shared/authMiddleware.js"
 
 export const usuarioRouter = Router()
 
-usuarioRouter.get('/', findAllByTipoUsuario) //Sólo para empleados
-usuarioRouter.get('/:id', findOne) 
+usuarioRouter.get('/', verificarToken, findAllByTipoUsuario) //Sólo para empleados
+usuarioRouter.get('/:id', verificarToken, findOne) 
 usuarioRouter.post('/registro', sanitizeUsuario, addUsuario)
 usuarioRouter.post('/login', sanitizeLogIn, logInUsuario)
 usuarioRouter.post('/logout', logOutUsuario)
-usuarioRouter.put('/:id', updateUsuario) 
-usuarioRouter.patch('/:id', updateUsuario)
-usuarioRouter.delete('/:id', remove) 
+usuarioRouter.put('/:id', verificarToken, updateUsuario) 
+usuarioRouter.patch('/:id', verificarToken, updateUsuario)
+usuarioRouter.delete('/:id', verificarToken, remove) 
